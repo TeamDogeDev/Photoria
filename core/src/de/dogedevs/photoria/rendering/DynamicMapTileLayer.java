@@ -2,9 +2,12 @@ package de.dogedevs.photoria.rendering;
 
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
+import de.dogedevs.photoria.rendering.tiles.Tile;
 
 /** @brief Layer for a TiledMap */
-public class DynamicMapTileLayer extends MapLayer {
+public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 	private int width;
 	private int height;
@@ -12,7 +15,7 @@ public class DynamicMapTileLayer extends MapLayer {
 	private float tileWidth;
 	private float tileHeight;
 
-	private Cell[][] cells;
+	public Cell[][] cells;
 
 	/** @return layer's width in tiles */
 	public int getWidth () {
@@ -41,7 +44,7 @@ public class DynamicMapTileLayer extends MapLayer {
 	 * @param tileWidth tile width in pixels
 	 * @param tileHeight tile height in pixels */
 	public DynamicMapTileLayer(int width, int height, int tileWidth, int tileHeight) {
-		super();
+		super(width, height, tileWidth, tileHeight);
 		this.width = width;
 		this.height = height;
 		this.tileWidth = tileWidth;
@@ -69,68 +72,4 @@ public class DynamicMapTileLayer extends MapLayer {
 		cells[x][y] = cell;
 	}
 
-	/** @brief represents a cell in a TiledLayer: TiledMapTile, flip and rotation properties. */
-	public static class Cell {
-
-		private TiledMapTile tile;
-
-		private boolean flipHorizontally;
-
-		private boolean flipVertically;
-
-		private int rotation;
-
-		/** @return The tile currently assigned to this cell. */
-		public TiledMapTile getTile () {
-			return tile;
-		}
-
-		/** Sets the tile to be used for this cell.
-		 *
-		 * @param tile the {@link TiledMapTile} to use for this cell. */
-		public void setTile (TiledMapTile tile) {
-			this.tile = tile;
-		}
-
-		/** @return Whether the tile should be flipped horizontally. */
-		public boolean getFlipHorizontally () {
-			return flipHorizontally;
-		}
-
-		/** Sets whether to flip the tile horizontally.
-		 *
-		 * @param flipHorizontally whether or not to flip the tile horizontally. */
-		public void setFlipHorizontally (boolean flipHorizontally) {
-			this.flipHorizontally = flipHorizontally;
-		}
-
-		/** @return Whether the tile should be flipped vertically. */
-		public boolean getFlipVertically () {
-			return flipVertically;
-		}
-
-		/** Sets whether to flip the tile vertically.
-		 *
-		 * @param flipVertically whether or not this tile should be flipped vertically. */
-		public void setFlipVertically (boolean flipVertically) {
-			this.flipVertically = flipVertically;
-		}
-
-		/** @return The rotation of this cell, in degrees. */
-		public int getRotation () {
-			return rotation;
-		}
-
-		/** Sets the rotation of this cell, in degrees.
-		 *
-		 * @param rotation the rotation in degrees. */
-		public void setRotation (int rotation) {
-			this.rotation = rotation;
-		}
-
-		public static final int ROTATE_0 = 0;
-		public static final int ROTATE_90 = 1;
-		public static final int ROTATE_180 = 2;
-		public static final int ROTATE_270 = 3;
-	}
 }

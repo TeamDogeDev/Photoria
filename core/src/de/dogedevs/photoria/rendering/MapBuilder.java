@@ -27,7 +27,7 @@ public class MapBuilder {
 
         for (int row = 0; row < size << 1; row++) {
             for (int col = 0; col < size << 1; col++) {
-                DynamicMapTileLayer.Cell cell = new DynamicMapTileLayer.Cell();
+                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 switch(generatedMap[row][col]) {
                     case 0 : cell.setTile(Tile.GREEN); break;
                     case 1 : cell.setTile(Tile.RED); break;
