@@ -56,44 +56,32 @@ public class MainScreen implements Screen {
         batch.end();
     }
 
-    float delta = 0;
     private void input() {
         if( Gdx.input.isKeyJustPressed(Input.Keys.A)){
             camera.translate(-32,0);
-            delta = -0.1f;
             return;
         }
         if( Gdx.input.isKeyJustPressed(Input.Keys.D)){
             camera.translate(32,0);
-            delta = -0.1f;
             return;
         }
         if( Gdx.input.isKeyJustPressed(Input.Keys.S)){
             camera.translate(0,-32);
-            delta = -0.1f;
             return;
         }
         if( Gdx.input.isKeyJustPressed(Input.Keys.W)){
             camera.translate(0,32);
-            delta = -0.1f;
             return;
-        }
-
-        delta += Gdx.graphics.getDeltaTime();
-        if(delta < 0.2f){
-            return;
-        } else {
-            delta = 0;
         }
 
         if( Gdx.input.isKeyPressed(Input.Keys.A))
-            camera.translate(-32,0);
+            camera.translate(-4,0);
         if( Gdx.input.isKeyPressed(Input.Keys.D))
-            camera.translate(32,0);
+            camera.translate(4,0);
         if( Gdx.input.isKeyPressed(Input.Keys.S))
-            camera.translate(0,-32);
+            camera.translate(0,-4);
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            camera.translate(0,32);
+            camera.translate(0,4);
     }
 
     private void update() {
