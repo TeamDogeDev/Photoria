@@ -1,14 +1,9 @@
 package de.dogedevs.photoria.rendering;
 
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
-import de.dogedevs.photoria.generators.PerlinMapGenerator;
-import de.dogedevs.photoria.generators.VoronoiMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
@@ -66,7 +61,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	public Cell getCell (int x, int y) {
 		Chunk chunk = chunks.get((x/64)+"_"+(y/64));
 		if(chunk == null){
-			MainGame.log("Generate chunk: " + (x / 64) + " " + (y / 64));
+//			MainGame.log("Generate chunk: " + (x / 64) + " " + (y / 64));
 			chunk = new Chunk();
 			chunk.x = x/64;
 			chunk.y = y/64;
@@ -85,20 +80,20 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 						continue;
 					}
 					switch(generatedMap[row][col]) {
-						case 0 : cell.setTile(Tile.HEIGHT0); break;
-						case 1 : cell.setTile(Tile.HEIGHT1); break;
-						case 2 : cell.setTile(Tile.HEIGHT2); break;
-						case 3 : cell.setTile(Tile.HEIGHT3); break;
-						case 4 : cell.setTile(Tile.HEIGHT4); break;
-						case 5 : cell.setTile(Tile.HEIGHT5); break;
-						case 6 : cell.setTile(Tile.HEIGHT6); break;
-						case 7 : cell.setTile(Tile.HEIGHT7); break;
-						case 8 : cell.setTile(Tile.HEIGHT8); break;
-						case 9 : cell.setTile(Tile.HEIGHT9); break;
-						case 10 : cell.setTile(Tile.HEIGHT10); break;
-						case 11 : cell.setTile(Tile.HEIGHT11); break;
-						case 12 : cell.setTile(Tile.HEIGHT12); break;
-						default: cell.setTile(Tile.HEIGHT4);
+						case -6 : cell.setTile(Tile.D5); break;
+						case -5 : cell.setTile(Tile.D4); break;
+						case -4 : cell.setTile(Tile.D3); break;
+						case -3 : cell.setTile(Tile.D2); break;
+						case -2 : cell.setTile(Tile.D1); break;
+						case -1 : cell.setTile(Tile.D0); break;
+						case 0 : cell.setTile(Tile.GROUND); break;
+						case 1 : cell.setTile(Tile.U0); break;
+						case 2 : cell.setTile(Tile.U1); break;
+						case 3 : cell.setTile(Tile.U2); break;
+						case 4 : cell.setTile(Tile.U3); break;
+						case 5 : cell.setTile(Tile.U4); break;
+						case 6 : cell.setTile(Tile.U5); break;
+						default: cell.setTile(Tile.GROUND);
 					}
 					chunk.setCell(cell, row, col);
 				}
