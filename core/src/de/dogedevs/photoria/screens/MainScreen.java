@@ -32,7 +32,7 @@ public class MainScreen implements Screen {
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         camera.translate(300*64*32, 300*64*32);
-        camera.zoom = 4;
+        camera.zoom = 1;
 
         camera.update();
 
