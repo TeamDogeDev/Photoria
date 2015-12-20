@@ -123,7 +123,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		}
 
 		public Cell getCell(int x, int y){
-			return cells[x][y];
+			return cells[x%64][y%64];
 		}
 
 		@Override
