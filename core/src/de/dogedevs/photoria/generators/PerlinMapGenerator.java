@@ -22,7 +22,7 @@ public class PerlinMapGenerator implements AbstractMapGenerator {
                 double local_y = col + (chunkY*64);
                 double eval = osn.eval(local_x / 64, local_y / 64, 8);
 
-                chunk[row][col] = Math.abs(eval) > 0.5 ? 1 : 0;
+                chunk[row][col] = Math.abs(eval) > 0.25 ? 0 : 1;
             }
         }
 

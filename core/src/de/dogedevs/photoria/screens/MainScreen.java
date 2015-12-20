@@ -31,7 +31,7 @@ public class MainScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.translate(200000, 200000);
-        camera.zoom = 4;
+        camera.zoom = 10;
         camera.update();
 
         font = new BitmapFont();
