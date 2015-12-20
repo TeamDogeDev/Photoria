@@ -2,6 +2,7 @@ package de.dogedevs.photoria.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -37,7 +38,16 @@ public class MainScreen implements Screen {
 
         renderer = new MapBuilder();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(renderer.getTiledMap());
-
+        Gdx.input.setInputProcessor(new InputAdapter(){
+            @Override
+            public boolean scrolled(int amount) {
+                camera.zoom += amount;
+                if(camera.zoom < 1){
+                    camera.zoom = 1;
+                }
+                return super.scrolled(amount);
+            }
+        });
     }
 
     public void render(float delta) {
