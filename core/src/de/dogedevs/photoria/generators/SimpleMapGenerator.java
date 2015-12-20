@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public class SimpleMapGenerator implements AbstractMapGenerator {
 
-    private static final double NOISE_PROBABILITY = 0.5;
+    private static final double NOISE_PROBABILITY = 0;
     private static final Random random = new Random(31337);
 
     @Override
