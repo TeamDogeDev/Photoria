@@ -29,7 +29,7 @@ public class MainScreen implements Screen {
         img = new Texture("badlogic.jpg");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        camera.translate(Integer.MAX_VALUE/2, Integer.MAX_VALUE/2);
+        camera.translate(200000, 200000);
         camera.zoom = 4;
         camera.update();
 

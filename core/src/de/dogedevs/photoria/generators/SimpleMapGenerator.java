@@ -12,7 +12,7 @@ public class SimpleMapGenerator implements AbstractMapGenerator {
 
     @Override
     public int[][] generate(int xPos, int yPos, int size) {
-        int[][] mapPart = new int[size << 1][size << 1];
+        int[][] mapPart = new int[size][size];
 
         for (int row = 0; row < mapPart.length; row++) {
             for (int col = 0; col < mapPart[row].length; col++) {
