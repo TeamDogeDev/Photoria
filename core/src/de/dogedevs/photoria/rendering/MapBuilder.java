@@ -26,7 +26,7 @@ public class MapBuilder {
 
         TiledMap tm = new TiledMap();
         DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new PerlinMapGenerator(), 32, 32); // quick and dirty
-        DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
+//        DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
 //
 //        for (int row = 0; row < size << 1; row++) {
 //            for (int col = 0; col < size << 1; col++) {
@@ -41,7 +41,7 @@ public class MapBuilder {
 //        }
 
         tm.getLayers().add(mapLayer);
-        tm.getLayers().add(debugLayer);
+//        tm.getLayers().add(debugLayer);
         return tm;
     }
 
