@@ -23,11 +23,11 @@ public class MapBuilder {
         int[][] generatedMap = mapGenerator.generate(10, 10, size);
 
         TiledMap tm = new TiledMap();
-        TiledMapTileLayer mapLayer = new TiledMapTileLayer(size<<1, size<<1, 32, 32); // quick and dirty
+        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(size<<1, size<<1, 32, 32); // quick and dirty
 
         for (int row = 0; row < size << 1; row++) {
             for (int col = 0; col < size << 1; col++) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                DynamicMapTileLayer.Cell cell = new DynamicMapTileLayer.Cell();
                 switch(generatedMap[row][col]) {
                     case 0 : cell.setTile(Tile.GREEN); break;
                     case 1 : cell.setTile(Tile.RED); break;
