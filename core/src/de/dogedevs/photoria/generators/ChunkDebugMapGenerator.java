@@ -12,7 +12,7 @@ public class ChunkDebugMapGenerator implements AbstractMapGenerator {
         int[][] mapPart = new int[size][size];
         for (int row = 0; row < mapPart.length; row++) {
             for (int col = 0; col < mapPart[row].length; col++) {
-                    if(row == 0 || col == 0 || row == 63 || col == 63){
+                    if(row == 0 || col == 0 ){
                         mapPart[row][col] = 1;
                     } else{
                         mapPart[row][col] = 0;
