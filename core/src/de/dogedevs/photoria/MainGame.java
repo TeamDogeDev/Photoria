@@ -49,9 +49,9 @@ public class MainGame extends Game {
     public void render() {
         super.render(); //important!
         batch.begin();
-        font.setColor(1,1,1,0);
+        font.setColor(1,1,1,1);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
-        y = 20;
+        y = 40;
         a = 1;
         for(String text: logs){
             font.draw(batch, text, 10, y);

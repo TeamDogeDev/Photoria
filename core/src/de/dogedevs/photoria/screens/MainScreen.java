@@ -7,10 +7,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.rendering.MapBuilder;
 
 /**
@@ -66,7 +68,8 @@ public class MainScreen implements Screen {
         tiledMapRenderer.render();
 
         batch.begin();
-        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
+        font.draw(batch, "x="+Math.round(camera.position.x/32), 1070, 40, 200, Align.right, false);
+        font.draw(batch, "y="+Math.round(camera.position.y/32) , 1070, 20, 200, Align.right, false);
         batch.end();
     }
 
