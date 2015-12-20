@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.PerlinMapGenerator;
 import de.dogedevs.photoria.generators.VoronoiMapGenerator;
@@ -66,7 +67,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	public Cell getCell (int x, int y) {
 		Chunk chunk = chunks.get((x/64)+"_"+(y/64));
 		if(chunk == null){
-//			System.out.println(chunk + " " + (x/64)+"_"+(y/64));
+			MainGame.log("Generate chunk: " + (x / 64) + " " + (y / 64));
 			chunk = new Chunk();
 			chunk.x = x/64;
 			chunk.y = y/64;
