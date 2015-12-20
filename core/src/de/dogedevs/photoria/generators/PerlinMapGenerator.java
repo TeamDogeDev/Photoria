@@ -1,5 +1,6 @@
 package de.dogedevs.photoria.generators;
 
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.OpenSimplexNoise;
 
 import java.util.Random;
@@ -20,9 +21,9 @@ public class PerlinMapGenerator implements AbstractMapGenerator {
             for (int col = 0; col < size; col++) {
                 double local_x = row + (chunkX*64);
                 double local_y = col + (chunkY*64);
-                double eval = osn.eval(local_x / 64, local_y / 64, 8);
-
-                chunk[row][col] = Math.abs(eval) > 0.25 ? 0 : 1;
+                double eval = osn.eval(local_x / 64, local_y / 64);
+                eval = Math.abs(eval);
+                chunk[row][col] = (int) (eval*13);
             }
         }
 

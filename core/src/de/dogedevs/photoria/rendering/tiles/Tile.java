@@ -17,9 +17,19 @@ public abstract class Tile extends StaticTiledMapTile {
     protected static Texture tileTexture = new Texture(Gdx.files.internal(TILESET_PATH));
     protected static TextureRegion[][] tiles = TextureRegion.split(tileTexture, TILE_WIDTH, TILE_HEIGHT);
 
-    public static final Tile RED = new BasicTile(tiles[0][0], false);
-    public static final Tile GREEN = new BasicTile(tiles[0][1], false);
-    public static final Tile BLUE = new BasicTile(tiles[0][2], false);
+    public static final Tile HEIGHT0 = new BasicTile(tiles[0][0], false);
+    public static final Tile HEIGHT1 = new BasicTile(tiles[0][1], false);
+    public static final Tile HEIGHT2 = new BasicTile(tiles[0][2], false);
+    public static final Tile HEIGHT3 = new BasicTile(tiles[0][3], false);
+    public static final Tile HEIGHT4 = new BasicTile(tiles[0][4], false);
+    public static final Tile HEIGHT5 = new BasicTile(tiles[0][5], false);
+    public static final Tile HEIGHT6 = new BasicTile(tiles[0][6], false);
+    public static final Tile HEIGHT7 = new BasicTile(tiles[0][7], false);
+    public static final Tile HEIGHT8 = new BasicTile(tiles[0][8], false);
+    public static final Tile HEIGHT9 = new BasicTile(tiles[0][9], false);
+    public static final Tile HEIGHT10 = new BasicTile(tiles[0][10], false);
+    public static final Tile HEIGHT11 = new BasicTile(tiles[0][11], false);
+    public static final Tile HEIGHT12 = new BasicTile(tiles[0][12], false);
 
     public Tile(TextureRegion textureRegion) {
         super(textureRegion);

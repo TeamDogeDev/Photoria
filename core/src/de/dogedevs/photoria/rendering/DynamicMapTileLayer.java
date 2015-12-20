@@ -79,9 +79,20 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 				for (int col = 0; col < 32 << 1; col++) {
 					TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
 					switch(generatedMap[row][col]) {
-						case 0 : cell.setTile(Tile.RED); break;
-						case 1 : cell.setTile(Tile.GREEN); break;
-						default: cell.setTile(Tile.BLUE);
+						case 0 : cell.setTile(Tile.HEIGHT0); break;
+						case 1 : cell.setTile(Tile.HEIGHT1); break;
+						case 2 : cell.setTile(Tile.HEIGHT2); break;
+						case 3 : cell.setTile(Tile.HEIGHT3); break;
+						case 4 : cell.setTile(Tile.HEIGHT4); break;
+						case 5 : cell.setTile(Tile.HEIGHT5); break;
+						case 6 : cell.setTile(Tile.HEIGHT6); break;
+						case 7 : cell.setTile(Tile.HEIGHT7); break;
+						case 8 : cell.setTile(Tile.HEIGHT8); break;
+						case 9 : cell.setTile(Tile.HEIGHT9); break;
+						case 10 : cell.setTile(Tile.HEIGHT10); break;
+						case 11 : cell.setTile(Tile.HEIGHT11); break;
+						case 12 : cell.setTile(Tile.HEIGHT12); break;
+						default: cell.setTile(Tile.HEIGHT4);
 					}
 					chunk.setCell(cell, row, col);
 				}
