@@ -11,7 +11,10 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import de.dogedevs.photoria.rendering.MapBuilder;
 import de.dogedevs.photoria.screens.MainScreen;
 
+
 import java.util.LinkedList;
+import java.util.Random;
+
 
 public class MainGame extends Game {
 
@@ -23,11 +26,19 @@ public class MainGame extends Game {
 
     private LinkedList<String> logs;
 
+    private Random random;
+    public static long GAME_SEED;
+
     @Override
     public void create() {
+
         game = this;
         logs = new LinkedList<>();
         batch = new SpriteBatch();
+
+        random = new Random();
+        GAME_SEED = random.nextLong();
+
         currentScreen = new MainScreen();
         this.setScreen(currentScreen);
         font = new BitmapFont();

@@ -30,8 +30,10 @@ public class MainScreen implements Screen {
         img = new Texture("badlogic.jpg");
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
         camera.translate(300*64*32, 300*64*32);
         camera.zoom = 4;
+
         camera.update();
 
         font = new BitmapFont();
@@ -87,13 +89,13 @@ public class MainScreen implements Screen {
         }
 
         if( Gdx.input.isKeyPressed(Input.Keys.A))
-            camera.translate(-40,0);
+            camera.translate(-40*camera.zoom,0);
         if( Gdx.input.isKeyPressed(Input.Keys.D))
-            camera.translate(40,0);
+            camera.translate(40*camera.zoom,0);
         if( Gdx.input.isKeyPressed(Input.Keys.S))
-            camera.translate(0,-40);
+            camera.translate(0,-40*camera.zoom);
         if (Gdx.input.isKeyPressed(Input.Keys.W))
-            camera.translate(0,40);
+            camera.translate(0,40*camera.zoom);
     }
 
     private void update() {
