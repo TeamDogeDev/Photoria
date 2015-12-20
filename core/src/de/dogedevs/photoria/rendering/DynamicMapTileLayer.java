@@ -4,10 +4,8 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
-import de.dogedevs.photoria.generators.SimpleMapGenerator;
+import de.dogedevs.photoria.generators.VoronoiMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
@@ -58,7 +56,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.chunks = new HashMap<>();
-		this.generator = new SimpleMapGenerator();
+		this.generator = new VoronoiMapGenerator();
 	}
 
 	/** @param x X coordinate
