@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
+import de.dogedevs.photoria.generators.PerlinMapGenerator;
 import de.dogedevs.photoria.generators.VoronoiMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
@@ -56,7 +57,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
 		this.chunks = new HashMap<>();
-		this.generator = new VoronoiMapGenerator();
+		this.generator = new PerlinMapGenerator();
 	}
 
 	/** @param x X coordinate
@@ -65,20 +66,20 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	public Cell getCell (int x, int y) {
 		Chunk chunk = chunks.get((x/64)+"_"+(y/64));
 		if(chunk == null){
-			System.out.println(chunk + " " + (x/64)+"_"+(y/64));
+//			System.out.println(chunk + " " + (x/64)+"_"+(y/64));
 			chunk = new Chunk();
 			chunk.x = x/64;
 			chunk.y = y/64;
 			chunks.put(chunk.getHashCode(), chunk);
 
-			int[][] generatedMap = generator.generate(32, 32, 64);
+			int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64);
 
 			for (int row = 0; row < 32 << 1; row++) {
 				for (int col = 0; col < 32 << 1; col++) {
 					TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
 					switch(generatedMap[row][col]) {
-						case 0 : cell.setTile(Tile.GREEN); break;
-						case 1 : cell.setTile(Tile.RED); break;
+						case 0 : cell.setTile(Tile.RED); break;
+						case 1 : cell.setTile(Tile.GREEN); break;
 						default: cell.setTile(Tile.BLUE);
 					}
 					chunk.setCell(cell, row, col);

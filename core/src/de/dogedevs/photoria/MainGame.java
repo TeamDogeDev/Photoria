@@ -11,12 +11,19 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import de.dogedevs.photoria.rendering.MapBuilder;
 import de.dogedevs.photoria.screens.MainScreen;
 
+import java.util.Random;
+
 public class MainGame extends Game {
 
     Screen currentScreen;
 
+    private Random random;
+    public static long GAME_SEED;
+
     @Override
     public void create() {
+        random = new Random();
+        GAME_SEED = random.nextLong();
         currentScreen = new MainScreen();
         this.setScreen(currentScreen);
     }
