@@ -25,17 +25,18 @@ public class MapBuilder {
         TiledMap tm = new TiledMap();
         DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(size<<1, size<<1, 32, 32); // quick and dirty
 
-        for (int row = 0; row < size << 1; row++) {
-            for (int col = 0; col < size << 1; col++) {
-                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-                switch(generatedMap[row][col]) {
-                    case 0 : cell.setTile(Tile.GREEN); break;
-                    case 1 : cell.setTile(Tile.RED); break;
-                    default: cell.setTile(Tile.BLUE);
-                }
-                mapLayer.setCell(row, col, cell);
-            }
-        }
+//
+//        for (int row = 0; row < size << 1; row++) {
+//            for (int col = 0; col < size << 1; col++) {
+//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+//                switch(generatedMap[row][col]) {
+//                    case 0 : cell.setTile(Tile.GREEN); break;
+//                    case 1 : cell.setTile(Tile.RED); break;
+//                    default: cell.setTile(Tile.BLUE);
+//                }
+//                mapLayer.setCell(row, col, cell);
+//            }
+//        }
 
         tm.getLayers().add(mapLayer);
         return tm;
