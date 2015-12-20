@@ -4,8 +4,8 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>648</x>
-      <y>36</y>
+      <x>600</x>
+      <y>156</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
@@ -15,57 +15,64 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>360</y>
+      <x>816</x>
+      <y>492</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>/Entity/
 
-group=1</panel_attributes>
+group=1
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>756</x>
-      <y>540</y>
+      <x>672</x>
+      <y>672</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>Player
-group=1</panel_attributes>
+group=1
+
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>912</x>
-      <y>540</y>
+      <x>828</x>
+      <y>672</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>Mob
-group=1</panel_attributes>
+group=1
+
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>1068</x>
-      <y>540</y>
+      <x>984</x>
+      <y>672</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
     <panel_attributes>Item
-group=1</panel_attributes>
+group=1
+
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>804</x>
-      <y>384</y>
+      <x>720</x>
+      <y>516</y>
       <w>180</w>
       <h>180</h>
     </coordinates>
@@ -76,8 +83,8 @@ group=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>948</x>
-      <y>384</y>
+      <x>864</x>
+      <y>516</y>
       <w>36</w>
       <h>180</h>
     </coordinates>
@@ -88,8 +95,8 @@ group=1</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>948</x>
-      <y>384</y>
+      <x>864</x>
+      <y>516</y>
       <w>204</w>
       <h>180</h>
     </coordinates>
@@ -100,19 +107,21 @@ group=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>300</y>
+      <x>672</x>
+      <y>396</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
-    <panel_attributes>Map</panel_attributes>
+    <panel_attributes>Map
+
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>228</x>
-      <y>228</y>
+      <x>216</x>
+      <y>312</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
@@ -122,19 +131,21 @@ group=1</panel_attributes>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>900</x>
-      <y>240</y>
+      <x>816</x>
+      <y>312</y>
       <w>120</w>
       <h>36</h>
     </coordinates>
-    <panel_attributes>Base</panel_attributes>
+    <panel_attributes>Base
+
+bg=green</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>732</x>
-      <y>192</y>
+      <x>648</x>
+      <y>252</y>
       <w>480</w>
       <h>480</h>
     </coordinates>
@@ -146,14 +157,25 @@ bg=white</panel_attributes>
   <element>
     <id>UMLPackage</id>
     <coordinates>
-      <x>216</x>
-      <y>192</y>
+      <x>132</x>
+      <y>252</y>
       <w>504</w>
       <h>480</h>
     </coordinates>
     <panel_attributes>render
 --
 bg=white</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>516</x>
+      <y>792</y>
+      <w>228</w>
+      <h>36</h>
+    </coordinates>
+    <panel_attributes>MapGenerator</panel_attributes>
     <additional_attributes/>
   </element>
 </diagram>
