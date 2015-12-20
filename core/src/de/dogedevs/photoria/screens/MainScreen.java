@@ -51,6 +51,17 @@ public class MainScreen implements Screen {
                 }
                 return super.scrolled(amount);
             }
+
+            @Override
+            public boolean keyDown(int keycode) {
+                if(keycode == Input.Keys.NUM_1){
+                    renderer.getTiledMap().getLayers().get(0).setVisible(!renderer.getTiledMap().getLayers().get(0).isVisible());
+                }
+                if(keycode == Input.Keys.NUM_2){
+                    renderer.getTiledMap().getLayers().get(1).setVisible(!renderer.getTiledMap().getLayers().get(1).isVisible());
+                }
+                return super.keyDown(keycode);
+            }
         });
     }
 

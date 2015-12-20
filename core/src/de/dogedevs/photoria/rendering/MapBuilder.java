@@ -13,36 +13,18 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
  */
 public class MapBuilder {
 
-    private AbstractMapGenerator mapGenerator;
+    TiledMap map;
 
     public MapBuilder() {
-        mapGenerator = new SimpleMapGenerator();
+        map = new TiledMap();
+        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new PerlinMapGenerator(), 32, 32); // quick and dirty
+        DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
+        map.getLayers().add(mapLayer);
+        map.getLayers().add(debugLayer);
     }
 
     public TiledMap getTiledMap() {
-        int size = 10;
-
-        int[][] generatedMap = mapGenerator.generate(10, 10, size);
-
-        TiledMap tm = new TiledMap();
-        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new PerlinMapGenerator(), 32, 32); // quick and dirty
-//        DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
-//
-//        for (int row = 0; row < size << 1; row++) {
-//            for (int col = 0; col < size << 1; col++) {
-//                TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-//                switch(generatedMap[row][col]) {
-//                    case 0 : cell.setTile(Tile.GREEN); break;
-//                    case 1 : cell.setTile(Tile.RED); break;
-//                    default: cell.setTile(Tile.BLUE);
-//                }
-//                mapLayer.setCell(row, col, cell);
-//            }
-//        }
-
-        tm.getLayers().add(mapLayer);
-//        tm.getLayers().add(debugLayer);
-        return tm;
+        return map;
     }
 
 }

@@ -1,5 +1,6 @@
 package de.dogedevs.photoria.rendering;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
@@ -7,6 +8,7 @@ import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 /** @brief Layer for a TiledMap */
 public class DynamicMapTileLayer extends TiledMapTileLayer {
@@ -59,12 +61,24 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	 * @param y Y coordinate
 	 * @return {@link Cell} at (x, y) */
 	public Cell getCell (int x, int y) {
+//		MainGame.log("Chunks: "+chunks.size());
 		Chunk chunk = chunks.get((x/64)+"_"+(y/64));
 		if(chunk == null){
-//			MainGame.log("Generate chunk: " + (x / 64) + " " + (y / 64));
 			chunk = new Chunk();
 			chunk.x = x/64;
 			chunk.y = y/64;
+
+			for(String key: chunks.keySet()){
+				if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
+					Gdx.app.postRunnable(new Runnable() {
+						@Override
+						public void run() {
+							chunks.remove(key);
+						}
+					});
+				}
+			}
+
 			chunks.put(chunk.getHashCode(), chunk);
 
 			int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64);
@@ -118,16 +132,20 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		public int x;
 		public int y;
 
+		public long lastRead;
+
 		Cell[][] cells;
 
 		public Chunk(int x, int y, Cell[][] cells) {
 			this.x = x;
 			this.y = y;
 			this.cells = cells;
+			this.lastRead = System.currentTimeMillis();
 		}
 
 		public Chunk() {
 			this.cells = new Cell[64][64];
+			this.lastRead = System.currentTimeMillis();
 		}
 
 		public void setCell(Cell cell, int x, int y){
@@ -135,6 +153,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		}
 
 		public Cell getCell(int x, int y){
+			this.lastRead = System.currentTimeMillis();
 			return cells[x%64][y%64];
 		}
 
