@@ -30,7 +30,7 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile HEIGHT10 = new BasicTile(tiles[0][10], false);
     public static final Tile HEIGHT11 = new BasicTile(tiles[0][11], false);
     public static final Tile HEIGHT12 = new BasicTile(tiles[0][12], false);
-
+    public static final Tile DEBUG = new BasicTile(tiles[31][31], false);
     public Tile(TextureRegion textureRegion) {
         super(textureRegion);
     }

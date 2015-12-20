@@ -3,6 +3,8 @@ package de.dogedevs.photoria.rendering;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
+import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
+import de.dogedevs.photoria.generators.PerlinMapGenerator;
 import de.dogedevs.photoria.generators.SimpleMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
@@ -23,8 +25,8 @@ public class MapBuilder {
         int[][] generatedMap = mapGenerator.generate(10, 10, size);
 
         TiledMap tm = new TiledMap();
-        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(size<<1, size<<1, 32, 32); // quick and dirty
-
+        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new PerlinMapGenerator(), 32, 32); // quick and dirty
+        DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
 //
 //        for (int row = 0; row < size << 1; row++) {
 //            for (int col = 0; col < size << 1; col++) {
@@ -39,6 +41,7 @@ public class MapBuilder {
 //        }
 
         tm.getLayers().add(mapLayer);
+        tm.getLayers().add(debugLayer);
         return tm;
     }
 
