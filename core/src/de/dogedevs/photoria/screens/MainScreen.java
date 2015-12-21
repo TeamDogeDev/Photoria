@@ -1,5 +1,6 @@
 package de.dogedevs.photoria.screens;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -19,6 +20,8 @@ import de.dogedevs.photoria.rendering.MapBuilder;
  * Created by Furuha on 20.12.2015.
  */
 public class MainScreen implements Screen {
+
+    static private Engine ashley;
 
     SpriteBatch batch;
     Texture img;
@@ -116,6 +119,7 @@ public class MainScreen implements Screen {
     }
 
     private void update() {
+        ashley.update(Gdx.graphics.getDeltaTime());
         camera.update();
     }
 
@@ -142,5 +146,12 @@ public class MainScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public static Engine getAshley(){
+        if(ashley == null){
+            ashley = new Engine();
+        }
+        return ashley;
     }
 }
