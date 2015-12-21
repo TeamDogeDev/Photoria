@@ -39,17 +39,9 @@ public class MainScreen implements Screen {
     public void show() {
         batch = new SpriteBatch();
 
-
+        initCamera();
         getAshley();
         initTestEntitis();
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-        camera.translate(300*64*32, 300*64*32);
-        camera.zoom = 1;
-
-        camera.update();
 
         font = new BitmapFont();
 
@@ -76,6 +68,16 @@ public class MainScreen implements Screen {
                 return super.keyDown(keycode);
             }
         });
+    }
+
+    private void initCamera() {
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        camera.translate(300*64*32, 300*64*32);
+        camera.zoom = 1;
+
+        camera.update();
     }
 
     private void initTestEntitis() {

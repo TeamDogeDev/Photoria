@@ -42,7 +42,7 @@ public class EntityDrawSystem extends EntitySystem {
 
 
         batch.begin();
-
+        batch.setProjectionMatrix(camera.combined);
         for (int i = 0; i < entities.size(); ++i) {
             Entity e = entities.get(i);
 
