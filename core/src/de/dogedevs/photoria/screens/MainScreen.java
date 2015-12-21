@@ -11,11 +11,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.model.entity.*;
 import de.dogedevs.photoria.rendering.MapBuilder;
-import de.dogedevs.photoria.rendering.OrthogonalTiledMapRenderer;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -71,7 +71,7 @@ public class MainScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-//        camera.translate(300*64*32, 300*64*32);
+        camera.translate(300*64*32, 300*64*32);
         camera.zoom = 1;
 
         camera.update();

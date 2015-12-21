@@ -40,8 +40,6 @@ public class Chunk {
 
     public ChunkCell getCell(int x, int y, int layer){
         this.lastRead = System.currentTimeMillis();
-        x = (x < 0) ? -x : x;
-        y = (y < 0) ? -y : y;
         return cells.get(layer)[x%64][y%64];
     }
 
