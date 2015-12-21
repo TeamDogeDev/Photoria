@@ -1,12 +1,8 @@
 package de.dogedevs.photoria.rendering;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.generators.PerlinMapGenerator;
-import de.dogedevs.photoria.generators.SimpleMapGenerator;
-import de.dogedevs.photoria.rendering.tiles.Tile;
 
 /**
  * Created by elektropapst on 20.12.2015.
