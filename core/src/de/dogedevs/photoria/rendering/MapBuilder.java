@@ -14,6 +14,7 @@ public class MapBuilder {
 
     public MapBuilder() {
         map = new TiledMap();
+
         ChunkBuffer buffer = new ChunkBuffer();
         DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new SimplexMapGenerator(), 32, 32, 1, buffer); // quick and dirty
         DynamicMapTileLayer mapLayer2 = new DynamicMapTileLayer(new SimplexMapGenerator(), 32, 32, 2, buffer); // quick and dirty
