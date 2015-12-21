@@ -31,22 +31,15 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
                 local_x = row + (chunkX * size);
                 local_y = col + (chunkY * size);
                 eval = osn.eval(local_x / size, local_y / size);
-//                if (eval < minNum) {
-//                    minNum = eval;
-//                }
-//
-//                if (eval > maxNum) {
-//                    maxNum = eval;
-//                }
-//                eval = eval < 0 ? 0 : eval;
+
                 if (eval < -0.4f) {
                     chunk[row][col] = ((int) (eval / 0.12f));
-                    chunk[row][col] = MathUtils.clamp(chunk[row][col], -6, -1);
+                    chunk[row][col] = MathUtils.clamp(chunk[row][col], 1, 3);
                 } else if (eval > 0.2f) {
                     chunk[row][col] = (int) (eval / 0.14f);
-                    chunk[row][col] = MathUtils.clamp(chunk[row][col], 1, 6);
+                    chunk[row][col] = MathUtils.clamp(chunk[row][col], 3, 4);
                 } else {
-                    chunk[row][col] = 0;
+                    chunk[row][col] = 2;
                 }
 //                chunk[row][col] = (int) (eval*7);
             }

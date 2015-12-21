@@ -2,9 +2,7 @@ package de.dogedevs.photoria.model;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import de.dogedevs.photoria.generators.AbstractMapGenerator;
-import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
-import de.dogedevs.photoria.generators.SimplexMapGenerator;
+import de.dogedevs.photoria.generators.*;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
@@ -16,10 +14,12 @@ public class ChunkBuffer {
 
     HashMap<String, Chunk> chunks; //String x+"_"+y
     private AbstractMapGenerator generator;
+    private AbstractMapDecorator decorator;
 
     public ChunkBuffer(){
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator();
+        decorator = new WaterDecorator();
     }
 
     public ChunkCell getCell(int x, int y, int layer) {
@@ -60,7 +60,7 @@ public class ChunkBuffer {
                 }
             }
 
-            generatedMap = generator.generate(chunk.x, chunk.y, 64);
+            generatedMap = decorator.decorate(generatedMap);
 
             chunk.addLayer(2, new ChunkCell[64][64]);
             for (int row = 0; row < 32 << 1; row++) {

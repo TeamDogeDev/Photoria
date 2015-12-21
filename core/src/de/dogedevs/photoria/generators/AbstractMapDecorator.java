@@ -9,6 +9,7 @@ public abstract class AbstractMapDecorator {
 
     protected int[][] chunk;
 
-    public abstract int[][] decorate(Chunk[][] chunks);
+//    public abstract int[][] decorate(Chunk[][] chunks);
+    public abstract int[][] decorate(int[][] ground);
 
 }

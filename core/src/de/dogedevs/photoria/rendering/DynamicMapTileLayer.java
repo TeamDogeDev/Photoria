@@ -7,6 +7,7 @@ import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.model.ChunkBuffer;
 import de.dogedevs.photoria.model.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.HashMap;
 
@@ -110,20 +111,28 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		if(chunkCell.cell == null){
 			chunkCell.cell = new Cell();
 			switch(chunkCell.value) {
-				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
-				case -5 : chunkCell.cell.setTile(Tile.WATER); break;
-				case -4 : chunkCell.cell.setTile(Tile.WATER); break;
-				case -3 : chunkCell.cell.setTile(Tile.WATER); break;
-				case -2 : chunkCell.cell.setTile(Tile.GROUND); break;
-				case -1 : chunkCell.cell.setTile(Tile.GROUND); break;
-				case 0 : chunkCell.cell.setTile(Tile.GROUND); break;
-				case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-				case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-				case 3 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-				case 4 : chunkCell.cell.setTile(Tile.LAVA); break;
-				case 5 : chunkCell.cell.setTile(Tile.LAVA); break;
-				case 6 : chunkCell.cell.setTile(Tile.LAVA); break;
-				default: chunkCell.cell.setTile(Tile.GROUND);
+				default:
+				case TileMapper.VOID : chunkCell.cell.setTile(Tile.VOID); break;
+				case TileMapper.GROUND : chunkCell.cell.setTile(Tile.GROUND); break;
+				case TileMapper.WATER : chunkCell.cell.setTile(Tile.WATER); break;
+				case TileMapper.LAVA_STONE : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+				case TileMapper.LAVA : chunkCell.cell.setTile(Tile.LAVA); break;
+				case TileMapper.WATER_LEFT: chunkCell.cell.setTile(Tile.WATER_LEFT); break;
+
+//				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
+//				case -5 : chunkCell.cell.setTile(Tile.WATER); break;
+//				case -4 : chunkCell.cell.setTile(Tile.WATER); break;
+//				case -3 : chunkCell.cell.setTile(Tile.WATER); break;
+//				case -2 : chunkCell.cell.setTile(Tile.GROUND); break;
+//				case -1 : chunkCell.cell.setTile(Tile.GROUND); break;
+//				case 0 : chunkCell.cell.setTile(Tile.GROUND); break;
+//				case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+//				case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+//				case 3 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+//				case 4 : chunkCell.cell.setTile(Tile.LAVA); break;
+//				case 5 : chunkCell.cell.setTile(Tile.LAVA); break;
+//				case 6 : chunkCell.cell.setTile(Tile.LAVA); break;
+//				default: chunkCell.cell.setTile(Tile.VOID);
 			}
 		}
 
