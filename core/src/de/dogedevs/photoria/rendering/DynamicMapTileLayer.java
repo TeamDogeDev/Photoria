@@ -94,19 +94,19 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 						continue;
 					}
 					switch(generatedMap[row][col]) {
-						case -6 : cell.setTile(Tile.D5); break;
-						case -5 : cell.setTile(Tile.D4); break;
-						case -4 : cell.setTile(Tile.D3); break;
-						case -3 : cell.setTile(Tile.D2); break;
-						case -2 : cell.setTile(Tile.D1); break;
-						case -1 : cell.setTile(Tile.D0); break;
+						case -6 : cell.setTile(Tile.WATER); break;
+						case -5 : cell.setTile(Tile.WATER); break;
+						case -4 : cell.setTile(Tile.WATER); break;
+						case -3 : cell.setTile(Tile.WATER); break;
+						case -2 : cell.setTile(Tile.GROUND); break;
+						case -1 : cell.setTile(Tile.GROUND); break;
 						case 0 : cell.setTile(Tile.GROUND); break;
-						case 1 : cell.setTile(Tile.U0); break;
-						case 2 : cell.setTile(Tile.U1); break;
-						case 3 : cell.setTile(Tile.U2); break;
-						case 4 : cell.setTile(Tile.U3); break;
-						case 5 : cell.setTile(Tile.U4); break;
-						case 6 : cell.setTile(Tile.U5); break;
+						case 1 : cell.setTile(Tile.LAVA_STONE); break;
+						case 2 : cell.setTile(Tile.LAVA_STONE); break;
+						case 3 : cell.setTile(Tile.LAVA_STONE); break;
+						case 4 : cell.setTile(Tile.LAVA); break;
+						case 5 : cell.setTile(Tile.LAVA); break;
+						case 6 : cell.setTile(Tile.LAVA); break;
 						default: cell.setTile(Tile.GROUND);
 					}
 					chunk.setCell(cell, row, col);
