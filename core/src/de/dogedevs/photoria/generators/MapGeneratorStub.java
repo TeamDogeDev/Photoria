@@ -6,9 +6,9 @@ package de.dogedevs.photoria.generators;
 public class MapGeneratorStub extends AbstractMapGenerator {
 
     @Override
-    public int[][] generate(int xPos, int yPos, int size) {
+    public int[][] generate(int xPos, int yPos, int size, int overlap) {
         if(chunk == null) {
-            chunk = new int[size][size];
+            chunk = new int[size+(2*overlap)][size+(2*overlap)];
         }
         return chunk;
     }

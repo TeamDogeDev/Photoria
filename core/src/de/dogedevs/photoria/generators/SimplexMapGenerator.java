@@ -19,20 +19,22 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     private double local_x;
     private double local_y;
     private double eval;
-
+    private int realSize;
     // - 0.86
     // 0.86
     @Override
-    public int[][] generate(int chunkX, int chunkY, int size) {
+    public int[][] generate(int chunkX, int chunkY, int size, int overlap) {
         if (chunk == null) {
-            chunk = new int[size][size];
+            chunk = new int[size+(2*overlap)][size+(2*overlap)];
         }
 
-        for (int row = 0; row < size; row++) {
-            for (int col = 0; col < size; col++) {
-                local_x = row + (chunkX * size);
-                local_y = col + (chunkY * size);
-                eval = osn.eval(local_x / size, local_y / size);
+        realSize = size+(2*overlap);
+
+        for (int row = 0; row < realSize; row++) {
+            for (int col = 0; col < realSize; col++) {
+                local_x = row + (chunkX * realSize);
+                local_y = col + (chunkY * realSize);
+                eval = osn.eval((local_x / realSize)-overlap, (local_y / realSize)-overlap);
 
                 if (eval < -0.4f) {
                     chunk[row][col] = ((int) (eval / 0.12f));

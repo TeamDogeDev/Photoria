@@ -8,7 +8,7 @@ import java.util.Random;
 public class ChunkDebugMapGenerator extends AbstractMapGenerator {
 
     @Override
-    public int[][] generate(int xPos, int yPos, int size) {
+    public int[][] generate(int xPos, int yPos, int size, int overlap) {
         if(chunk == null) {
             chunk = new int[size][size];
         }

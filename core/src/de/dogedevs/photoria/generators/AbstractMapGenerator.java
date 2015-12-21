@@ -7,5 +7,5 @@ public abstract class AbstractMapGenerator {
 
     protected int[][] chunk;
 
-    public abstract int[][] generate(int xPos, int yPos, int size);
+    public abstract int[][] generate(int xPos, int yPos, int size, int overlap);
 }

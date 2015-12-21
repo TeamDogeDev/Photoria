@@ -89,7 +89,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 				chunks.put(chunk.getHashCode(), chunk);
 
-				int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64);
+				int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 0);
 
 				for (int row = 0; row < 32 << 1; row++) {
 					for (int col = 0; col < 32 << 1; col++) {
