@@ -2,6 +2,8 @@ package de.dogedevs.photoria.generators;
 
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.OpenSimplexNoise;
+import de.dogedevs.photoria.rendering.tiles.Tile;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.Map;
 import java.util.Random;
@@ -34,12 +36,22 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
 
                 if (eval < -0.4f) {
                     chunk[row][col] = ((int) (eval / 0.12f));
-                    chunk[row][col] = MathUtils.clamp(chunk[row][col], 1, 3);
+                    int val = MathUtils.clamp(chunk[row][col], 1, 2);
+                    if(val == 1) {
+                        chunk[row][col] = TileMapper.WATER;
+                    } else {
+                        chunk[row][col] = TileMapper.GROUND;
+                    }
                 } else if (eval > 0.2f) {
                     chunk[row][col] = (int) (eval / 0.14f);
-                    chunk[row][col] = MathUtils.clamp(chunk[row][col], 3, 4);
+                    int val = MathUtils.clamp(chunk[row][col], 3, 4);
+                    if(val == 3) {
+                        chunk[row][col] = TileMapper.LAVA_STONE;
+                    } else {
+                        chunk[row][col] = TileMapper.LAVA;
+                    }
                 } else {
-                    chunk[row][col] = 2;
+                    chunk[row][col] = TileMapper.GROUND;
                 }
 //                chunk[row][col] = (int) (eval*7);
             }

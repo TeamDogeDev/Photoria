@@ -19,11 +19,10 @@ public abstract class Tile extends StaticTiledMapTile {
 
     public static final Tile GROUND = new BasicTile(tiles[6][2], false);
     public static final Tile VOID = new BasicTile(tiles[0][0], false);
-    public static final Tile WATER = new BasicTile(tiles[4][7], false);
-    public static final Tile LAVA = new BasicTile(tiles[4][4], false);
+
     public static final Tile LAVA_STONE = new BasicTile(tiles[4][10], false);
 
-
+    public static final Tile WATER = new BasicTile(tiles[4][7], false);
     public static final Tile WATER_TOP_LEFT = new BasicTile(tiles[3][6], false);
     public static final Tile WATER_TOP_MIDDLE = new BasicTile(tiles[3][7], false);
     public static final Tile WATER_TOP_RIGHT = new BasicTile(tiles[3][8], false);
@@ -39,6 +38,23 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile WATER_TOP_RIGHT_INNER = new BasicTile(tiles[2][7], false);
     public static final Tile WATER_BOTTOM_LEFT_INNER = new BasicTile(tiles[1][8], false);
     public static final Tile WATER_BOTTOM_RIGHT_INNER = new BasicTile(tiles[1][7], false);
+
+    public static final Tile LAVA = new BasicTile(tiles[4][4], false);
+    public static final Tile LAVA_TOP_LEFT = new BasicTile(tiles[3][3], false);
+    public static final Tile LAVA_TOP_MIDDLE = new BasicTile(tiles[3][4], false);
+    public static final Tile LAVA_TOP_RIGHT = new BasicTile(tiles[3][5], false);
+
+    public static final Tile LAVA_MIDDLE_LEFT = new BasicTile(tiles[4][3], false);
+    public static final Tile LAVA_MIDDLE_RIGHT = new BasicTile(tiles[4][5], false);
+
+    public static final Tile LAVA_BOTTOM_LEFT = new BasicTile(tiles[5][3], false);
+    public static final Tile LAVA_BOTTOM_MIDDLE = new BasicTile(tiles[5][4], false);
+    public static final Tile LAVA_BOTTOM_RIGHT = new BasicTile(tiles[5][5], false);
+
+    public static final Tile LAVA_TOP_LEFT_INNER = new BasicTile(tiles[2][5], false);
+    public static final Tile LAVA_TOP_RIGHT_INNER = new BasicTile(tiles[2][4], false);
+    public static final Tile LAVA_BOTTOM_LEFT_INNER = new BasicTile(tiles[1][5], false);
+    public static final Tile LAVA_BOTTOM_RIGHT_INNER = new BasicTile(tiles[1][4], false);
 
     public static final Tile DEBUG = new BasicTile(tiles[31][31], false);
     public Tile(TextureRegion textureRegion) {
