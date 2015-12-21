@@ -13,9 +13,13 @@ public class MapBuilder {
 
     public MapBuilder() {
         map = new TiledMap();
-        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(new SimplexMapGenerator(), 32, 32); // quick and dirty
+        SimplexMapGenerator simplexMapGenerator = new SimplexMapGenerator();
+        DynamicMapTileLayer mapLayer = new DynamicMapTileLayer(simplexMapGenerator, 32, 32); // quick and dirty
+        DynamicMapTileLayer mapCornerLayer = new DynamicMapTileLayer(simplexMapGenerator, 32, 32); // quick and dirty
         DynamicMapTileLayer debugLayer = new DynamicMapTileLayer(new ChunkDebugMapGenerator(), 32, 32); // quick and dirty
+
         map.getLayers().add(mapLayer);
+        map.getLayers().add(mapCornerLayer);
         map.getLayers().add(debugLayer);
     }
 

@@ -2,13 +2,11 @@ package de.dogedevs.photoria.rendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
-import java.util.function.BiConsumer;
 
 /** @brief Layer for a TiledMap */
 public class DynamicMapTileLayer extends TiledMapTileLayer {
