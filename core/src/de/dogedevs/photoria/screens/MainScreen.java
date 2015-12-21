@@ -1,6 +1,8 @@
 package de.dogedevs.photoria.screens;
 
 import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -11,9 +13,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import de.dogedevs.photoria.model.entity.EntityDrawSystem;
+import de.dogedevs.photoria.model.entity.PositionComponent;
+import de.dogedevs.photoria.model.entity.SpriteComponent;
 import de.dogedevs.photoria.rendering.MapBuilder;
 
 /**
@@ -21,10 +28,9 @@ import de.dogedevs.photoria.rendering.MapBuilder;
  */
 public class MainScreen implements Screen {
 
-    static private Engine ashley;
+    static private PooledEngine ashley;
 
     SpriteBatch batch;
-    Texture img;
     MapBuilder renderer;
     TiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
@@ -32,7 +38,11 @@ public class MainScreen implements Screen {
 
     public void show() {
         batch = new SpriteBatch();
-        img = new Texture("badlogic.jpg");
+
+
+        getAshley();
+        initTestEntitis();
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -68,6 +78,19 @@ public class MainScreen implements Screen {
         });
     }
 
+    private void initTestEntitis() {
+        Texture img = new Texture("badlogic.jpg");
+        TextureRegion testRegion = new TextureRegion(img);
+        getAshley().addSystem(new EntityDrawSystem(camera));
+
+        for (int i = 0; i < 100; i++) {
+            Entity coin = getAshley().createEntity();
+            coin.add(new PositionComponent(MathUtils.random(280*64*32, 320*64*32), MathUtils.random(280*64*32, 320*64*32)));
+            coin.add(new SpriteComponent(testRegion));
+            getAshley().addEntity(coin);
+        }
+    }
+
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -77,9 +100,10 @@ public class MainScreen implements Screen {
 
 
         input();
-        update();
+        camera.update();
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render();
+        ashley.update(Gdx.graphics.getDeltaTime());
 
         batch.begin();
         font.draw(batch, "zoom="+camera.zoom, 1070, 100, 200, Align.right, false);
@@ -118,11 +142,6 @@ public class MainScreen implements Screen {
             camera.translate(0,40*camera.zoom);
     }
 
-    private void update() {
-        ashley.update(Gdx.graphics.getDeltaTime());
-        camera.update();
-    }
-
     @Override
     public void resize(int width, int height) {
 
@@ -148,9 +167,9 @@ public class MainScreen implements Screen {
 
     }
 
-    public static Engine getAshley(){
+    public static PooledEngine getAshley(){
         if(ashley == null){
-            ashley = new Engine();
+            ashley = new PooledEngine();
         }
         return ashley;
     }
