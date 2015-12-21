@@ -106,7 +106,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 			return chunk.getCell(x, y);
 		}
-		ChunkCell chunkCell = this.buffer.getCell(x,y,layer);
+		ChunkCell chunkCell = this.buffer.getCell(x, y, layer);
 
 		if(chunkCell.cell == null){
 			chunkCell.cell = new Cell();
@@ -202,6 +202,8 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 		public Cell getCell(int x, int y){
 			this.lastRead = System.currentTimeMillis();
+			x = Math.abs(x);
+			y = Math.abs(y);
 			return cells[x%64][y%64];
 		}
 
