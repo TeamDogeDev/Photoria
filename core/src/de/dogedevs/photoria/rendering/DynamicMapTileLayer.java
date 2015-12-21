@@ -5,6 +5,8 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
+import de.dogedevs.photoria.model.ChunkBuffer;
+import de.dogedevs.photoria.model.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
@@ -19,6 +21,9 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 	private float tileWidth;
 	private float tileHeight;
+
+	private ChunkBuffer buffer;
+	private int layer;
 
 //	public Chunk[][] chunks;
 	public HashMap<String, Chunk> chunks;
@@ -47,7 +52,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	 * 
 	 * @param tileWidth tile width in pixels
 	 * @param tileHeight tile height in pixels */
-	public DynamicMapTileLayer(AbstractMapGenerator generator, int tileWidth, int tileHeight) {
+	public DynamicMapTileLayer(AbstractMapGenerator generator, int tileWidth, int tileHeight, int layer, ChunkBuffer buffer) {
 		super(1, 1, tileWidth, tileHeight);
 		this.width = Integer.MAX_VALUE;
 		this.height = Integer.MAX_VALUE;
@@ -55,6 +60,8 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 		this.tileHeight = tileHeight;
 		this.chunks = new HashMap<>();
 		this.generator = generator;
+		this.buffer = buffer;
+		this.layer = layer;
 	}
 
 	/** @param x X coordinate
@@ -62,59 +69,67 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	 * @return {@link Cell} at (x, y) */
 	public Cell getCell (int x, int y) {
 //		MainGame.log("Chunks: "+chunks.size());
-		Chunk chunk = chunks.get((x/64)+"_"+(y/64));
-		if(chunk == null){
-			chunk = new Chunk();
-			chunk.x = x/64;
-			chunk.y = y/64;
 
-			for(final String key: chunks.keySet()){
-				if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
-					Gdx.app.postRunnable(new Runnable() {
-						@Override
-						public void run() {
-							chunks.remove(key);
-						}
-					});
+		if(generator instanceof ChunkDebugMapGenerator){
+			Chunk chunk = chunks.get((x/64)+"_"+(y/64));
+			if(chunk == null){
+				chunk = new Chunk();
+				chunk.x = x/64;
+				chunk.y = y/64;
+
+				for(final String key: chunks.keySet()){
+					if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
+						Gdx.app.postRunnable(new Runnable() {
+							@Override
+							public void run() {
+								chunks.remove(key);
+							}
+						});
+					}
 				}
+
+				chunks.put(chunk.getHashCode(), chunk);
+
+				int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64);
+
+				for (int row = 0; row < 32 << 1; row++) {
+					for (int col = 0; col < 32 << 1; col++) {
+						TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+							if(generatedMap[row][col] == 1){
+								cell.setTile(Tile.DEBUG);
+							}
+							chunk.setCell(cell, row, col);
+							continue;
+					}
+				}
+
 			}
 
-			chunks.put(chunk.getHashCode(), chunk);
-
-			int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64);
-
-			for (int row = 0; row < 32 << 1; row++) {
-				for (int col = 0; col < 32 << 1; col++) {
-					TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-					if(generator instanceof ChunkDebugMapGenerator){
-						if(generatedMap[row][col] == 1){
-							cell.setTile(Tile.DEBUG);
-						}
-						chunk.setCell(cell, row, col);
-						continue;
-					}
-					switch(generatedMap[row][col]) {
-						case -6 : cell.setTile(Tile.WATER); break;
-						case -5 : cell.setTile(Tile.WATER); break;
-						case -4 : cell.setTile(Tile.WATER); break;
-						case -3 : cell.setTile(Tile.WATER); break;
-						case -2 : cell.setTile(Tile.GROUND); break;
-						case -1 : cell.setTile(Tile.GROUND); break;
-						case 0 : cell.setTile(Tile.GROUND); break;
-						case 1 : cell.setTile(Tile.LAVA_STONE); break;
-						case 2 : cell.setTile(Tile.LAVA_STONE); break;
-						case 3 : cell.setTile(Tile.LAVA_STONE); break;
-						case 4 : cell.setTile(Tile.LAVA); break;
-						case 5 : cell.setTile(Tile.LAVA); break;
-						case 6 : cell.setTile(Tile.LAVA); break;
-						default: cell.setTile(Tile.GROUND);
-					}
-					chunk.setCell(cell, row, col);
-				}
-			}
-
+			return chunk.getCell(x, y);
 		}
-		return chunk.getCell(x, y);
+		ChunkCell chunkCell = this.buffer.getCell(x,y,layer);
+
+		if(chunkCell.cell == null){
+			chunkCell.cell = new Cell();
+			switch(chunkCell.value) {
+				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
+				case -5 : chunkCell.cell.setTile(Tile.WATER); break;
+				case -4 : chunkCell.cell.setTile(Tile.WATER); break;
+				case -3 : chunkCell.cell.setTile(Tile.WATER); break;
+				case -2 : chunkCell.cell.setTile(Tile.GROUND); break;
+				case -1 : chunkCell.cell.setTile(Tile.GROUND); break;
+				case 0 : chunkCell.cell.setTile(Tile.GROUND); break;
+				case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+				case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+				case 3 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+				case 4 : chunkCell.cell.setTile(Tile.LAVA); break;
+				case 5 : chunkCell.cell.setTile(Tile.LAVA); break;
+				case 6 : chunkCell.cell.setTile(Tile.LAVA); break;
+				default: chunkCell.cell.setTile(Tile.GROUND);
+			}
+		}
+
+		return this.buffer.getCell(x,y,layer).cell;
 	}
 
 	/** Sets the {@link Cell} at the given coordinates.

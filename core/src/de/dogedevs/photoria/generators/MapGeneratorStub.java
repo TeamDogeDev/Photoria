@@ -13,4 +13,5 @@ public class MapGeneratorStub extends AbstractMapGenerator {
         return chunk;
     }
 
+
 }
