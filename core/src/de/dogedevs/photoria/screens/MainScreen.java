@@ -60,6 +60,9 @@ public class MainScreen implements Screen {
                 if(keycode == Input.Keys.NUM_2){
                     renderer.getTiledMap().getLayers().get(1).setVisible(!renderer.getTiledMap().getLayers().get(1).isVisible());
                 }
+                if(keycode == Input.Keys.NUM_3){
+                    renderer.getTiledMap().getLayers().get(2).setVisible(!renderer.getTiledMap().getLayers().get(2).isVisible());
+                }
                 return super.keyDown(keycode);
             }
         });

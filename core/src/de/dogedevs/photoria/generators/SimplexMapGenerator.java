@@ -32,9 +32,9 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
 
         for (int row = 0; row < realSize; row++) {
             for (int col = 0; col < realSize; col++) {
-                local_x = row + (chunkX * realSize);
-                local_y = col + (chunkY * realSize);
-                eval = osn.eval((local_x / realSize)-overlap, (local_y / realSize)-overlap);
+                local_x = row + (chunkX * size);
+                local_y = col + (chunkY * size);
+                eval = osn.eval((local_x / size), (local_y / size));
 
                 if (eval < -0.4f) {
                     chunk[row][col] = ((int) (eval / 0.12f));
