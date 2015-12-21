@@ -117,7 +117,20 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 				case TileMapper.WATER : chunkCell.cell.setTile(Tile.WATER); break;
 				case TileMapper.LAVA_STONE : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
 				case TileMapper.LAVA : chunkCell.cell.setTile(Tile.LAVA); break;
-				case TileMapper.WATER_LEFT: chunkCell.cell.setTile(Tile.WATER_LEFT); break;
+
+				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
+				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
+				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
+				case TileMapper.WATER_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_LEFT); break;
+				case TileMapper.WATER_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_RIGHT); break;
+				case TileMapper.WATER_BOTTOM_LEFT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT); break;
+				case TileMapper.WATER_BOTTOM_MIDDLE: chunkCell.cell.setTile(Tile.WATER_BOTTOM_MIDDLE); break;
+				case TileMapper.WATER_BOTTOM_RIGHT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT); break;
+
+				case TileMapper.WATER_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT_INNER); break;
+				case TileMapper.WATER_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT_INNER); break;
+				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
+				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
 
 //				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
 //				case -5 : chunkCell.cell.setTile(Tile.WATER); break;

@@ -1,9 +1,7 @@
 package de.dogedevs.photoria.model;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.generators.*;
-import de.dogedevs.photoria.rendering.tiles.Tile;
 
 import java.util.HashMap;
 
@@ -19,7 +17,7 @@ public class ChunkBuffer {
     public ChunkBuffer(){
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator();
-        decorator = new WaterDecorator();
+        decorator = new MapDecorator();
     }
 
     public ChunkCell getCell(int x, int y, int layer) {

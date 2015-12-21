@@ -23,7 +23,22 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA = new BasicTile(tiles[4][4], false);
     public static final Tile LAVA_STONE = new BasicTile(tiles[4][10], false);
 
-    public static final Tile WATER_LEFT = new BasicTile(tiles[4][6], false);
+
+    public static final Tile WATER_TOP_LEFT = new BasicTile(tiles[3][6], false);
+    public static final Tile WATER_TOP_MIDDLE = new BasicTile(tiles[3][7], false);
+    public static final Tile WATER_TOP_RIGHT = new BasicTile(tiles[3][8], false);
+
+    public static final Tile WATER_MIDDLE_LEFT = new BasicTile(tiles[4][6], false);
+    public static final Tile WATER_MIDDLE_RIGHT = new BasicTile(tiles[4][8], false);
+
+    public static final Tile WATER_BOTTOM_LEFT = new BasicTile(tiles[5][6], false);
+    public static final Tile WATER_BOTTOM_MIDDLE = new BasicTile(tiles[5][7], false);
+    public static final Tile WATER_BOTTOM_RIGHT = new BasicTile(tiles[5][8], false);
+
+    public static final Tile WATER_TOP_LEFT_INNER = new BasicTile(tiles[2][8], false);
+    public static final Tile WATER_TOP_RIGHT_INNER = new BasicTile(tiles[2][7], false);
+    public static final Tile WATER_BOTTOM_LEFT_INNER = new BasicTile(tiles[1][8], false);
+    public static final Tile WATER_BOTTOM_RIGHT_INNER = new BasicTile(tiles[1][7], false);
 
     public static final Tile DEBUG = new BasicTile(tiles[31][31], false);
     public Tile(TextureRegion textureRegion) {
