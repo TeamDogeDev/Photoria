@@ -1,5 +1,6 @@
 package de.dogedevs.photoria;
 
+import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +19,8 @@ import java.util.Random;
 
 public class MainGame extends Game {
 
-    static public MainGame game;
+    static private MainGame game;
+
     private SpriteBatch batch;
 
     private Screen currentScreen;
@@ -73,4 +75,5 @@ public class MainGame extends Game {
         System.out.println(text);
         game.logString(text);
     }
+
 }
