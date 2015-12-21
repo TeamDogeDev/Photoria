@@ -8,7 +8,6 @@ public class TileMapper {
     public static final int VOID = 0;
 
     public static final int GROUND = 2;
-    public static final int LAVA_STONE = 3;
 
     public static final int WATER = 16;
     public static final int WATER_TOP_LEFT = 17;
@@ -43,5 +42,15 @@ public class TileMapper {
     public static final int LAVA_TOP_RIGHT_INNER = 42;
     public static final int LAVA_BOTTOM_LEFT_INNER = 43;
     public static final int LAVA_BOTTOM_RIGHT_INNER = 44;
+
+    public static final int LAVA_STONE = 64;
+    public static final int LAVA_STONE_TOP_LEFT = 65;
+    public static final int LAVA_STONE_TOP_MIDDLE = 66;
+    public static final int LAVA_STONE_BOTTOM_RIGHT_INNER = 67;
+    public static final int LAVA_STONE_LEFT_MIDDLE = 68;
+
+    public static final int LAVA_STONE_BOTTOM_LEFT_0 = 69;
+    public static final int LAVA_STONE_BOTTOM_LEFT_1 = 70;
+    public static final int LAVA_STONE_BOTTOM_LEFT_2 = 71;
 
 }

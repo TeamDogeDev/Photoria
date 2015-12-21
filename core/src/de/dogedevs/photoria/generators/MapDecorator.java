@@ -1,10 +1,5 @@
 package de.dogedevs.photoria.generators;
 
-import com.badlogic.gdx.utils.GdxRuntimeException;
-import de.dogedevs.photoria.rendering.tiles.Tile;
-import de.dogedevs.photoria.rendering.tiles.TileMapper;
-
-import java.util.Arrays;
 import java.util.Random;
 
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
@@ -39,17 +34,54 @@ public class MapDecorator extends AbstractMapDecorator {
                 int BR = ground[x + 1][y - 1];
 
 //                checkWater(TL, TM, TR, ML, MM, MR, BL, BM, BR);
-                check(TL, TM, TR, ML, MM, MR, BL, BM, BR, WATER, GROUND);
-                check(TL, TM, TR, ML, MM, MR, BL, BM, BR, LAVA, LAVA_STONE);
-
+                if(tileId == VOID) {
+                    decorateLiquid(TL, TM, TR, ML, MM, MR, BL, BM, BR, WATER, GROUND);
+                }
+                if(tileId == VOID) {
+                    decorateLiquid(TL, TM, TR, ML, MM, MR, BL, BM, BR, LAVA, LAVA_STONE);
+                }
+                if(tileId == VOID) {
+                    decorateHill(TL, TM, TR, ML, MM, MR, BL, BM, BR, GROUND, LAVA_STONE);
+                }
                 chunk[x][y] = tileId;
+                if(tileId == LAVA_STONE_BOTTOM_LEFT_0) {
+                    chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_1;
+                    chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_2;
+                }
             }
         }
 
         return chunk;
     }
 
-    private void check(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int processTile, int midTile) {
+    private void decorateHill(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int lowerTile, int upperTile) {
+        if(TM == lowerTile
+        && ML == lowerTile && MM == lowerTile && MR == lowerTile
+        && BM == upperTile) {
+            tileId = upperTile + 2;
+        } else
+        if(MM == lowerTile && MR == lowerTile
+        && BM == lowerTile && BR == upperTile) {
+            tileId = upperTile + 1;
+        } else
+        if(TM == lowerTile
+        && ML == lowerTile && MM == lowerTile && MR == upperTile
+        && BM == upperTile){
+            tileId = upperTile + 3;
+        } else
+        if(TM == lowerTile
+        && MM == lowerTile && MR == upperTile
+        && BM == lowerTile) {
+            tileId = upperTile + 4;
+        }
+        if(TM == lowerTile && TR == upperTile
+        && MM == lowerTile && MR == upperTile
+        && BM == lowerTile && BR == lowerTile) {
+            tileId = upperTile + 5;
+        }
+    }
+
+    private void decorateLiquid(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int processTile, int midTile) {
         if (MM == midTile) {
 
             if (TL == midTile && ML == midTile && BL == midTile
@@ -114,87 +146,4 @@ public class MapDecorator extends AbstractMapDecorator {
             }
         }
     }
-
-//    private void checkWater(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR) {
-//        if (MM == GROUND) {
-//            // Water
-//            // LEFT
-//            if (TL == GROUND && ML == GROUND && BL == GROUND
-//                    && TM == GROUND && BM == GROUND
-//                    && MR == WATER) {
-//                tileId = WATER_MIDDLE_LEFT;
-//            }
-//            if (TL == GROUND && ML == GROUND && BL == GROUND
-//                    && TM == GROUND && BM == GROUND
-//                    && TR == GROUND && MR == GROUND && BR == WATER) {
-//                tileId = WATER_TOP_LEFT;
-//            }
-//
-//            if (TL == GROUND && ML == GROUND
-//                    && TM == GROUND && BM == WATER
-//                    && MR == WATER && BR == WATER) {
-//                tileId = WATER_TOP_LEFT_INNER;
-//            }
-//
-//            if (TL == GROUND && TM == GROUND && TR == GROUND
-//                    && ML == GROUND && MR == GROUND
-//                    && BM == WATER) {
-//                tileId = WATER_TOP_MIDDLE;
-//            }
-//
-//            if (TL == GROUND && ML == GROUND && BL == GROUND
-//                    && TM == GROUND && BM == GROUND
-//                    && MR == WATER && BR == WATER) {
-//                tileId = WATER_MIDDLE_LEFT;
-//            }
-//
-//            if (TL == GROUND && ML == GROUND && BL == WATER
-//                    && TM == GROUND && BM == GROUND
-//                    && TR == GROUND && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_TOP_RIGHT;
-//            }
-//
-//            if (ML == WATER && BL == WATER
-//                    && TM == GROUND && BM == WATER
-//                    && TR == GROUND && MR == GROUND) {
-//                tileId = WATER_TOP_RIGHT_INNER;
-//            }
-//
-//            if (ML == WATER
-//                    && TM == GROUND && BM == GROUND
-//                    && TR == GROUND && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_MIDDLE_RIGHT;
-//            }
-//
-//            if (TL == WATER && ML == GROUND && BL == GROUND
-//                    && TM == GROUND && BM == GROUND
-//                    && TR == GROUND && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_BOTTOM_RIGHT;
-//            }
-//
-//            if (TL == WATER && ML == WATER
-//                    && TM == WATER && BM == GROUND
-//                    && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_BOTTOM_RIGHT_INNER;
-//            }
-//
-//            if (ML == GROUND && BL == GROUND
-//                    && TM == WATER && BM == GROUND
-//                    && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_BOTTOM_MIDDLE;
-//            }
-//
-//            if (TL == GROUND && ML == GROUND && BL == GROUND
-//                    && TM == GROUND && BM == GROUND
-//                    && TR == WATER && MR == GROUND && BR == GROUND) {
-//                tileId = WATER_BOTTOM_LEFT;
-//            }
-//
-//            if (ML == GROUND && BL == GROUND
-//                    && TM == WATER && BM == GROUND
-//                    && TR == WATER && MR == WATER) {
-//                tileId = WATER_BOTTOM_LEFT_INNER;
-//            }
-//        }
-//    }
 }
