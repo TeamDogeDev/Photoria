@@ -154,6 +154,12 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_0); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_1); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
+
+				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_0); break;
+				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_1); break;
+				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_2); break;
+
+				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER); break;
 //				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
 //				case -5 : chunkCell.cell.setTile(Tile.WATER); break;
 //				case -4 : chunkCell.cell.setTile(Tile.WATER); break;

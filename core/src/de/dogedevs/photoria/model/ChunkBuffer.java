@@ -76,9 +76,9 @@ public class ChunkBuffer {
             }
 
             chunks.put(chunk.getHashCode(), chunk);
-            int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 2);
-            createGroundLayer(chunk, generatedMap, 2);
-            createDecoration(chunk, generatedMap, 2);
+            int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 4);
+            createGroundLayer(chunk, generatedMap, 4);
+            createDecoration(chunk, generatedMap, 4);
 
         }
 
