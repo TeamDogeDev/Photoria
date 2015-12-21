@@ -10,19 +10,29 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class AnimationComponent implements Component, Pool.Poolable{
 
-    public Animation animation;
+    public Animation idleAnimation;
+    public Animation upAnimation;
+    public Animation downAnimation;
+    public Animation leftAnimation;
+    public Animation rightAnimation;
+
     public float stateTime;
 
     public AnimationComponent() {
     }
 
     public AnimationComponent(Animation animation) {
-        this.animation = animation;
+        this.idleAnimation = animation;
     }
 
     @Override
     public void reset() {
-        animation = null;
+        idleAnimation = null;
+        upAnimation = null;
+        downAnimation = null;
+        leftAnimation = null;
+        rightAnimation = null;
         stateTime = 0;
     }
+
 }

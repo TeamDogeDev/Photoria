@@ -78,40 +78,50 @@ public class MainScreen implements Screen {
     }
 
     private void initTestEntitis() {
-        Texture img = new Texture("badlogic.jpg");
-        TextureRegion testRegion = new TextureRegion(img);
+//        Texture img = new Texture("badlogic.jpg");
+//        TextureRegion testRegion = new TextureRegion(img);
         getAshley().addSystem(new EntityDrawSystem(camera));
         getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
+        getAshley().addSystem(new MovingEntitySystem());
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
-        TextureRegion[] walkFrames = new TextureRegion[3 * 4];
-        int index = 0;
+        TextureRegion[][] walkFrames = new TextureRegion[4][3 * 1];
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
-                walkFrames[index++] = tmp[i][j];
+                walkFrames[i][j] = tmp[i][j];
             }
         }
-        Animation walkAnimation = new Animation(0.25f, walkFrames);      // #11
+        Animation walkAnimationU = new Animation(0.3f, walkFrames[0]);
+        Animation walkAnimationD = new Animation(0.3f, walkFrames[2]);
+        Animation walkAnimationL = new Animation(0.3f, walkFrames[1]);
+        Animation walkAnimationR = new Animation(0.3f, walkFrames[3]);
 
-        Entity eyeball = getAshley().createEntity();
-        eyeball.add(new PositionComponent(300 * 64 * 32, 300 * 64 * 32));
-        eyeball.add(new AnimationComponent(walkAnimation));
-        getAshley().addEntity(eyeball);
+//        Entity eyeball = getAshley().createEntity();
+//        eyeball.add(new PositionComponent(300 * 64 * 32, 300 * 64 * 32));
+//        eyeball.add(new AnimationComponent(walkAnimationU));
+//        eyeball.add(new VelocityComponent(0, 1));
+//        getAshley().addEntity(eyeball);
 
         for (int i = 0; i < 400; i++) {
-            eyeball = getAshley().createEntity();
-            eyeball.add(new PositionComponent(MathUtils.random(290*64*32, 310*64*32), MathUtils.random(290*64*32, 310*64*32)));
-            eyeball.add(new AnimationComponent(walkAnimation));
+            Entity eyeball = getAshley().createEntity();
+            eyeball.add(new PositionComponent(MathUtils.random(298*64*32, 302*64*32), MathUtils.random(298*64*32, 302*64*32)));
+            AnimationComponent ac = new AnimationComponent(walkAnimationU);
+            ac.leftAnimation = walkAnimationL;
+            ac.rightAnimation = walkAnimationR;
+            ac.upAnimation = walkAnimationU;
+            ac.downAnimation = walkAnimationD;
+            eyeball.add(ac);
+            eyeball.add(new VelocityComponent(0, 10));
             getAshley().addEntity(eyeball);
         }
 
-        for (int i = 0; i < 30; i++) {
-            Entity coin = getAshley().createEntity();
-            coin.add(new PositionComponent(MathUtils.random(295*64*32, 305*64*32), MathUtils.random(295*64*32, 305*64*32)));
-            coin.add(new SpriteComponent(testRegion));
-            getAshley().addEntity(coin);
-        }
+//        for (int i = 0; i < 30; i++) {
+//            Entity coin = getAshley().createEntity();
+//            coin.add(new PositionComponent(MathUtils.random(295*64*32, 305*64*32), MathUtils.random(295*64*32, 305*64*32)));
+//            coin.add(new SpriteComponent(testRegion));
+//            getAshley().addEntity(coin);
+//        }
     }
 
     public void render(float delta) {

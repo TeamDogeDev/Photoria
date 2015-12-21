@@ -38,7 +38,7 @@ public class AnimatedEntityDrawSystem extends EntitySystem {
 //        MainGame.log("update: "+entities.size());
         PositionComponent position;
         AnimationComponent visual;
-
+        VelocityComponent velocity;
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
@@ -47,8 +47,27 @@ public class AnimatedEntityDrawSystem extends EntitySystem {
 
             position = ComponentMappers.position.get(e);
             visual = ComponentMappers.animation.get(e);
+            velocity = ComponentMappers.velocity.get(e);
             visual.stateTime += deltaTime;
-            batch.draw(visual.animation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+
+            if(velocity != null){
+                switch (velocity.direction){
+                    case VelocityComponent.DOWN:
+                        batch.draw(visual.downAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        break;
+                    case VelocityComponent.UP:
+                        batch.draw(visual.upAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        break;
+                    case VelocityComponent.LEFT:
+                        batch.draw(visual.leftAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        break;
+                    case VelocityComponent.RIGHT:
+                        batch.draw(visual.rightAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        break;
+                }
+            } else {
+                batch.draw(visual.idleAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+            }
         }
 
         batch.end();
