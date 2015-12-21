@@ -3,8 +3,10 @@ package de.dogedevs.photoria.generators;
 /**
  * Created by elektropapst on 20.12.2015.
  */
-public interface AbstractMapGenerator {
+public abstract class AbstractMapGenerator {
 
-    public int[][] generate(int xPos, int yPos, int size);
+    protected int[][] chunk;
+
+    public abstract int[][] generate(int xPos, int yPos, int size);
 
 }

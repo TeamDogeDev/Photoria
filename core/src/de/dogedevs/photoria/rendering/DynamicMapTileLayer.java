@@ -68,7 +68,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 			chunk.x = x/64;
 			chunk.y = y/64;
 
-			for(String key: chunks.keySet()){
+			for(final String key: chunks.keySet()){
 				if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
 					Gdx.app.postRunnable(new Runnable() {
 						@Override
