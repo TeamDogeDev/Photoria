@@ -10,17 +10,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
-import de.dogedevs.photoria.model.entity.EntityDrawSystem;
-import de.dogedevs.photoria.model.entity.PositionComponent;
-import de.dogedevs.photoria.model.entity.SpriteComponent;
+import de.dogedevs.photoria.model.entity.*;
 import de.dogedevs.photoria.rendering.MapBuilder;
 
 /**
@@ -40,7 +35,7 @@ public class MainScreen implements Screen {
         batch = new SpriteBatch();
 
         initCamera();
-        getAshley();
+        getAshley(); //init ashley
         initTestEntitis();
 
         font = new BitmapFont();
@@ -84,10 +79,34 @@ public class MainScreen implements Screen {
         Texture img = new Texture("badlogic.jpg");
         TextureRegion testRegion = new TextureRegion(img);
         getAshley().addSystem(new EntityDrawSystem(camera));
+        getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
 
-        for (int i = 0; i < 100; i++) {
+        Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
+        TextureRegion[] walkFrames = new TextureRegion[3 * 4];
+        int index = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 3; j++) {
+                walkFrames[index++] = tmp[i][j];
+            }
+        }
+        Animation walkAnimation = new Animation(0.25f, walkFrames);      // #11
+
+        Entity eyeball = getAshley().createEntity();
+        eyeball.add(new PositionComponent(300 * 64 * 32, 300 * 64 * 32));
+        eyeball.add(new AnimationComponent(walkAnimation));
+        getAshley().addEntity(eyeball);
+
+        for (int i = 0; i < 400; i++) {
+            eyeball = getAshley().createEntity();
+            eyeball.add(new PositionComponent(MathUtils.random(290*64*32, 310*64*32), MathUtils.random(290*64*32, 310*64*32)));
+            eyeball.add(new AnimationComponent(walkAnimation));
+            getAshley().addEntity(eyeball);
+        }
+
+        for (int i = 0; i < 30; i++) {
             Entity coin = getAshley().createEntity();
-            coin.add(new PositionComponent(MathUtils.random(280*64*32, 320*64*32), MathUtils.random(280*64*32, 320*64*32)));
+            coin.add(new PositionComponent(MathUtils.random(295*64*32, 305*64*32), MathUtils.random(295*64*32, 305*64*32)));
             coin.add(new SpriteComponent(testRegion));
             getAshley().addEntity(coin);
         }
