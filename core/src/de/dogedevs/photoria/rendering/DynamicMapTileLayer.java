@@ -112,7 +112,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 			chunkCell.cell = new Cell();
 			switch(chunkCell.value) {
 				default:
-				case TileMapper.VOID : chunkCell.cell.setTile(Tile.VOID); break;
+				case TileMapper.VOID : break;
 				case TileMapper.GROUND : chunkCell.cell.setTile(Tile.GROUND); break;
 				case TileMapper.LAVA_STONE : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
 
