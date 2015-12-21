@@ -217,8 +217,8 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 
 		public Cell getCell(int x, int y){
 			this.lastRead = System.currentTimeMillis();
-			x = Math.abs(x);
-			y = Math.abs(y);
+			x = (x < 0) ? -x : x;
+			y = (y < 0) ? -y : y;
 			return cells[x%64][y%64];
 		}
 
