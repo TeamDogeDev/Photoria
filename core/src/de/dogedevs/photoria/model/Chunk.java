@@ -2,6 +2,7 @@ package de.dogedevs.photoria.model;
 
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +40,8 @@ public class Chunk {
 
     public ChunkCell getCell(int x, int y, int layer){
         this.lastRead = System.currentTimeMillis();
+        x = Math.abs(x);
+        y = Math.abs(y);
         return cells.get(layer)[x%64][y%64];
     }
 
