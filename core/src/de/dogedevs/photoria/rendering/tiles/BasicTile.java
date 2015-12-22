@@ -10,9 +10,12 @@ public class BasicTile extends Tile {
 
     private boolean solid;
 
-    public BasicTile(TextureRegion textureRegion, boolean solid) {
+    public BasicTile(TextureRegion textureRegion, boolean solid, boolean opaque) {
         super(textureRegion);
         this.solid = solid;
+        if(opaque){
+            this.setBlendMode(BlendMode.NONE);
+        }
     }
 
     public BasicTile(StaticTiledMapTile copy) {
