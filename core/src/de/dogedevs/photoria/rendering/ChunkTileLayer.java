@@ -24,9 +24,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 	private ChunkBuffer buffer;
 	private int layer;
 
-//	public Chunk[][] chunks;
-	public HashMap<String, Chunk> chunks;
-
 	/** @return layer's width in tiles */
 	public int getWidth () {
 		return width;
@@ -57,7 +54,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 		this.height = Integer.MAX_VALUE;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
-		this.chunks = new HashMap<>();
 		this.generator = generator;
 		this.buffer = buffer;
 		this.layer = layer;
@@ -69,43 +65,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 	public Cell getCell (int x, int y) {
 //		MainGame.log("Chunks: "+chunks.size());
 
-		if(generator instanceof ChunkDebugMapGenerator){
-			Chunk chunk = chunks.get((x/64)+"_"+(y/64));
-			if(chunk == null){
-				chunk = new Chunk();
-				chunk.x = x/64;
-				chunk.y = y/64;
-
-				for(final String key: chunks.keySet()){
-					if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
-						Gdx.app.postRunnable(new Runnable() {
-							@Override
-							public void run() {
-								chunks.remove(key);
-							}
-						});
-					}
-				}
-
-				chunks.put(chunk.getHashCode(), chunk);
-
-				int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 0);
-
-				for (int row = 0; row < 32 << 1; row++) {
-					for (int col = 0; col < 32 << 1; col++) {
-						TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
-							if(generatedMap[row][col] == 1){
-								cell.setTile(Tile.DEBUG);
-							}
-							chunk.setCell(cell, row, col);
-							continue;
-					}
-				}
-
-			}
-
-			return chunk.getCell(x, y);
-		}
 		ChunkCell chunkCell = this.buffer.getCell(x, y, layer);
 
 		if(chunkCell.cell == null){
@@ -186,57 +145,7 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 	 * @param y Y coordinate
 	 * @param cell the {@link Cell} to set at the given coordinates. */
 	public void setCell (int x, int y, Cell cell) {
-//		if (x < 0 || x >= width) return;
-//		if (y < 0 || y >= height) return;
-//		cells[x][y] = cell;
-	}
-
-	public static class Chunk{
-		public int x;
-		public int y;
-
-		public long lastRead;
-
-		Cell[][] cells;
-
-		public Chunk(int x, int y, Cell[][] cells) {
-			this.x = x;
-			this.y = y;
-			this.cells = cells;
-			this.lastRead = System.currentTimeMillis();
-		}
-
-		public Chunk() {
-			this.cells = new Cell[64][64];
-			this.lastRead = System.currentTimeMillis();
-		}
-
-		public void setCell(Cell cell, int x, int y){
-			cells[x][y] = cell;
-		}
-
-		public Cell getCell(int x, int y){
-			this.lastRead = System.currentTimeMillis();
-			x = (x < 0) ? -x : x;
-			y = (y < 0) ? -y : y;
-			return cells[x%64][y%64];
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
-
-			Chunk chunkPos = (Chunk) o;
-
-			if (x != chunkPos.x) return false;
-			return y == chunkPos.y;
-
-		}
-
-		public String getHashCode(){
-			return x+"_"+y;
-		}
+		//ChunkBuffer setCell(cell, x, y, layer) should exist here
 	}
 
 }
