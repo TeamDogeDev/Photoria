@@ -73,13 +73,35 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 			switch(chunkCell.value) {
 				default:
 				case TileMapper.VOID : break;
-				case TileMapper.GROUND : chunkCell.cell.setTile(Tile.GROUND); break;
-				case TileMapper.LAVA_STONE : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
+				case TileMapper.GROUND :
+					if(MathUtils.random(3) == 0){
+						chunkCell.cell.setTile(Tile.GROUND4); break;
+//						switch(MathUtils.random(2)){
+//							case 0 : chunkCell.cell.setTile(Tile.GROUND2); break;
+//							case 1 : chunkCell.cell.setTile(Tile.GROUND3); break;
+//							case 2 : chunkCell.cell.setTile(Tile.GROUND4); break;
+//						}
+					} else {
+						chunkCell.cell.setTile(Tile.GROUND);
+					}
+					break;
+				case TileMapper.LAVA_STONE :
+					if(MathUtils.random(3) == 0){
+						chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
+//						switch(MathUtils.random(2)){
+//							case 0 : chunkCell.cell.setTile(Tile.LAVA_STONE2); break;
+//							case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE3); break;
+//							case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
+//						}
+					} else {
+						chunkCell.cell.setTile(Tile.LAVA_STONE);
+					}
+					break;
 
 				case TileMapper.WATER :
-					if(MathUtils.random(50) == 0){
+					if(MathUtils.random(25) == 0){
 						switch(MathUtils.random(2)){
-							case 0 : chunkCell.cell.setTile(Tile.WATER4); break;
+							case 0 : chunkCell.cell.setTile(Tile.WATER2); break;
 							case 1 : chunkCell.cell.setTile(Tile.WATER3); break;
 							case 2 : chunkCell.cell.setTile(Tile.WATER4); break;
 						}
@@ -101,7 +123,17 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
 				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
 
-				case TileMapper.LAVA : chunkCell.cell.setTile(Tile.LAVA); break;
+				case TileMapper.LAVA :
+					if(MathUtils.random(25) == 0){
+						switch(MathUtils.random(2)){
+							case 0 : chunkCell.cell.setTile(Tile.LAVA2); break;
+							case 1 : chunkCell.cell.setTile(Tile.LAVA3); break;
+							case 2 : chunkCell.cell.setTile(Tile.LAVA4); break;
+						}
+					} else {
+						chunkCell.cell.setTile(Tile.LAVA);
+					}
+					break;
 				case TileMapper.LAVA_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT); break;
 				case TileMapper.LAVA_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_TOP_MIDDLE); break;
 				case TileMapper.LAVA_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT); break;

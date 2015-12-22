@@ -144,6 +144,7 @@ public class MainScreen implements Screen {
         ashley.update(Gdx.graphics.getDeltaTime());
 
         batch.begin();
+        font.draw(batch, "entities="+ashley.getEntities().size(), 1070, 120, 200, Align.right, false);
         font.draw(batch, "zoom="+camera.zoom, 1070, 100, 200, Align.right, false);
         font.draw(batch, "x="+Math.round(camera.position.x/32), 1070, 80, 200, Align.right, false);
         font.draw(batch, "y="+Math.round(camera.position.y/32) , 1070, 60, 200, Align.right, false);

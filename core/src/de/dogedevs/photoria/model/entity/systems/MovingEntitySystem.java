@@ -44,7 +44,7 @@ public class MovingEntitySystem extends EntitySystem {
             velocity = ComponentMappers.velocity.get(e);
 
             if(MathUtils.randomBoolean(0.001f)){
-                velocity.direction = MathUtils.random(0, 4);
+                velocity.direction = MathUtils.random(0, 3);
             }
             switch (velocity.direction){
                 case VelocityComponent.DOWN:
