@@ -23,6 +23,9 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE = new BasicTile(tiles[4][10], false);
 
     public static final Tile WATER = new BasicTile(tiles[4][7], false);
+    public static final Tile WATER2 = new BasicTile(tiles[6][6], false);
+    public static final Tile WATER3 = new BasicTile(tiles[6][7], false);
+    public static final Tile WATER4 = new BasicTile(tiles[6][8], false);
     public static final Tile WATER_TOP_LEFT = new BasicTile(tiles[3][6], false);
     public static final Tile WATER_TOP_MIDDLE = new BasicTile(tiles[3][7], false);
     public static final Tile WATER_TOP_RIGHT = new BasicTile(tiles[3][8], false);

@@ -2,6 +2,7 @@ package de.dogedevs.photoria.rendering;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
@@ -75,7 +76,17 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.GROUND : chunkCell.cell.setTile(Tile.GROUND); break;
 				case TileMapper.LAVA_STONE : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
 
-				case TileMapper.WATER : chunkCell.cell.setTile(Tile.WATER); break;
+				case TileMapper.WATER :
+					if(MathUtils.random(50) == 0){
+						switch(MathUtils.random(2)){
+							case 0 : chunkCell.cell.setTile(Tile.WATER4); break;
+							case 1 : chunkCell.cell.setTile(Tile.WATER3); break;
+							case 2 : chunkCell.cell.setTile(Tile.WATER4); break;
+						}
+					} else {
+						chunkCell.cell.setTile(Tile.WATER);
+					}
+					break;
 				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
 				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
 				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
