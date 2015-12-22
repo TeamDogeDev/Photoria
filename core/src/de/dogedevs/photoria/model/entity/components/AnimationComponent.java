@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity;
+package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.Animation;

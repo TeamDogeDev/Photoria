@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity;
+package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
@@ -13,8 +13,8 @@ public class VelocityComponent implements Component, Pool.Poolable {
     public static final int LEFT = 2;
     public static final int RIGHT = 3;
 
-    int direction;
-    float speed;
+    public int direction;
+    public float speed;
 
     public VelocityComponent() {
         this.direction = 0;

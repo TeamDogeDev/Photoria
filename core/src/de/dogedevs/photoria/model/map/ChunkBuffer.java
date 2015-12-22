@@ -1,9 +1,8 @@
-package de.dogedevs.photoria.model;
+package de.dogedevs.photoria.model.map;
 
 import com.badlogic.gdx.Gdx;
 import de.dogedevs.photoria.generators.*;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 /**

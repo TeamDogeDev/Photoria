@@ -1,6 +1,10 @@
-package de.dogedevs.photoria.model.entity;
+package de.dogedevs.photoria.model.entity.systems;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import de.dogedevs.photoria.model.entity.components.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 
 /**
  * Created by Furuha on 21.12.2015.

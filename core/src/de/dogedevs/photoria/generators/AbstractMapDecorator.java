@@ -1,7 +1,5 @@
 package de.dogedevs.photoria.generators;
 
-import de.dogedevs.photoria.model.Chunk;
-
 /**
  * Created by elektropapst on 20.12.2015.
  */

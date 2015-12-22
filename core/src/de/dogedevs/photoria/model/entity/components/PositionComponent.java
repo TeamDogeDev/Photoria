@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity;
+package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
@@ -8,8 +8,8 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class PositionComponent implements Component, Pool.Poolable {
 
-    float x;
-    float y;
+    public float x;
+    public float y;
 
     public PositionComponent() {
         this.x = 0;

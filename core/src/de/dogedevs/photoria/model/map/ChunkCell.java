@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model;
+package de.dogedevs.photoria.model.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 

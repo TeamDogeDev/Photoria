@@ -4,15 +4,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
-import de.dogedevs.photoria.model.ChunkBuffer;
-import de.dogedevs.photoria.model.ChunkCell;
+import de.dogedevs.photoria.model.map.ChunkBuffer;
+import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.HashMap;
 
 /** @brief Layer for a TiledMap */
-public class DynamicMapTileLayer extends TiledMapTileLayer {
+public class ChunkTileLayer extends TiledMapTileLayer {
 
 	private AbstractMapGenerator generator;
 	private int width;
@@ -51,7 +51,7 @@ public class DynamicMapTileLayer extends TiledMapTileLayer {
 	 * 
 	 * @param tileWidth tile width in pixels
 	 * @param tileHeight tile height in pixels */
-	public DynamicMapTileLayer(AbstractMapGenerator generator, int tileWidth, int tileHeight, int layer, ChunkBuffer buffer) {
+	public ChunkTileLayer(AbstractMapGenerator generator, int tileWidth, int tileHeight, int layer, ChunkBuffer buffer) {
 		super(1, 1, tileWidth, tileHeight);
 		this.width = Integer.MAX_VALUE;
 		this.height = Integer.MAX_VALUE;

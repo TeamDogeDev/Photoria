@@ -1,8 +1,5 @@
-package de.dogedevs.photoria.model;
+package de.dogedevs.photoria.model.map;
 
-
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.MathUtils;
 
 import java.util.HashMap;
 import java.util.Map;

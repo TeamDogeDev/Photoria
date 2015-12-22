@@ -46,21 +46,21 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
 
-public class OrthogonalTiledMapRenderer extends BatchTiledMapRenderer {
+public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 
-	public OrthogonalTiledMapRenderer (TiledMap map) {
+	public CustomTiledMapRenderer(TiledMap map) {
 		super(map);
 	}
 
-	public OrthogonalTiledMapRenderer (TiledMap map, Batch batch) {
+	public CustomTiledMapRenderer(TiledMap map, Batch batch) {
 		super(map, batch);
 	}
 
-	public OrthogonalTiledMapRenderer (TiledMap map, float unitScale) {
+	public CustomTiledMapRenderer(TiledMap map, float unitScale) {
 		super(map, unitScale);
 	}
 
-	public OrthogonalTiledMapRenderer (TiledMap map, float unitScale, Batch batch) {
+	public CustomTiledMapRenderer(TiledMap map, float unitScale, Batch batch) {
 		super(map, unitScale, batch);
 	}
 

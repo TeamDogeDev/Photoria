@@ -14,7 +14,12 @@ import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
-import de.dogedevs.photoria.model.entity.*;
+import de.dogedevs.photoria.model.entity.components.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.systems.AnimatedEntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
 import de.dogedevs.photoria.rendering.MapBuilder;
 
 /**
