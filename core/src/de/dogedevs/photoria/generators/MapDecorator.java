@@ -44,10 +44,10 @@ public class MapDecorator extends AbstractMapDecorator {
                     decorateHill(TL, TM, TR, ML, MM, MR, BL, BM, BR, GROUND, LAVA_STONE);
                 }
                 chunk[x][y] = tileId;
-                if(tileId == LAVA_STONE_BOTTOM_LEFT_0 || tileId == LAVA_STONE_BOTTOM_MIDDLE_0) {
-                    chunk[x][y - 1] = tileId+1;
-                    chunk[x][y - 2] = tileId+2;
-                }
+//                if(tileId == LAVA_STONE_BOTTOM_LEFT_0 || tileId == LAVA_STONE_BOTTOM_MIDDLE_0) {
+//                    chunk[x][y - 1] = tileId+1;
+//                    chunk[x][y - 2] = tileId+2;
+//                }
             }
         }
 
