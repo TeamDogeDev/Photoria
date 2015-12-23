@@ -102,7 +102,7 @@ public class MainScreen implements Screen {
         getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
         getAshley().addSystem(new MovingEntitySystem());
 //        getAshley().addSystem(new CameraSystem(camera));
-        getAshley().addSystem(new FixFloatSystem(camera));
+//        getAshley().addSystem(new FixFloatSystem(camera));
 
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));

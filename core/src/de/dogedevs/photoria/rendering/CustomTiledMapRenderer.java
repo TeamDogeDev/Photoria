@@ -66,26 +66,18 @@ public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 		super(map, unitScale, batch);
 	}
 
-	public float offsetX = 0;
-	public float offsetY = 0;
-
-	public void addRenderOffset(float x, float y){
-		offsetX += x;
-		offsetY += y;
-	}
-
 	@Override
 	public void setView (OrthographicCamera camera) {
 		batch.setProjectionMatrix(camera.combined);
 		float width = camera.viewportWidth * camera.zoom;
 		float height = camera.viewportHeight * camera.zoom;
-		viewBounds.set((camera.position.x+offsetX - width / 2), (camera.position.y+offsetY - height / 2), width, height);
+		viewBounds.set((camera.position.x - width / 2), (camera.position.y - height / 2), width, height);
 	}
 
 	@Override
 	public void setView (Matrix4 projection, float x, float y, float width, float height) {
 		batch.setProjectionMatrix(projection);
-		viewBounds.set(x+offsetX, y+offsetY, width, height);
+		viewBounds.set(x, y, width, height);
 	}
 
 	@Override
