@@ -44,11 +44,40 @@ public class MapDecorator extends AbstractMapDecorator {
                     decorateHill(TL, TM, TR, ML, MM, MR, BL, BM, BR, GROUND, LAVA_STONE);
                 }
                 chunk[x][y] = tileId;
-                if(tileId == LAVA_STONE_BOTTOM_LEFT_0 || tileId == LAVA_STONE_BOTTOM_MIDDLE_0) {
+                if(tileId == LAVA_STONE_BOTTOM_LEFT_0
+                || tileId == LAVA_STONE_BOTTOM_RIGHT_0
+                || tileId == LAVA_STONE_BOTTOM_MIDDLE_0
+                || tileId == LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0
+                || tileId == LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0) {
                     if(y-2 >= 0) {
                         chunk[x][y - 1] = tileId + 1;
                         chunk[x][y - 2] = tileId + 2;
                     }
+                }
+            }
+        }
+
+        for (int x = 1; x < ground.length-1; x++) {
+            for (int y = 1; y < ground[x].length-1; y++) {
+                int TL = chunk[x - 1][y + 1];
+                int TM = chunk[x][y + 1];
+                int TR = chunk[x + 1][y + 1];
+
+                int ML = chunk[x - 1][y];
+                int MM = chunk[x][y];
+                int MR = chunk[x + 1][y];
+
+                int BL = chunk[x - 1][y - 1];
+                int BM = chunk[x][y - 1];
+                int BR = chunk[x + 1][y - 1];
+
+                if(MM == LAVA_STONE_BOTTOM_LEFT_0 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
+                    chunk[x][y] = LAVA_STONE_TOP_RIGHT_CORNER;
+                } else
+                if(MM == LAVA_STONE_BOTTOM_LEFT_0 && MR == LAVA_STONE_BOTTOM_RIGHT_2) {
+                    chunk[x][y] = LAVA_STONE_TOP_LEFT_CORNER;
+                }if(BM == LAVA_STONE_BOTTOM_LEFT_2 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
+                    chunk[x][y] = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1;
                 }
             }
         }
@@ -109,7 +138,7 @@ public class MapDecorator extends AbstractMapDecorator {
         if(TM == lowerTile
         && MM == lowerTile && ML == upperTile
         && BM == lowerTile && BL == lowerTile) {
-            tileId = LAVA_STONE_BOTTOM_RIGHT;
+            tileId = LAVA_STONE_BOTTOM_RIGHT_0;
         }else
         if(TM == upperTile && TL == upperTile
         && MR == lowerTile && ML == upperTile
