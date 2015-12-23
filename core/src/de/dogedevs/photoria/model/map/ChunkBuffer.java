@@ -25,16 +25,17 @@ public class ChunkBuffer {
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {
         ChunkCell cell;
+        ChunkCell cell2;
         chunk.addLayer(1, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
+        chunk.addLayer(3, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
         for (int row = overlap; row < CHUNK_SIZE+overlap; row++) {
             for (int col = overlap; col < CHUNK_SIZE+overlap; col++) {
                 cell = new ChunkCell();
+                cell2 = new ChunkCell();
                 cell.value = generatedMap[row][col];
-                if(generator instanceof ChunkDebugMapGenerator){
-                    chunk.setCell(cell, row-overlap, col-overlap, 1);
-                    continue;
-                }
+                cell2.value = generatedMap[row][col];
                 chunk.setCell(cell, row-overlap, col-overlap, 1);
+                chunk.setCell(cell2, row-overlap, col-overlap, 3);
             }
         }
 
