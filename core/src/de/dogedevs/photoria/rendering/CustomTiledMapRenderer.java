@@ -38,6 +38,7 @@ import static com.badlogic.gdx.graphics.g2d.Batch.Y3;
 import static com.badlogic.gdx.graphics.g2d.Batch.Y4;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -45,6 +46,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.badlogic.gdx.maps.tiled.renderers.BatchTiledMapRenderer;
+import com.badlogic.gdx.math.Matrix4;
 
 public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 
@@ -64,6 +66,28 @@ public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 		super(map, unitScale, batch);
 	}
 
+	public float offsetX = 0;
+	public float offsetY = 0;
+
+	public void addRenderOffset(float x, float y){
+		offsetX += x;
+		offsetY += y;
+	}
+
+	@Override
+	public void setView (OrthographicCamera camera) {
+		batch.setProjectionMatrix(camera.combined);
+		float width = camera.viewportWidth * camera.zoom;
+		float height = camera.viewportHeight * camera.zoom;
+		viewBounds.set((camera.position.x+offsetX - width / 2), (camera.position.y+offsetY - height / 2), width, height);
+	}
+
+	@Override
+	public void setView (Matrix4 projection, float x, float y, float width, float height) {
+		batch.setProjectionMatrix(projection);
+		viewBounds.set(x+offsetX, y+offsetY, width, height);
+	}
+
 	@Override
 	public void renderTileLayer (TiledMapTileLayer layer) {
 		final Color batchColor = batch.getColor();
@@ -75,12 +99,12 @@ public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 		final float layerTileWidth = layer.getTileWidth() * unitScale;
 		final float layerTileHeight = layer.getTileHeight() * unitScale;
 
-//		final int col1 = Math.max(0, (int)(viewBounds.x / layerTileWidth));
-		final int col1 = (int)(viewBounds.x / layerTileWidth);
+		final int col1 = Math.max(0, (int)(viewBounds.x / layerTileWidth));
+//		final int col1 = (int)(viewBounds.x / layerTileWidth);
 		final int col2 = Math.min(layerWidth, (int)((viewBounds.x + viewBounds.width + layerTileWidth) / layerTileWidth));
 
-//		final int row1 = Math.max(0, (int)(viewBounds.y / layerTileHeight));
-		final int row1 = (int)(viewBounds.y / layerTileHeight);
+		final int row1 = Math.max(0, (int)(viewBounds.y / layerTileHeight));
+//		final int row1 = (int)(viewBounds.y / layerTileHeight);
 		final int row2 = Math.min(layerHeight, (int)((viewBounds.y + viewBounds.height + layerTileHeight) / layerTileHeight));
 
 		float y = row2 * layerTileHeight;

@@ -2,6 +2,7 @@ package de.dogedevs.photoria.model.map;
 
 import com.badlogic.gdx.Gdx;
 import de.dogedevs.photoria.generators.*;
+import de.dogedevs.photoria.model.entity.systems.FixFloatSystem;
 
 import java.util.HashMap;
 
@@ -55,7 +56,8 @@ public class ChunkBuffer {
     }
 
     public ChunkCell getCell(int x, int y, int layer) {
-
+//        x += FixFloatSystem.offsetX;
+//        y += FixFloatSystem.offsetY;
         Chunk chunk = chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE));
 
         if(chunk == null){

@@ -17,10 +17,8 @@ import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.systems.AnimatedEntityDrawSystem;
-import de.dogedevs.photoria.model.entity.systems.CameraSystem;
-import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
-import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
+import de.dogedevs.photoria.model.entity.systems.*;
+import de.dogedevs.photoria.rendering.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.MapBuilder;
 
 /**
@@ -32,7 +30,7 @@ public class MainScreen implements Screen {
 
     SpriteBatch batch;
     MapBuilder renderer;
-    TiledMapRenderer tiledMapRenderer;
+    CustomTiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
     private BitmapFont font;
 
@@ -41,12 +39,15 @@ public class MainScreen implements Screen {
 
         initCamera();
         getAshley(); //init ashley
-        initTestEntitis();
 
         font = new BitmapFont();
 
         renderer = new MapBuilder();
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(renderer.getTiledMap());
+        tiledMapRenderer = new CustomTiledMapRenderer(renderer.getTiledMap());
+
+
+        initTestEntitis();
+
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
             public boolean scrolled(int amount) {
@@ -77,7 +78,7 @@ public class MainScreen implements Screen {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        camera.translate(300*64*32, 300*64*32);
+        camera.translate(155*64*32, 155*64*32);
         camera.zoom = 1;
 
         camera.update();
@@ -90,6 +91,7 @@ public class MainScreen implements Screen {
         getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
         getAshley().addSystem(new MovingEntitySystem());
         getAshley().addSystem(new CameraSystem(camera));
+//        getAshley().addSystem(new FixFloatSystem(camera, tiledMapRenderer));
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
@@ -110,9 +112,11 @@ public class MainScreen implements Screen {
 //        eyeball.add(new VelocityComponent(0, 1));
 //        getAshley().addEntity(eyeball);
 
+        int max = 160;
+        int min = 150;
         for (int i = 0; i < 400; i++) {
             Entity eyeball = getAshley().createEntity();
-            eyeball.add(new PositionComponent(MathUtils.random(298*64*32, 302*64*32), MathUtils.random(298*64*32, 302*64*32)));
+            eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
             AnimationComponent ac = new AnimationComponent(walkAnimationU);
             ac.leftAnimation = walkAnimationL;
             ac.rightAnimation = walkAnimationR;
@@ -148,10 +152,10 @@ public class MainScreen implements Screen {
         batch.begin();
         font.draw(batch, "entities="+ashley.getEntities().size(), 1070, 120, 200, Align.right, false);
         font.draw(batch, "zoom="+camera.zoom, 1070, 100, 200, Align.right, false);
-        font.draw(batch, "x="+Math.round(camera.position.x/32), 1070, 80, 200, Align.right, false);
-        font.draw(batch, "y="+Math.round(camera.position.y/32) , 1070, 60, 200, Align.right, false);
-        font.draw(batch, "chunk x="+Math.round(camera.position.x/32/64), 1070, 40, 200, Align.right, false);
-        font.draw(batch, "chunk y="+Math.round(camera.position.y/32/64) , 1070, 20, 200, Align.right, false);
+        font.draw(batch, "x="+Math.round((camera.position.x+FixFloatSystem.offsetX)/32), 1070, 80, 200, Align.right, false);
+        font.draw(batch, "y="+Math.round((camera.position.y+FixFloatSystem.offsetY)/32) , 1070, 60, 200, Align.right, false);
+        font.draw(batch, "chunk x="+Math.round((camera.position.x+FixFloatSystem.offsetX)/32/64), 1070, 40, 200, Align.right, false);
+        font.draw(batch, "chunk y="+Math.round((camera.position.y+FixFloatSystem.offsetY)/32/64) , 1070, 20, 200, Align.right, false);
         batch.end();
     }
 
