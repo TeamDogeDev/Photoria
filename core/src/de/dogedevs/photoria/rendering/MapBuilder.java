@@ -11,10 +11,11 @@ import de.dogedevs.photoria.model.map.ChunkBuffer;
 public class MapBuilder {
 
     TiledMap map;
+    ChunkBuffer buffer;
 
     public MapBuilder() {
         map = new TiledMap();
-        ChunkBuffer buffer = new ChunkBuffer();
+        buffer = new ChunkBuffer();
         ChunkTileLayer mapLayer = new ChunkTileLayer(new SimplexMapGenerator(), 32, 32, 1, buffer); // quick and dirty
         ChunkTileLayer mapLayer2 = new ChunkTileLayer(new SimplexMapGenerator(), 32, 32, 2, buffer); // quick and dirty
         DebugChunkLayer debugLayer = new DebugChunkLayer(32, 32, buffer); // quick and dirty
@@ -28,4 +29,7 @@ public class MapBuilder {
         return map;
     }
 
+    public ChunkBuffer getBuffer() {
+        return buffer;
+    }
 }
