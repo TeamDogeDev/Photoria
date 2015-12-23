@@ -44,10 +44,12 @@ public class MapDecorator extends AbstractMapDecorator {
                     decorateHill(TL, TM, TR, ML, MM, MR, BL, BM, BR, GROUND, LAVA_STONE);
                 }
                 chunk[x][y] = tileId;
-//                if(tileId == LAVA_STONE_BOTTOM_LEFT_0 || tileId == LAVA_STONE_BOTTOM_MIDDLE_0) {
-//                    chunk[x][y - 1] = tileId+1;
-//                    chunk[x][y - 2] = tileId+2;
-//                }
+                if(tileId == LAVA_STONE_BOTTOM_LEFT_0 || tileId == LAVA_STONE_BOTTOM_MIDDLE_0) {
+                    if(y-2 >= 0) {
+                        chunk[x][y - 1] = tileId + 1;
+                        chunk[x][y - 2] = tileId + 2;
+                    }
+                }
             }
         }
 
@@ -98,8 +100,41 @@ public class MapDecorator extends AbstractMapDecorator {
         && ML == lowerTile && MR == upperTile
         && BM == lowerTile && BR == upperTile) {
             tileId = LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT;
+        }else
+        if(TM == upperTile && TL == upperTile
+        && MM == upperTile && ML == upperTile
+        && BR == lowerTile && BM == lowerTile && BL == upperTile) {
+            tileId = LAVA_STONE_TOP_LEFT_INNER;
+        }else
+        if(TM == lowerTile
+        && MM == lowerTile && ML == upperTile
+        && BM == lowerTile && BL == lowerTile) {
+            tileId = LAVA_STONE_BOTTOM_RIGHT;
+        }else
+        if(TM == upperTile && TL == upperTile
+        && MR == lowerTile && ML == upperTile
+        && BM == lowerTile && BL == lowerTile) {
+            tileId = LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0;
+        }else
+        if(TM == upperTile && TL == upperTile
+        && MR == lowerTile && ML == upperTile
+        && BM == lowerTile && BL == upperTile) {
+            tileId = LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT;
+        }else
+        if(TM == lowerTile
+        && MM == lowerTile && ML == upperTile
+        && BM == lowerTile && BL == upperTile) {
+            tileId = LAVA_STONE_RIGHT_MIDDLE;
+        } else
+        if(MM == lowerTile && ML == lowerTile
+        && BM == lowerTile && BL == upperTile) {
+            tileId = LAVA_STONE_TOP_RIGHT;
+        } else
+        if(TM == lowerTile
+        && MR == lowerTile && MM == lowerTile && ML == upperTile
+        && BM == upperTile && BL == upperTile) {
+            tileId = LAVA_STONE_BOTTOM_LEFT_INNER;
         }
-
     }
 
     private void decorateLiquid(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int processTile, int midTile) {
