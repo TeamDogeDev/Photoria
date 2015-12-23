@@ -18,6 +18,7 @@ import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.systems.AnimatedEntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.CameraSystem;
 import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
 import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
 import de.dogedevs.photoria.rendering.MapBuilder;
@@ -88,6 +89,7 @@ public class MainScreen implements Screen {
         getAshley().addSystem(new EntityDrawSystem(camera));
         getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
         getAshley().addSystem(new MovingEntitySystem());
+        getAshley().addSystem(new CameraSystem(camera));
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
