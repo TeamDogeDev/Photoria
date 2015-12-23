@@ -119,7 +119,7 @@ public class MainScreen implements Screen {
             ac.upAnimation = walkAnimationU;
             ac.downAnimation = walkAnimationD;
             eyeball.add(ac);
-            eyeball.add(new VelocityComponent(0, 10));
+            eyeball.add(new VelocityComponent(0, 20));
             getAshley().addEntity(eyeball);
         }
 
