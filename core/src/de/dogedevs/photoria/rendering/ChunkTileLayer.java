@@ -1,17 +1,13 @@
 package de.dogedevs.photoria.rendering;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
-import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.model.map.OffsetHolder;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
-
-import java.util.HashMap;
 
 /** @brief Layer for a TiledMap */
 public class ChunkTileLayer extends TiledMapTileLayer {
@@ -105,17 +101,17 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 					}
 					break;
 
-				case TileMapper.WATER :
-					if(MathUtils.random(25) == 0){
-						switch(MathUtils.random(2)){
-							case 0 : chunkCell.cell.setTile(Tile.WATER2); break;
-							case 1 : chunkCell.cell.setTile(Tile.WATER3); break;
-							case 2 : chunkCell.cell.setTile(Tile.WATER4); break;
-						}
-					} else {
-						chunkCell.cell.setTile(Tile.WATER);
-					}
-					break;
+//				case TileMapper.WATER :
+//					if(MathUtils.random(25) == 0){
+//						switch(MathUtils.random(2)){
+//							case 0 : chunkCell.cell.setTile(Tile.WATER2); break;
+//							case 1 : chunkCell.cell.setTile(Tile.WATER3); break;
+//							case 2 : chunkCell.cell.setTile(Tile.WATER4); break;
+//						}
+//					} else {
+//						chunkCell.cell.setTile(Tile.WATER);
+//					}
+//					break;
 				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
 				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
 				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
@@ -130,17 +126,17 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
 				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
 
-				case TileMapper.LAVA :
-					if(MathUtils.random(25) == 0){
-						switch(MathUtils.random(2)){
-							case 0 : chunkCell.cell.setTile(Tile.LAVA2); break;
-							case 1 : chunkCell.cell.setTile(Tile.LAVA3); break;
-							case 2 : chunkCell.cell.setTile(Tile.LAVA4); break;
-						}
-					} else {
-						chunkCell.cell.setTile(Tile.LAVA);
-					}
-					break;
+//				case TileMapper.LAVA :
+//					if(MathUtils.random(25) == 0){
+//						switch(MathUtils.random(2)){
+//							case 0 : chunkCell.cell.setTile(Tile.LAVA2); break;
+//							case 1 : chunkCell.cell.setTile(Tile.LAVA3); break;
+//							case 2 : chunkCell.cell.setTile(Tile.LAVA4); break;
+//						}
+//					} else {
+//						chunkCell.cell.setTile(Tile.LAVA);
+//					}
+//					break;
 				case TileMapper.LAVA_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT); break;
 				case TileMapper.LAVA_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_TOP_MIDDLE); break;
 				case TileMapper.LAVA_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT); break;
@@ -195,27 +191,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 
 				case TileMapper.LAVA_STONE_LEFT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_LEFT_MIDDLE_ALT); break;
 				case TileMapper.LAVA_STONE_RIGHT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_RIGHT_MIDDLE_ALT); break;
-//
-//				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER_0: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER_0); break;
-//				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER_1); break;
-//				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
-//				case TileMapper.LAVA_STONE_TOP_LEFT_CORNER_0: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_CORNER_0); break;
-//				case TileMapper.LAVA_STONE_TOP_LEFT_CORNER_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_CORNER_1); break;
-//				case TileMapper.LAVA_STONE_TOP_LEFT_CORNER_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
-//				case -6 : chunkCell.cell.setTile(Tile.WATER); break;
-//				case -5 : chunkCell.cell.setTile(Tile.WATER); break;
-//				case -4 : chunkCell.cell.setTile(Tile.WATER); break;
-//				case -3 : chunkCell.cell.setTile(Tile.WATER); break;
-//				case -2 : chunkCell.cell.setTile(Tile.GROUND); break;
-//				case -1 : chunkCell.cell.setTile(Tile.GROUND); break;
-//				case 0 : chunkCell.cell.setTile(Tile.GROUND); break;
-//				case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-//				case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-//				case 3 : chunkCell.cell.setTile(Tile.LAVA_STONE); break;
-//				case 4 : chunkCell.cell.setTile(Tile.LAVA); break;
-//				case 5 : chunkCell.cell.setTile(Tile.LAVA); break;
-//				case 6 : chunkCell.cell.setTile(Tile.LAVA); break;
-//				default: chunkCell.cell.setTile(Tile.VOID);
 			}
 		}
 
