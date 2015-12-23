@@ -10,10 +10,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Align;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
@@ -29,7 +28,7 @@ public class MainScreen implements Screen {
     static private PooledEngine ashley;
 
     SpriteBatch batch;
-    MapBuilder renderer;
+    MapBuilder mapBuilder;
     CustomTiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
     private BitmapFont font;
@@ -42,8 +41,8 @@ public class MainScreen implements Screen {
 
         font = new BitmapFont();
 
-        renderer = new MapBuilder();
-        tiledMapRenderer = new CustomTiledMapRenderer(renderer.getTiledMap());
+        mapBuilder = new MapBuilder();
+        tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
 
 
         initTestEntitis();
@@ -61,13 +60,13 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.NUM_1){
-                    renderer.getTiledMap().getLayers().get(0).setVisible(!renderer.getTiledMap().getLayers().get(0).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(0).setVisible(!mapBuilder.getTiledMap().getLayers().get(0).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_2){
-                    renderer.getTiledMap().getLayers().get(1).setVisible(!renderer.getTiledMap().getLayers().get(1).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_3){
-                    renderer.getTiledMap().getLayers().get(2).setVisible(!renderer.getTiledMap().getLayers().get(2).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
                 }
                 return super.keyDown(keycode);
             }
@@ -113,9 +112,9 @@ public class MainScreen implements Screen {
 //        eyeball.add(new VelocityComponent(0, 1));
 //        getAshley().addEntity(eyeball);
 
-        int max = 160;
-        int min = 150;
-        for (int i = 0; i < 400; i++) {
+        int max = 156;
+        int min = 154;
+        for (int i = 0; i < 4000; i++) {
             Entity eyeball = getAshley().createEntity();
             eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
             AnimationComponent ac = new AnimationComponent(walkAnimationU);
@@ -218,5 +217,30 @@ public class MainScreen implements Screen {
             ashley = new PooledEngine();
         }
         return ashley;
+    }
+
+    public int getIdAtMouse() {
+//        ((ChunkTileLayer)mapBuilder.getTiledMap().getLayers().get(1)).getCell(Gdx.input.getX(), Gdx.input.getY()).getTile().getId();
+        try {
+//            return ((ChunkTileLayer)mapBuilder.getTiledMap().getLayers().get(1)).getCell(Gdx.input.getX()/32, Gdx.input.getY()/32).getTile().toString();
+            int x, y;
+            if(Gdx.input.getY() < 720/2){
+                y = (int) (((camera.position.y-720/2)+(Gdx.input.getY()))/32);
+            } else {
+                y = (int) (((camera.position.y-720/2)+(Gdx.input.getY()))/32);
+            }
+
+            if(Gdx.input.getX() < 1280/2){
+                x = (int) (((camera.position.x-1280/2)+(Gdx.input.getX()))/32);
+            } else {
+                x = (int) (((camera.position.x-1280/2)+(Gdx.input.getX()))/32);
+            }
+
+            MainGame.log(x + " | " + y);
+            return mapBuilder.getBuffer().getCell(x, y, 2).value;
+        } catch (Exception e){
+            return -1;
+        }
+
     }
 }
