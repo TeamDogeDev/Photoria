@@ -14,6 +14,7 @@ import java.util.HashMap;
 /** @brief Layer for a TiledMap */
 public class DebugChunkLayer extends TiledMapTileLayer {
 
+	private final ChunkBuffer chunkBuffer;
 	private int width;
 	private int height;
 
@@ -46,8 +47,9 @@ public class DebugChunkLayer extends TiledMapTileLayer {
 	 *
 	 * @param tileWidth tile width in pixels
 	 * @param tileHeight tile height in pixels */
-	public DebugChunkLayer(int tileWidth, int tileHeight) {
+	public DebugChunkLayer(int tileWidth, int tileHeight, ChunkBuffer chunkBuffer) {
 		super(1, 1, tileWidth, tileHeight);
+		this.chunkBuffer = chunkBuffer;
 		this.width = Integer.MAX_VALUE;
 		this.height = Integer.MAX_VALUE;
 		this.tileWidth = tileWidth;

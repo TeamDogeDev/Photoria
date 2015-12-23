@@ -58,5 +58,21 @@ public class TileMapper {
     public static final int LAVA_STONE_BOTTOM_MIDDLE_2 = 74;
 
     public static final int LAVA_STONE_TOP_RIGHT_INNER = 75;
+    public static final int LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT = 76;
+    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0 = 77;
+    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1 = 78;
+
+    public static final int LAVA_STONE_BOTTOM_RIGHT = 79;
+
+    public static final int LAVA_STONE_TOP_LEFT_INNER = 80;
+    public static final int LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT = 81;
+    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0 = 82;
+    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1 = 83;
+
+    public static final int LAVA_STONE_RIGHT_MIDDLE = 84;
+
+    public static final int LAVA_STONE_TOP_RIGHT = 85;
+
+    public static final int LAVA_STONE_BOTTOM_LEFT_INNER = 86;
 
 }
