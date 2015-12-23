@@ -80,6 +80,10 @@ public class CustomTiledMapRenderer extends BatchTiledMapRenderer {
 		viewBounds.set(x, y, width, height);
 	}
 
+	public void setBatch (Batch batch) {
+		this.batch = batch;
+	}
+
 	@Override
 	public void renderTileLayer (TiledMapTileLayer layer) {
 		final Color batchColor = batch.getColor();

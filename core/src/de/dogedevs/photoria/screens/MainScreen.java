@@ -31,7 +31,7 @@ public class MainScreen implements Screen {
 
     static private PooledEngine ashley;
 
-    SpriteBatch batch;
+    Batch batch, waterBatch, mapBatch;
     MapBuilder mapBuilder;
     CustomTiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
@@ -40,9 +40,13 @@ public class MainScreen implements Screen {
 
     private ShaderProgram shader;
 
+
+    int[] fluidLayer = { 0 }; // don't allocate every frame!
+    int[] foregroundLayers = { 1,2,3 };    // don't allocate every frame!
+
     public void show() {
 
-        batch = new SpriteBatch();
+
 
         initCamera();
         getAshley(); //init ashley
@@ -51,11 +55,16 @@ public class MainScreen implements Screen {
 
         mapBuilder = new MapBuilder();
         tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
+        mapBatch = tiledMapRenderer.getBatch();
+        batch = new SpriteBatch();
+        waterBatch = new SpriteBatch();
 
         ShaderProgram.pedantic = false;
         shader = new ShaderProgram(Gdx.files.internal("./shaders/red.vsh"), Gdx.files.internal("./shaders/red.fsh"));
         System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
-        tiledMapRenderer.getBatch().setShader(shader);
+        waterBatch.setShader(shader);
+
+        tiledMapRenderer.setBatch(waterBatch);
 
         initTestEntitis();
 
@@ -72,13 +81,13 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.NUM_1){
-                    mapBuilder.getTiledMap().getLayers().get(0).setVisible(!mapBuilder.getTiledMap().getLayers().get(0).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(0).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_2){
-                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_3){
-                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(3).isVisible());
                 }
                 return super.keyDown(keycode);
             }
@@ -169,8 +178,20 @@ public class MainScreen implements Screen {
 
         input();
         camera.update();
+//        tiledMapRenderer.setView(camera);
+//        tiledMapRenderer.render();
         tiledMapRenderer.setView(camera);
-        tiledMapRenderer.render();
+        tiledMapRenderer.setBatch(waterBatch);
+
+//        waterBatch.begin();
+        tiledMapRenderer.render(fluidLayer);
+//        waterBatch.end();
+
+//        tiledMapRenderer.setBatch(mapBatch);
+//        mapBatch.begin();
+        tiledMapRenderer.render(foregroundLayers);
+//        mapBatch.end();
+
         ashley.update(Gdx.graphics.getDeltaTime());
 
         batch.begin();
