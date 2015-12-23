@@ -60,7 +60,7 @@ public class MainScreen implements Screen {
         waterBatch = new SpriteBatch();
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/red.vsh"), Gdx.files.internal("./shaders/red.fsh"));
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
         System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
         waterBatch.setShader(shader);
 
@@ -185,9 +185,8 @@ public class MainScreen implements Screen {
 
 //        waterBatch.begin();
         tiledMapRenderer.render(fluidLayer);
-//        waterBatch.end();
 
-//        tiledMapRenderer.setBatch(mapBatch);
+        tiledMapRenderer.setBatch(mapBatch);
 //        mapBatch.begin();
         tiledMapRenderer.render(foregroundLayers);
 //        mapBatch.end();
