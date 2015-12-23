@@ -1,5 +1,7 @@
 package de.dogedevs.photoria.generators;
 
+import de.dogedevs.photoria.MainGame;
+
 import java.util.Random;
 
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
@@ -76,8 +78,17 @@ public class MapDecorator extends AbstractMapDecorator {
                 } else
                 if(MM == LAVA_STONE_BOTTOM_RIGHT_0 && MR == LAVA_STONE_BOTTOM_RIGHT_2) {
                     chunk[x][y] = LAVA_STONE_TOP_LEFT_CORNER;
-                }if(BM == LAVA_STONE_BOTTOM_LEFT_2 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
+                } else
+                if(BM == LAVA_STONE_BOTTOM_LEFT_2 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
                     chunk[x][y] = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1;
+                } else
+                if(TM == LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT
+                        && ML == LAVA_STONE_BOTTOM_LEFT_2 && MM == LAVA_STONE_LEFT_MIDDLE) {
+                    chunk[x][y] = LAVA_STONE_LEFT_MIDDLE_ALT;
+                }else
+                if(TM == LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT
+                        && MR == LAVA_STONE_BOTTOM_RIGHT_2 && MM == LAVA_STONE_RIGHT_MIDDLE) {
+                    chunk[x][y] = LAVA_STONE_RIGHT_MIDDLE_ALT;
                 }
             }
         }

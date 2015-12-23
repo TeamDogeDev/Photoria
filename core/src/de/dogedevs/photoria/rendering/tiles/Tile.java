@@ -85,6 +85,7 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER = new BasicTile(tiles[8][8], false, false);
 
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT = new BasicTile(tiles[9][8], false, false);
+    public static final Tile LAVA_STONE_LEFT_MIDDLE_ALT = new BasicTile(tiles[10][8], false, false);
 
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0 = new BasicTile(tiles[7][13], false, false);
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1 = new BasicTile(tiles[8][13], false, false);
@@ -96,6 +97,7 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE_TOP_LEFT_INNER = new BasicTile(tiles[8][9], false, false);
 
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT = new BasicTile(tiles[9][9], false, false);
+    public static final Tile LAVA_STONE_RIGHT_MIDDLE_ALT = new BasicTile(tiles[10][9], false, false);
 
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0 = new BasicTile(tiles[7][12], false, false);
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1 = new BasicTile(tiles[8][12], false, false);

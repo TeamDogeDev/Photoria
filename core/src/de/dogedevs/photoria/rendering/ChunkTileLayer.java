@@ -185,6 +185,9 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 
 				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER); break;
 				case TileMapper.LAVA_STONE_TOP_LEFT_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_CORNER); break;
+
+				case TileMapper.LAVA_STONE_LEFT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_LEFT_MIDDLE_ALT); break;
+				case TileMapper.LAVA_STONE_RIGHT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_RIGHT_MIDDLE_ALT); break;
 //
 //				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER_0: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER_0); break;
 //				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER_1); break;
