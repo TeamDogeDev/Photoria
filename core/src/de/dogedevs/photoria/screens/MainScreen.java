@@ -81,13 +81,13 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.NUM_1){
-                    mapBuilder.getTiledMap().getLayers().get(0).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_2){
-                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
                 }
                 if(keycode == Input.Keys.NUM_3){
-                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(3).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get(3).setVisible(!mapBuilder.getTiledMap().getLayers().get(3).isVisible());
                 }
                 return super.keyDown(keycode);
             }
@@ -180,13 +180,14 @@ public class MainScreen implements Screen {
         camera.update();
 //        tiledMapRenderer.setView(camera);
 //        tiledMapRenderer.render();
-        tiledMapRenderer.setView(camera);
         tiledMapRenderer.setBatch(waterBatch);
-
+        tiledMapRenderer.setView(camera);
 //        waterBatch.begin();
         tiledMapRenderer.render(fluidLayer);
 
+
         tiledMapRenderer.setBatch(mapBatch);
+        tiledMapRenderer.setView(camera);
 //        mapBatch.begin();
         tiledMapRenderer.render(foregroundLayers);
 //        mapBatch.end();
