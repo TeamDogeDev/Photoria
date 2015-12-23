@@ -7,6 +7,7 @@ import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
+import de.dogedevs.photoria.model.map.OffsetHolder;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
@@ -65,8 +66,14 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 	 * @return {@link Cell} at (x, y) */
 	public Cell getCell (int x, int y) {
 //		MainGame.log("Chunks: "+chunks.size());
-
-		ChunkCell chunkCell = this.buffer.getCell(x, y, layer);
+		x -= OffsetHolder.offsetX/32;
+		y -= OffsetHolder.offsetY/32;
+		ChunkCell chunkCell = null;
+		try{
+			chunkCell = this.buffer.getCell(x, y, layer);
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 
 		if(chunkCell.cell == null){
 			chunkCell.cell = new Cell();
