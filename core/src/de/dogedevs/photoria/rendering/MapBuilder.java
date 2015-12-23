@@ -20,10 +20,11 @@ public class MapBuilder {
         ChunkTileLayer mapLayer = new ChunkTileLayer(new SimplexMapGenerator(), 32, 32, 1, buffer); // quick and dirty
         ChunkTileLayer mapLayer2 = new ChunkTileLayer(new SimplexMapGenerator(), 32, 32, 2, buffer); // quick and dirty
         DebugChunkLayer debugLayer = new DebugChunkLayer(32, 32, buffer); // quick and dirty
+
         debugLayer.setVisible(false);
 //        map.getLayers().add(liquidLayer);
         map.getLayers().add(mapLayer);
-//        map.getLayers().add(mapLayer2);
+        map.getLayers().add(mapLayer2);
         map.getLayers().add(debugLayer);
     }
 

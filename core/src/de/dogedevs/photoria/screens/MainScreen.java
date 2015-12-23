@@ -53,10 +53,9 @@ public class MainScreen implements Screen {
         tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/red.vsh"), Gdx.files.internal("./shaders/red.fsh"));
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
         System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
         tiledMapRenderer.getBatch().setShader(shader);
-
         initTestEntitis();
 
         Gdx.input.setInputProcessor(new InputAdapter(){

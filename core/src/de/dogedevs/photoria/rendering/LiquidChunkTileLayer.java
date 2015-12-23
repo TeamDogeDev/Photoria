@@ -75,7 +75,7 @@ public class LiquidChunkTileLayer extends TiledMapTileLayer {
             chunkCell.cell = new Cell();
             switch(chunkCell.value) {
                 default:
-                case TileMapper.VOID : chunkCell.cell.setTile(Tile.VOID);break;
+                case TileMapper.VOID : break;
                 case TileMapper.WATER :
                     if(MathUtils.random(25) == 0){
                         switch(MathUtils.random(2)){
