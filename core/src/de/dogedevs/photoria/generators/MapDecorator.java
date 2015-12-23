@@ -74,7 +74,7 @@ public class MapDecorator extends AbstractMapDecorator {
                 if(MM == LAVA_STONE_BOTTOM_LEFT_0 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
                     chunk[x][y] = LAVA_STONE_TOP_RIGHT_CORNER;
                 } else
-                if(MM == LAVA_STONE_BOTTOM_LEFT_0 && MR == LAVA_STONE_BOTTOM_RIGHT_2) {
+                if(MM == LAVA_STONE_BOTTOM_RIGHT_0 && MR == LAVA_STONE_BOTTOM_RIGHT_2) {
                     chunk[x][y] = LAVA_STONE_TOP_LEFT_CORNER;
                 }if(BM == LAVA_STONE_BOTTOM_LEFT_2 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
                     chunk[x][y] = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1;
