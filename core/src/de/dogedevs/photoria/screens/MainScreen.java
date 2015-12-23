@@ -53,7 +53,6 @@ public class MainScreen implements Screen {
         System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
         tiledMapRenderer.getBatch().setShader(shader);
 
-
         initTestEntitis();
 
         Gdx.input.setInputProcessor(new InputAdapter(){
@@ -144,12 +143,24 @@ public class MainScreen implements Screen {
 //        }
     }
 
+    private float angleWaveSpeed = 5;
+    private float amplitudeWave = 10;
+    private float angleWave = 0;
+
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        batch.begin();
 //        batch.draw(img, 0, 0);
 //        batch.end();
+
+        angleWave += delta * angleWaveSpeed;
+        while(angleWave > Math.PI*2)
+            angleWave -= Math.PI*2;
+
+        shader.begin();
+        shader.setUniformf("waveData", angleWave, amplitudeWave);
+        shader.end();
 
 
         input();
