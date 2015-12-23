@@ -39,16 +39,16 @@ public class FixFloatSystem extends EntitySystem {
         PositionComponent position;
 
         if(camera.position.x >= 5000 || camera.position.y >= 5000){
-            for (int i = 0; i < entities.size(); ++i) {
-                Entity e = entities.get(i);
-                position = ComponentMappers.position.get(e);
-                if(camera.position.x >= 5000 ){
-                    position.x -= 2000;
-                }
-                if(camera.position.y >= 5000 ){
-                    position.y -= 2000;
-                }
-            }
+//            for (int i = 0; i < entities.size(); ++i) {
+//                Entity e = entities.get(i);
+//                position = ComponentMappers.position.get(e);
+//                if(camera.position.x >= 5000 ){
+//                    position.x -= 2000;
+//                }
+//                if(camera.position.y >= 5000 ){
+//                    position.y -= 2000;
+//                }
+//            }
             if(camera.position.x >= 5000 ){
                 OffsetHolder.offsetX -= 2000;
                 camera.position.x -= 2000;
@@ -60,16 +60,16 @@ public class FixFloatSystem extends EntitySystem {
         }
 
         if(camera.position.x <= 1000 || camera.position.y <= 1000){
-            for (int i = 0; i < entities.size(); ++i) {
-                Entity e = entities.get(i);
-                position = ComponentMappers.position.get(e);
-                if(camera.position.x <= 1000 ){
-                    position.x += 2000;
-                }
-                if(camera.position.y <= 1000 ){
-                    position.y += 2000;
-                }
-            }
+//            for (int i = 0; i < entities.size(); ++i) {
+//                Entity e = entities.get(i);
+//                position = ComponentMappers.position.get(e);
+//                if(camera.position.x <= 1000 ){
+//                    position.x += 2000;
+//                }
+//                if(camera.position.y <= 1000 ){
+//                    position.y += 2000;
+//                }
+//            }
             if(camera.position.x <= 1000 ){
                 OffsetHolder.offsetX += 2000;
                 camera.position.x += 2000;

@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.map.OffsetHolder;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -80,20 +81,20 @@ public class AnimatedEntityDrawSystem extends EntitySystem {
             if(velocity != null){
                 switch (velocity.direction){
                     case VelocityComponent.DOWN:
-                        batch.draw(visual.downAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        batch.draw(visual.downAnimation.getKeyFrame(visual.stateTime, true),  OffsetHolder.offsetX+position.x, OffsetHolder.offsetX+position.y);
                         break;
                     case VelocityComponent.UP:
-                        batch.draw(visual.upAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        batch.draw(visual.upAnimation.getKeyFrame(visual.stateTime, true), OffsetHolder.offsetX+position.x, OffsetHolder.offsetX+position.y);
                         break;
                     case VelocityComponent.LEFT:
-                        batch.draw(visual.leftAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        batch.draw(visual.leftAnimation.getKeyFrame(visual.stateTime, true), OffsetHolder.offsetX+position.x, OffsetHolder.offsetX+position.y);
                         break;
                     case VelocityComponent.RIGHT:
-                        batch.draw(visual.rightAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                        batch.draw(visual.rightAnimation.getKeyFrame(visual.stateTime, true), OffsetHolder.offsetX+position.x, OffsetHolder.offsetX+position.y);
                         break;
                 }
             } else {
-                batch.draw(visual.idleAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
+                batch.draw(visual.idleAnimation.getKeyFrame(visual.stateTime, true), OffsetHolder.offsetX+position.x, OffsetHolder.offsetX+position.y);
             }
         }
 
