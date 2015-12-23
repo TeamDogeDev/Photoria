@@ -34,8 +34,9 @@ public class MainScreen implements Screen {
     OrthographicCamera camera;
     private BitmapFont font;
 
-    public void show() {
+    private ShaderProgram shader;
 
+    public void show() {
 
         batch = new SpriteBatch();
 
@@ -46,6 +47,11 @@ public class MainScreen implements Screen {
 
         mapBuilder = new MapBuilder();
         tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
+
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/red.vsh"), Gdx.files.internal("./shaders/red.fsh"));
+        System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
+        tiledMapRenderer.getBatch().setShader(shader);
 
 
         initTestEntitis();
