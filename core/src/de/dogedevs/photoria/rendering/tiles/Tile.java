@@ -24,11 +24,6 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile GROUND3 = new BasicTile(tiles[6][1], false, true);
     public static final Tile GROUND4 = new BasicTile(tiles[6][2], false, true);
 
-    public static final Tile LAVA_STONE = new BasicTile(tiles[4][10], false, true);
-    public static final Tile LAVA_STONE2 = new BasicTile(tiles[6][9], false, true);
-    public static final Tile LAVA_STONE3 = new BasicTile(tiles[6][10], false, true);
-    public static final Tile LAVA_STONE4 = new BasicTile(tiles[6][11], false, true);
-
     public static final Tile WATER = new BasicTile(tiles[4][7], false, true);
     public static final Tile WATER2 = new BasicTile(tiles[6][6], false, true);
     public static final Tile WATER3 = new BasicTile(tiles[6][7], false, true);
@@ -69,10 +64,17 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_BOTTOM_LEFT_INNER = new BasicTile(tiles[1][5], false, false);
     public static final Tile LAVA_BOTTOM_RIGHT_INNER = new BasicTile(tiles[1][4], false, false);
 
+
+    public static final Tile LAVA_STONE = new BasicTile(tiles[4][10], false, true);
+    public static final Tile LAVA_STONE2 = new BasicTile(tiles[6][9], false, true);
+    public static final Tile LAVA_STONE3 = new BasicTile(tiles[6][10], false, true);
+    public static final Tile LAVA_STONE4 = new BasicTile(tiles[6][11], false, true);
     public static final Tile LAVA_STONE_TOP_LEFT = new BasicTile(tiles[7][5], false, false);
     public static final Tile LAVA_STONE_TOP_MIDDLE = new BasicTile(tiles[7][6], false, false);
-    public static final Tile LAVA_STONE_BOTTOM_RIGHT_INNER = new BasicTile(tiles[7][8], false, false);
-    public static final Tile LAVA_STONE_LEFT_MIDDLE = new BasicTile(tiles[8][5], false, false);
+    public static final Tile LAVA_STONE_TOP_RIGHT = new BasicTile(tiles[7][7], false, false);
+
+    public static final Tile LAVA_STONE_MIDDLE_LEFT = new BasicTile(tiles[8][5], false, false);
+    public static final Tile LAVA_STONE_MIDDLE_RIGHT = new BasicTile(tiles[8][7], false, false);
 
     public static final Tile LAVA_STONE_BOTTOM_LEFT_0 = new BasicTile(tiles[9][5], false, false);
     public static final Tile LAVA_STONE_BOTTOM_LEFT_1 = new BasicTile(tiles[10][5], false, false);
@@ -82,7 +84,16 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE_BOTTOM_MIDDLE_1 = new BasicTile(tiles[10][6], false, false);
     public static final Tile LAVA_STONE_BOTTOM_MIDDLE_2 = new BasicTile(tiles[11][6], false, false);
 
-    public static final Tile LAVA_STONE_TOP_RIGHT_INNER = new BasicTile(tiles[8][8], false, false);
+    public static final Tile LAVA_STONE_BOTTOM_RIGHT_0 = new BasicTile(tiles[9][7], false, false);
+    public static final Tile LAVA_STONE_BOTTOM_RIGHT_1 = new BasicTile(tiles[10][7], false, false);
+    public static final Tile LAVA_STONE_BOTTOM_RIGHT_2 = new BasicTile(tiles[11][7], false, false);
+
+    public static final Tile LAVA_STONE_TOP_LEFT_INNER = new BasicTile(tiles[7][8], false, false);
+    public static final Tile LAVA_STONE_TOP_RIGHT_INNER = new BasicTile(tiles[7][9], false, false);
+    public static final Tile LAVA_STONE_BOTTOM_LEFT_INNER = new BasicTile(tiles[8][8], false, false);
+    public static final Tile LAVA_STONE_BOTTOM_RIGHT_INNER = new BasicTile(tiles[8][9], false, false);
+
+
 
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT = new BasicTile(tiles[9][8], false, false);
     public static final Tile LAVA_STONE_LEFT_MIDDLE_ALT = new BasicTile(tiles[10][8], false, false);
@@ -90,22 +101,11 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0 = new BasicTile(tiles[7][13], false, false);
     public static final Tile LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1 = new BasicTile(tiles[8][13], false, false);
 
-    public static final Tile LAVA_STONE_BOTTOM_RIGHT_0 = new BasicTile(tiles[9][7], false, false);
-    public static final Tile LAVA_STONE_BOTTOM_RIGHT_1 = new BasicTile(tiles[10][7], false, false);
-    public static final Tile LAVA_STONE_BOTTOM_RIGHT_2 = new BasicTile(tiles[11][7], false, false);
-
-    public static final Tile LAVA_STONE_TOP_LEFT_INNER = new BasicTile(tiles[8][9], false, false);
-
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT = new BasicTile(tiles[9][9], false, false);
     public static final Tile LAVA_STONE_RIGHT_MIDDLE_ALT = new BasicTile(tiles[10][9], false, false);
 
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0 = new BasicTile(tiles[7][12], false, false);
     public static final Tile LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1 = new BasicTile(tiles[8][12], false, false);
-
-    public static final Tile LAVA_STONE_RIGHT_MIDDLE = new BasicTile(tiles[8][7], false, false);
-
-    public static final Tile LAVA_STONE_TOP_RIGHT = new BasicTile(tiles[7][7], false, false);
-    public static final Tile LAVA_STONE_BOTTOM_LEFT_INNER = new BasicTile(tiles[7][9], false, false);
 
     public static final Tile LAVA_STONE_TOP_RIGHT_CORNER = new BasicTile(tiles[9][13], false, false);
     public static final Tile LAVA_STONE_TOP_LEFT_CORNER = new BasicTile(tiles[9][12], false, false);

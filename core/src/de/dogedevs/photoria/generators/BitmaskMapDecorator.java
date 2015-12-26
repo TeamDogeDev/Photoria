@@ -1,7 +1,5 @@
 package de.dogedevs.photoria.generators;
 
-import de.dogedevs.photoria.rendering.tiles.TileMapper;
-
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
 
 /**
@@ -20,10 +18,13 @@ public class BitmaskMapDecorator extends AbstractMapDecorator {
         for (int x = 1; x < ground.length - 1; x++) {
             for (int y = 1; y < ground[x].length - 1; y++) {
 
-                tileId = decorateFluid(ground, x, y, WATER);
+                tileId = decorate(ground, x, y, WATER);
 
                 if (tileId == VOID) {
-                    tileId = decorateFluid(ground, x, y, LAVA);
+                    tileId = decorate(ground, x, y, LAVA);
+                }
+                if(tileId == VOID) {
+                    tileId = decorateHill(ground, x, y, LAVA_STONE, GROUND);
                 }
 
                 chunk[x][y] = tileId;
@@ -34,7 +35,20 @@ public class BitmaskMapDecorator extends AbstractMapDecorator {
     }
 
     // @formatter:off
-    private int decorateFluid(int[][] ground, int x, int y, int baseTile) {
+    private int decorateHill(int[][] ground, int x, int y, int upperBaseTile, int lowerBaseTile) {
+
+        for(int i = -1; i < 1; i++) {
+            for(int j = -1; j < 1; j++) {
+                if(ground[x+i][y+j] != upperBaseTile &&
+                ground[x+i][y+j] != lowerBaseTile) return VOID;
+            }
+        }
+
+        return decorate(ground, x, y, upperBaseTile);
+    }
+
+
+    private int decorate(int[][] ground, int x, int y, int baseTile) {
         // binMask : 2^x
         // +-+-+-+
         // |0|1|2|

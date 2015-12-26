@@ -154,7 +154,7 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.LAVA_STONE_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT); break;
 				case TileMapper.LAVA_STONE_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_MIDDLE); break;
 				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_INNER); break;
-				case TileMapper.LAVA_STONE_LEFT_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_LEFT_MIDDLE); break;
+				case TileMapper.LAVA_STONE_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT); break;
 
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_0); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_1); break;
@@ -181,7 +181,7 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1); break;
 				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
 
-				case TileMapper.LAVA_STONE_RIGHT_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_RIGHT_MIDDLE); break;
+				case TileMapper.LAVA_STONE_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT); break;
 
 				case TileMapper.LAVA_STONE_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_INNER); break;

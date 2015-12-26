@@ -1,7 +1,5 @@
 package de.dogedevs.photoria.generators;
 
-import de.dogedevs.photoria.MainGame;
-
 import java.util.Random;
 
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
@@ -83,11 +81,11 @@ public class MapDecorator extends AbstractMapDecorator {
                     chunk[x][y] = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1;
                 } else
                 if(TM == LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT
-                        && ML == LAVA_STONE_BOTTOM_LEFT_2 && MM == LAVA_STONE_LEFT_MIDDLE) {
+                        && ML == LAVA_STONE_BOTTOM_LEFT_2 && MM == LAVA_STONE_MIDDLE_LEFT) {
                     chunk[x][y] = LAVA_STONE_LEFT_MIDDLE_ALT;
                 }else
                 if(TM == LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT
-                        && MR == LAVA_STONE_BOTTOM_RIGHT_2 && MM == LAVA_STONE_RIGHT_MIDDLE) {
+                        && MR == LAVA_STONE_BOTTOM_RIGHT_2 && MM == LAVA_STONE_MIDDLE_RIGHT) {
                     chunk[x][y] = LAVA_STONE_RIGHT_MIDDLE_ALT;
                 }
             }
@@ -114,7 +112,7 @@ public class MapDecorator extends AbstractMapDecorator {
         if(TM == lowerTile
         && MM == lowerTile && MR == upperTile
         && BM == lowerTile && BR == upperTile) {
-            tileId = LAVA_STONE_LEFT_MIDDLE;
+            tileId = LAVA_STONE_MIDDLE_LEFT;
         }else
         if(TM == lowerTile
         && MM == lowerTile && MR == upperTile
@@ -164,7 +162,7 @@ public class MapDecorator extends AbstractMapDecorator {
         if(TM == lowerTile
         && MM == lowerTile && ML == upperTile
         && BM == lowerTile && BL == upperTile) {
-            tileId = LAVA_STONE_RIGHT_MIDDLE;
+            tileId = LAVA_STONE_MIDDLE_RIGHT;
         } else
         if(MM == lowerTile && ML == lowerTile
         && BM == lowerTile && BL == upperTile) {
