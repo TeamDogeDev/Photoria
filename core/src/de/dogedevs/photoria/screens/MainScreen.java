@@ -46,8 +46,6 @@ public class MainScreen implements Screen {
 
     public void show() {
 
-
-
         initCamera();
         getAshley(); //init ashley
 
@@ -134,8 +132,8 @@ public class MainScreen implements Screen {
 //        getAshley().addEntity(eyeball);
 
         int max = 301;
-        int min = 299;
-        for (int i = 0; i < 400; i++) {
+        int min = 300;
+        for (int i = 0; i < 4000; i++) {
             Entity eyeball = getAshley().createEntity();
             eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
             AnimationComponent ac = new AnimationComponent(walkAnimationU);
