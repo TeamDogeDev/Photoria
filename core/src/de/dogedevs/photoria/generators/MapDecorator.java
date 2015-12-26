@@ -43,6 +43,7 @@ public class MapDecorator extends AbstractMapDecorator {
                 int mr = chunk[x + 1][y];
                 int bm = chunk[x][y - 1];
 
+                // Add walls
                 // LEFT SIDE
                 if(mm == LAVA_STONE_BOTTOM_LEFT_0
                 && (ml == LAVA_STONE_BOTTOM_LEFT_1 || ml == LAVA_STONE_BOTTOM_MIDDLE_1)) {
