@@ -8,6 +8,8 @@ import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import java.util.Map;
 import java.util.Random;
 
+import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
+
 /**
  * Created by elektropapst on 20.12.2015.
  */
@@ -19,7 +21,7 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     private double local_x;
     private double local_y;
     private double eval;
-    private int realSize;
+    protected int realSize;
     // - 0.86
     // 0.86
     @Override
@@ -40,20 +42,20 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
                     chunk[row][col] = ((int) (eval / 0.12f));
                     int val = MathUtils.clamp(chunk[row][col], 1, 2);
                     if(val == 1) {
-                        chunk[row][col] = TileMapper.WATER;
+                        chunk[row][col] = WATER;
                     } else {
-                        chunk[row][col] = TileMapper.GROUND;
+                        chunk[row][col] = GROUND;
                     }
                 } else if (eval > 0.2f) {
                     chunk[row][col] = (int) (eval / 0.14f);
                     int val = MathUtils.clamp(chunk[row][col], 3, 4);
                     if(val == 3) {
-                        chunk[row][col] = TileMapper.LAVA_STONE;
+                        chunk[row][col] = LAVA_STONE;
                     } else {
-                        chunk[row][col] = TileMapper.LAVA;
+                        chunk[row][col] = LAVA;
                     }
                 } else {
-                    chunk[row][col] = TileMapper.GROUND;
+                    chunk[row][col] = GROUND;
                 }
 //                chunk[row][col] = (int) (eval*7);
             }

@@ -157,7 +157,7 @@ public class MainScreen implements Screen {
     }
 
     private float angleWaveSpeed = 5;
-    private float amplitudeWave = 10;
+    private float amplitudeWave = 2;
     private float angleWave = 0;
 
     public void render(float delta) {
