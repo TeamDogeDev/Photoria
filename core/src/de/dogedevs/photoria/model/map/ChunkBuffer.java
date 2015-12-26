@@ -1,8 +1,10 @@
 package de.dogedevs.photoria.model.map;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.*;
 import de.dogedevs.photoria.model.entity.systems.FixFloatSystem;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.HashMap;
 
@@ -35,7 +37,20 @@ public class ChunkBuffer {
                 cell.value = generatedMap[row][col];
                 cell2.value = generatedMap[row][col];
                 chunk.setCell(cell, row-overlap, col-overlap, 1);
-                chunk.setCell(cell2, row-overlap, col-overlap, 3);
+                if(chunk.getCell(row-overlap, col-overlap, 3) == null) {
+                    chunk.setCell(cell2, row - overlap, col - overlap, 3);
+                }
+                if(generatedMap[row][col] == TileMapper.LAVA || generatedMap[row][col] == TileMapper.WATER) {
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), col - overlap, 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), col - overlap, 3);
+                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap - 1, 0, 63), 3);
+                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap + 1, 0, 63), 3);
+
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), 3);
+                }
             }
         }
 
