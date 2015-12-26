@@ -154,7 +154,7 @@ public class MainScreen implements Screen {
 //        }
     }
 
-    private float angleWaveSpeed = 5;
+    private float angleWaveSpeed = 2.5f;
     private float amplitudeWave = 2;
     private float angleWave = 0;
 
