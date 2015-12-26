@@ -2,10 +2,7 @@ package de.dogedevs.photoria.generators;
 
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.OpenSimplexNoise;
-import de.dogedevs.photoria.rendering.tiles.Tile;
-import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
-import java.util.Map;
 import java.util.Random;
 
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
@@ -24,6 +21,7 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     protected int realSize;
     // - 0.86
     // 0.86
+
     @Override
     public int[][] generate(int chunkX, int chunkY, int size, int overlap) {
         if (chunk == null) {

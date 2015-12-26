@@ -10,7 +10,6 @@ varying vec2 v_texCoord0;
 void main() {
     v_color = a_color;
     v_texCoord0 = a_texCoord0;
-
     vec4 newPos = vec4(a_position.x + waveData.y * sin(waveData.x+a_position.x+a_position.y), a_position.y + waveData.y * cos(waveData.x+a_position.x+a_position.y), a_position.z, 1.);
     gl_Position = u_projTrans * newPos;
 }

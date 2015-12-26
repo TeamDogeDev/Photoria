@@ -25,7 +25,7 @@ public class MapDecorator extends AbstractMapDecorator {
                 if (tileId == VOID) {
                     tileId = decorate(ground, x, y, LAVA);
                 }
-                if(tileId == VOID) {
+                if (tileId == VOID) {
                     tileId = decorateHill(ground, x, y, LAVA_STONE, GROUND);
                 }
 
@@ -33,9 +33,9 @@ public class MapDecorator extends AbstractMapDecorator {
             }
         }
 
-        for (int x = 1; x < chunk.length-1; x++) {
-            for (int y = 1; y < chunk[x].length-1; y++) {
-                if(y-2 < 0) continue; // q'n'd
+        for (int x = 1; x < chunk.length - 1; x++) {
+            for (int y = 1; y < chunk[x].length - 1; y++) {
+                if (y - 2 < 0) continue; // q'n'd
 
                 int tm = chunk[x][y + 1];
                 int ml = chunk[x - 1][y];
@@ -45,53 +45,47 @@ public class MapDecorator extends AbstractMapDecorator {
 
                 // Add walls
                 // LEFT SIDE
-                if(mm == LAVA_STONE_BOTTOM_LEFT_0
-                && (ml == LAVA_STONE_BOTTOM_LEFT_1 || ml == LAVA_STONE_BOTTOM_MIDDLE_1)) {
+                if (mm == LAVA_STONE_BOTTOM_LEFT_0
+                        && (ml == LAVA_STONE_BOTTOM_LEFT_1 || ml == LAVA_STONE_BOTTOM_MIDDLE_1)) {
                     chunk[x][y] = LAVA_STONE_BOTTOM_LEFT_WALL_0;
-                    chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
-                    chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_WALL_2;
-                }else
-                if(mm == LAVA_STONE_BOTTOM_LEFT_INNER
-                && bm == LAVA_STONE_BOTTOM_LEFT_0) {
-                    chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_WALL_0;
-                    chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
-                }else
-                if(tm == LAVA_STONE_BOTTOM_LEFT_INNER
-                && mm == LAVA_STONE_MIDDLE_LEFT
-                && (bm == LAVA_STONE_BOTTOM_LEFT_0 || bm == LAVA_STONE_BOTTOM_LEFT_WALL_0)) {
+                    chunk[x][y - 1] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
+                    chunk[x][y - 2] = LAVA_STONE_BOTTOM_LEFT_WALL_2;
+                } else if (mm == LAVA_STONE_BOTTOM_LEFT_INNER
+                        && bm == LAVA_STONE_BOTTOM_LEFT_0) {
+                    chunk[x][y - 1] = LAVA_STONE_BOTTOM_LEFT_WALL_0;
+                    chunk[x][y - 2] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
+                } else if (tm == LAVA_STONE_BOTTOM_LEFT_INNER
+                        && mm == LAVA_STONE_MIDDLE_LEFT
+                        && (bm == LAVA_STONE_BOTTOM_LEFT_0 || bm == LAVA_STONE_BOTTOM_LEFT_WALL_0)) {
                     chunk[x][y] = LAVA_STONE_MIDDLE_LEFT_WALL;
-                    chunk[x][y-1] = LAVA_STONE_MIDDLE_LEFT_WALL_CORNER;
-                }else
-                if(tm == LAVA_STONE_BOTTOM_LEFT_INNER
-                && mm == LAVA_STONE_MIDDLE_LEFT
-                && bm == LAVA_STONE_MIDDLE_LEFT) {
+                    chunk[x][y - 1] = LAVA_STONE_MIDDLE_LEFT_WALL_CORNER;
+                } else if (tm == LAVA_STONE_BOTTOM_LEFT_INNER
+                        && mm == LAVA_STONE_MIDDLE_LEFT
+                        && bm == LAVA_STONE_MIDDLE_LEFT) {
                     chunk[x][y] = LAVA_STONE_MIDDLE_LEFT_WALL;
-                    chunk[x][y-1] = LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT;
-                }else
-                // RIGHT SIDE
-                if(mm == LAVA_STONE_BOTTOM_RIGHT_0
-                &&(mr == LAVA_STONE_BOTTOM_RIGHT_1 || mr == LAVA_STONE_BOTTOM_MIDDLE_1)) {
-                    chunk[x][y] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
-                    chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
-                    chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_WALL_2;
-                }else
-                if(mm == LAVA_STONE_BOTTOM_RIGHT_INNER
-                && bm == LAVA_STONE_BOTTOM_RIGHT_0) {
-                    chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
-                    chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
-                }else
-                if(tm == LAVA_STONE_BOTTOM_RIGHT_INNER
-                && mm == LAVA_STONE_MIDDLE_RIGHT
-                && (bm == LAVA_STONE_BOTTOM_RIGHT_0 || bm == LAVA_STONE_BOTTOM_RIGHT_WALL_0)) {
-                    chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
-                    chunk[x][y-1] = LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER;
-                }else
-                if(tm == LAVA_STONE_BOTTOM_RIGHT_INNER
-                && mm == LAVA_STONE_MIDDLE_RIGHT
-                && bm == LAVA_STONE_MIDDLE_RIGHT) {
-                    chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
-                    chunk[x][y-1] = LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT;
-                }
+                    chunk[x][y - 1] = LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT;
+                } else
+                    // RIGHT SIDE
+                    if (mm == LAVA_STONE_BOTTOM_RIGHT_0
+                            && (mr == LAVA_STONE_BOTTOM_RIGHT_1 || mr == LAVA_STONE_BOTTOM_MIDDLE_1)) {
+                        chunk[x][y] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
+                        chunk[x][y - 1] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
+                        chunk[x][y - 2] = LAVA_STONE_BOTTOM_RIGHT_WALL_2;
+                    } else if (mm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                            && bm == LAVA_STONE_BOTTOM_RIGHT_0) {
+                        chunk[x][y - 1] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
+                        chunk[x][y - 2] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
+                    } else if (tm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                            && mm == LAVA_STONE_MIDDLE_RIGHT
+                            && (bm == LAVA_STONE_BOTTOM_RIGHT_0 || bm == LAVA_STONE_BOTTOM_RIGHT_WALL_0)) {
+                        chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
+                        chunk[x][y - 1] = LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER;
+                    } else if (tm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                            && mm == LAVA_STONE_MIDDLE_RIGHT
+                            && bm == LAVA_STONE_MIDDLE_RIGHT) {
+                        chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
+                        chunk[x][y - 1] = LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT;
+                    }
 
             }
         }
