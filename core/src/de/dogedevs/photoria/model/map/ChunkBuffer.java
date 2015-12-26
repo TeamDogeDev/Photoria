@@ -22,7 +22,8 @@ public class ChunkBuffer {
     public ChunkBuffer(){
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator();
-        decorator = new MapDecorator();
+//        decorator = new MapDecorator();
+        decorator = new BitmaskMapDecorator();
     }
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {
