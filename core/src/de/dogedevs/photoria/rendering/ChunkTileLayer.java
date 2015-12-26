@@ -101,17 +101,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 					}
 					break;
 
-//				case TileMapper.WATER :
-//					if(MathUtils.random(25) == 0){
-//						switch(MathUtils.random(2)){
-//							case 0 : chunkCell.cell.setTile(Tile.WATER2); break;
-//							case 1 : chunkCell.cell.setTile(Tile.WATER3); break;
-//							case 2 : chunkCell.cell.setTile(Tile.WATER4); break;
-//						}
-//					} else {
-//						chunkCell.cell.setTile(Tile.WATER);
-//					}
-//					break;
 				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
 				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
 				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
@@ -126,17 +115,6 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
 				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
 
-//				case TileMapper.LAVA :
-//					if(MathUtils.random(25) == 0){
-//						switch(MathUtils.random(2)){
-//							case 0 : chunkCell.cell.setTile(Tile.LAVA2); break;
-//							case 1 : chunkCell.cell.setTile(Tile.LAVA3); break;
-//							case 2 : chunkCell.cell.setTile(Tile.LAVA4); break;
-//						}
-//					} else {
-//						chunkCell.cell.setTile(Tile.LAVA);
-//					}
-//					break;
 				case TileMapper.LAVA_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT); break;
 				case TileMapper.LAVA_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_TOP_MIDDLE); break;
 				case TileMapper.LAVA_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT); break;
@@ -153,8 +131,10 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 
 				case TileMapper.LAVA_STONE_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT); break;
 				case TileMapper.LAVA_STONE_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_MIDDLE); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_INNER); break;
+				case TileMapper.LAVA_STONE_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT); break;
+
 				case TileMapper.LAVA_STONE_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT); break;
+				case TileMapper.LAVA_STONE_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT); break;
 
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_0); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_1); break;
@@ -164,33 +144,32 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_1); break;
 				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_2); break;
 
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER); break;
-
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT); break;
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0); break;
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1); break;
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
-
 				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_0); break;
 				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_1); break;
 				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
+
 				case TileMapper.LAVA_STONE_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER); break;
-
-				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT); break;
-				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0); break;
-				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1); break;
-				case TileMapper.LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT); break;
-
-				case TileMapper.LAVA_STONE_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT); break;
+				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER); break;
 				case TileMapper.LAVA_STONE_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_INNER); break;
+				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_INNER); break;
 
-				case TileMapper.LAVA_STONE_TOP_RIGHT_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_CORNER); break;
-				case TileMapper.LAVA_STONE_TOP_LEFT_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_CORNER); break;
+				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL); break;
+				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_0); break;
+				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_1); break;
+				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
 
-				case TileMapper.LAVA_STONE_LEFT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_LEFT_MIDDLE_ALT); break;
-				case TileMapper.LAVA_STONE_RIGHT_MIDDLE_ALT: chunkCell.cell.setTile(Tile.LAVA_STONE_RIGHT_MIDDLE_ALT); break;
+				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL); break;
+				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_0); break;
+				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_1); break;
+				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
+
+				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT); break;
+				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER); break;
+
+				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER); break;
+				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT); break;
+
+				case TileMapper.DEBUG: chunkCell.cell.setTile(Tile.DEBUG); break;
 			}
 		}
 

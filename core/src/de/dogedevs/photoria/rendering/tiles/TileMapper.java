@@ -74,68 +74,19 @@ public class TileMapper {
     public static final int LAVA_STONE_BOTTOM_RIGHT_1 = 81;
     public static final int LAVA_STONE_BOTTOM_RIGHT_2 = 82;
 
-    public static final int LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT = 83;
-    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0 = 84;
-    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1 = 85;
-    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_2 = 86;
+    public static final int LAVA_STONE_BOTTOM_LEFT_WALL_0 = 83;
+    public static final int LAVA_STONE_BOTTOM_LEFT_WALL_1 = 84;
+    public static final int LAVA_STONE_BOTTOM_LEFT_WALL_2 = 85;
+    public static final int LAVA_STONE_MIDDLE_LEFT_WALL = 86;
+    public static final int LAVA_STONE_MIDDLE_LEFT_WALL_CORNER = 87;
+    public static final int LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT = 88;
 
+    public static final int LAVA_STONE_BOTTOM_RIGHT_WALL_0 = 89;
+    public static final int LAVA_STONE_BOTTOM_RIGHT_WALL_1 = 90;
+    public static final int LAVA_STONE_BOTTOM_RIGHT_WALL_2 = 91;
+    public static final int LAVA_STONE_MIDDLE_RIGHT_WALL = 92;
+    public static final int LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER = 93;
+    public static final int LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT = 94;
 
-    public static final int LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT = 87;
-    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0 = 88;
-    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1 = 89;
-    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_2 = 90;
-
-
-
-//
-    public static final int LAVA_STONE_TOP_RIGHT_CORNER = 91;
-    public static final int LAVA_STONE_TOP_LEFT_CORNER = 92;
-
-    public static final int LAVA_STONE_LEFT_MIDDLE_ALT = 93;
-    public static final int LAVA_STONE_RIGHT_MIDDLE_ALT = 94;
-
-
-    // FOR THE OLD DECORATOR !!!
-//    public static final int LAVA_STONE = 64;
-//    public static final int LAVA_STONE_TOP_LEFT = 65;
-//    public static final int LAVA_STONE_TOP_MIDDLE = 66;
-//    public static final int LAVA_STONE_BOTTOM_RIGHT_INNER = 67;
-//    public static final int LAVA_STONE_MIDDLE_LEFT = 68;
-//
-//    public static final int LAVA_STONE_BOTTOM_LEFT_0 = 69;
-//    public static final int LAVA_STONE_BOTTOM_LEFT_1 = 70;
-//    public static final int LAVA_STONE_BOTTOM_LEFT_2 = 71;
-//
-//    public static final int LAVA_STONE_BOTTOM_MIDDLE_0 = 72;
-//    public static final int LAVA_STONE_BOTTOM_MIDDLE_1 = 73;
-//    public static final int LAVA_STONE_BOTTOM_MIDDLE_2 = 74;
-//
-//    public static final int LAVA_STONE_TOP_RIGHT_INNER = 75;
-//    public static final int LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT = 76;
-//    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0 = 77;
-//    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1 = 78;
-//    public static final int LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_2 = 79;
-//
-//    public static final int LAVA_STONE_BOTTOM_RIGHT_0 = 80;
-//    public static final int LAVA_STONE_BOTTOM_RIGHT_1 = 81;
-//    public static final int LAVA_STONE_BOTTOM_RIGHT_2 = 82;
-//
-//    public static final int LAVA_STONE_TOP_LEFT_INNER = 83;
-//    public static final int LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT = 84;
-//    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0 = 85;
-//    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_1 = 86;
-//    public static final int LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_2 = 87;
-//
-//    public static final int LAVA_STONE_MIDDLE_RIGHT = 88;
-//
-//    public static final int LAVA_STONE_TOP_RIGHT = 89;
-//
-//    public static final int LAVA_STONE_BOTTOM_LEFT_INNER = 90;
-//    //
-//    public static final int LAVA_STONE_TOP_RIGHT_CORNER = 91;
-//    public static final int LAVA_STONE_TOP_LEFT_CORNER = 92;
-//
-//    public static final int LAVA_STONE_LEFT_MIDDLE_ALT = 93;
-//    public static final int LAVA_STONE_RIGHT_MIDDLE_ALT = 94;
-
+    public static final int DEBUG = 2048;
 }

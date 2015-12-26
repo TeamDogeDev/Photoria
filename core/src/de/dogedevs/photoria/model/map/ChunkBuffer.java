@@ -3,7 +3,6 @@ package de.dogedevs.photoria.model.map;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.*;
-import de.dogedevs.photoria.model.entity.systems.FixFloatSystem;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.HashMap;
@@ -22,8 +21,7 @@ public class ChunkBuffer {
     public ChunkBuffer(){
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator();
-//        decorator = new MapDecorator();
-        decorator = new BitmaskMapDecorator();
+        decorator = new MapDecorator();
     }
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {

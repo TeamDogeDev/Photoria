@@ -1,243 +1,190 @@
 package de.dogedevs.photoria.generators;
 
-import java.util.Random;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
 
 /**
- * Created by elektropapst on 21.12.2015.
+ * Created by elektropapst on 26.12.2015.
  */
 public class MapDecorator extends AbstractMapDecorator {
 
-    private Random random = new Random(31337);
     private int tileId = VOID;
 
     @Override
     public int[][] decorate(int[][] ground) {
+
         if (chunk == null) {
             chunk = new int[ground.length][ground.length];
         }
         for (int x = 1; x < ground.length - 1; x++) {
             for (int y = 1; y < ground[x].length - 1; y++) {
-                tileId = VOID;
 
-                int TL = ground[x - 1][y + 1];
-                int TM = ground[x][y + 1];
-                int TR = ground[x + 1][y + 1];
+                tileId = decorate(ground, x, y, WATER);
 
-                int ML = ground[x - 1][y];
-                int MM = ground[x][y];
-                int MR = ground[x + 1][y];
-
-                int BL = ground[x - 1][y - 1];
-                int BM = ground[x][y - 1];
-                int BR = ground[x + 1][y - 1];
-
-//                checkWater(TL, TM, TR, ML, MM, MR, BL, BM, BR);
-                if(tileId == VOID) {
-                    decorateLiquid(TL, TM, TR, ML, MM, MR, BL, BM, BR, WATER, GROUND);
+                if (tileId == VOID) {
+                    tileId = decorate(ground, x, y, LAVA);
                 }
                 if(tileId == VOID) {
-                    decorateLiquid(TL, TM, TR, ML, MM, MR, BL, BM, BR, LAVA, LAVA_STONE);
+                    tileId = decorateHill(ground, x, y, LAVA_STONE, GROUND);
                 }
-                if(tileId == VOID) {
-                    decorateHill(TL, TM, TR, ML, MM, MR, BL, BM, BR, GROUND, LAVA_STONE);
-                }
+
                 chunk[x][y] = tileId;
-                if(tileId == LAVA_STONE_BOTTOM_LEFT_0
-                || tileId == LAVA_STONE_BOTTOM_RIGHT_0
-                || tileId == LAVA_STONE_BOTTOM_MIDDLE_0
-                || tileId == LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0
-                || tileId == LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0) {
-                    if(y-2 >= 0) {
-                        chunk[x][y - 1] = tileId + 1;
-                        chunk[x][y - 2] = tileId + 2;
-                    }
-                }
             }
         }
 
-        for (int x = 1; x < ground.length-1; x++) {
-            for (int y = 1; y < ground[x].length-1; y++) {
-                int TL = chunk[x - 1][y + 1];
-                int TM = chunk[x][y + 1];
-                int TR = chunk[x + 1][y + 1];
+        for (int x = 1; x < chunk.length-1; x++) {
+            for (int y = 1; y < chunk[x].length-1; y++) {
+                if(y-2 < 0) continue; // q'n'd
 
-                int ML = chunk[x - 1][y];
-                int MM = chunk[x][y];
-                int MR = chunk[x + 1][y];
+                int tm = chunk[x][y + 1];
+                int ml = chunk[x - 1][y];
+                int mm = chunk[x][y];
+                int mr = chunk[x + 1][y];
+                int bm = chunk[x][y - 1];
 
-                int BL = chunk[x - 1][y - 1];
-                int BM = chunk[x][y - 1];
-                int BR = chunk[x + 1][y - 1];
-
-                if(MM == LAVA_STONE_BOTTOM_LEFT_0 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
-                    chunk[x][y] = LAVA_STONE_TOP_RIGHT_CORNER;
-                } else
-                if(MM == LAVA_STONE_BOTTOM_RIGHT_0 && MR == LAVA_STONE_BOTTOM_RIGHT_2) {
-                    chunk[x][y] = LAVA_STONE_TOP_LEFT_CORNER;
-                } else
-                if(BM == LAVA_STONE_BOTTOM_LEFT_2 && ML == LAVA_STONE_BOTTOM_LEFT_2) {
-                    chunk[x][y] = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_1;
-                } else
-                if(TM == LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT
-                        && ML == LAVA_STONE_BOTTOM_LEFT_2 && MM == LAVA_STONE_MIDDLE_LEFT) {
-                    chunk[x][y] = LAVA_STONE_LEFT_MIDDLE_ALT;
+                // LEFT SIDE
+                if(mm == LAVA_STONE_BOTTOM_LEFT_0
+                && (ml == LAVA_STONE_BOTTOM_LEFT_1 || ml == LAVA_STONE_BOTTOM_MIDDLE_1)) {
+                    chunk[x][y] = LAVA_STONE_BOTTOM_LEFT_WALL_0;
+                    chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
+                    chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_WALL_2;
                 }else
-                if(TM == LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT
-                        && MR == LAVA_STONE_BOTTOM_RIGHT_2 && MM == LAVA_STONE_MIDDLE_RIGHT) {
-                    chunk[x][y] = LAVA_STONE_RIGHT_MIDDLE_ALT;
+                if(mm == LAVA_STONE_BOTTOM_LEFT_INNER
+                && bm == LAVA_STONE_BOTTOM_LEFT_0) {
+                    chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_WALL_0;
+                    chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_WALL_1;
+                }else
+                if(tm == LAVA_STONE_BOTTOM_LEFT_INNER
+                && mm == LAVA_STONE_MIDDLE_LEFT
+                && (bm == LAVA_STONE_BOTTOM_LEFT_0 || bm == LAVA_STONE_BOTTOM_LEFT_WALL_0)) {
+                    chunk[x][y] = LAVA_STONE_MIDDLE_LEFT_WALL;
+                    chunk[x][y-1] = LAVA_STONE_MIDDLE_LEFT_WALL_CORNER;
+                }else
+                if(tm == LAVA_STONE_BOTTOM_LEFT_INNER
+                && mm == LAVA_STONE_MIDDLE_LEFT
+                && bm == LAVA_STONE_MIDDLE_LEFT) {
+                    chunk[x][y] = LAVA_STONE_MIDDLE_LEFT_WALL;
+                    chunk[x][y-1] = LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT;
+                }else
+                // RIGHT SIDE
+                if(mm == LAVA_STONE_BOTTOM_RIGHT_0
+                &&(mr == LAVA_STONE_BOTTOM_RIGHT_1 || mr == LAVA_STONE_BOTTOM_MIDDLE_1)) {
+                    chunk[x][y] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
+                    chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
+                    chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_WALL_2;
+                }else
+                if(mm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                && bm == LAVA_STONE_BOTTOM_RIGHT_0) {
+                    chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_WALL_0;
+                    chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_WALL_1;
+                }else
+                if(tm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                && mm == LAVA_STONE_MIDDLE_RIGHT
+                && (bm == LAVA_STONE_BOTTOM_RIGHT_0 || bm == LAVA_STONE_BOTTOM_RIGHT_WALL_0)) {
+                    chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
+                    chunk[x][y-1] = LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER;
+                }else
+                if(tm == LAVA_STONE_BOTTOM_RIGHT_INNER
+                && mm == LAVA_STONE_MIDDLE_RIGHT
+                && bm == LAVA_STONE_MIDDLE_RIGHT) {
+                    chunk[x][y] = LAVA_STONE_MIDDLE_RIGHT_WALL;
+                    chunk[x][y-1] = LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT;
                 }
+
             }
         }
 
         return chunk;
     }
 
-    private void decorateHill(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int lowerTile, int upperTile) {
-        if(MM == lowerTile && MR == lowerTile
-        && BM == lowerTile && BR == upperTile)
-        {
-            tileId = LAVA_STONE_TOP_LEFT;
-        } else
-        if(ML == lowerTile && MM == lowerTile && MR == lowerTile
-        && BM == upperTile) {
-            tileId = LAVA_STONE_TOP_MIDDLE;
-        } else
-        if(TM == lowerTile
-        && ML == lowerTile && MM == lowerTile && MR == upperTile
-        && BM == upperTile && BR == upperTile) {
-            tileId = LAVA_STONE_BOTTOM_RIGHT_INNER;
-        }else
-        if(TM == lowerTile
-        && MM == lowerTile && MR == upperTile
-        && BM == lowerTile && BR == upperTile) {
-            tileId = LAVA_STONE_MIDDLE_LEFT;
-        }else
-        if(TM == lowerTile
-        && MM == lowerTile && MR == upperTile
-        && BM == lowerTile && BR == lowerTile) {
-            tileId = LAVA_STONE_BOTTOM_LEFT_0;
-        }else
-        if(TM == upperTile && TR == upperTile
-        && MM == upperTile && MR == upperTile
-        && BL == lowerTile && BM == lowerTile && BR == upperTile) {
-            tileId = LAVA_STONE_TOP_RIGHT_INNER;
-        }else
-        if(TM == upperTile
-        && MM == upperTile
-        && BL == lowerTile && BM == lowerTile && BR == lowerTile) {
-            tileId = LAVA_STONE_BOTTOM_MIDDLE_0;
-        }else
-        if(TM == upperTile && TR == upperTile
-        && ML == lowerTile && MR == upperTile
-        && BM == lowerTile && BR == lowerTile) {
-            tileId = LAVA_STONE_TOP_RIGHT_INNER_BOTTOM_LEFT_0;
-        }else
-        if(TM == upperTile && TR == upperTile
-        && ML == lowerTile && MR == upperTile
-        && BM == lowerTile && BR == upperTile) {
-            tileId = LAVA_STONE_TOP_RIGHT_INNER_MIDDLE_LEFT;
-        }else
-        if(TM == upperTile && TL == upperTile
-        && MM == upperTile && ML == upperTile
-        && BR == lowerTile && BM == lowerTile && BL == upperTile) {
-            tileId = LAVA_STONE_TOP_LEFT_INNER;
-        }else
-        if(TM == lowerTile
-        && MM == lowerTile && ML == upperTile
-        && BM == lowerTile && BL == lowerTile) {
-            tileId = LAVA_STONE_BOTTOM_RIGHT_0;
-        }else
-        if(TM == upperTile && TL == upperTile
-        && MR == lowerTile && ML == upperTile
-        && BM == lowerTile && BL == lowerTile) {
-            tileId = LAVA_STONE_TOP_LEFT_INNER_BOTTOM_RIGHT_0;
-        }else
-        if(TM == upperTile && TL == upperTile
-        && MR == lowerTile && ML == upperTile
-        && BM == lowerTile && BL == upperTile) {
-            tileId = LAVA_STONE_TOP_LEFT_INNER_MIDDLE_RIGHT;
-        }else
-        if(TM == lowerTile
-        && MM == lowerTile && ML == upperTile
-        && BM == lowerTile && BL == upperTile) {
-            tileId = LAVA_STONE_MIDDLE_RIGHT;
-        } else
-        if(MM == lowerTile && ML == lowerTile
-        && BM == lowerTile && BL == upperTile) {
-            tileId = LAVA_STONE_TOP_RIGHT;
-        } else
-        if(TM == lowerTile
-        && MR == lowerTile && MM == lowerTile && ML == upperTile
-        && BM == upperTile && BL == upperTile) {
-            tileId = LAVA_STONE_BOTTOM_LEFT_INNER;
-        }
-    }
+    // @formatter:off
+    private int decorateHill(int[][] ground, int x, int y, int upperBaseTile, int lowerBaseTile) {
 
-    private void decorateLiquid(int TL, int TM, int TR, int ML, int MM, int MR, int BL, int BM, int BR, int processTile, int midTile) {
-        if (MM == midTile) {
-
-            if (TL == midTile && ML == midTile && BL == midTile
-                    && TM == midTile && BM == midTile
-                    && MR == processTile) {
-                tileId = processTile+4;
-            } else
-            if (TL == midTile && ML == midTile && BL == midTile
-                    && TM == midTile && BM == midTile
-                    && TR == midTile && MR == midTile && BR == processTile) {
-                tileId = processTile+1;
-            } else
-            if (TL == midTile && ML == midTile
-                    && TM == midTile && BM == processTile
-                    && MR == processTile && BR == processTile) {
-                tileId = processTile+9;
-            } else
-            if (TL == midTile && TM == midTile && TR == midTile
-                    && ML == midTile && MR == midTile
-                    && BM == processTile) {
-                tileId = processTile+2;
-            } else
-            if (TL == midTile && ML == midTile && BL == processTile
-                    && TM == midTile && BM == midTile
-                    && TR == midTile && MR == midTile && BR == midTile) {
-                tileId = processTile+3;
-            } else
-            if (ML == processTile && BL == processTile
-                    && TM == midTile && BM == processTile
-                    && TR == midTile && MR == midTile) {
-                tileId = processTile+10;
-            } else
-            if (ML == processTile
-                    && TM == midTile && BM == midTile
-                    && TR == midTile && MR == midTile && BR == midTile) {
-                tileId = processTile+5;
-            } else
-            if (TL == processTile && ML == midTile && BL == midTile
-                    && TM == midTile && BM == midTile
-                    && TR == midTile && MR == midTile && BR == midTile) {
-                tileId = processTile+8;
-            } else
-            if (TL == processTile && ML == processTile
-                    && TM == processTile && BM == midTile
-                    && MR == midTile && BR == midTile) {
-                tileId = processTile+12;
-            } else
-            if (ML == midTile && BL == midTile
-                    && TM == processTile && BM == midTile
-                    && MR == midTile && BR == midTile) {
-                tileId = processTile+7;
-            } else
-            if (TL == midTile && ML == midTile && BL == midTile
-                    && TM == midTile && BM == midTile
-                    && TR == processTile && MR == midTile && BR == midTile) {
-                tileId = processTile+6;
-            } else
-            if (ML == midTile && BL == midTile
-                    && TM == processTile && BM == midTile
-                    && TR == processTile && MR == processTile) {
-                tileId = processTile+11;
+        for(int i = -1; i < 1; i++) {
+            for(int j = -1; j < 1; j++) {
+                if(ground[x+i][y+j] != upperBaseTile &&
+                ground[x+i][y+j] != lowerBaseTile) return VOID;
             }
         }
+
+        int tile = decorate(ground, x, y, upperBaseTile);
+
+        // WUB WUB WUB 3 nach unten
+        if(tile == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_MIDDLE_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_MIDDLE_2;
+        }else if(tile == TileMapper.LAVA_STONE_BOTTOM_LEFT_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_2;
+        }else if(tile == TileMapper.LAVA_STONE_BOTTOM_RIGHT_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_2;
+        }
+
+        return  tile;
     }
+
+    private int calculateBitmask(int[][] array, int x, int y, int baseTile) {
+        return (array[x    ][y    ] == baseTile ? 256 : 0)
+             | (array[x - 1][y    ] == baseTile ? 128 : 0)
+             | (array[x - 1][y - 1] == baseTile ?  64 : 0)
+             | (array[x    ][y - 1] == baseTile ?  32 : 0)
+             | (array[x + 1][y - 1] == baseTile ?  16 : 0)
+             | (array[x + 1][y    ] == baseTile ?   8 : 0)
+             | (array[x + 1][y + 1] == baseTile ?   4 : 0)
+             | (array[x    ][y + 1] == baseTile ?   2 : 0)
+             | (array[x - 1][y + 1] == baseTile ?   1 : 0);
+    }
+
+    private int decorate(int[][] ground, int x, int y, int baseTile) {
+        // binMask : 2^x
+        // +-+-+-+
+        // |0|1|2|
+        // +-+-+-+
+        // |7|8|3|
+        // +-+-+-+
+        // |6|5|4|
+        // +-+-+-+
+        return fluidBitmaskToTileId(calculateBitmask(ground, x, y, baseTile), baseTile);
+    }
+
+    private int fluidBitmaskToTileId(int bitmask, int baseTile) {
+        switch(bitmask) {
+            case 0b001100000 :
+            case 0b001110000 :
+            case 0b000100000 : // N
+            case 0b000110000 : return baseTile+2; // _TOP_MIDDLE
+            case 0b000010000 : return baseTile+1; // _TOP_LEFT
+            case 0b000111000 :
+            case 0b000111100 :
+            case 0b001111000 : return baseTile+9; // _TOP_LEFT_INNER;
+            case 0b000011000 :
+            case 0b000001100 :
+            case 0b000001000 :
+            case 0b000011100 : return baseTile+4; // _MIDDLE_LEFT;
+            case 0b000000100 : return baseTile+6; // _BOTTOM_LEFT;
+            case 0b000011110 :
+            case 0b000001111 :
+            case 0b000001110 : return baseTile+11; // _BOTTOM_LEFT_INNER;
+            case 0b000000111 :
+            case 0b000000011 :
+            case 0b000000010 : // n
+            case 0b000000110 : return baseTile+7; // _BOTTOM_MIDDLE;
+            case 0b000000001 : return baseTile+8; // _BOTTOM_RIGHT;
+            case 0b010000011 :
+            case 0b011000011 :
+            case 0b010000111 : return baseTile+12; // _BOTTOM_RIGHT_INNER;
+            case 0b011000001 :
+            case 0b011000000 :
+            case 0b010000000 : // n
+            case 0b010000001 : return baseTile+5; // _MIDDLE_RIGHT;
+            case 0b001000000 : return baseTile+3; // _TOP_RIGHT;
+            case 0b011100000 :
+            case 0b011110000 :
+            case 0b011100001 : return baseTile+10; // _TOP_RIGHT_INNER;
+            default: return VOID;
+        }
+    }
+    // @formatter:on
 }
