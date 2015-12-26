@@ -1,5 +1,7 @@
 package de.dogedevs.photoria.generators;
 
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
+
 import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
 
 /**
@@ -44,7 +46,21 @@ public class BitmaskMapDecorator extends AbstractMapDecorator {
             }
         }
 
-        return decorate(ground, x, y, upperBaseTile);
+        int tile = decorate(ground, x, y, upperBaseTile);
+
+        // WUB WUB WUB 3 nach unten
+        if(tile == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_MIDDLE_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_MIDDLE_2;
+        }else if(tile == TileMapper.LAVA_STONE_BOTTOM_LEFT_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_LEFT_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_LEFT_2;
+        }else if(tile == TileMapper.LAVA_STONE_BOTTOM_RIGHT_0 && y-2 >= 0) {
+            chunk[x][y-1] = LAVA_STONE_BOTTOM_RIGHT_1;
+            chunk[x][y-2] = LAVA_STONE_BOTTOM_RIGHT_2;
+        }
+
+        return  tile;
     }
 
 

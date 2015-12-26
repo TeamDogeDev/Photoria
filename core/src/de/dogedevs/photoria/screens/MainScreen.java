@@ -133,7 +133,8 @@ public class MainScreen implements Screen {
 
         int max = 301;
         int min = 300;
-        for (int i = 0; i < 4000; i++) {
+        int numEntities = 1; // 4000
+        for (int i = 0; i < numEntities; i++) {
             Entity eyeball = getAshley().createEntity();
             eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
             AnimationComponent ac = new AnimationComponent(walkAnimationU);
