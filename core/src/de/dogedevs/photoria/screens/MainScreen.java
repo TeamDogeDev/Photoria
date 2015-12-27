@@ -15,13 +15,12 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.systems.AnimatedEntityDrawSystem;
-import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
-import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
-import de.dogedevs.photoria.rendering.CustomTiledMapRenderer;
-import de.dogedevs.photoria.rendering.MapBuilder;
+import de.dogedevs.photoria.model.entity.systems.*;
+import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
+import de.dogedevs.photoria.rendering.map.MapBuilder;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
@@ -66,7 +65,7 @@ public class MainScreen implements Screen {
 
         tiledMapRenderer.setBatch(waterBatch);
 
-        initTestEntitis();
+        initEntitis();
 
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
@@ -109,14 +108,17 @@ public class MainScreen implements Screen {
         camera.update();
     }
 
-    private void initTestEntitis() {
+    private void initEntitis() {
 //        Texture img = new Texture("badlogic.jpg");
 //        TextureRegion testRegion = new TextureRegion(img);
-        getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new AnimatedEntityDrawSystem(camera));
-        getAshley().addSystem(new MovingEntitySystem());
-//        getAshley().addSystem(new CameraSystem(camera));
+
 //        getAshley().addSystem(new FixFloatSystem(camera));
+        getAshley().addSystem(new ControllSystem());
+        getAshley().addSystem(new EntityDrawSystem(camera));
+        getAshley().addSystem(new MovingEntitySystem());
+        getAshley().addSystem(new CameraSystem(camera));
+
+
 
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
@@ -132,19 +134,26 @@ public class MainScreen implements Screen {
         Animation walkAnimationL = new Animation(0.3f, walkFrames[1]);
         Animation walkAnimationR = new Animation(0.3f, walkFrames[3]);
 
-//        Entity eyeball = getAshley().createEntity();
-//        eyeball.add(new PositionComponent(300 * 64 * 32, 300 * 64 * 32));
-//        eyeball.add(new AnimationComponent(walkAnimationU));
-//        eyeball.add(new VelocityComponent(0, 1));
-//        getAshley().addEntity(eyeball);
+        Entity eyeball = getAshley().createEntity();
+        eyeball.add(new PlayerComponent());
+        eyeball.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
+        eyeball.add(new VelocityComponent(0, 1));
+        AnimationComponent ac = new AnimationComponent(walkAnimationD);
+        ac.leftAnimation = walkAnimationL;
+        ac.rightAnimation = walkAnimationR;
+        ac.upAnimation = walkAnimationU;
+        ac.downAnimation = walkAnimationD;
+        eyeball.add(ac);
+
+        getAshley().addEntity(eyeball);
 
         int max = 301;
         int min = 300;
-        int numEntities = 4000; // 4000
+        int numEntities = 10; // 4000
         for (int i = 0; i < numEntities; i++) {
-            Entity eyeball = getAshley().createEntity();
+            eyeball = getAshley().createEntity();
             eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
-            AnimationComponent ac = new AnimationComponent(walkAnimationU);
+            ac = new AnimationComponent(walkAnimationU);
             ac.leftAnimation = walkAnimationL;
             ac.rightAnimation = walkAnimationR;
             ac.upAnimation = walkAnimationU;
@@ -182,7 +191,7 @@ public class MainScreen implements Screen {
         shader.end();
 
 
-        input();
+//        input();
         camera.update();
 //        tiledMapRenderer.setView(camera);
 //        tiledMapRenderer.render();
