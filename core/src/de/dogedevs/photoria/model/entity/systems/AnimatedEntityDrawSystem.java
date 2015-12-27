@@ -11,14 +11,13 @@ import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.map.OffsetHolder;
 
-import java.util.Collections;
 import java.util.Comparator;
 
 /**
  * Created by Furuha on 21.12.2015.
  */
+@Deprecated
 public class AnimatedEntityDrawSystem extends EntitySystem {
 
 
