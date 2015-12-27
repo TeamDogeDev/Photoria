@@ -13,12 +13,12 @@ import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 /**
  * Created by Furuha on 21.12.2015.
  */
-public class ControllSystem extends EntitySystem {
+public class PlayerControllSystem extends EntitySystem {
 
 
     private ImmutableArray<Entity> entities;
 
-    public ControllSystem() {
+    public PlayerControllSystem() {
     }
 
     @Override
@@ -47,25 +47,25 @@ public class ControllSystem extends EntitySystem {
 
         if( Gdx.input.isKeyPressed(Input.Keys.A)){
 //            camera.translate(-32,0);
-            velocity.speed = 32;
+            velocity.speed = 128;
             velocity.direction = VelocityComponent.LEFT;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(32,0);
-            velocity.speed = 32;
+            velocity.speed = 128;
             velocity.direction = VelocityComponent.RIGHT;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.S)){
 //            camera.translate(0,-32);
-            velocity.speed = 32;
+            velocity.speed = 128;
             velocity.direction = VelocityComponent.DOWN;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.W)){
 //            camera.translate(0,32);
-            velocity.speed = 32;
+            velocity.speed = 128;
             velocity.direction = VelocityComponent.UP;
             return;
         }
