@@ -9,16 +9,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.systems.*;
+import de.dogedevs.photoria.model.entity.systems.CameraSystem;
+import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
+import de.dogedevs.photoria.model.entity.systems.PlayerControllSystem;
 import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.map.MapBuilder;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
@@ -32,40 +37,27 @@ public class MainScreen implements Screen {
 
     static private PooledEngine ashley;
 
-    Batch batch, waterBatch, mapBatch;
-    MapBuilder mapBuilder;
-    CustomTiledMapRenderer tiledMapRenderer;
-    OrthographicCamera camera;
-    private BitmapFont font;
+    private boolean debugCamera = false;
+
+    private Batch batch, waterBatch, mapBatch;
+    private MapBuilder mapBuilder;
+    private CustomTiledMapRenderer tiledMapRenderer;
+    private OrthographicCamera camera;
 
     private ShaderProgram shader;
 
     private Array<AbstractOverlay> overlays = new Array();
 
-    int[] fluidLayer = { 0 }; // don't allocate every frame!
-    int[] foregroundLayers = { 1,2,3 };    // don't allocate every frame!
+    private final int[] fluidLayer = { 0 };
+    private final int[] foregroundLayers = { 1,2,3 };
 
     public void show() {
+
         initCamera();
-        getAshley(); //init ashley
+        initAshley();
         initOverlays();
-
-        font = new BitmapFont();
-
-        mapBuilder = new MapBuilder();
-        tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
-        mapBatch = tiledMapRenderer.getBatch();
-        batch = new SpriteBatch();
-        waterBatch = new SpriteBatch();
-
-        ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
-        System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
-        waterBatch.setShader(shader);
-
-        tiledMapRenderer.setBatch(waterBatch);
-
-        initEntitis();
+        initMap();
+        initEntities();
 
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
@@ -93,6 +85,17 @@ public class MainScreen implements Screen {
         });
     }
 
+
+
+    private void initAshley() {
+        getAshley().addSystem(new PlayerControllSystem());
+        getAshley().addSystem(new EntityDrawSystem(camera));
+        getAshley().addSystem(new MovingEntitySystem());
+        if(!debugCamera){
+            getAshley().addSystem(new CameraSystem(camera));
+        }
+    }
+
     private void initOverlays() {
         overlays.add(new DebugOverlay(camera, getAshley()));
         overlays.add(new GameOverlay());
@@ -108,18 +111,22 @@ public class MainScreen implements Screen {
         camera.update();
     }
 
-    private void initEntitis() {
-//        Texture img = new Texture("badlogic.jpg");
-//        TextureRegion testRegion = new TextureRegion(img);
+    private void initMap() {
+        mapBuilder = new MapBuilder();
+        tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
+        mapBatch = tiledMapRenderer.getBatch();
+        batch = new SpriteBatch();
+        waterBatch = new SpriteBatch();
 
-//        getAshley().addSystem(new FixFloatSystem(camera));
-        getAshley().addSystem(new ControllSystem());
-        getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new MovingEntitySystem());
-        getAshley().addSystem(new CameraSystem(camera));
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
+        System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
+        waterBatch.setShader(shader);
 
+        tiledMapRenderer.setBatch(waterBatch);
+    }
 
-
+    private void initEntities() {
 
         Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
@@ -162,13 +169,6 @@ public class MainScreen implements Screen {
             eyeball.add(new VelocityComponent(0, 20));
             getAshley().addEntity(eyeball);
         }
-
-//        for (int i = 0; i < 30; i++) {
-//            Entity coin = getAshley().createEntity();
-//            coin.add(new PositionComponent(MathUtils.random(295*64*32, 305*64*32), MathUtils.random(295*64*32, 305*64*32)));
-//            coin.add(new SpriteComponent(testRegion));
-//            getAshley().addEntity(coin);
-//        }
     }
 
     private float angleWaveSpeed = 2.5f;
@@ -176,40 +176,41 @@ public class MainScreen implements Screen {
     private float angleWave = 0;
 
     public void render(float delta) {
+        //Clear buffer
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        batch.begin();
-//        batch.draw(img, 0, 0);
-//        batch.end();
 
+        //Process debug camera controls
+        if(debugCamera){
+            input();
+        }
+
+        //Camera
+        camera.update();
+
+        //Render fluid maps
         angleWave += delta * angleWaveSpeed;
-        while(angleWave > Math.PI*2)
+        while(angleWave > Math.PI*2){
             angleWave -= Math.PI*2;
+        }
 
         shader.begin();
         shader.setUniformf("waveData", angleWave, amplitudeWave);
         shader.end();
 
-
-//        input();
-        camera.update();
-//        tiledMapRenderer.setView(camera);
-//        tiledMapRenderer.render();
         tiledMapRenderer.setBatch(waterBatch);
         tiledMapRenderer.setView(camera);
-//        waterBatch.begin();
         tiledMapRenderer.render(fluidLayer);
 
-
+        //Render map
         tiledMapRenderer.setBatch(mapBatch);
         tiledMapRenderer.setView(camera);
-//        mapBatch.begin();
         tiledMapRenderer.render(foregroundLayers);
-//        mapBatch.end();
 
+        //Process entities
         ashley.update(Gdx.graphics.getDeltaTime());
 
-        // RENDER OVERLAYS
+        //Render Overlays
         for(AbstractOverlay overlay : overlays) {
             if(overlay.isVisible()) {
                 overlay.render();
@@ -278,28 +279,4 @@ public class MainScreen implements Screen {
         return ashley;
     }
 
-    public int getIdAtMouse() {
-//        ((ChunkTileLayer)mapBuilder.getTiledMap().getLayers().get(1)).getCell(Gdx.input.getX(), Gdx.input.getY()).getTile().getId();
-        try {
-//            return ((ChunkTileLayer)mapBuilder.getTiledMap().getLayers().get(1)).getCell(Gdx.input.getX()/32, Gdx.input.getY()/32).getTile().toString();
-            int x, y;
-            if(Gdx.input.getY() < 720/2){
-                y = (int) (((camera.position.y-720/2)+(Gdx.input.getY()))/32);
-            } else {
-                y = (int) (((camera.position.y-720/2)+(Gdx.input.getY()))/32);
-            }
-
-            if(Gdx.input.getX() < 1280/2){
-                x = (int) (((camera.position.x-1280/2)+(Gdx.input.getX()))/32);
-            } else {
-                x = (int) (((camera.position.x-1280/2)+(Gdx.input.getX()))/32);
-            }
-
-            MainGame.log(x + " | " + y);
-            return mapBuilder.getBuffer().getCell(x, y, 2).value;
-        } catch (Exception e){
-            return -1;
-        }
-
-    }
 }
