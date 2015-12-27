@@ -29,6 +29,7 @@ import de.dogedevs.photoria.rendering.map.MapBuilder;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
+import de.dogedevs.photoria.utlis.ScreenshotFactory;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -79,6 +80,9 @@ public class MainScreen implements Screen {
                 }
                 if(keycode == Input.Keys.NUM_3){
                     mapBuilder.getTiledMap().getLayers().get(3).setVisible(!mapBuilder.getTiledMap().getLayers().get(3).isVisible());
+                }
+                if(keycode == Input.Keys.F12){
+                    ScreenshotFactory.saveScreenshot();
                 }
                 return super.keyDown(keycode);
             }
