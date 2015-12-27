@@ -12,17 +12,19 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.systems.*;
-import de.dogedevs.photoria.model.map.OffsetHolder;
+import de.dogedevs.photoria.model.entity.systems.AnimatedEntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
+import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
 import de.dogedevs.photoria.rendering.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.MapBuilder;
-
-import java.text.DecimalFormat;
+import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
+import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
+import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -36,18 +38,18 @@ public class MainScreen implements Screen {
     CustomTiledMapRenderer tiledMapRenderer;
     OrthographicCamera camera;
     private BitmapFont font;
-    private DecimalFormat floatFormat = new DecimalFormat("#.##");
 
     private ShaderProgram shader;
 
+    private Array<AbstractOverlay> overlays = new Array();
 
     int[] fluidLayer = { 0 }; // don't allocate every frame!
     int[] foregroundLayers = { 1,2,3 };    // don't allocate every frame!
 
     public void show() {
-
         initCamera();
         getAshley(); //init ashley
+        initOverlays();
 
         font = new BitmapFont();
 
@@ -92,6 +94,11 @@ public class MainScreen implements Screen {
         });
     }
 
+    private void initOverlays() {
+        overlays.add(new DebugOverlay(camera, getAshley()));
+        overlays.add(new GameOverlay());
+    }
+
     private void initCamera() {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -133,7 +140,7 @@ public class MainScreen implements Screen {
 
         int max = 301;
         int min = 300;
-        int numEntities = 1; // 4000
+        int numEntities = 4000; // 4000
         for (int i = 0; i < numEntities; i++) {
             Entity eyeball = getAshley().createEntity();
             eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
@@ -193,16 +200,13 @@ public class MainScreen implements Screen {
 
         ashley.update(Gdx.graphics.getDeltaTime());
 
-        batch.begin();
-        font.draw(batch, "cam x="+floatFormat.format(camera.position.x), 1070, 160, 200, Align.right, false);
-        font.draw(batch, "cam y="+floatFormat.format(camera.position.y) , 1070, 140, 200, Align.right, false);
-        font.draw(batch, "entities="+ashley.getEntities().size(), 1070, 120, 200, Align.right, false);
-        font.draw(batch, "zoom="+camera.zoom, 1070, 100, 200, Align.right, false);
-        font.draw(batch, "x="+Math.round((camera.position.x-OffsetHolder.offsetX)/32), 1070, 80, 200, Align.right, false);
-        font.draw(batch, "y="+Math.round((camera.position.y-OffsetHolder.offsetY)/32) , 1070, 60, 200, Align.right, false);
-        font.draw(batch, "chunk x="+Math.round((camera.position.x-OffsetHolder.offsetX)/32/64), 1070, 40, 200, Align.right, false);
-        font.draw(batch, "chunk y="+Math.round((camera.position.y-OffsetHolder.offsetY)/32/64) , 1070, 20, 200, Align.right, false);
-        batch.end();
+        // RENDER OVERLAYS
+        for(AbstractOverlay overlay : overlays) {
+            if(overlay.isVisible()) {
+                overlay.render();
+            }
+        }
+
     }
 
     private void input() {

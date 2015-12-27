@@ -1,17 +1,11 @@
 package de.dogedevs.photoria;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import de.dogedevs.photoria.rendering.MapBuilder;
 import de.dogedevs.photoria.screens.MainScreen;
-
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -52,7 +46,7 @@ public class MainGame extends Game {
         super.render(); //important!
         batch.begin();
         font.setColor(1,1,1,1);
-        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20);
+        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20); // in debug overlay (!)
         y = 40;
         a = 1;
         for(String text: logs){
