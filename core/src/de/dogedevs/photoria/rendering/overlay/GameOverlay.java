@@ -1,9 +1,11 @@
 package de.dogedevs.photoria.rendering.overlay;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 
 /**
  * Created by elektropapst on 27.12.2015.
@@ -40,6 +42,19 @@ public class GameOverlay extends AbstractOverlay {
         font.setColor(1, 0, 0, 1);
         renderHealth();
         batch.end();
+        batch.begin();
+        renderStats();
+        batch.end();
+    }
+
+    private static ShapeRenderer debugRenderer = new ShapeRenderer();
+    private void renderStats() {
+        Gdx.gl.glLineWidth(2);
+        debugRenderer.begin(ShapeRenderer.ShapeType.Line);
+        debugRenderer.setColor(Color.BLACK);
+        debugRenderer.line(0, 0, 100, 100);
+        debugRenderer.end();
+        Gdx.gl.glLineWidth(1);
     }
 
     private void renderHealth() {
