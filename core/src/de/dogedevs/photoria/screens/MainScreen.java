@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
+import de.dogedevs.photoria.Config;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -37,8 +38,6 @@ import de.dogedevs.photoria.utlis.ScreenshotFactory;
 public class MainScreen implements Screen {
 
     static private PooledEngine ashley;
-
-    private boolean debugCamera = false;
 
     private Batch batch, waterBatch, mapBatch;
     private MapBuilder mapBuilder;
@@ -73,13 +72,13 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.NUM_1){
-                    mapBuilder.getTiledMap().getLayers().get(1).setVisible(!mapBuilder.getTiledMap().getLayers().get(1).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get("ground").setVisible(!mapBuilder.getTiledMap().getLayers().get("ground").isVisible());
                 }
                 if(keycode == Input.Keys.NUM_2){
-                    mapBuilder.getTiledMap().getLayers().get(2).setVisible(!mapBuilder.getTiledMap().getLayers().get(2).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get("ground2").setVisible(!mapBuilder.getTiledMap().getLayers().get("ground2").isVisible());
                 }
                 if(keycode == Input.Keys.NUM_3){
-                    mapBuilder.getTiledMap().getLayers().get(3).setVisible(!mapBuilder.getTiledMap().getLayers().get(3).isVisible());
+                    mapBuilder.getTiledMap().getLayers().get("debug").setVisible(!mapBuilder.getTiledMap().getLayers().get("debug").isVisible());
                 }
                 if(keycode == Input.Keys.F12){
                     ScreenshotFactory.saveScreenshot();
@@ -95,13 +94,15 @@ public class MainScreen implements Screen {
         getAshley().addSystem(new PlayerControllSystem());
         getAshley().addSystem(new EntityDrawSystem(camera));
         getAshley().addSystem(new MovingEntitySystem());
-        if(!debugCamera){
+        if(!Config.enableDebugCamera){
             getAshley().addSystem(new CameraSystem(camera));
         }
     }
 
     private void initOverlays() {
-        overlays.add(new DebugOverlay(camera, getAshley()));
+        if(Config.showDebugUi){
+            overlays.add(new DebugOverlay(camera, getAshley()));
+        }
         overlays.add(new GameOverlay());
     }
 
@@ -158,21 +159,24 @@ public class MainScreen implements Screen {
 
         getAshley().addEntity(eyeball);
 
-        int max = 301;
-        int min = 300;
-        int numEntities = 10; // 4000
-        for (int i = 0; i < numEntities; i++) {
-            eyeball = getAshley().createEntity();
-            eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
-            ac = new AnimationComponent(walkAnimationU);
-            ac.leftAnimation = walkAnimationL;
-            ac.rightAnimation = walkAnimationR;
-            ac.upAnimation = walkAnimationU;
-            ac.downAnimation = walkAnimationD;
-            eyeball.add(ac);
-            eyeball.add(new VelocityComponent(0, 20));
-            getAshley().addEntity(eyeball);
+        if(Config.spawnDebugEntities){
+            int max = Config.debugEntitiesPosMax;
+            int min = Config.debugEntitiesPosMin;
+            int numEntities = Config.debugEntities; // 4000
+            for (int i = 0; i < numEntities; i++) {
+                eyeball = getAshley().createEntity();
+                eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
+                ac = new AnimationComponent(walkAnimationU);
+                ac.leftAnimation = walkAnimationL;
+                ac.rightAnimation = walkAnimationR;
+                ac.upAnimation = walkAnimationU;
+                ac.downAnimation = walkAnimationD;
+                eyeball.add(ac);
+                eyeball.add(new VelocityComponent(0, 20));
+                getAshley().addEntity(eyeball);
+            }
         }
+
     }
 
     private float angleWaveSpeed = 2.5f;
@@ -185,7 +189,7 @@ public class MainScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //Process debug camera controls
-        if(debugCamera){
+        if(Config.enableDebugCamera){
             input();
         }
 

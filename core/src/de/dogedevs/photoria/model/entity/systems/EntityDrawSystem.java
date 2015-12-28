@@ -12,6 +12,9 @@ import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+
 /**
  * Created by Furuha on 21.12.2015.
  */
@@ -21,6 +24,8 @@ public class EntityDrawSystem extends EntitySystem {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private ImmutableArray<Entity> entities;
+    private ArrayList<Entity> sortedEntities;
+    private YComparator comparator = new YComparator();
 
     public EntityDrawSystem(OrthographicCamera camera) {
         this.camera = camera;
@@ -30,12 +35,24 @@ public class EntityDrawSystem extends EntitySystem {
     @Override
     public void addedToEngine (Engine engine) {
         entities = engine.getEntitiesFor(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
+//        for(Entity e: entities){
+//            sortedEntities.add(e);
+//        }
+//        Collections.sort(sortedEntities, comparator);
     }
 
     @Override
     public void removedFromEngine (Engine engine) {
 
     }
+
+    private class YComparator implements Comparator<Entity> {
+        @Override
+        public int compare(Entity e1, Entity e2) {
+            return (int)Math.signum(ComponentMappers.position.get(e1).y - ComponentMappers.position.get(e2).y);
+        }
+    }
+
 
     @Override
     public void update (float deltaTime) {
@@ -45,7 +62,7 @@ public class EntityDrawSystem extends EntitySystem {
         AnimationComponent animation;
         VelocityComponent velocity;
 //        MainGame.log("update: " + entities.size());
-//        sortedEntities.sort(comparator);
+
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
