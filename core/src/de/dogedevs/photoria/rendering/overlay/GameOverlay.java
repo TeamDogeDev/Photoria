@@ -67,7 +67,7 @@ public class GameOverlay extends AbstractOverlay {
         Gdx.gl.glLineWidth(3);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN.add(Color.YELLOW));
-        shapeRenderer.polygon(statsToVertices(.25f, .75f, .5f, .6f, .1f));
+        shapeRenderer.polygon(statsToVertices(.25f, .75f, .5f, .6f, .8f));
 
         shapeRenderer.end();
         Gdx.gl.glLineWidth(1);
