@@ -1,24 +1,23 @@
 package de.dogedevs.photoria.model.entity.systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 /**
  * Created by Furuha on 21.12.2015.
  */
-public class EntityDrawSystem extends EntitySystem {
+public class EntityDrawSystem extends EntitySystem implements EntityListener {
 
 
     private final SpriteBatch batch;
@@ -30,29 +29,41 @@ public class EntityDrawSystem extends EntitySystem {
     public EntityDrawSystem(OrthographicCamera camera) {
         this.camera = camera;
         batch = new SpriteBatch();
+        sortedEntities = new ArrayList<>();
     }
 
     @Override
     public void addedToEngine (Engine engine) {
         entities = engine.getEntitiesFor(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
-//        for(Entity e: entities){
-//            sortedEntities.add(e);
-//        }
-//        Collections.sort(sortedEntities, comparator);
+        engine.addEntityListener(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
+        MainGame.log("update: " + entities.size());
+        for(Entity e: entities){
+            sortedEntities.add(e);
+        }
+        Collections.sort(sortedEntities, comparator);
     }
 
     @Override
     public void removedFromEngine (Engine engine) {
-
+        engine.removeEntityListener(this);
     }
 
     private class YComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity e1, Entity e2) {
-            return (int)Math.signum(ComponentMappers.position.get(e1).y - ComponentMappers.position.get(e2).y);
+            return (int)Math.signum(ComponentMappers.position.get(e2).y - ComponentMappers.position.get(e1).y);
         }
     }
 
+    @Override
+    public void entityAdded (Entity entity) {
+        sortedEntities.add(entity);
+    }
+
+    @Override
+    public void entityRemoved (Entity entity) {
+        sortedEntities.remove(entity);
+    }
 
     @Override
     public void update (float deltaTime) {
@@ -62,12 +73,14 @@ public class EntityDrawSystem extends EntitySystem {
         AnimationComponent animation;
         VelocityComponent velocity;
 //        MainGame.log("update: " + entities.size());
+//        Collections.sort(sortedEntities, comparator);
 
+        Collections.sort(sortedEntities, comparator);
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
-        for (int i = 0; i < entities.size(); ++i) {
-            Entity e = entities.get(i);
+        for (int i = 0; i < sortedEntities.size(); ++i) {
+            Entity e = sortedEntities.get(i);
 
             position = ComponentMappers.position.get(e);
             animation = ComponentMappers.animation.get(e);
