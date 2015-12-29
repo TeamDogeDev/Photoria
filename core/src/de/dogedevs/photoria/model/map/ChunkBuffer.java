@@ -65,6 +65,9 @@ public class ChunkBuffer {
             for (int col = overlap; col < CHUNK_SIZE+overlap; col++) {
                 cell = new ChunkCell();
                 cell.value = generatedMap[row][col];
+                if(cell.value != TileMapper.VOID){
+                    cell.collides = true;
+                }
                 chunk.setCell(cell, row-overlap, col-overlap, 2);
             }
         }

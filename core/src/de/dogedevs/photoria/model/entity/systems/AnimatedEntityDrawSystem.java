@@ -8,6 +8,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
@@ -79,16 +80,16 @@ public class AnimatedEntityDrawSystem extends EntitySystem {
 
             if(velocity != null){
                 switch (velocity.direction){
-                    case VelocityComponent.DOWN:
+                    case VelocityComponent.SOUTH:
                         batch.draw(visual.downAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
                         break;
-                    case VelocityComponent.UP:
+                    case VelocityComponent.NORTH:
                         batch.draw(visual.upAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
                         break;
-                    case VelocityComponent.LEFT:
+                    case VelocityComponent.WEST:
                         batch.draw(visual.leftAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
                         break;
-                    case VelocityComponent.RIGHT:
+                    case VelocityComponent.EAST:
                         batch.draw(visual.rightAnimation.getKeyFrame(visual.stateTime, true), position.x, position.y);
                         break;
                 }

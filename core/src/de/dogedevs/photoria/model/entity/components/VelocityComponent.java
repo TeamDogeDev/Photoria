@@ -8,10 +8,16 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class VelocityComponent implements Component, Pool.Poolable {
 
-    public static final int UP = 0;
-    public static final int DOWN = 1;
-    public static final int LEFT = 2;
-    public static final int RIGHT = 3;
+    public static final int NORTH = 0;
+    public static final int NORTH_WEST = 4;
+    public static final int NORTH_EAST = 5;
+
+    public static final int SOUTH = 1;
+    public static final int SOUTH_WEST = 6;
+    public static final int SOUTH_EAST = 7;
+
+    public static final int WEST = 2;
+    public static final int EAST = 3;
 
     public int direction;
     public float speed;

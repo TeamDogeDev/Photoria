@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 
@@ -48,25 +49,25 @@ public class PlayerControllSystem extends EntitySystem {
         if( Gdx.input.isKeyPressed(Input.Keys.A)){
 //            camera.translate(-32,0);
             velocity.speed = 128;
-            velocity.direction = VelocityComponent.LEFT;
+            velocity.direction = VelocityComponent.WEST;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(32,0);
             velocity.speed = 128;
-            velocity.direction = VelocityComponent.RIGHT;
+            velocity.direction = VelocityComponent.EAST;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.S)){
 //            camera.translate(0,-32);
             velocity.speed = 128;
-            velocity.direction = VelocityComponent.DOWN;
+            velocity.direction = VelocityComponent.SOUTH;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.W)){
 //            camera.translate(0,32);
             velocity.speed = 128;
-            velocity.direction = VelocityComponent.UP;
+            velocity.direction = VelocityComponent.NORTH;
             return;
         }
 

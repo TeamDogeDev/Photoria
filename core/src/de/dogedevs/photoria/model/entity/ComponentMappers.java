@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity.systems;
+package de.dogedevs.photoria.model.entity;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import de.dogedevs.photoria.model.entity.components.*;

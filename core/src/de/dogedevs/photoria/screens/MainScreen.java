@@ -54,10 +54,11 @@ public class MainScreen implements Screen {
     public void show() {
 
         initCamera();
-        initAshley();
         initOverlays();
         initMap();
+        initAshley();
         initEntities();
+
 
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
@@ -88,12 +89,10 @@ public class MainScreen implements Screen {
         });
     }
 
-
-
     private void initAshley() {
         getAshley().addSystem(new PlayerControllSystem());
         getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new MovingEntitySystem());
+        getAshley().addSystem(new MovingEntitySystem(mapBuilder.getBuffer()));
         if(!Config.enableDebugCamera){
             getAshley().addSystem(new CameraSystem(camera));
         }

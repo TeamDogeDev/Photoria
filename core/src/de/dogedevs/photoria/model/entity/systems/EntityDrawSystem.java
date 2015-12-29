@@ -5,6 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.SpriteComponent;
@@ -95,16 +96,16 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                         batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
                     } else {
                         switch (velocity.direction) {
-                            case VelocityComponent.DOWN:
+                            case VelocityComponent.SOUTH:
                                 batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
                                 break;
-                            case VelocityComponent.UP:
+                            case VelocityComponent.NORTH:
                                 batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
                                 break;
-                            case VelocityComponent.LEFT:
+                            case VelocityComponent.WEST:
                                 batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
                                 break;
-                            case VelocityComponent.RIGHT:
+                            case VelocityComponent.EAST:
                                 batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
                                 break;
                         }
