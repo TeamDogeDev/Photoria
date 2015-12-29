@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -37,7 +36,6 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
     public void addedToEngine (Engine engine) {
         entities = engine.getEntitiesFor(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
         engine.addEntityListener(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
-        MainGame.log("update: " + entities.size());
         for(Entity e: entities){
             sortedEntities.add(e);
         }
