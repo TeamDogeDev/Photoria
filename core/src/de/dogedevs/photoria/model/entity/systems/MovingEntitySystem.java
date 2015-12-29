@@ -3,7 +3,6 @@ package de.dogedevs.photoria.model.entity.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.MathUtils;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -64,7 +63,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
     }
 
-    int checks;
+//    int checks;
 
     @Override
     public void update (float deltaTime) {
@@ -74,7 +73,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
         float oldX;
         float oldY;
-        checks = 0;
+//        checks = 0;
         Collections.sort(sortedEntities, comparator);
 
         for (int i = 0; i < sortedEntities.size(); ++i) {
@@ -110,8 +109,8 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             }
 
         }
-        MainGame.log("Checks: "+checks);
-        checks = 0;
+//        MainGame.log("Checks: "+checks);
+//        checks = 0;
     }
 
     private boolean checkCollision(float x, float y) {
@@ -152,7 +151,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
 
     private boolean collides(float x1, float y1, float x2, float y2){
-        checks++;
+//        checks++;
         float xDif = Math.abs(x2-x1);
         float yDif = Math.abs(y2-y1);
         if((xDif+yDif) < (32)){
