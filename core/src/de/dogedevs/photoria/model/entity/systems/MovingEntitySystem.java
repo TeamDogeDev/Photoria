@@ -129,7 +129,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if((y - position.y) >= 32){
                 break;
             }
-            if(collides(x,y, position.x, position.y)){
+            if(rectCollides(x, y, position.x, position.y, 16)){
                 return true;
             }
         }
@@ -142,7 +142,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if((position.y - y) >= 32){
                 break;
             }
-            if(collides(x,y, position.x, position.y)){
+            if(rectCollides(x, y, position.x, position.y, 16)){
                 return true;
             }
         }
@@ -155,6 +155,17 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
         float xDif = Math.abs(x2-x1);
         float yDif = Math.abs(y2-y1);
         if((xDif+yDif) < (32)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rectCollides(float x1, float y1, float x2, float y2, int size){
+//        checks++;
+        if((x1-size) < x2 && x2 < (x1+size) && Math.abs(y2-y1) < size){
+            return true;
+        }
+        if((y1-size) < y2 && y2 < (y1+size) && Math.abs(x2-x1) < size){
             return true;
         }
         return false;
