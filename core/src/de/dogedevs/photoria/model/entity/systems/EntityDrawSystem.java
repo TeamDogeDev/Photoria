@@ -91,28 +91,28 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
 
                 if (velocity != null) {
                     if(velocity.speed == 0){
-                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                     } else {
                         switch (velocity.direction) {
                             case VelocityComponent.SOUTH:
-                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.NORTH:
-                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                         }
                     }
                 } else {
-                    batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x, position.y);
+                    batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                 }
             } else {
-                batch.draw(visual.region, position.x, position.y);
+                batch.draw(visual.region, position.x-visual.region.getRegionWidth()/2, position.y);
             }
         }
 
