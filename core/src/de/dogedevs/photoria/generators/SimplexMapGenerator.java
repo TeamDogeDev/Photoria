@@ -1,7 +1,6 @@
 package de.dogedevs.photoria.generators;
 
 import com.badlogic.gdx.math.MathUtils;
-import de.dogedevs.photoria.OpenSimplexNoise;
 
 import java.util.Random;
 

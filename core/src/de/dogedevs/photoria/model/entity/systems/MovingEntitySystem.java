@@ -2,12 +2,8 @@ package de.dogedevs.photoria.model.entity.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.AnimationComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.SpriteComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 
@@ -70,6 +66,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 //        MainGame.log("update: "+entities.size());
         PositionComponent position;
         VelocityComponent velocity;
+        CollisionComponent collision;
 
         float oldX;
         float oldY;
@@ -81,13 +78,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
             position = ComponentMappers.position.get(e);
             velocity = ComponentMappers.velocity.get(e);
+            collision = ComponentMappers.collision.get(e);
 
             oldY = position.y;
             oldX = position.x;
 
-            if(MathUtils.randomBoolean(0.001f)){
-                velocity.direction = MathUtils.random(0, 3);
-            }
             switch (velocity.direction){
                 case VelocityComponent.SOUTH:
                     position.y -= velocity.speed * deltaTime;
@@ -103,14 +98,10 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     break;
             }
 
-            if(checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, i)){
+            if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, i))){
                 position.y = oldY;
                 position.x = oldX;
                 velocity.blockedDelta += deltaTime;
-                if(velocity.blockedDelta > 0.5f){
-                    velocity.direction = MathUtils.random(0, 3);
-                    velocity.blockedDelta = 0;
-                }
             }
 
         }
@@ -126,6 +117,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
     private boolean checkEntityCollision(float x, float y, int startIndex) {
         PositionComponent position;
+        CollisionComponent collision;
         for(int i = startIndex; i < sortedEntities.size(); i++){
             if(i == startIndex){
                 continue;
@@ -133,6 +125,10 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             position = ComponentMappers.position.get(sortedEntities.get(i));
             if((y - position.y) >= 32){
                 break;
+            }
+            collision = ComponentMappers.collision.get(sortedEntities.get(i));
+            if(collision == null){
+                continue;
             }
             if(rectCollides(x, y, position.x, position.y, 16)){
                 return true;
@@ -146,6 +142,10 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             position = ComponentMappers.position.get(sortedEntities.get(i));
             if((position.y - y) >= 32){
                 break;
+            }
+            collision = ComponentMappers.collision.get(sortedEntities.get(i));
+            if(collision == null){
+                continue;
             }
             if(rectCollides(x, y, position.x, position.y, 16)){
                 return true;
