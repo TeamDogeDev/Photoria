@@ -98,7 +98,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     break;
             }
 
-            if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, i))){
+            if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, collision.size, i))){
                 position.y = oldY;
                 position.x = oldX;
                 velocity.blockedDelta += deltaTime;
@@ -115,7 +115,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     }
 
 
-    private boolean checkEntityCollision(float x, float y, int startIndex) {
+    private boolean checkEntityCollision(float x, float y, float ownSize, int startIndex) {
         PositionComponent position;
         CollisionComponent collision;
         for(int i = startIndex; i < sortedEntities.size(); i++){
@@ -130,7 +130,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if(collision == null){
                 continue;
             }
-            if(rectCollides(x, y, position.x, position.y, 16)){
+            if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
                 return true;
             }
         }
@@ -147,7 +147,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if(collision == null){
                 continue;
             }
-            if(rectCollides(x, y, position.x, position.y, 16)){
+            if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
                 return true;
             }
         }
@@ -165,7 +165,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
         return false;
     }
 
-    private boolean rectCollides(float x1, float y1, float x2, float y2, int size){
+    private boolean rectCollides(float x1, float y1, float x2, float y2, float size){
 //        checks++;
         if((x1-size) < x2 && x2 < (x1+size) && Math.abs(y2-y1) < size){
             return true;

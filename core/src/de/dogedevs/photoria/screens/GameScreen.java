@@ -153,13 +153,14 @@ public class GameScreen implements Screen {
         Animation wormWalkAnimationD = new Animation(0.3f, wormWalkFrames[2]);
         Animation wormWalkAnimationL = new Animation(0.3f, wormWalkFrames[1]);
         Animation wormWalkAnimationR = new Animation(0.3f, wormWalkFrames[3]);
+//        Animation shipRight = AnimationLoader.getShipAnimation()[0];
 
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
         player.add(new CollisionComponent());
         player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 1));
-        AnimationComponent ac = new AnimationComponent(wormWalkAnimationD);
+        AnimationComponent ac = new AnimationComponent(wormWalkAnimationR);
         ac.leftAnimation = wormWalkAnimationL;
         ac.rightAnimation = wormWalkAnimationR;
         ac.upAnimation = wormWalkAnimationU;

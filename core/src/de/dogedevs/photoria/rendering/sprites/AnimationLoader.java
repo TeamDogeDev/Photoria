@@ -44,4 +44,18 @@ public class AnimationLoader {
         return  result;
     }
 
+
+    public static Animation[] getShipAnimation(){
+        Texture wormWalkSheet = new Texture(Gdx.files.internal("ship_right.png"));
+        TextureRegion[][] wormTmp = TextureRegion.split(wormWalkSheet, wormWalkSheet.getWidth()/4, wormWalkSheet.getHeight()/1);
+        TextureRegion[][] wormWalkFrames = new TextureRegion[1][4];
+        for (int i = 0; i < 1; i++) {
+            for (int j = 0; j < 4; j++) {
+                wormWalkFrames[i][j] = wormTmp[i][j];
+            }
+        }
+        Animation[] result = new Animation[4];
+        result[0] = new Animation(0.3f, wormWalkFrames[0]); //Up
+        return  result;
+    }
 }

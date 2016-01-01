@@ -9,28 +9,24 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class CollisionComponent implements Component, Pool.Poolable {
 
-    int height;
-    int width;
+    public float size;
     boolean ghost;
     CollisionListener collisionListener;
 
     public CollisionComponent() {
-        this.height = 32;
-        this.width = 32;
+        this.size = 16;
         this.ghost = false;
     }
 
-    public CollisionComponent(int height, int width, CollisionListener collisionListener) {
-        this.height = height;
-        this.width = width;
+    public CollisionComponent(float size,CollisionListener collisionListener) {
+        this.size = size;
         this.collisionListener = collisionListener;
         this.ghost = false;
     }
 
     @Override
     public void reset() {
-        height = 32;
-        width = 32;
+        size = 16;
         collisionListener = null;
         this.ghost = false;
     }
