@@ -25,6 +25,7 @@ import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
+import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 
 /**
@@ -154,17 +155,18 @@ public class GameScreen implements Screen {
         Animation wormWalkAnimationL = new Animation(0.3f, wormWalkFrames[1]);
         Animation wormWalkAnimationR = new Animation(0.3f, wormWalkFrames[3]);
 //        Animation shipRight = AnimationLoader.getShipAnimation()[0];
+        Animation[] playerAnimations = AnimationLoader.getPlayerAnimations();
 
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
         player.add(new CollisionComponent());
         player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 1));
-        AnimationComponent ac = new AnimationComponent(wormWalkAnimationR);
-        ac.leftAnimation = wormWalkAnimationL;
-        ac.rightAnimation = wormWalkAnimationR;
-        ac.upAnimation = wormWalkAnimationU;
-        ac.downAnimation = wormWalkAnimationD;
+        AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
+        ac.leftAnimation = playerAnimations[2];
+        ac.rightAnimation = playerAnimations[3];
+        ac.upAnimation = playerAnimations[0];
+        ac.downAnimation = playerAnimations[1];
         player.add(ac);
         getAshley().addEntity(player);
 

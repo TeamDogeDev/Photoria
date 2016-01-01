@@ -58,4 +58,22 @@ public class AnimationLoader {
         result[0] = new Animation(0.3f, wormWalkFrames[0]); //Up
         return  result;
     }
+
+    public static Animation[] getPlayerAnimations(){
+        Texture walkSheet = new Texture(Gdx.files.internal("player_demo.png"));
+        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/13, walkSheet.getHeight()/21);
+        TextureRegion[][] walkFrames = new TextureRegion[4][8];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 8; j++) {
+                walkFrames[i][j] = tmp[i+8][j+1];
+            }
+        }
+        Animation[] result = new Animation[5];
+        result[0] = new Animation(0.1f, walkFrames[0]); //Up
+        result[1] = new Animation(0.1f, walkFrames[2]); //Down
+        result[2] = new Animation(0.1f, walkFrames[1]); //Left
+        result[3] = new Animation(0.1f, walkFrames[3]); //Right
+        result[4] = new Animation(2f, tmp[10][1]); //Idle
+        return  result;
+    }
 }
