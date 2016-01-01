@@ -8,11 +8,9 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -129,31 +127,19 @@ public class GameScreen implements Screen {
 
     private void initEntities() {
 
-        Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
-        TextureRegion[][] walkFrames = new TextureRegion[4][3 * 1];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 3; j++) {
-                walkFrames[i][j] = tmp[i][j];
-            }
-        }
-        Animation walkAnimationU = new Animation(0.3f, walkFrames[0]);
-        Animation walkAnimationD = new Animation(0.3f, walkFrames[2]);
-        Animation walkAnimationL = new Animation(0.3f, walkFrames[1]);
-        Animation walkAnimationR = new Animation(0.3f, walkFrames[3]);
+//        Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
+//        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
+//        TextureRegion[][] walkFrames = new TextureRegion[4][3 * 1];
+//        for (int i = 0; i < 4; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                walkFrames[i][j] = tmp[i][j];
+//            }
+//        }
 
-        Texture wormWalkSheet = new Texture(Gdx.files.internal("big_worm.png"));
-        TextureRegion[][] wormTmp = TextureRegion.split(wormWalkSheet, wormWalkSheet.getWidth()/3, wormWalkSheet.getHeight()/4);
-        TextureRegion[][] wormWalkFrames = new TextureRegion[4][3 * 1];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 3; j++) {
-                wormWalkFrames[i][j] = wormTmp[i][j];
-            }
-        }
-        Animation wormWalkAnimationU = new Animation(0.3f, wormWalkFrames[0]);
-        Animation wormWalkAnimationD = new Animation(0.3f, wormWalkFrames[2]);
-        Animation wormWalkAnimationL = new Animation(0.3f, wormWalkFrames[1]);
-        Animation wormWalkAnimationR = new Animation(0.3f, wormWalkFrames[3]);
+
+
+
+
 //        Animation shipRight = AnimationLoader.getShipAnimation()[0];
         Animation[] playerAnimations = AnimationLoader.getPlayerAnimations();
 
@@ -170,14 +156,23 @@ public class GameScreen implements Screen {
         player.add(ac);
         getAshley().addEntity(player);
 
-        AiComponent aiComponent = new AiComponent();
-        aiComponent.ai = new DefaultMovingAi();
 
         if(Config.spawnDebugEntities){
+
             int max = Config.debugEntitiesPosMax;
             int min = Config.debugEntitiesPosMin;
             int numEntities = Config.debugEntities;
-            for (int i = 0; i < numEntities; i++) {
+
+            AiComponent aiComponent = new AiComponent();
+            aiComponent.ai = new DefaultMovingAi();
+
+            Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
+            Animation walkAnimationU = animations[0];
+            Animation walkAnimationD = animations[1];
+            Animation walkAnimationL = animations[2];
+            Animation walkAnimationR = animations[3];
+
+            for (int i = 0; i < numEntities/2; i++) {
                 Entity eyeball = getAshley().createEntity();
                 eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
                 ac = new AnimationComponent(walkAnimationU);
@@ -190,6 +185,27 @@ public class GameScreen implements Screen {
                 eyeball.add(aiComponent);
                 eyeball.add(new VelocityComponent(0, 20));
                 getAshley().addEntity(eyeball);
+            }
+
+            animations = AnimationLoader.getMovementAnimations("slime.png", true, 4, 3);
+            walkAnimationU = animations[0];
+            walkAnimationD = animations[1];
+            walkAnimationL = animations[2];
+            walkAnimationR = animations[3];
+
+            for (int i = 0; i < numEntities/2; i++) {
+                Entity slime = getAshley().createEntity();
+                slime.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
+                ac = new AnimationComponent(walkAnimationU);
+                ac.leftAnimation = walkAnimationL;
+                ac.rightAnimation = walkAnimationR;
+                ac.upAnimation = walkAnimationU;
+                ac.downAnimation = walkAnimationD;
+                slime.add(ac);
+                slime.add(new CollisionComponent());
+                slime.add(aiComponent);
+                slime.add(new VelocityComponent(0, 20));
+                getAshley().addEntity(slime);
             }
         }
 
