@@ -229,7 +229,7 @@ public class GameScreen implements Screen {
     private float amplitudeWave = 2;
     private float angleWave = 0;
     private float redLevel = 0;
-
+    private float tmp = 0;
     public void render(float delta) {
         //Clear buffer
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
@@ -272,10 +272,21 @@ public class GameScreen implements Screen {
         if(redLevel > 1) {
             redLevel = 0;
         }
+        tmp += 0.005f;
         cloudShader.begin();
         cloudShader.setUniformf("redLevel", redLevel);
+        cloudShader.setUniformf("camPosition", camera.position);
+        cloudShader.setUniformf("tmp", tmp);
         cloudShader.end();
 
+
+//        ImmutableArray<Entity> entitiesFor = ashley.getEntitiesFor(Family.all(PlayerComponent.class).get());
+//        PositionComponent playerPos = ComponentMappers.position.get(entitiesFor.get(0));
+//        entitiesFor.get(0);
+//        cloudBatch.setBlendFunction(Gdx.gl.GL_ONE, Gdx.gl.GL_ONE_MINUS_SRC_COLOR);
+//        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_SRC_ALPHA);
+        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+//        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE);
         cloudBatch.begin();
         cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         cloudBatch.end();
