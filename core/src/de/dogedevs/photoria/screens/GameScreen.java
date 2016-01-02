@@ -8,12 +8,14 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.systems.*;
 import de.dogedevs.photoria.model.map.MapCompositor;
@@ -31,17 +33,19 @@ public class GameScreen implements Screen {
 
     static private PooledEngine ashley;
 
-    private Batch batch, waterBatch, mapBatch;
+    private Batch batch, waterBatch, mapBatch, cloudBatch;
     private MapCompositor mapCompositor;
     private CustomTiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
 
-    private ShaderProgram shader;
+    private ShaderProgram waterShader, cloudShader;
 
     private Array<AbstractOverlay> overlays = new Array();
 
     private final int[] fluidLayer = { 0 };
     private final int[] foregroundLayers = { 1,2,3 };
+
+    private Texture clouds = new Texture(Gdx.files.internal("clouds.png"));
 
     public void show() {
 
@@ -114,11 +118,17 @@ public class GameScreen implements Screen {
         mapBatch = tiledMapRenderer.getBatch();
         batch = new SpriteBatch();
         waterBatch = new SpriteBatch();
+        cloudBatch = new SpriteBatch();
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
-        System.out.println(shader.isCompiled() ? "Shader compiled" : shader.getLog());
-        waterBatch.setShader(shader);
+        cloudShader = new ShaderProgram(Gdx.files.internal("./shaders/cloudShader.vsh"), Gdx.files.internal("./shaders/cloudShader.fsh"));
+        MainGame.log(cloudShader.isCompiled() ? "CloudShader compiled" : cloudShader.getLog());
+        cloudBatch.setShader(cloudShader);
+
+        ShaderProgram.pedantic = false;
+        waterShader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
+        MainGame.log(waterShader.isCompiled() ? "WaterShader compiled" : waterShader.getLog());
+        waterBatch.setShader(waterShader);
 
         tiledMapRenderer.setBatch(waterBatch);
     }
@@ -212,6 +222,7 @@ public class GameScreen implements Screen {
     private float angleWaveSpeed = 2.5f;
     private float amplitudeWave = 2;
     private float angleWave = 0;
+    private float redLevel = 0;
 
     public void render(float delta) {
         //Clear buffer
@@ -233,9 +244,9 @@ public class GameScreen implements Screen {
             angleWave -= Math.PI*2;
         }
 
-        shader.begin();
-        shader.setUniformf("waveData", angleWave, amplitudeWave);
-        shader.end();
+        waterShader.begin();
+        waterShader.setUniformf("waveData", angleWave, amplitudeWave);
+        waterShader.end();
 
         tiledMapRenderer.setBatch(waterBatch);
         tiledMapRenderer.setView(camera);
@@ -246,8 +257,22 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render(foregroundLayers);
 
+
+
         //Process entities
         ashley.update(Gdx.graphics.getDeltaTime());
+
+        redLevel += 0.01f;
+        if(redLevel > 1) {
+            redLevel = 0;
+        }
+        cloudShader.begin();
+        cloudShader.setUniformf("redLevel", redLevel);
+        cloudShader.end();
+
+        cloudBatch.begin();
+        cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        cloudBatch.end();
 
         //Render Overlays
         for(AbstractOverlay overlay : overlays) {
@@ -308,7 +333,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        batch.dispose();
+        cloudBatch.dispose();
+        mapBatch.dispose();
+        waterBatch.dispose();
+        waterShader.dispose();
+        tiledMapRenderer.dispose();
     }
 
     public static PooledEngine getAshley(){

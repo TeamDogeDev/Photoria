@@ -36,7 +36,7 @@ public class MainMenu implements Screen {
     public MainMenu() {
         music = Gdx.audio.newMusic(Gdx.files.internal("./music/title.mp3"));
         music.setLooping(true);
-        music.play();
+//        music.play();
         spriteBatch = new SpriteBatch();
         starfieldBatch = new SpriteBatch();
 
