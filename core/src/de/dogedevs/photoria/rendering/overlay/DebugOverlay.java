@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
-import de.dogedevs.photoria.model.map.OffsetHolder;
 
 import java.text.DecimalFormat;
 
@@ -42,10 +41,10 @@ public class DebugOverlay extends AbstractOverlay {
         font.draw(batch, "cam y="+floatFormat.format(camera.position.y) , 1070, 140, 200, Align.right, false);
         font.draw(batch, "entities="+ashley.getEntities().size(), 1070, 120, 200, Align.right, false);
         font.draw(batch, "zoom="+camera.zoom, 1070, 100, 200, Align.right, false);
-        font.draw(batch, "x="+Math.round((camera.position.x- OffsetHolder.offsetX)/32), 1070, 80, 200, Align.right, false);
-        font.draw(batch, "y="+Math.round((camera.position.y-OffsetHolder.offsetY)/32) , 1070, 60, 200, Align.right, false);
-        font.draw(batch, "chunk x="+Math.round((camera.position.x-OffsetHolder.offsetX)/32/64), 1070, 40, 200, Align.right, false);
-        font.draw(batch, "chunk y="+Math.round((camera.position.y-OffsetHolder.offsetY)/32/64) , 1070, 20, 200, Align.right, false);
+        font.draw(batch, "x="+Math.round((camera.position.x)/32), 1070, 80, 200, Align.right, false);
+        font.draw(batch, "y="+Math.round((camera.position.y)/32) , 1070, 60, 200, Align.right, false);
+        font.draw(batch, "chunk x="+Math.round((camera.position.x)/32/64), 1070, 40, 200, Align.right, false);
+        font.draw(batch, "chunk y="+Math.round((camera.position.y)/32/64) , 1070, 20, 200, Align.right, false);
         batch.end();
     }
 

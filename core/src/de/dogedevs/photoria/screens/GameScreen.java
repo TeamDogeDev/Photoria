@@ -22,7 +22,10 @@ import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
+import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
+
+import java.util.Arrays;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -143,7 +146,10 @@ public class GameScreen implements Screen {
 
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
-//        player.add(new CollisionComponent());
+        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+        Arrays.sort(cc.groundCollision);
+        player.add(cc);
         player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 10));
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);

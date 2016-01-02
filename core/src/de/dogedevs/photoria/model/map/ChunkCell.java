@@ -9,6 +9,5 @@ public class ChunkCell {
 
     public int value;
     public TiledMapTileLayer.Cell cell;
-    public boolean collides;
 
 }
