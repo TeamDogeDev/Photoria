@@ -85,7 +85,6 @@ public class GameOverlay extends AbstractOverlay {
 
     private void renderHealth() {
         batch.begin();
-        font.setColor(1, 0, 0, 1);
         for (int i = 0; i < 10; i++) {
             if (i % 3 == 0) {
                 batch.draw(heart_full, HUD_TILE_WIDTH / 2 + (i * HUD_TILE_WIDTH), Gdx.graphics.getHeight() - HUD_TILE_HEIGHT - (HUD_TILE_HEIGHT / 2));
