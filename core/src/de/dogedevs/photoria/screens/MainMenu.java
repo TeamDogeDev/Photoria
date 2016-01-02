@@ -37,11 +37,11 @@ public class MainMenu implements Screen {
     public MainMenu() {
         music = Gdx.audio.newMusic(Gdx.files.internal("./music/title.mp3"));
         music.setLooping(true);
-        music.play();
+//        music.play();
         spriteBatch = new SpriteBatch();
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/starfield.vsh"), Gdx.files.internal("./shaders/starfield.fsh"));
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/passthrough.vsh"), Gdx.files.internal("./shaders/passthrough.fsh"));
 
         System.out.println(shader.isCompiled() ? "Starfield shader compiled" : shader.getLog());
         spriteBatch.setShader(shader);
