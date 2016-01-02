@@ -6,6 +6,9 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -29,11 +32,20 @@ public class MainMenu implements Screen {
     private TextButton startBtn, quitBtn;
     private Music music;
 
+    private ShaderProgram shader;
+
     public MainMenu() {
         music = Gdx.audio.newMusic(Gdx.files.internal("./music/title.mp3"));
         music.setLooping(true);
         music.play();
         spriteBatch = new SpriteBatch();
+
+        ShaderProgram.pedantic = false;
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/starfield.vsh"), Gdx.files.internal("./shaders/starfield.fsh"));
+
+        System.out.println(shader.isCompiled() ? "Starfield shader compiled" : shader.getLog());
+        spriteBatch.setShader(shader);
+
         uiSkin = new Skin(Gdx.files.internal("ui/uiskin.json"));
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -75,6 +87,14 @@ public class MainMenu implements Screen {
         Gdx.gl.glClearColor(0.1f, 0.2f, 0.4f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        shader.begin();
+        shader.setUniformf("resolution", new Vector2(10, 10));
+        shader.setUniformf("starRadius", 0.4f);
+        shader.setUniformf("starDensity", 5f);
+        shader.setUniformf("starColor", new Vector3(1, 1, 1));
+        shader.setUniformf("speed", 1f);
+        shader.setUniformf("time", delta);
+        shader.end();
         spriteBatch.begin();
         spriteBatch.draw(title, (Gdx.graphics.getWidth() - title.getWidth()) / 2, Gdx.graphics.getHeight() - title.getHeight());
         spriteBatch.end();
