@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
 import de.dogedevs.photoria.MainGame;
@@ -228,8 +229,8 @@ public class GameScreen implements Screen {
     private float angleWaveSpeed = 2.5f;
     private float amplitudeWave = 2;
     private float angleWave = 0;
-    private float redLevel = 0;
     private float tmp = 0;
+
     public void render(float delta) {
         //Clear buffer
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.2f, 1);
@@ -268,15 +269,10 @@ public class GameScreen implements Screen {
         //Process entities
         ashley.update(Gdx.graphics.getDeltaTime());
 
-        redLevel += 0.01f;
-        if(redLevel > 1) {
-            redLevel = 0;
-        }
-        tmp += 0.005f;
+        tmp += 0.001f;
         cloudShader.begin();
-        cloudShader.setUniformf("redLevel", redLevel);
         cloudShader.setUniformf("camPosition", camera.position);
-        cloudShader.setUniformf("tmp", tmp);
+        cloudShader.setUniformf("scroll", new Vector2(tmp, 0));
         cloudShader.end();
 
 
