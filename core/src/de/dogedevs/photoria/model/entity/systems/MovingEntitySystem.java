@@ -7,10 +7,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -97,7 +94,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.x += velocity.speed * deltaTime;
                     break;
             }
-            if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, collision.size, i))){
+            if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || checkEntityCollision(position.x, position.y, collision.size, i))){
                 position.y = oldY;
                 position.x = oldX;
                 velocity.blockedDelta += deltaTime;
@@ -108,12 +105,15 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 //        checks = 0;
     }
 
-    private boolean checkCollision(float x, float y) {
-        ChunkCell cell = buffer.getCellLazy((int)(x/32), (int)(y/32), 2);
+    private boolean checkCollision(float x, float y, int[] groundCollision) {
+        ChunkCell cell = buffer.getCellLazy((int)(x/32), (int)(y/32), ChunkBuffer.COLLISION);
         if(cell == null){
             return true;
         }
-        return (cell.collides);
+        if(groundCollision == null){
+            return false;
+        }
+        return (Arrays.binarySearch(groundCollision, cell.value) >= 0);
     }
 
 

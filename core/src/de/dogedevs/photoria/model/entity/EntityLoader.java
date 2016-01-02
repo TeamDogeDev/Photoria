@@ -11,6 +11,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.Chunk;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
+import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.screens.GameScreen;
 
 /**
@@ -21,8 +22,6 @@ public class EntityLoader {
     public void createChunkEntities(int chunkX, int chunkY, long seed, ChunkBuffer buffer){
         int numEntities = 50;
         PooledEngine ashley = GameScreen.getAshley();
-
-
 
         Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
         Animation walkAnimationU = animations[0];
@@ -44,6 +43,7 @@ public class EntityLoader {
             ac.downAnimation = walkAnimationD;
             eyeball.add(ac);
             CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+            cc.groundCollision = TileCollisionMapper.normalBorderCollision;
             eyeball.add(cc);
             AiComponent aiComponent = ashley.createComponent(AiComponent.class);
             aiComponent.ai = new DefaultMovingAi();
@@ -75,6 +75,7 @@ public class EntityLoader {
             ac.downAnimation = walkAnimationD;
             slime.add(ac);
             CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+            cc.groundCollision = TileCollisionMapper.normalBorderCollision;
             slime.add(cc);
             AiComponent aiComponent = ashley.createComponent(AiComponent.class);
             aiComponent.ai = new DefaultMovingAi();

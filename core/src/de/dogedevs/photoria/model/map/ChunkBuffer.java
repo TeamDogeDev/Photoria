@@ -6,6 +6,7 @@ import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.MapDecorator;
 import de.dogedevs.photoria.generators.SimplexMapGenerator;
 import de.dogedevs.photoria.model.entity.EntityLoader;
+import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.HashMap;
  */
 public class ChunkBuffer {
 
+    public static final int COLLISION = 0;
     public static final int GROUND = 1;
     public static final int FLUID = 3;
     public static final int DECO1 = 2;
@@ -76,30 +78,47 @@ public class ChunkBuffer {
     }
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {
-        ChunkCell cell;
-        ChunkCell cell2;
-        chunk.addLayer(1, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
-        chunk.addLayer(3, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
+        ChunkCell cell, cellFluid, cellCollision;
+        chunk.addLayer(GROUND, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
+        chunk.addLayer(COLLISION, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
+        chunk.addLayer(FLUID, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
         for (int row = overlap; row < CHUNK_SIZE+overlap; row++) {
             for (int col = overlap; col < CHUNK_SIZE+overlap; col++) {
+
+                //Normal Ground
                 cell = new ChunkCell();
-                cell2 = new ChunkCell();
                 cell.value = generatedMap[row][col];
-                cell2.value = generatedMap[row][col];
                 chunk.setCell(cell, row-overlap, col-overlap, GROUND);
+
+                //Fluid layer
+                cellFluid = new ChunkCell();
+                cellFluid.value = generatedMap[row][col];
                 if(chunk.getCell(row-overlap, col-overlap, FLUID) == null) {
-                    chunk.setCell(cell2, row - overlap, col - overlap, FLUID);
+                    chunk.setCell(cellFluid, row - overlap, col - overlap, FLUID); //Not rendered, only to avoid NullPointer
                 }
                 if(generatedMap[row][col] == TileMapper.LAVA || generatedMap[row][col] == TileMapper.WATER) {
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), col - overlap, FLUID);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), col - overlap, FLUID);
-                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
-                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap - 1, 0, 63), col - overlap, FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap + 1, 0, 63), col - overlap, FLUID);
+                    chunk.setCell(cellFluid, row - overlap, MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, row - overlap, MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
 
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
+                    chunk.setCell(cellFluid, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
+                }
+
+                //Collision layer
+                cellCollision = new ChunkCell();
+                if(generatedMap[row][col] == TileMapper.LAVA) {
+                    cellCollision.value = TileCollisionMapper.LAVA;
+                    chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
+                } else if(generatedMap[row][col] == TileMapper.WATER) {
+                    cellCollision.value = TileCollisionMapper.WATER;
+                    chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
+                } else {
+                    cellCollision.value = TileCollisionMapper.VOID;
+                    chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 }
             }
         }
@@ -110,14 +129,31 @@ public class ChunkBuffer {
     private void createDecoration(Chunk chunk, int[][] generatedMap, int overlap) {
         generatedMap = decorator.decorate(generatedMap);
 
-        ChunkCell cell;
+        ChunkCell cell, cellCollision;
         chunk.addLayer(2, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
         for (int row = overlap; row < CHUNK_SIZE+overlap; row++) {
             for (int col = overlap; col < CHUNK_SIZE+overlap; col++) {
                 cell = new ChunkCell();
                 cell.value = generatedMap[row][col];
+                //Collision layer
                 if(cell.value != TileMapper.VOID){
-                    cell.collides = true;
+                    cellCollision = new ChunkCell();
+                    if(generatedMap[row][col] > TileMapper.WATER && generatedMap[row][col] <= TileMapper.WATER_BOTTOM_RIGHT_INNER) {
+                        cellCollision.value = TileCollisionMapper.WATER_BORDER;
+                        chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
+
+                    } else if(generatedMap[row][col] > TileMapper.LAVA && generatedMap[row][col] <= TileMapper.LAVA_BOTTOM_RIGHT_INNER) {
+                        cellCollision.value = TileCollisionMapper.LAVA_BORDER;
+                        chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
+
+                    } else if(generatedMap[row][col] > TileMapper.LAVA_STONE && generatedMap[row][col] <= TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT) {
+                        cellCollision.value = TileCollisionMapper.LAVA_STONE_BORDER;
+                        chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
+
+                    } else {
+                        cellCollision.value = TileCollisionMapper.VOID;
+                        chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
+                    }
                 }
                 chunk.setCell(cell, row-overlap, col-overlap, DECO1);
             }

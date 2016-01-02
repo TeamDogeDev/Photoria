@@ -10,24 +10,28 @@ import com.badlogic.gdx.utils.Pool;
 public class CollisionComponent implements Component, Pool.Poolable {
 
     public float size;
-    boolean ghost;
-    CollisionListener collisionListener;
+    public boolean ghost;
+    public int[] groundCollision;
+    public CollisionListener collisionListener;
 
     public CollisionComponent() {
         this.size = 16;
         this.ghost = false;
+        this.groundCollision = null;
     }
 
     public CollisionComponent(float size,CollisionListener collisionListener) {
         this.size = size;
         this.collisionListener = collisionListener;
         this.ghost = false;
+        this.groundCollision = null;
     }
 
     @Override
     public void reset() {
-        size = 16;
-        collisionListener = null;
+        this.size = 16;
+        this.collisionListener = null;
+        this.groundCollision = null;
         this.ghost = false;
     }
 
