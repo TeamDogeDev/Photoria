@@ -144,7 +144,7 @@ public class GameScreen implements Screen {
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
 //        player.add(new CollisionComponent());
-        player.add(new PositionComponent(10 * 64 * 32 + (32*32), 10 * 64 * 32 + (32*32)));
+        player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 10));
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
         ac.leftAnimation = playerAnimations[2];
