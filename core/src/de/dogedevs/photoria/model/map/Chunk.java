@@ -55,4 +55,8 @@ public class Chunk {
     public String getHashCode(){
         return x+"_"+y;
     }
+
+    public ChunkCell getCellLazy(int x, int y, int layer) {
+        return cells.get(layer)[x%64][y%64];
+    }
 }

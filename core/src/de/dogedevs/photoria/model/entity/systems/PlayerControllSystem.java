@@ -48,25 +48,25 @@ public class PlayerControllSystem extends EntitySystem {
 
         if( Gdx.input.isKeyPressed(Input.Keys.A)){
 //            camera.translate(-32,0);
-            velocity.speed = 128;
+            velocity.speed = 128*3;
             velocity.direction = VelocityComponent.WEST;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(32,0);
-            velocity.speed = 128;
+            velocity.speed = 128*3;
             velocity.direction = VelocityComponent.EAST;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.S)){
 //            camera.translate(0,-32);
-            velocity.speed = 128;
+            velocity.speed = 128*3;
             velocity.direction = VelocityComponent.SOUTH;
             return;
         }
         if( Gdx.input.isKeyPressed(Input.Keys.W)){
 //            camera.translate(0,32);
-            velocity.speed = 128;
+            velocity.speed = 128*3;
             velocity.direction = VelocityComponent.NORTH;
             return;
         }

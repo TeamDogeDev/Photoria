@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
+import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.OffsetHolder;
 
 import java.text.DecimalFormat;
@@ -12,12 +13,14 @@ import java.text.DecimalFormat;
  * Created by elektropapst on 27.12.2015.
  */
 public class DebugOverlay extends AbstractOverlay {
+    private ChunkBuffer chunkBuffer;
     private BitmapFont font;
     private OrthographicCamera camera;
     private DecimalFormat floatFormat = new DecimalFormat("#.##");
     private PooledEngine ashley;
-    public DebugOverlay(OrthographicCamera camera, PooledEngine ashley) {
+    public DebugOverlay(OrthographicCamera camera, PooledEngine ashley, ChunkBuffer chunkBuffer) {
         init();
+        this.chunkBuffer = chunkBuffer;
         this.camera = camera;
         this.ashley = ashley;
     }
@@ -34,6 +37,7 @@ public class DebugOverlay extends AbstractOverlay {
     @Override
     public void render() {
         batch.begin();
+        font.draw(batch, "chunks="+chunkBuffer.getChunkCount(), 1070, 180, 200, Align.right, false);
         font.draw(batch, "cam x="+floatFormat.format(camera.position.x), 1070, 160, 200, Align.right, false);
         font.draw(batch, "cam y="+floatFormat.format(camera.position.y) , 1070, 140, 200, Align.right, false);
         font.draw(batch, "entities="+ashley.getEntities().size(), 1070, 120, 200, Align.right, false);

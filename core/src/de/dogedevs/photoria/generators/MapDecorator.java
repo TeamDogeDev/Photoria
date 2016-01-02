@@ -177,6 +177,7 @@ public class MapDecorator extends AbstractMapDecorator {
             case 0b001000000 : return baseTile+3; // _TOP_RIGHT;
             case 0b011100000 :
             case 0b011110000 :
+            case 0b011110001 :
             case 0b011100001 : return baseTile+10; // _TOP_RIGHT_INNER;
             default: return VOID;
         }

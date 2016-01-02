@@ -12,10 +12,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
-import de.dogedevs.photoria.model.entity.ai.DefaultMovingAi;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.systems.*;
 import de.dogedevs.photoria.model.map.MapCompositor;
@@ -48,11 +46,10 @@ public class GameScreen implements Screen {
     public void show() {
 
         initCamera();
-        initOverlays();
         initMap();
         initAshley();
         initEntities();
-
+        initOverlays();
 
         Gdx.input.setInputProcessor(new InputAdapter(){
             @Override
@@ -84,10 +81,11 @@ public class GameScreen implements Screen {
     }
 
     private void initAshley() {
-        getAshley().addSystem(new PlayerControllSystem());
-        getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
         getAshley().addSystem(new AiSystem());
+        getAshley().addSystem(new PlayerControllSystem());
+        getAshley().addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
+        getAshley().addSystem(new EntityDrawSystem(camera));
+        getAshley().addSystem(new EntityGcSystem(camera, mapCompositor.getBuffer()));
         if(!Config.enableDebugCamera){
             getAshley().addSystem(new CameraSystem(camera));
         }
@@ -95,7 +93,7 @@ public class GameScreen implements Screen {
 
     private void initOverlays() {
         if(Config.showDebugUi){
-            overlays.add(new DebugOverlay(camera, getAshley()));
+            overlays.add(new DebugOverlay(camera, getAshley(), mapCompositor.getBuffer()));
         }
         overlays.add(new GameOverlay());
     }
@@ -145,9 +143,9 @@ public class GameScreen implements Screen {
 
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
-        player.add(new CollisionComponent());
-        player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
-        player.add(new VelocityComponent(0, 1));
+//        player.add(new CollisionComponent());
+        player.add(new PositionComponent(10 * 64 * 32 + (32*32), 10 * 64 * 32 + (32*32)));
+        player.add(new VelocityComponent(0, 10));
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
         ac.leftAnimation = playerAnimations[2];
         ac.rightAnimation = playerAnimations[3];
@@ -156,58 +154,58 @@ public class GameScreen implements Screen {
         player.add(ac);
         getAshley().addEntity(player);
 
-
-        if(Config.spawnDebugEntities){
-
-            int max = Config.debugEntitiesPosMax;
-            int min = Config.debugEntitiesPosMin;
-            int numEntities = Config.debugEntities;
-
-            AiComponent aiComponent = new AiComponent();
-            aiComponent.ai = new DefaultMovingAi();
-
-            Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
-            Animation walkAnimationU = animations[0];
-            Animation walkAnimationD = animations[1];
-            Animation walkAnimationL = animations[2];
-            Animation walkAnimationR = animations[3];
-
-            for (int i = 0; i < numEntities/2; i++) {
-                Entity eyeball = getAshley().createEntity();
-                eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
-                ac = new AnimationComponent(walkAnimationU);
-                ac.leftAnimation = walkAnimationL;
-                ac.rightAnimation = walkAnimationR;
-                ac.upAnimation = walkAnimationU;
-                ac.downAnimation = walkAnimationD;
-                eyeball.add(ac);
-                eyeball.add(new CollisionComponent());
-                eyeball.add(aiComponent);
-                eyeball.add(new VelocityComponent(0, 20));
-                getAshley().addEntity(eyeball);
-            }
-
-            animations = AnimationLoader.getMovementAnimations("slime.png", true, 4, 3);
-            walkAnimationU = animations[0];
-            walkAnimationD = animations[1];
-            walkAnimationL = animations[2];
-            walkAnimationR = animations[3];
-
-            for (int i = 0; i < numEntities/2; i++) {
-                Entity slime = getAshley().createEntity();
-                slime.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
-                ac = new AnimationComponent(walkAnimationU);
-                ac.leftAnimation = walkAnimationL;
-                ac.rightAnimation = walkAnimationR;
-                ac.upAnimation = walkAnimationU;
-                ac.downAnimation = walkAnimationD;
-                slime.add(ac);
-                slime.add(new CollisionComponent());
-                slime.add(aiComponent);
-                slime.add(new VelocityComponent(0, 20));
-                getAshley().addEntity(slime);
-            }
-        }
+//
+//        if(Config.spawnDebugEntities){
+//
+//            int max = Config.debugEntitiesPosMax;
+//            int min = Config.debugEntitiesPosMin;
+//            int numEntities = Config.debugEntities;
+//
+//            AiComponent aiComponent = new AiComponent();
+//            aiComponent.ai = new DefaultMovingAi();
+//
+//            Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
+//            Animation walkAnimationU = animations[0];
+//            Animation walkAnimationD = animations[1];
+//            Animation walkAnimationL = animations[2];
+//            Animation walkAnimationR = animations[3];
+//
+//            for (int i = 0; i < numEntities/2; i++) {
+//                Entity eyeball = getAshley().createEntity();
+//                eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
+//                ac = new AnimationComponent(walkAnimationU);
+//                ac.leftAnimation = walkAnimationL;
+//                ac.rightAnimation = walkAnimationR;
+//                ac.upAnimation = walkAnimationU;
+//                ac.downAnimation = walkAnimationD;
+//                eyeball.add(ac);
+//                eyeball.add(new CollisionComponent());
+//                eyeball.add(aiComponent);
+//                eyeball.add(new VelocityComponent(0, 20));
+//                getAshley().addEntity(eyeball);
+//            }
+//
+//            animations = AnimationLoader.getMovementAnimations("slime.png", true, 4, 3);
+//            walkAnimationU = animations[0];
+//            walkAnimationD = animations[1];
+//            walkAnimationL = animations[2];
+//            walkAnimationR = animations[3];
+//
+//            for (int i = 0; i < numEntities/2; i++) {
+//                Entity slime = getAshley().createEntity();
+//                slime.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
+//                ac = new AnimationComponent(walkAnimationU);
+//                ac.leftAnimation = walkAnimationL;
+//                ac.rightAnimation = walkAnimationR;
+//                ac.upAnimation = walkAnimationU;
+//                ac.downAnimation = walkAnimationD;
+//                slime.add(ac);
+//                slime.add(new CollisionComponent());
+//                slime.add(aiComponent);
+//                slime.add(new VelocityComponent(0, 20));
+//                getAshley().addEntity(slime);
+//            }
+//        }
 
     }
 
@@ -226,6 +224,7 @@ public class GameScreen implements Screen {
         }
 
         //Camera
+        mapCompositor.getBuffer().purgeChunks();
         camera.update();
 
         //Render fluid maps
