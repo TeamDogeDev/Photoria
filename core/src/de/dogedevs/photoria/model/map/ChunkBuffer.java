@@ -2,7 +2,10 @@ package de.dogedevs.photoria.model.map;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
-import de.dogedevs.photoria.generators.*;
+import de.dogedevs.photoria.generators.AbstractMapDecorator;
+import de.dogedevs.photoria.generators.AbstractMapGenerator;
+import de.dogedevs.photoria.generators.MapDecorator;
+import de.dogedevs.photoria.generators.SimplexMapGenerator;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.HashMap;
@@ -22,6 +25,49 @@ public class ChunkBuffer {
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator();
         decorator = new MapDecorator();
+    }
+
+    public ChunkCell getCell(int x, int y, int layer) {
+//        x += FixFloatSystem.offsetX;
+//        y += FixFloatSystem.offsetY;
+        Chunk chunk = chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE));
+
+        if(chunk == null){
+
+            purgeChunks();
+
+            chunk = generateChunk(x, y);
+            chunks.put(chunk.getHashCode(), chunk);
+        }
+
+        return chunk.getCell(x,y, layer);
+    }
+
+    private void purgeChunks() {
+        for(final String key: chunks.keySet()){
+            if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        chunks.remove(key);
+                    }
+                });
+            }
+        }
+    }
+
+    private Chunk generateChunk(int x, int y) {
+        Chunk chunk = new Chunk();
+        chunk.x = x/64;
+        chunk.y = y/64;
+
+
+
+        int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 4);
+        createGroundLayer(chunk, generatedMap, 4);
+        createDecoration(chunk, generatedMap, 4);
+
+        return chunk;
     }
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {
@@ -73,35 +119,6 @@ public class ChunkBuffer {
         }
     }
 
-    public ChunkCell getCell(int x, int y, int layer) {
-//        x += FixFloatSystem.offsetX;
-//        y += FixFloatSystem.offsetY;
-        Chunk chunk = chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE));
 
-        if(chunk == null){
-            chunk = new Chunk();
-            chunk.x = x/64;
-            chunk.y = y/64;
-
-            for(final String key: chunks.keySet()){
-                if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            chunks.remove(key);
-                        }
-                    });
-                }
-            }
-
-            chunks.put(chunk.getHashCode(), chunk);
-            int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 4);
-            createGroundLayer(chunk, generatedMap, 4);
-            createDecoration(chunk, generatedMap, 4);
-
-        }
-
-        return chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE)).getCell(x,y, layer);
-    }
 
 }

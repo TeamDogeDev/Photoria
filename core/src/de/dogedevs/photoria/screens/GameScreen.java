@@ -8,39 +8,33 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
-import de.dogedevs.photoria.model.entity.components.AnimationComponent;
-import de.dogedevs.photoria.model.entity.components.PlayerComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.systems.CameraSystem;
-import de.dogedevs.photoria.model.entity.systems.EntityDrawSystem;
-import de.dogedevs.photoria.model.entity.systems.MovingEntitySystem;
-import de.dogedevs.photoria.model.entity.systems.PlayerControllSystem;
+import de.dogedevs.photoria.model.entity.ai.DefaultMovingAi;
+import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.systems.*;
+import de.dogedevs.photoria.model.map.MapCompositor;
 import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
-import de.dogedevs.photoria.rendering.map.MapBuilder;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.utlis.ScreenshotFactory;
+import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
+import de.dogedevs.photoria.utils.ScreenshotFactory;
 
 /**
  * Created by Furuha on 20.12.2015.
  */
-public class MainScreen implements Screen {
+public class GameScreen implements Screen {
 
     static private PooledEngine ashley;
 
     private Batch batch, waterBatch, mapBatch;
-    private MapBuilder mapBuilder;
+    private MapCompositor mapCompositor;
     private CustomTiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
 
@@ -73,13 +67,13 @@ public class MainScreen implements Screen {
             @Override
             public boolean keyDown(int keycode) {
                 if(keycode == Input.Keys.NUM_1){
-                    mapBuilder.getTiledMap().getLayers().get("ground").setVisible(!mapBuilder.getTiledMap().getLayers().get("ground").isVisible());
+                    mapCompositor.getTiledMap().getLayers().get("ground").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground").isVisible());
                 }
                 if(keycode == Input.Keys.NUM_2){
-                    mapBuilder.getTiledMap().getLayers().get("ground2").setVisible(!mapBuilder.getTiledMap().getLayers().get("ground2").isVisible());
+                    mapCompositor.getTiledMap().getLayers().get("ground2").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground2").isVisible());
                 }
                 if(keycode == Input.Keys.NUM_3){
-                    mapBuilder.getTiledMap().getLayers().get("debug").setVisible(!mapBuilder.getTiledMap().getLayers().get("debug").isVisible());
+                    mapCompositor.getTiledMap().getLayers().get("debug").setVisible(!mapCompositor.getTiledMap().getLayers().get("debug").isVisible());
                 }
                 if(keycode == Input.Keys.F12){
                     ScreenshotFactory.saveScreenshot();
@@ -92,7 +86,8 @@ public class MainScreen implements Screen {
     private void initAshley() {
         getAshley().addSystem(new PlayerControllSystem());
         getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new MovingEntitySystem(mapBuilder.getBuffer()));
+        getAshley().addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
+        getAshley().addSystem(new AiSystem());
         if(!Config.enableDebugCamera){
             getAshley().addSystem(new CameraSystem(camera));
         }
@@ -116,8 +111,8 @@ public class MainScreen implements Screen {
     }
 
     private void initMap() {
-        mapBuilder = new MapBuilder();
-        tiledMapRenderer = new CustomTiledMapRenderer(mapBuilder.getTiledMap());
+        mapCompositor = new MapCompositor();
+        tiledMapRenderer = new CustomTiledMapRenderer(mapCompositor.getTiledMap());
         mapBatch = tiledMapRenderer.getBatch();
         batch = new SpriteBatch();
         waterBatch = new SpriteBatch();
@@ -132,38 +127,53 @@ public class MainScreen implements Screen {
 
     private void initEntities() {
 
-        Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
-        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
-        TextureRegion[][] walkFrames = new TextureRegion[4][3 * 1];
-        for (int i = 0; i < 4; i++) {
-            for (int j = 0; j < 3; j++) {
-                walkFrames[i][j] = tmp[i][j];
-            }
-        }
-        Animation walkAnimationU = new Animation(0.3f, walkFrames[0]);
-        Animation walkAnimationD = new Animation(0.3f, walkFrames[2]);
-        Animation walkAnimationL = new Animation(0.3f, walkFrames[1]);
-        Animation walkAnimationR = new Animation(0.3f, walkFrames[3]);
+//        Texture walkSheet = new Texture(Gdx.files.internal("eyeball.png"));
+//        TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/3, walkSheet.getHeight()/4);
+//        TextureRegion[][] walkFrames = new TextureRegion[4][3 * 1];
+//        for (int i = 0; i < 4; i++) {
+//            for (int j = 0; j < 3; j++) {
+//                walkFrames[i][j] = tmp[i][j];
+//            }
+//        }
 
-        Entity eyeball = getAshley().createEntity();
-        eyeball.add(new PlayerComponent());
-        eyeball.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
-        eyeball.add(new VelocityComponent(0, 1));
-        AnimationComponent ac = new AnimationComponent(walkAnimationD);
-        ac.leftAnimation = walkAnimationL;
-        ac.rightAnimation = walkAnimationR;
-        ac.upAnimation = walkAnimationU;
-        ac.downAnimation = walkAnimationD;
-        eyeball.add(ac);
 
-        getAshley().addEntity(eyeball);
+
+
+
+//        Animation shipRight = AnimationLoader.getShipAnimation()[0];
+        Animation[] playerAnimations = AnimationLoader.getPlayerAnimations();
+
+        Entity player = getAshley().createEntity();
+        player.add(new PlayerComponent());
+        player.add(new CollisionComponent());
+        player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
+        player.add(new VelocityComponent(0, 1));
+        AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
+        ac.leftAnimation = playerAnimations[2];
+        ac.rightAnimation = playerAnimations[3];
+        ac.upAnimation = playerAnimations[0];
+        ac.downAnimation = playerAnimations[1];
+        player.add(ac);
+        getAshley().addEntity(player);
+
 
         if(Config.spawnDebugEntities){
+
             int max = Config.debugEntitiesPosMax;
             int min = Config.debugEntitiesPosMin;
-            int numEntities = Config.debugEntities; // 4000
-            for (int i = 0; i < numEntities; i++) {
-                eyeball = getAshley().createEntity();
+            int numEntities = Config.debugEntities;
+
+            AiComponent aiComponent = new AiComponent();
+            aiComponent.ai = new DefaultMovingAi();
+
+            Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
+            Animation walkAnimationU = animations[0];
+            Animation walkAnimationD = animations[1];
+            Animation walkAnimationL = animations[2];
+            Animation walkAnimationR = animations[3];
+
+            for (int i = 0; i < numEntities/2; i++) {
+                Entity eyeball = getAshley().createEntity();
                 eyeball.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
                 ac = new AnimationComponent(walkAnimationU);
                 ac.leftAnimation = walkAnimationL;
@@ -171,8 +181,31 @@ public class MainScreen implements Screen {
                 ac.upAnimation = walkAnimationU;
                 ac.downAnimation = walkAnimationD;
                 eyeball.add(ac);
+                eyeball.add(new CollisionComponent());
+                eyeball.add(aiComponent);
                 eyeball.add(new VelocityComponent(0, 20));
                 getAshley().addEntity(eyeball);
+            }
+
+            animations = AnimationLoader.getMovementAnimations("slime.png", true, 4, 3);
+            walkAnimationU = animations[0];
+            walkAnimationD = animations[1];
+            walkAnimationL = animations[2];
+            walkAnimationR = animations[3];
+
+            for (int i = 0; i < numEntities/2; i++) {
+                Entity slime = getAshley().createEntity();
+                slime.add(new PositionComponent(MathUtils.random(min*64*32, max*64*32), MathUtils.random(min*64*32, max*64*32)));
+                ac = new AnimationComponent(walkAnimationU);
+                ac.leftAnimation = walkAnimationL;
+                ac.rightAnimation = walkAnimationR;
+                ac.upAnimation = walkAnimationU;
+                ac.downAnimation = walkAnimationD;
+                slime.add(ac);
+                slime.add(new CollisionComponent());
+                slime.add(aiComponent);
+                slime.add(new VelocityComponent(0, 20));
+                getAshley().addEntity(slime);
             }
         }
 

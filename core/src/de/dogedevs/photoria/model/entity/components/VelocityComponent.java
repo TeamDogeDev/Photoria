@@ -20,6 +20,7 @@ public class VelocityComponent implements Component, Pool.Poolable {
     public static final int EAST = 3;
 
     public int direction;
+    public float blockedDelta;
     public float speed;
 
     public VelocityComponent() {
@@ -35,6 +36,7 @@ public class VelocityComponent implements Component, Pool.Poolable {
     @Override
     public void reset() {
         direction = 0;
+        blockedDelta = 0;
         speed = 0;
     }
 

@@ -8,11 +8,9 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
  */
 public class BasicTile extends Tile {
 
-    private boolean solid;
 
-    public BasicTile(TextureRegion textureRegion, boolean solid, boolean opaque) {
+    public BasicTile(TextureRegion textureRegion, boolean opaque) {
         super(textureRegion);
-        this.solid = solid;
         if(opaque){
             this.setBlendMode(BlendMode.NONE);
         }
@@ -22,7 +20,4 @@ public class BasicTile extends Tile {
         super(copy);
     }
 
-    public boolean isSolid() {
-        return solid;
-    }
 }

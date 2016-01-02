@@ -2,12 +2,8 @@ package de.dogedevs.photoria.model.entity.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.AnimationComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.SpriteComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 
@@ -70,6 +66,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 //        MainGame.log("update: "+entities.size());
         PositionComponent position;
         VelocityComponent velocity;
+        CollisionComponent collision;
 
         float oldX;
         float oldY;
@@ -81,13 +78,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
             position = ComponentMappers.position.get(e);
             velocity = ComponentMappers.velocity.get(e);
+            collision = ComponentMappers.collision.get(e);
 
             oldY = position.y;
             oldX = position.x;
 
-            if(MathUtils.randomBoolean(0.001f)){
-                velocity.direction = MathUtils.random(0, 3);
-            }
             switch (velocity.direction){
                 case VelocityComponent.SOUTH:
                     position.y -= velocity.speed * deltaTime;
@@ -103,9 +98,10 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     break;
             }
 
-            if(checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, i)){
+            if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, collision.size, i))){
                 position.y = oldY;
                 position.x = oldX;
+                velocity.blockedDelta += deltaTime;
             }
 
         }
@@ -119,8 +115,9 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     }
 
 
-    private boolean checkEntityCollision(float x, float y, int startIndex) {
+    private boolean checkEntityCollision(float x, float y, float ownSize, int startIndex) {
         PositionComponent position;
+        CollisionComponent collision;
         for(int i = startIndex; i < sortedEntities.size(); i++){
             if(i == startIndex){
                 continue;
@@ -129,7 +126,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if((y - position.y) >= 32){
                 break;
             }
-            if(collides(x,y, position.x, position.y)){
+            collision = ComponentMappers.collision.get(sortedEntities.get(i));
+            if(collision == null){
+                continue;
+            }
+            if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
                 return true;
             }
         }
@@ -142,7 +143,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if((position.y - y) >= 32){
                 break;
             }
-            if(collides(x,y, position.x, position.y)){
+            collision = ComponentMappers.collision.get(sortedEntities.get(i));
+            if(collision == null){
+                continue;
+            }
+            if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
                 return true;
             }
         }
@@ -155,6 +160,17 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
         float xDif = Math.abs(x2-x1);
         float yDif = Math.abs(y2-y1);
         if((xDif+yDif) < (32)){
+            return true;
+        }
+        return false;
+    }
+
+    private boolean rectCollides(float x1, float y1, float x2, float y2, float size){
+//        checks++;
+        if((x1-size) < x2 && x2 < (x1+size) && Math.abs(y2-y1) < size){
+            return true;
+        }
+        if((y1-size) < y2 && y2 < (y1+size) && Math.abs(x2-x1) < size){
             return true;
         }
         return false;

@@ -2,7 +2,6 @@ package de.dogedevs.photoria.rendering.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.math.MathUtils;
-import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.model.map.OffsetHolder;
@@ -12,7 +11,6 @@ import de.dogedevs.photoria.rendering.tiles.TileMapper;
 /** @brief Layer for a TiledMap */
 public class ChunkTileLayer extends TiledMapTileLayer {
 
-	private AbstractMapGenerator generator;
 	private int width;
 	private int height;
 
@@ -46,13 +44,12 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 	 * 
 	 * @param tileWidth tile width in pixels
 	 * @param tileHeight tile height in pixels */
-	public ChunkTileLayer(AbstractMapGenerator generator, int tileWidth, int tileHeight, int layer, ChunkBuffer buffer) {
+	public ChunkTileLayer(int tileWidth, int tileHeight, int layer, ChunkBuffer buffer) {
 		super(1, 1, tileWidth, tileHeight);
 		this.width = Integer.MAX_VALUE;
 		this.height = Integer.MAX_VALUE;
 		this.tileWidth = tileWidth;
 		this.tileHeight = tileHeight;
-		this.generator = generator;
 		this.buffer = buffer;
 		this.layer = layer;
 	}
