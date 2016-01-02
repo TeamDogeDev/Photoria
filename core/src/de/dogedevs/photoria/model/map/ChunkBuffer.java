@@ -1,13 +1,14 @@
 package de.dogedevs.photoria.model.map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.generators.AbstractMapDecorator;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.MapDecorator;
 import de.dogedevs.photoria.generators.SimplexMapGenerator;
+import de.dogedevs.photoria.model.entity.EntityLoader;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -15,44 +16,50 @@ import java.util.HashMap;
  */
 public class ChunkBuffer {
 
+    public static final int GROUND = 1;
+    public static final int FLUID = 3;
+    public static final int DECO1 = 2;
+
     HashMap<String, Chunk> chunks; //String x+"_"+y
     private AbstractMapGenerator generator;
     private AbstractMapDecorator decorator;
+    private EntityLoader entityLoader;
 
+    public static final long SEED = 31337;
     public static final int CHUNK_SIZE = 64;
 
     public ChunkBuffer(){
         chunks = new HashMap<>();
-        generator = new SimplexMapGenerator();
+        generator = new SimplexMapGenerator(SEED);
         decorator = new MapDecorator();
+        entityLoader = new EntityLoader();
     }
-
+    int count;
     public ChunkCell getCell(int x, int y, int layer) {
 //        x += FixFloatSystem.offsetX;
 //        y += FixFloatSystem.offsetY;
         Chunk chunk = chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE));
 
         if(chunk == null){
-
-            purgeChunks();
-
             chunk = generateChunk(x, y);
             chunks.put(chunk.getHashCode(), chunk);
+
+            entityLoader.createChunkEntities(x/64, y/64, SEED, this);
         }
 
         return chunk.getCell(x,y, layer);
     }
 
-    private void purgeChunks() {
-        for(final String key: chunks.keySet()){
+    public void purgeChunks() {
+        ArrayList<String> removeKeys = new ArrayList<>();
+        for(String key: chunks.keySet()){
             if(System.currentTimeMillis()-chunks.get(key).lastRead > 1000){
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        chunks.remove(key);
-                    }
-                });
+//                entityLoader.onChunkPurge(chunks.get(key));
+                removeKeys.add(key);
             }
+        }
+        for(String key: removeKeys){
+            chunks.remove(key);
         }
     }
 
@@ -60,8 +67,6 @@ public class ChunkBuffer {
         Chunk chunk = new Chunk();
         chunk.x = x/64;
         chunk.y = y/64;
-
-
 
         int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 4);
         createGroundLayer(chunk, generatedMap, 4);
@@ -81,20 +86,20 @@ public class ChunkBuffer {
                 cell2 = new ChunkCell();
                 cell.value = generatedMap[row][col];
                 cell2.value = generatedMap[row][col];
-                chunk.setCell(cell, row-overlap, col-overlap, 1);
-                if(chunk.getCell(row-overlap, col-overlap, 3) == null) {
-                    chunk.setCell(cell2, row - overlap, col - overlap, 3);
+                chunk.setCell(cell, row-overlap, col-overlap, GROUND);
+                if(chunk.getCell(row-overlap, col-overlap, FLUID) == null) {
+                    chunk.setCell(cell2, row - overlap, col - overlap, FLUID);
                 }
                 if(generatedMap[row][col] == TileMapper.LAVA || generatedMap[row][col] == TileMapper.WATER) {
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), col - overlap, 3);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), col - overlap, 3);
-                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap - 1, 0, 63), 3);
-                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap + 1, 0, 63), 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), col - overlap, FLUID);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), col - overlap, FLUID);
+                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cell2, row - overlap, MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
 
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), 3);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), 3);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), 3);
-                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), 3);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap - 1, 0, 63), FLUID);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap - 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
+                    chunk.setCell(cell2, MathUtils.clamp(row - overlap + 1, 0, 63), MathUtils.clamp(col - overlap + 1, 0, 63), FLUID);
                 }
             }
         }
@@ -114,11 +119,25 @@ public class ChunkBuffer {
                 if(cell.value != TileMapper.VOID){
                     cell.collides = true;
                 }
-                chunk.setCell(cell, row-overlap, col-overlap, 2);
+                chunk.setCell(cell, row-overlap, col-overlap, DECO1);
             }
         }
     }
 
 
+    public ChunkCell getCellLazy(int x, int y, int layer) {
+//        x += FixFloatSystem.offsetX;
+//        y += FixFloatSystem.offsetY;
+        Chunk chunk = chunks.get((x/CHUNK_SIZE)+"_"+(y/CHUNK_SIZE));
 
+        if(chunk == null){
+            return null;
+        }
+
+        return chunk.getCellLazy(x, y, layer);
+    }
+
+    public int getChunkCount() {
+        return chunks.size();
+    }
 }

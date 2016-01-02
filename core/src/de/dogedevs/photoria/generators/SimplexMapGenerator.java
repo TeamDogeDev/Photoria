@@ -11,8 +11,8 @@ import static de.dogedevs.photoria.rendering.tiles.TileMapper.*;
  */
 public class SimplexMapGenerator extends AbstractMapGenerator {
 
-    private Random random = new Random(31337);
-    private OpenSimplexNoise osn = new OpenSimplexNoise(random.nextLong());
+    private Random random;
+    private OpenSimplexNoise osn;
 //    private int[][] chunk;
     private double local_x;
     private double local_y;
@@ -20,6 +20,16 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     protected int realSize;
     // - 0.86
     // 0.86
+
+
+    public SimplexMapGenerator(long seed) {
+        random = new Random(seed);
+        osn = new OpenSimplexNoise(random.nextLong());
+    }
+
+    public SimplexMapGenerator() {
+        this(31337);
+    }
 
     @Override
     public int[][] generate(int chunkX, int chunkY, int size, int overlap) {

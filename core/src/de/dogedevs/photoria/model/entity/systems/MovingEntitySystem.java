@@ -20,7 +20,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
     private final ChunkBuffer buffer;
     private ImmutableArray<Entity> entities;
-    private List<Entity> sortedEntities = new ArrayList<>();;
+    private List<Entity> sortedEntities = new ArrayList<>();
     private YComparator comparator = new YComparator();
 
     public MovingEntitySystem(ChunkBuffer buffer) {
@@ -97,7 +97,6 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.x += velocity.speed * deltaTime;
                     break;
             }
-
             if(collision != null && (checkCollision(position.x, position.y) || checkEntityCollision(position.x, position.y, collision.size, i))){
                 position.y = oldY;
                 position.x = oldX;
@@ -110,7 +109,10 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     }
 
     private boolean checkCollision(float x, float y) {
-        ChunkCell cell = buffer.getCell((int)(x/32), (int)(y/32), 2);
+        ChunkCell cell = buffer.getCellLazy((int)(x/32), (int)(y/32), 2);
+        if(cell == null){
+            return true;
+        }
         return (cell.collides);
     }
 
