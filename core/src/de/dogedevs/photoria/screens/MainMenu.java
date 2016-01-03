@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 /**
  * Created by elektropapst on 20.12.2015.
@@ -22,7 +24,7 @@ import de.dogedevs.photoria.MainGame;
 public class MainMenu implements Screen {
 
     private SpriteBatch spriteBatch, starfieldBatch;
-    private Texture title = new Texture(Gdx.files.internal("./title.png"));
+    private Texture title = AssetLoader.getTexture(Textures.TITLE);
 
     private Skin uiSkin;
     private Stage stage;
@@ -36,7 +38,7 @@ public class MainMenu implements Screen {
     public MainMenu() {
         music = Gdx.audio.newMusic(Gdx.files.internal("./music/title.mp3"));
         music.setLooping(true);
-//        music.play();
+        music.play();
         spriteBatch = new SpriteBatch();
         starfieldBatch = new SpriteBatch();
 
