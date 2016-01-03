@@ -62,7 +62,7 @@ public class PlayerControllSystem extends EntitySystem {
             shot.add(pc);
             shot.add(sc);
             shot.add(vc);
-//            shot.add(cc);
+            shot.add(cc);
             getEngine().addEntity(shot);
             if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 vc.direction = VelocityComponent.NORTH_WEST;

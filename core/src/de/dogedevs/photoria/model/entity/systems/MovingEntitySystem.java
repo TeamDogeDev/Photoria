@@ -112,9 +112,13 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     break;
             }
             if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || checkEntityCollision(position.x, position.y, collision.size, i))){
-                position.y = oldY;
-                position.x = oldX;
-                velocity.blockedDelta += deltaTime;
+                if(collision.ghost){
+                    position.y = oldY;
+                    position.x = oldX;
+                    velocity.blockedDelta += deltaTime;
+                }
+                //Listener
+                //Todo
             }
 
         }
