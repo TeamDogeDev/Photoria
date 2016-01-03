@@ -107,16 +107,16 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                                 batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.SOUTH_WEST:
-                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.SOUTH_EAST:
-                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.NORTH_WEST:
-                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                             case VelocityComponent.NORTH_EAST:
-                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
                                 break;
                         }
                     }
