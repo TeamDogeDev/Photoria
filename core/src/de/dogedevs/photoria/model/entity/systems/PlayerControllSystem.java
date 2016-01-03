@@ -18,7 +18,7 @@ public class PlayerControllSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private final Sound hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.wav"));
     public static final int SPEED = 128*2;
-    
+
     public PlayerControllSystem() {
     }
 
@@ -47,54 +47,59 @@ public class PlayerControllSystem extends EntitySystem {
         velocity.speed = 0;
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+            PlayerComponent playerComponent = ComponentMappers.player.get(e);
+            if(playerComponent.energy > 0) {
 
-            Entity shot = ((PooledEngine) getEngine()).createEntity();
-            SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
-            sc.region = new TextureRegion(new Texture("bullet.png"));
-            PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
-            CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
-            cc.ghost = true;
-            cc.collisionListener = new CollisionComponent.CollisionListener() {
+                playerComponent.energy--;
 
-                @Override
-                public boolean onCollision(Entity other, Entity self) {
-                    if(other == e){
-                        return  false;
+                Entity shot = ((PooledEngine) getEngine()).createEntity();
+                SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
+                sc.region = new TextureRegion(new Texture("bullet.png"));
+                PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
+                CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
+                cc.ghost = true;
+                cc.collisionListener = new CollisionComponent.CollisionListener() {
+
+                    @Override
+                    public boolean onCollision(Entity other, Entity self) {
+                        if (other == e) {
+                            return false;
+                        }
+                        hit.play();
+                        getEngine().removeEntity(other);
+                        getEngine().removeEntity(self);
+                        return true;
                     }
-                    hit.play();
-                    getEngine().removeEntity(other);
-                    getEngine().removeEntity(self);
-                    return true;
-                }
 
-            };
-            PositionComponent position = ComponentMappers.position.get(e);
-            pc.x = position.x;
-            pc.y = position.y;
-            pc.z = 26;
-            VelocityComponent vc = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
-            vc.speed = 512;
-            shot.add(pc);
-            shot.add(sc);
-            shot.add(vc);
-            shot.add(cc);
-            getEngine().addEntity(shot);
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                vc.direction = VelocityComponent.NORTH_WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                vc.direction = VelocityComponent.NORTH_EAST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                vc.direction = VelocityComponent.SOUTH_EAST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                vc.direction = VelocityComponent.SOUTH_WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                vc.direction = VelocityComponent.NORTH;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                vc.direction = VelocityComponent.WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                vc.direction = VelocityComponent.SOUTH;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                vc.direction = VelocityComponent.EAST;
+                };
+                PositionComponent position = ComponentMappers.position.get(e);
+                pc.x = position.x;
+                pc.y = position.y;
+                pc.z = 26;
+                VelocityComponent vc = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
+                vc.speed = 512;
+                shot.add(pc);
+                shot.add(sc);
+                shot.add(vc);
+                shot.add(cc);
+                getEngine().addEntity(shot);
+                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    vc.direction = VelocityComponent.NORTH_WEST;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    vc.direction = VelocityComponent.NORTH_EAST;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    vc.direction = VelocityComponent.SOUTH_EAST;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    vc.direction = VelocityComponent.SOUTH_WEST;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                    vc.direction = VelocityComponent.NORTH;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                    vc.direction = VelocityComponent.WEST;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                    vc.direction = VelocityComponent.SOUTH;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    vc.direction = VelocityComponent.EAST;
+                }
             }
         }
 
