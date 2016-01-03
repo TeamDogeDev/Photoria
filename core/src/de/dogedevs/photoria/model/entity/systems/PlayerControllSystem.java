@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
@@ -15,7 +16,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 public class PlayerControllSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
-
+    private final Sound hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.wav"));
     public static final int SPEED = 128*2;
     
     public PlayerControllSystem() {
@@ -40,7 +41,7 @@ public class PlayerControllSystem extends EntitySystem {
             return;
         }
 
-        Entity e = entities.get(0);
+        final Entity e = entities.get(0);
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
 
         velocity.speed = 0;
@@ -53,6 +54,20 @@ public class PlayerControllSystem extends EntitySystem {
             PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
             CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
             cc.ghost = true;
+            cc.collisionListener = new CollisionComponent.CollisionListener() {
+
+                @Override
+                public boolean onCollision(Entity other, Entity self) {
+                    if(other == e){
+                        return  false;
+                    }
+                    hit.play();
+                    getEngine().removeEntity(other);
+                    getEngine().removeEntity(self);
+                    return true;
+                }
+
+            };
             PositionComponent position = ComponentMappers.position.get(e);
             pc.x = position.x;
             pc.y = position.y;
