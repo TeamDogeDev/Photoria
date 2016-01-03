@@ -1,15 +1,13 @@
 package de.dogedevs.photoria.model.entity.systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.PlayerComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -38,7 +36,7 @@ public class PlayerControllSystem extends EntitySystem {
 //        MainGame.log("update: "+entities.size());
 
 
-        if(entities.size() == 0){
+        if (entities.size() == 0) {
             return;
         }
 
@@ -47,48 +45,84 @@ public class PlayerControllSystem extends EntitySystem {
 
         velocity.speed = 0;
 
-            if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)){
+        if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.NORTH_WEST;
-                return;
-            } else if(Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.NORTH_WEST;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.NORTH_EAST;
-                return;
-            } else if(Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.NORTH_EAST;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.SOUTH_EAST;
-                return;
-            } else if(Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.S)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.SOUTH_EAST;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.S)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.SOUTH_WEST;
-                return;
-            } else if( Gdx.input.isKeyPressed(Input.Keys.W)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.SOUTH_WEST;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.NORTH;
-                return;
-            } else if( Gdx.input.isKeyPressed(Input.Keys.A)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.NORTH;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.WEST;
-                return;
-            } else if( Gdx.input.isKeyPressed(Input.Keys.S)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.WEST;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.SOUTH;
-                return;
-            } else if( Gdx.input.isKeyPressed(Input.Keys.D)){
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.SOUTH;
+            return;
+        } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
 //            camera.translate(0,32);
-                velocity.speed = SPEED;
-                velocity.direction = VelocityComponent.EAST;
-                return;
-            }
+            velocity.speed = SPEED;
+            velocity.direction = VelocityComponent.EAST;
+            return;
+        }
 
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+
+            Entity shot = ((PooledEngine) getEngine()).createEntity();
+            SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
+            sc.region = new TextureRegion(new Texture("bullet.png"));
+            PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
+            CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
+            cc.ghost = true;
+            PositionComponent position = ComponentMappers.position.get(e);
+            pc.x = position.x;
+            pc.y = position.y+32;
+            velocity = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
+            velocity.speed = 512;
+            shot.add(pc);
+            shot.add(sc);
+            shot.add(velocity);
+//            shot.add(cc);
+            getEngine().addEntity(shot);
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                velocity.direction = VelocityComponent.NORTH_WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                velocity.direction = VelocityComponent.NORTH_EAST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                velocity.direction = VelocityComponent.SOUTH_EAST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                velocity.direction = VelocityComponent.SOUTH_WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                velocity.direction = VelocityComponent.NORTH;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                velocity.direction = VelocityComponent.WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                velocity.direction = VelocityComponent.SOUTH;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                velocity.direction = VelocityComponent.EAST;
+            }
+        }
 //
 //        if( Gdx.input.isKeyPressed(Input.Keys.A)){
 ////            camera.translate(-32,0);
