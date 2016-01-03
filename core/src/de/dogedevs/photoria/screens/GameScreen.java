@@ -274,8 +274,9 @@ public class GameScreen implements Screen {
 
         tmp += 0.001f;
         cloudShader.begin();
+        cloudShader.setUniformf("waveData", angleWave, amplitudeWave);
         cloudShader.setUniformf("camPosition", camera.position);
-        cloudShader.setUniformf("scroll", new Vector2(tmp, 0));
+        cloudShader.setUniformf("scroll", tmp, tmp);
         cloudShader.end();
 
 
