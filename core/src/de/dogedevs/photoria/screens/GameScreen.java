@@ -155,29 +155,38 @@ public class GameScreen implements Screen {
 
 
 
-
-
 //        Animation shipRight = AnimationLoader.getShipAnimation()[0];
         Animation[] playerAnimations = AnimationLoader.getPlayerAnimations();
 
         Entity player = getAshley().createEntity();
         player.add(new PlayerComponent());
+
         CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
         cc.groundCollision = TileCollisionMapper.normalBorderCollision;
         Arrays.sort(cc.groundCollision);
         player.add(cc);
+
         player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 10));
+
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = 100;
         hc.health = 75;
         player.add(hc);
+
+        EnergyComponent ec = ashley.createComponent(EnergyComponent.class);
+        player.add(ec);
+
+        ElementsComponent elc = ashley.createComponent(ElementsComponent.class);
+        player.add(elc);
+
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
         ac.leftAnimation = playerAnimations[2];
         ac.rightAnimation = playerAnimations[3];
         ac.upAnimation = playerAnimations[0];
         ac.downAnimation = playerAnimations[1];
         player.add(ac);
+
         getAshley().addEntity(player);
 
 //

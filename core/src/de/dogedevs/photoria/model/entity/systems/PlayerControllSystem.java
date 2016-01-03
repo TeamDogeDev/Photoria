@@ -43,9 +43,9 @@ public class PlayerControllSystem extends EntitySystem {
         }
         final Entity e = entities.get(0);
 
-        PlayerComponent playerComponent = ComponentMappers.player.get(e);
-        playerComponent.energy += 2*deltaTime;
-        playerComponent.energy = MathUtils.clamp(playerComponent.energy, 0f, playerComponent.maxEnergy);
+        EnergyComponent energyComponent = ComponentMappers.energy.get(e);
+        energyComponent.energy += 2*deltaTime;
+        energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
 
 
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
@@ -53,9 +53,9 @@ public class PlayerControllSystem extends EntitySystem {
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 
-            if(playerComponent.energy >= 1) {
+            if(energyComponent.energy >= 1) {
 
-                playerComponent.energy--;
+                energyComponent.energy--;
 
                 Entity shot = ((PooledEngine) getEngine()).createEntity();
                 SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);

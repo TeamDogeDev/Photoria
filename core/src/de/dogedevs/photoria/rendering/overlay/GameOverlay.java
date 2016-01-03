@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.ElementsComponent;
+import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 
@@ -50,6 +52,8 @@ public class GameOverlay extends AbstractOverlay {
     private Entity player;
     private PlayerComponent playerComponent;
     private HealthComponent healthComponent;
+    private EnergyComponent energyComponent;
+    private ElementsComponent elementsComponent;
 
     public GameOverlay(Entity playerEntity) {
         this.player = playerEntity;
@@ -60,6 +64,8 @@ public class GameOverlay extends AbstractOverlay {
     private void initComponents() {
         playerComponent = ComponentMappers.player.get(player);
         healthComponent = ComponentMappers.health.get(player);
+        energyComponent = ComponentMappers.energy.get(player);
+        elementsComponent = ComponentMappers.elements.get(player);
     }
 
     @Override
@@ -111,7 +117,7 @@ public class GameOverlay extends AbstractOverlay {
         health.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         batch.begin();
         float healthScale = (float) healthComponent.health / healthComponent.maxHealth;
-        float energyScale = (float) playerComponent.energy / playerComponent.maxEnergy;
+        float energyScale = (float) energyComponent.energy / energyComponent.maxEnergy;
         batch.draw(healthBar, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());
         batch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth() * energyScale, energyBar.getRegionHeight());
         batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));

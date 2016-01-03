@@ -16,4 +16,6 @@ public class ComponentMappers {
         public static final ComponentMapper<CollisionComponent> collision = ComponentMapper.getFor(CollisionComponent.class);
         public static final ComponentMapper<HealthComponent> health = ComponentMapper.getFor(HealthComponent.class);
         public static final ComponentMapper<AiComponent> ai = ComponentMapper.getFor(AiComponent.class);
+        public static final ComponentMapper<EnergyComponent> energy = ComponentMapper.getFor(EnergyComponent.class);
+        public static final ComponentMapper<ElementsComponent> elements = ComponentMapper.getFor(ElementsComponent.class);
 }
