@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 public class GameOverlay extends AbstractOverlay {
 
     private static final String HUD_PATH = "./hud.png";
+    private static final String HUDBAR_PATH = "./hudBars.png";
     private static final String NET_PATH = "./net.png";
 
     private BitmapFont font;
@@ -21,10 +22,15 @@ public class GameOverlay extends AbstractOverlay {
     private static final int HUD_TILE_WIDTH = 720>>1;
     private static final int HUD_TILE_HEIGHT = 32;
 
+    private Texture hudBarTexture = new Texture(Gdx.files.internal(HUDBAR_PATH));
+    private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
+    private TextureRegion healthBar = hudBars[0][0];
+    private TextureRegion energyBar = hudBars[0][1];
+
     private Texture netTexture = new Texture(Gdx.files.internal(NET_PATH));
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
 
-    private TextureRegion life = hudParts[0][0];
+    private TextureRegion health = hudParts[0][0];
     private TextureRegion energy = hudParts[0][1];
 
     private Vector2 netOffset = new Vector2(Gdx.graphics.getWidth()-netTexture.getWidth(), Gdx.graphics.getHeight()-netTexture.getHeight());
@@ -85,10 +91,12 @@ public class GameOverlay extends AbstractOverlay {
     private float offset = 10;
     private float spacing = 5;
     private void renderHealth() {
+        health.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         batch.begin();
-        batch.draw(life, offset, Gdx.graphics.getHeight()-(life.getRegionHeight()+offset));
-        batch.draw(energy, offset, Gdx.graphics.getHeight()-((life.getRegionHeight()*2+offset+spacing)));
-//        batch.draw(energy, offset, 100);
+        batch.draw(healthBar, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset), health.getRegionWidth(), healthBar.getRegionHeight());
+        batch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth(), energyBar.getRegionHeight());
+        batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));
+        batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
         batch.end();
     }
 
@@ -98,5 +106,6 @@ public class GameOverlay extends AbstractOverlay {
         font.dispose();
         hudTexture.dispose();
         netTexture.dispose();
+        hudBarTexture.dispose();
     }
 }
