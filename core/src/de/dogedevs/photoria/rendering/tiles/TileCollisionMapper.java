@@ -5,11 +5,11 @@ package de.dogedevs.photoria.rendering.tiles;
  */
 public class TileCollisionMapper {
 
-    public static final int[] normalBorderCollision = new int[]{TileCollisionMapper.WATER_BORDER, TileCollisionMapper.LAVA_BORDER, TileCollisionMapper.LAVA_STONE_BORDER};
+    public static final int[] normalBorderCollision = new int[]{TileCollisionMapper.ENTITY, TileCollisionMapper.WATER_BORDER, TileCollisionMapper.LAVA_BORDER, TileCollisionMapper.LAVA_STONE_BORDER};
 
     public static final int VOID = 0;
 
-    public static final int ENTITY = 0;
+    public static final int ENTITY = 1;
 
     public static final int GROUND = 2;
 

@@ -18,4 +18,7 @@ public class ComponentMappers {
         public static final ComponentMapper<AiComponent> ai = ComponentMapper.getFor(AiComponent.class);
         public static final ComponentMapper<EnergyComponent> energy = ComponentMapper.getFor(EnergyComponent.class);
         public static final ComponentMapper<ElementsComponent> elements = ComponentMapper.getFor(ElementsComponent.class);
+        public static final ComponentMapper<MapCollisionComponent> mapCollision = ComponentMapper.getFor(MapCollisionComponent.class);
+        public static final ComponentMapper<InventoryComponent> inventory = ComponentMapper.getFor(InventoryComponent.class);
+        public static final ComponentMapper<ItemComponent> item = ComponentMapper.getFor(ItemComponent.class);
 }

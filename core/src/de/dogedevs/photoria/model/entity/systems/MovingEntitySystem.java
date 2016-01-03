@@ -45,7 +45,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     @Override
     public void addedToEngine (Engine engine) {
         entities = engine.getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class).get());
-        engine.addEntityListener(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
+        engine.addEntityListener(Family.all(PositionComponent.class, VelocityComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
         for(Entity e: entities){
             sortedEntities.add(e);
         }

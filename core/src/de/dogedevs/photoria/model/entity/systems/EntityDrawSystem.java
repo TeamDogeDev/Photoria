@@ -88,43 +88,50 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
 
             if(animation != null) {
                 animation.stateTime += deltaTime;
-
+                float yOffset = 0;
+                if(ComponentMappers.mapCollision.get(e) == null){
+                    yOffset = animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2;
+                }
                 if (velocity != null) {
                     if(velocity.speed == 0){
-                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y);
+                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y);
                     } else {
                         switch (velocity.direction) {
                             case VelocityComponent.SOUTH:
-                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH:
-                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.SOUTH_WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.SOUTH_EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH_WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH_EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                         }
                     }
                 } else {
-                    batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2, position.y+position.z);
+                    batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                 }
             } else {
-                batch.draw(visual.region, position.x-visual.region.getRegionWidth()/2, position.y+position.z);
+                float yOffset = 0;
+                if(ComponentMappers.mapCollision.get(e) != null){
+                    yOffset = animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2;
+                }
+                batch.draw(visual.region, position.x+yOffset, position.y+position.z);
             }
         }
 
