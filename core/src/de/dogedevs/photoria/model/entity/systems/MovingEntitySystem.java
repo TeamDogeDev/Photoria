@@ -111,14 +111,16 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
                     break;
             }
-            if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || checkEntityCollision(position.x, position.y, collision.size, i))){
-                if(collision.ghost){
+            Entity other = null;
+            if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
+                if(!collision.ghost){
                     position.y = oldY;
                     position.x = oldX;
                     velocity.blockedDelta += deltaTime;
                 }
-                //Listener
-                //Todo
+                if(other != null && collision.collisionListener != null){
+                    collision.collisionListener.onCollision(other, e);
+                }
             }
 
         }
@@ -138,7 +140,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     }
 
 
-    private boolean checkEntityCollision(float x, float y, float ownSize, int startIndex) {
+    private Entity checkEntityCollision(float x, float y, float ownSize, int startIndex) {
         PositionComponent position;
         CollisionComponent collision;
         for(int i = startIndex; i < sortedEntities.size(); i++){
@@ -150,11 +152,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 break;
             }
             collision = ComponentMappers.collision.get(sortedEntities.get(i));
-            if(collision == null){
+            if(collision == null || collision.ghost){
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
-                return true;
+                return sortedEntities.get(i);
             }
         }
 
@@ -167,14 +169,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 break;
             }
             collision = ComponentMappers.collision.get(sortedEntities.get(i));
-            if(collision == null){
+            if(collision == null || collision.ghost){
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
-                return true;
+                return sortedEntities.get(i);
             }
         }
-        return false;
+        return null;
     }
 
 
