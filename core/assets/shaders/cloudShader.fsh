@@ -10,7 +10,7 @@ uniform sampler2D u_sampler2D;
 uniform float redLevel;
 uniform vec3 camPosition;
 uniform vec2 scroll;
-uniform float cloudsize = 0.75; // größer = kleinere wolken
+uniform float cloudsize = 0.6; // größer = kleinere wolken
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
