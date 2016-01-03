@@ -46,7 +46,7 @@ public class PlayerControllSystem extends EntitySystem {
 
         velocity.speed = 0;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
 
             Entity shot = ((PooledEngine) getEngine()).createEntity();
             SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
