@@ -128,8 +128,8 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                 }
             } else {
                 float yOffset = 0;
-                if(ComponentMappers.mapCollision.get(e) != null){
-                    yOffset = animation.idleAnimation.getKeyFrames()[0].getRegionWidth()/2;
+                if(ComponentMappers.mapCollision.get(e) == null){
+                    yOffset = visual.region.getRegionWidth()/2;
                 }
                 batch.draw(visual.region, position.x+yOffset, position.y+position.z);
             }

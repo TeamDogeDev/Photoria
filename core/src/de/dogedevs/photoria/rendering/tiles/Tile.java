@@ -107,7 +107,7 @@ public abstract class Tile extends StaticTiledMapTile {
     public static final Tile LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER = new BasicTile(tiles[9][12], false);
     public static final Tile LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT = new BasicTile(tiles[10][9], false);
 
-
+    public static final Tile LAVA_DECO_1 = new BasicTile(tiles[2][3], false);
 
 
     public static final Tile DEBUG = new BasicTile(tiles[31][31], false);
