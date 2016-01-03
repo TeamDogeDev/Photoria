@@ -7,6 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ai.DefaultMovingAi;
+import de.dogedevs.photoria.model.entity.ai.SlimeAi;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.Chunk;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
@@ -78,7 +79,7 @@ public class EntityLoader {
             cc.groundCollision = TileCollisionMapper.normalBorderCollision;
             slime.add(cc);
             AiComponent aiComponent = ashley.createComponent(AiComponent.class);
-            aiComponent.ai = new DefaultMovingAi();
+            aiComponent.ai = new SlimeAi();
             slime.add(aiComponent);
             VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
             vc.direction = MathUtils.random(0, 7);
