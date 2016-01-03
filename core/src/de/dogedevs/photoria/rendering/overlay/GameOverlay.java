@@ -16,17 +16,16 @@ public class GameOverlay extends AbstractOverlay {
     private static final String HUD_PATH = "./hud.png";
     private static final String NET_PATH = "./net.png";
 
-    private static final int HUD_TILE_WIDTH = 32;
-    private static final int HUD_TILE_HEIGHT = 32;
-
     private BitmapFont font;
     private Texture hudTexture = new Texture(Gdx.files.internal(HUD_PATH));
+    private static final int HUD_TILE_WIDTH = 720>>1;
+    private static final int HUD_TILE_HEIGHT = 32;
+
     private Texture netTexture = new Texture(Gdx.files.internal(NET_PATH));
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
 
-    private TextureRegion heart_full = hudParts[0][0];
-    private TextureRegion heart_half = hudParts[0][1];
-    private TextureRegion heart_empty = hudParts[0][2];
+    private TextureRegion life = hudParts[0][0];
+    private TextureRegion energy = hudParts[0][1];
 
     private Vector2 netOffset = new Vector2(Gdx.graphics.getWidth()-netTexture.getWidth(), Gdx.graphics.getHeight()-netTexture.getHeight());
 
@@ -83,17 +82,13 @@ public class GameOverlay extends AbstractOverlay {
         return new float[]{posst0.x, posst0.y, posst1.x, posst1.y, posst2.x, posst2.y, posst3.x, posst3.y, posst4.x, posst4.y, };
     }
 
+    private float offset = 10;
+    private float spacing = 5;
     private void renderHealth() {
         batch.begin();
-        for (int i = 0; i < 10; i++) {
-            if (i % 3 == 0) {
-                batch.draw(heart_full, HUD_TILE_WIDTH / 2 + (i * HUD_TILE_WIDTH), Gdx.graphics.getHeight() - HUD_TILE_HEIGHT - (HUD_TILE_HEIGHT / 2));
-            } else if (i % 3 == 1) {
-                batch.draw(heart_half, HUD_TILE_WIDTH / 2 + (i * HUD_TILE_WIDTH), Gdx.graphics.getHeight() - HUD_TILE_HEIGHT - (HUD_TILE_HEIGHT / 2));
-            } else {
-                batch.draw(heart_empty, HUD_TILE_WIDTH / 2 + (i * HUD_TILE_WIDTH), Gdx.graphics.getHeight() - HUD_TILE_HEIGHT - (HUD_TILE_HEIGHT / 2));
-            }
-        }
+        batch.draw(life, offset, Gdx.graphics.getHeight()-(life.getRegionHeight()+offset));
+        batch.draw(energy, offset, Gdx.graphics.getHeight()-((life.getRegionHeight()*2+offset+spacing)));
+//        batch.draw(energy, offset, 100);
         batch.end();
     }
 
