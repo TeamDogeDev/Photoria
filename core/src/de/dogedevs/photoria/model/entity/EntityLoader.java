@@ -49,7 +49,7 @@ public class EntityLoader {
             aiComponent.ai = new DefaultMovingAi();
             eyeball.add(aiComponent);
             VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
-            vc.direction = VelocityComponent.NORTH;
+            vc.direction = MathUtils.random(0, 7);
             vc.speed = 20;
             eyeball.add(vc);
             ashley.addEntity(eyeball);
@@ -81,7 +81,7 @@ public class EntityLoader {
             aiComponent.ai = new DefaultMovingAi();
             slime.add(aiComponent);
             VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
-            vc.direction = VelocityComponent.NORTH;
+            vc.direction = MathUtils.random(0, 7);
             vc.speed = 20;
             slime.add(vc);
             ashley.addEntity(slime);

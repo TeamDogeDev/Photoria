@@ -19,6 +19,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     private ImmutableArray<Entity> entities;
     private List<Entity> sortedEntities = new ArrayList<>();
     private YComparator comparator = new YComparator();
+    public static final float DIAGONAL_CORRECTION = 0.70710678118f;
 
     public MovingEntitySystem(ChunkBuffer buffer) {
         this.buffer = buffer;
@@ -94,20 +95,20 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.x += velocity.speed * deltaTime;
                     break;
                 case VelocityComponent.NORTH_EAST:
-                    position.y += velocity.speed * deltaTime;
-                    position.x += velocity.speed * deltaTime;
+                    position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                    position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
                     break;
                 case VelocityComponent.NORTH_WEST:
-                    position.y += velocity.speed * deltaTime;
-                    position.x -= velocity.speed * deltaTime;
+                    position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                    position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
                     break;
                 case VelocityComponent.SOUTH_EAST:
-                    position.y -= velocity.speed * deltaTime;
-                    position.x += velocity.speed * deltaTime;
+                    position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                    position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
                     break;
                 case VelocityComponent.SOUTH_WEST:
-                    position.y -= velocity.speed * deltaTime;
-                    position.x -= velocity.speed * deltaTime;
+                    position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                    position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
                     break;
             }
             if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || checkEntityCollision(position.x, position.y, collision.size, i))){
