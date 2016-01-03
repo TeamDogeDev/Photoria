@@ -168,6 +168,10 @@ public class GameScreen implements Screen {
         player.add(cc);
         player.add(new PositionComponent(300 * 64 * 32 + (32*32), 300 * 64 * 32 + (32*32)));
         player.add(new VelocityComponent(0, 10));
+        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        hc.maxHealth = 100;
+        hc.health = 75;
+        player.add(hc);
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
         ac.leftAnimation = playerAnimations[2];
         ac.rightAnimation = playerAnimations[3];
