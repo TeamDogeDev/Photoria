@@ -7,6 +7,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 
@@ -40,15 +41,19 @@ public class PlayerControllSystem extends EntitySystem {
         if (entities.size() == 0) {
             return;
         }
-
         final Entity e = entities.get(0);
-        VelocityComponent velocity = ComponentMappers.velocity.get(e);
 
+        PlayerComponent playerComponent = ComponentMappers.player.get(e);
+        playerComponent.energy += 2*deltaTime;
+        MathUtils.clamp(playerComponent.energy, 0f, playerComponent.maxEnergy);
+
+
+        VelocityComponent velocity = ComponentMappers.velocity.get(e);
         velocity.speed = 0;
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP) || Gdx.input.isKeyJustPressed(Input.Keys.DOWN) || Gdx.input.isKeyJustPressed(Input.Keys.LEFT) || Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
-            PlayerComponent playerComponent = ComponentMappers.player.get(e);
-            if(playerComponent.energy > 0) {
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+
+            if(playerComponent.energy >= 1) {
 
                 playerComponent.energy--;
 

@@ -8,11 +8,17 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class PlayerComponent implements Component, Pool.Poolable {
 
-    public int energy = 75;
-    public int maxEnergy = 100;
+    public float energy = 75;
+    public float maxEnergy = 100;
+
+    public PlayerComponent() {
+        maxEnergy = 100;
+        energy = 100;
+    }
 
     @Override
     public void reset() {
-
+        maxEnergy = 100;
+        energy = 100;
     }
 }

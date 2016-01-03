@@ -8,20 +8,22 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class HealthComponent implements Component, Pool.Poolable {
 
-    public int health;
-    public int maxHealth;
+    public float health;
+    public float maxHealth;
 
     public HealthComponent() {
+        health = 100;
+        maxHealth = 100;
     }
 
-    public HealthComponent(int health, int maxHealth) {
+    public HealthComponent(float health, float maxHealth) {
         this.health = health;
         this.maxHealth = maxHealth;
     }
 
     @Override
     public void reset() {
-        health = 0;
-        maxHealth = 0;
+        health = 100;
+        maxHealth = 100;
     }
 }
