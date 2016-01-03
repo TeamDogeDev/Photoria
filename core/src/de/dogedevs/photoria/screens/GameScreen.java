@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -37,6 +38,7 @@ import java.util.Arrays;
 public class GameScreen implements Screen {
 
     static private PooledEngine ashley;
+    private Music ambient = Gdx.audio.newMusic(Gdx.files.internal("./music/ambient.mp3"));
 
     private Batch batch, waterBatch, mapBatch, cloudBatch;
     private MapCompositor mapCompositor;
@@ -53,6 +55,8 @@ public class GameScreen implements Screen {
     private Texture clouds = new Texture(Gdx.files.internal("clouds.png"));
 
     public void show() {
+        ambient.setLooping(true);
+        ambient.play();
 
         initCamera();
         initMap();
@@ -312,6 +316,8 @@ public class GameScreen implements Screen {
         waterBatch.dispose();
         waterShader.dispose();
         tiledMapRenderer.dispose();
+        ambient.stop();
+        ambient.dispose();
     }
 
     public static PooledEngine getAshley(){

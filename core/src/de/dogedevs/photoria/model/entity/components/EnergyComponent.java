@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class EnergyComponent implements Component, Pool.Poolable {
 
-    public float energy = 75;
+    public float energy = 100;
     public float maxEnergy = 100;
 
     public EnergyComponent() {
