@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.screens;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -103,7 +104,8 @@ public class GameScreen implements Screen {
         if(Config.showDebugUi){
             overlays.add(new DebugOverlay(camera, getAshley(), mapCompositor.getBuffer()));
         }
-        overlays.add(new GameOverlay());
+        Entity playerEntity = getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        overlays.add(new GameOverlay(playerEntity));
     }
 
     private void initCamera() {

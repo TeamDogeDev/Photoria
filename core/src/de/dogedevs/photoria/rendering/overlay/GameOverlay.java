@@ -1,5 +1,6 @@
 package de.dogedevs.photoria.rendering.overlay;
 
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.HealthComponent;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 
 /**
  * Created by elektropapst on 27.12.2015.
@@ -41,9 +46,19 @@ public class GameOverlay extends AbstractOverlay {
     private Vector2 stat2 = new Vector2(204,12);
     private Vector2 stat3 = new Vector2(52,12);
     private Vector2 stat4 = new Vector2(6,156);
+    private Entity player;
+    private PlayerComponent playerComponent;
+    private HealthComponent healthComponent;
 
-    public GameOverlay() {
+    public GameOverlay(Entity playerEntity) {
+        this.player = playerEntity;
+        initComponents();
         init();
+    }
+
+    private void initComponents() {
+        playerComponent = ComponentMappers.player.get(player);
+        healthComponent = ComponentMappers.health.get(player);
     }
 
     @Override
@@ -97,6 +112,8 @@ public class GameOverlay extends AbstractOverlay {
         batch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth(), energyBar.getRegionHeight());
         batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));
         batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
+
+
         batch.end();
     }
 

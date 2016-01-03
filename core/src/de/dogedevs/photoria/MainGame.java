@@ -44,9 +44,6 @@ public class MainGame extends Game {
         font = new BitmapFont();
     }
 
-
-
-
     @Override
     public void render() {
         super.render(); //important!
