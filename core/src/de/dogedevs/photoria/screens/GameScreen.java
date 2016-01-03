@@ -128,6 +128,9 @@ public class GameScreen implements Screen {
         cloudShader = new ShaderProgram(Gdx.files.internal("./shaders/cloudShader.vsh"), Gdx.files.internal("./shaders/cloudShader.fsh"));
         MainGame.log(cloudShader.isCompiled() ? "CloudShader compiled" : cloudShader.getLog());
         cloudBatch.setShader(cloudShader);
+        cloudShader.begin();
+        cloudShader.setUniformf("resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        cloudShader.end();
 
         ShaderProgram.pedantic = false;
         waterShader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
@@ -326,7 +329,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
     }
 
     @Override
