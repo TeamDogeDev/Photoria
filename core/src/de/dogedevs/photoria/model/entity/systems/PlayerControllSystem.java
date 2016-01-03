@@ -45,7 +45,7 @@ public class PlayerControllSystem extends EntitySystem {
 
         PlayerComponent playerComponent = ComponentMappers.player.get(e);
         playerComponent.energy += 2*deltaTime;
-        MathUtils.clamp(playerComponent.energy, 0f, playerComponent.maxEnergy);
+        playerComponent.energy = MathUtils.clamp(playerComponent.energy, 0f, playerComponent.maxEnergy);
 
 
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
