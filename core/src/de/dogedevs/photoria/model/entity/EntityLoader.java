@@ -30,7 +30,7 @@ public class EntityLoader {
         Animation walkAnimationL = animations[2];
         Animation walkAnimationR = animations[3];
 
-        for (int i = 0; i < numEntities/2; i++) {
+        for (int i = 0; i < 0; i++) {
             Entity eyeball = ashley.createEntity();
             PositionComponent pc = ashley.createComponent(PositionComponent.class);
             pc.x = MathUtils.random(chunkX * 64 * 32, chunkX * 64 * 32 + 2048);
@@ -62,7 +62,7 @@ public class EntityLoader {
         walkAnimationL = animations[2];
         walkAnimationR = animations[3];
 
-        for (int i = 0; i < numEntities/2; i++) {
+        for (int i = 0; i < numEntities; i++) {
             Entity slime = ashley.createEntity();
             PositionComponent pc = ashley.createComponent(PositionComponent.class);
             pc.x = MathUtils.random(chunkX * 64 * 32, chunkX * 64 * 32 + 2048);
@@ -78,6 +78,13 @@ public class EntityLoader {
             CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
             cc.groundCollision = TileCollisionMapper.normalBorderCollision;
             slime.add(cc);
+            ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
+            ec.blue = MathUtils.random(-2f, 2f);
+            ec.red = MathUtils.random(-2f, 2f);
+            ec.green = MathUtils.random(-2f, 2f);
+            ec.purple = MathUtils.random(-2f, 2f);
+            ec.yellow = MathUtils.random(-2f, 2f);
+            slime.add(ec);
             AiComponent aiComponent = ashley.createComponent(AiComponent.class);
             aiComponent.ai = new SlimeAi();
             slime.add(aiComponent);

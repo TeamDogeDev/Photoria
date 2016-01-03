@@ -71,6 +71,22 @@ public class PlayerControllSystem extends EntitySystem {
                             return false;
                         }
                         hit.play();
+
+                        ElementsComponent ec = ComponentMappers.elements.get(other);
+                        ElementsComponent playerEc = ComponentMappers.elements.get(e);
+                        if(ec != null && playerEc != null){
+                            playerEc.blue += ec.blue;
+                            playerEc.yellow += ec.yellow;
+                            playerEc.red += ec.red;
+                            playerEc.purple += ec.purple;
+                            playerEc.green += ec.green;
+
+                            playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
+                            playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
+                            playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
+                            playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
+                            playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
+                        }
                         getEngine().removeEntity(other);
                         getEngine().removeEntity(self);
                         return true;
