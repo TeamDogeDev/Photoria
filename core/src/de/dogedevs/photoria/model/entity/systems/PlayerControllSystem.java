@@ -45,6 +45,44 @@ public class PlayerControllSystem extends EntitySystem {
 
         velocity.speed = 0;
 
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+
+            Entity shot = ((PooledEngine) getEngine()).createEntity();
+            SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
+            sc.region = new TextureRegion(new Texture("bullet.png"));
+            PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
+            CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
+            cc.ghost = true;
+            PositionComponent position = ComponentMappers.position.get(e);
+            pc.x = position.x;
+            pc.y = position.y;
+            pc.z = 26;
+            VelocityComponent vc = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
+            vc.speed = 512;
+            shot.add(pc);
+            shot.add(sc);
+            shot.add(vc);
+//            shot.add(cc);
+            getEngine().addEntity(shot);
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                vc.direction = VelocityComponent.NORTH_WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                vc.direction = VelocityComponent.NORTH_EAST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                vc.direction = VelocityComponent.SOUTH_EAST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                vc.direction = VelocityComponent.SOUTH_WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+                vc.direction = VelocityComponent.NORTH;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                vc.direction = VelocityComponent.WEST;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+                vc.direction = VelocityComponent.SOUTH;
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                vc.direction = VelocityComponent.EAST;
+            }
+        }
+
         if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
 //            camera.translate(0,32);
             velocity.speed = SPEED;
@@ -87,42 +125,7 @@ public class PlayerControllSystem extends EntitySystem {
             return;
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 
-            Entity shot = ((PooledEngine) getEngine()).createEntity();
-            SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
-            sc.region = new TextureRegion(new Texture("bullet.png"));
-            PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
-            CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
-            cc.ghost = true;
-            PositionComponent position = ComponentMappers.position.get(e);
-            pc.x = position.x;
-            pc.y = position.y+32;
-            velocity = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
-            velocity.speed = 512;
-            shot.add(pc);
-            shot.add(sc);
-            shot.add(velocity);
-//            shot.add(cc);
-            getEngine().addEntity(shot);
-            if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                velocity.direction = VelocityComponent.NORTH_WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                velocity.direction = VelocityComponent.NORTH_EAST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                velocity.direction = VelocityComponent.SOUTH_EAST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                velocity.direction = VelocityComponent.SOUTH_WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                velocity.direction = VelocityComponent.NORTH;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                velocity.direction = VelocityComponent.WEST;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                velocity.direction = VelocityComponent.SOUTH;
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                velocity.direction = VelocityComponent.EAST;
-            }
-        }
 //
 //        if( Gdx.input.isKeyPressed(Input.Keys.A)){
 ////            camera.translate(-32,0);
