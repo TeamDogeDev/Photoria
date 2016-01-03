@@ -232,7 +232,8 @@ public class GameScreen implements Screen {
     private float angleWaveSpeed = 2.5f;
     private float amplitudeWave = 2;
     private float angleWave = 0;
-    private float tmp = 0;
+    private Vector2 windVelocity = new Vector2(0.001f, -0.01f);
+    private Vector2 windData = new Vector2(0,0);
 
     public void render(float delta) {
         //Clear buffer
@@ -267,16 +268,20 @@ public class GameScreen implements Screen {
         tiledMapRenderer.setView(camera);
         tiledMapRenderer.render(foregroundLayers);
 
-
+        windVelocity.x = Gdx.input.getX() - (Gdx.graphics.getWidth()>>1);
+        windVelocity.y = Gdx.input.getY() - (Gdx.graphics.getHeight()>>1);
+        windVelocity.x /= 10_000;
+        windVelocity.y /= -10_000;
 
         //Process entities
         ashley.update(Gdx.graphics.getDeltaTime());
 
-        tmp += 0.001f;
+        windData.add(windVelocity);
+
         cloudShader.begin();
         cloudShader.setUniformf("waveData", angleWave, amplitudeWave);
         cloudShader.setUniformf("camPosition", camera.position);
-        cloudShader.setUniformf("scroll", tmp, tmp);
+        cloudShader.setUniformf("scroll", windData);
         cloudShader.end();
 
 
