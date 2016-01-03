@@ -38,7 +38,7 @@ public class CollisionComponent implements Component, Pool.Poolable {
 
     public interface CollisionListener{
 
-        boolean onCollision(Entity other);
+        boolean onCollision(Entity other, Entity self);
 
     }
 }
