@@ -21,6 +21,8 @@ public class GameOverlay extends AbstractOverlay {
     private static final String HUDBAR_PATH = "./hudBars.png";
     private static final String NET_PATH = "./net.png";
 
+    private Texture textBox = new Texture(Gdx.files.internal("./textbox.png"));
+
     private BitmapFont font;
     private Texture hudTexture = new Texture(Gdx.files.internal(HUD_PATH));
     private static final int HUD_TILE_WIDTH = 720>>1;
@@ -81,6 +83,7 @@ public class GameOverlay extends AbstractOverlay {
     private void renderStats() {
         batch.begin();
         batch.draw(netTexture, netOffset.x, netOffset.y);
+        batch.draw(textBox, (Gdx.graphics.getWidth() - textBox.getWidth())>>1, 32);
         batch.end();
 
         Gdx.gl.glLineWidth(3);
@@ -125,5 +128,6 @@ public class GameOverlay extends AbstractOverlay {
         hudTexture.dispose();
         netTexture.dispose();
         hudBarTexture.dispose();
+        textBox.dispose();
     }
 }
