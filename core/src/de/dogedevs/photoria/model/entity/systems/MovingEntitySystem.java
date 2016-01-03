@@ -93,6 +93,22 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 case VelocityComponent.EAST:
                     position.x += velocity.speed * deltaTime;
                     break;
+                case VelocityComponent.NORTH_EAST:
+                    position.y += velocity.speed * deltaTime;
+                    position.x += velocity.speed * deltaTime;
+                    break;
+                case VelocityComponent.NORTH_WEST:
+                    position.y += velocity.speed * deltaTime;
+                    position.x -= velocity.speed * deltaTime;
+                    break;
+                case VelocityComponent.SOUTH_EAST:
+                    position.y -= velocity.speed * deltaTime;
+                    position.x += velocity.speed * deltaTime;
+                    break;
+                case VelocityComponent.SOUTH_WEST:
+                    position.y -= velocity.speed * deltaTime;
+                    position.x -= velocity.speed * deltaTime;
+                    break;
             }
             if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || checkEntityCollision(position.x, position.y, collision.size, i))){
                 position.y = oldY;
