@@ -11,7 +11,7 @@ uniform float redLevel;
 uniform vec3 camPosition;
 uniform vec2 scroll;
 uniform vec2 resolution;
-uniform float cloudsize = 0.6; // größer = kleinere wolken
+uniform float cloudsize;
 
 vec3 mod289(vec3 x) {
   return x - floor(x * (1.0 / 289.0)) * 289.0;
@@ -52,6 +52,6 @@ float snoise(vec2 v) {
 
 void main() {
     vec2 pos = vec2(v_texCoord0.x + (camPosition.x / resolution.x) - scroll.x, v_texCoord0.y - (camPosition.y / resolution.y) + scroll.y);
-    float color = clamp(snoise(pos)+cloudsize, 0, 0.2);//*2;
+    float color = clamp(snoise(pos)+(1-cloudsize), 0, 0.2);//*2;
     gl_FragColor = vec4(vec3(color), 0.2);
 }

@@ -56,7 +56,7 @@ public class GameScreen implements Screen {
 
     public void show() {
         ambient.setLooping(true);
-        ambient.play();
+//        ambient.play();
 
         initCamera();
         initMap();
@@ -137,6 +137,7 @@ public class GameScreen implements Screen {
         cloudBatch.setShader(cloudShader);
         cloudShader.begin();
         cloudShader.setUniformf("resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        cloudShader.setUniformf("cloudsize", 0.4f);
         cloudShader.end();
 
         ShaderProgram.pedantic = false;
