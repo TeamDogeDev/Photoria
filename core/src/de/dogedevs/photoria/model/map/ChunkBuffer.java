@@ -116,6 +116,12 @@ public class ChunkBuffer {
                 } else if(generatedMap[row][col] == TileMapper.WATER) {
                     cellCollision.value = TileCollisionMapper.WATER;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
+                } else if(generatedMap[row][col] == TileMapper.GROUND) {
+                    cellCollision.value = TileCollisionMapper.GROUND;
+                    chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
+                } else if(generatedMap[row][col] == TileMapper.LAVA_STONE) {
+                    cellCollision.value = TileCollisionMapper.LAVA_STONE;
+                    chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 } else {
                     cellCollision.value = TileCollisionMapper.VOID;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
