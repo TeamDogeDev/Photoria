@@ -5,15 +5,15 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ai.SlimeAi;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
-import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.screens.GameScreen;
+import de.dogedevs.photoria.utils.assets.AnimationLoader;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 /**
  * Created by Furuha on 02.01.2016.
@@ -23,8 +23,8 @@ public class EntityLoader {
     PooledEngine ashley = GameScreen.getAshley();
 
     public void createChunkEntities(int chunkX, int chunkY, long seed, ChunkBuffer buffer){
-        long start = System.currentTimeMillis();
-        int numEntities = 50;
+//        long start = System.currentTimeMillis();
+        int numEntities = 100;
         ashley = GameScreen.getAshley();
 
         for (int i = 0; i < numEntities; i++) {
@@ -37,7 +37,7 @@ public class EntityLoader {
             float y = ((chunkY * 64 * 32) + (int)(rnd.nextFloat()*64)*32);
             createRandomDecoEntity(x, y, buffer);
         }
-        MainGame.log("ec time: "+(System.currentTimeMillis()-start));
+//        MainGame.log("ec time: "+(System.currentTimeMillis()-start));
     }
 
     private void createRandomEntity(float x, float y, ChunkBuffer buffer){
@@ -88,7 +88,7 @@ public class EntityLoader {
     }
 
     private void createEyeball(float x, float y){
-        Animation[] animations = AnimationLoader.getMovementAnimations("eyeball.png", true, 4, 3);
+        Animation[] animations = AnimationLoader.getMovementAnimations(Textures.EYE, true, 4, 3);
         Animation walkAnimationU = animations[0];
         Animation walkAnimationD = animations[1];
         Animation walkAnimationL = animations[2];
@@ -127,7 +127,7 @@ public class EntityLoader {
     }
 
     private void createSlime(float x, float y){
-        Animation[] animations = AnimationLoader.getMovementAnimations("slime.png", true, 4, 3);
+        Animation[] animations = AnimationLoader.getMovementAnimations(Textures.SLIME, true, 4, 3);
         Animation walkAnimationU = animations[0];
         Animation walkAnimationD = animations[1];
         Animation walkAnimationL = animations[2];

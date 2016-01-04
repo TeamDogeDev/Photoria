@@ -14,13 +14,13 @@ public class AnimationLoader {
 
     private static HashMap<String, Animation[]> animations = new HashMap<>();
 
-    public static Animation[] getMovementAnimations(String filename, boolean mirrored, int rows, int cols){
-        Animation[] result = animations.get(filename);
+    public static Animation[] getMovementAnimations(Textures texture, boolean mirrored, int rows, int cols){
+        Animation[] result = animations.get(texture.name);
         if(result != null){
             return  result;
         }
 
-        Texture walkSheet = new Texture(Gdx.files.internal(filename));
+        Texture walkSheet = AssetLoader.getTexture(texture);
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/cols, walkSheet.getHeight()/rows);
         TextureRegion[][] walkFrames;
         if(mirrored){
@@ -39,7 +39,7 @@ public class AnimationLoader {
         result[1] = new Animation(0.15f, walkFrames[2]); //Down
         result[2] = new Animation(0.15f, walkFrames[1]); //Left
         result[3] = new Animation(0.15f, walkFrames[3]); //Right
-        animations.put(filename, result);
+        animations.put(texture.name, result);
         return  result;
     }
 
