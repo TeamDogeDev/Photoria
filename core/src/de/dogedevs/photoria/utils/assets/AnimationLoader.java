@@ -1,16 +1,25 @@
-package de.dogedevs.photoria.rendering.sprites;
+package de.dogedevs.photoria.utils.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import java.util.HashMap;
+
 /**
  * Created by Furuha on 01.01.2016.
  */
 public class AnimationLoader {
 
+    private static HashMap<String, Animation[]> animations = new HashMap<>();
+
     public static Animation[] getMovementAnimations(String filename, boolean mirrored, int rows, int cols){
+        Animation[] result = animations.get(filename);
+        if(result != null){
+            return  result;
+        }
+
         Texture walkSheet = new Texture(Gdx.files.internal(filename));
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/cols, walkSheet.getHeight()/rows);
         TextureRegion[][] walkFrames;
@@ -22,14 +31,15 @@ public class AnimationLoader {
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 3; j++) {
                 walkFrames[i][j] = tmp[i][j];
-                walkFrames[i][(cols*2-1)-j] = tmp[i][j];
+                if(mirrored)walkFrames[i][(cols*2-1)-j] = tmp[i][j];
             }
         }
-        Animation[] result = new Animation[4];
+        result = new Animation[4];
         result[0] = new Animation(0.15f, walkFrames[0]); //Up
         result[1] = new Animation(0.15f, walkFrames[2]); //Down
         result[2] = new Animation(0.15f, walkFrames[1]); //Left
         result[3] = new Animation(0.15f, walkFrames[3]); //Right
+        animations.put(filename, result);
         return  result;
     }
 

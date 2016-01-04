@@ -26,7 +26,7 @@ import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
 import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
+import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 
