@@ -12,6 +12,7 @@ import de.dogedevs.photoria.model.entity.ai.SlimeAi;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.map.Chunk;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
+import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.sprites.AnimationLoader;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
@@ -38,7 +39,8 @@ public class EntityLoader {
             PositionComponent pc = ashley.createComponent(PositionComponent.class);
             pc.x = MathUtils.random(chunkX * 64 * 32, chunkX * 64 * 32 + 2048);
             pc.y = MathUtils.random(chunkY * 64 * 32, chunkY * 64 * 32 + 2048);
-            if(buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.DECO1).value > 0){
+            ChunkCell cell;
+            if((cell = buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.DECO1)) == null || cell.value > 0){
                 continue;
             }
             eyeball.add(pc);
@@ -80,7 +82,8 @@ public class EntityLoader {
             PositionComponent pc = ashley.createComponent(PositionComponent.class);
             pc.x = MathUtils.random(chunkX * 64 * 32, chunkX * 64 * 32 + 2048);
             pc.y = MathUtils.random(chunkY * 64 * 32, chunkY * 64 * 32 + 2048);
-            if(buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.DECO1).value > 0){
+            ChunkCell cell;
+            if((cell = buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.DECO1)) == null || cell.value > 0){
                 continue;
             }
             slime.add(pc);
@@ -117,7 +120,8 @@ public class EntityLoader {
             PositionComponent pc = ashley.createComponent(PositionComponent.class);
             pc.x = ((chunkX * 64 * 32) + (int)(rnd.nextFloat()*64)*32);
             pc.y = ((chunkY * 64 * 32) + (int)(rnd.nextFloat()*64)*32);
-            if(buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.GROUND).value != TileMapper.LAVA_STONE){
+            ChunkCell cell;
+            if((cell = buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.GROUND)) == null || cell.value != TileMapper.LAVA_STONE){
                 continue;
             }
             worm.add(pc);

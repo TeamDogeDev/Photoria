@@ -131,7 +131,7 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                 if(ComponentMappers.mapCollision.get(e) == null){
                     yOffset = visual.region.getRegionWidth()/2;
                 }
-                batch.draw(visual.region, position.x+yOffset, position.y+position.z);
+                batch.draw(visual.region, position.x-yOffset, position.y+position.z);
             }
         }
 
