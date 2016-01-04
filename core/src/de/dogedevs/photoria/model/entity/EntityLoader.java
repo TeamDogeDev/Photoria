@@ -47,7 +47,7 @@ public class EntityLoader {
         }
         if(cell.value == ChunkBuffer.FOREST_BIOM){
             createSlime(x,y);
-        } else if(cell.value != ChunkBuffer.FOREST_BIOM){
+        } else if(cell.value == ChunkBuffer.GRASS_DESERT_BIOM){
             createEyeball(x,y);
         } else if(cell.value == TileCollisionMapper.LAVA){
 
