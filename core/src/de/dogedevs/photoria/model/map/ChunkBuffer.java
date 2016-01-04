@@ -70,7 +70,10 @@ public class ChunkBuffer {
         chunk.x = x/64;
         chunk.y = y/64;
 
-        int[][] generatedMap = generator.generate(chunk.x, chunk.y, 64, 4);
+        int[][][] generate = generator.generate(chunk.x, chunk.y, 64, 4);
+        int[][] generatedMap = generate[AbstractMapGenerator.TILELAYER];
+        int[][] generatedBiom = generate[AbstractMapGenerator.BIOMLAYER];
+        
         createGroundLayer(chunk, generatedMap, 4);
         createDecoration(chunk, generatedMap, 4);
 

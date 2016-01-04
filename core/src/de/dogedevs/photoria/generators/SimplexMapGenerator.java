@@ -32,9 +32,9 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     }
 
     @Override
-    public int[][] generate(int chunkX, int chunkY, int size, int overlap) {
+    public int[][][] generate(int chunkX, int chunkY, int size, int overlap) {
         if (chunk == null) {
-            chunk = new int[size+(2*overlap)][size+(2*overlap)];
+            chunk = new int[2][size+(2*overlap)][size+(2*overlap)];
         }
 
         realSize = size+(2*overlap);
@@ -46,23 +46,23 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
                 eval = osn.eval((local_x / size), (local_y / size));
 
                 if (eval < -0.4f) {
-                    chunk[row][col] = ((int) (eval / 0.12f));
-                    int val = MathUtils.clamp(chunk[row][col], 1, 2);
+                    chunk[TILELAYER][row][col] = ((int) (eval / 0.12f));
+                    int val = MathUtils.clamp(chunk[TILELAYER][row][col], 1, 2);
                     if(val == 1) {
-                        chunk[row][col] = WATER;
+                        chunk[TILELAYER][row][col] = WATER;
                     } else {
-                        chunk[row][col] = GROUND;
+                        chunk[TILELAYER][row][col] = GROUND;
                     }
                 } else if (eval > 0.2f) {
-                    chunk[row][col] = (int) (eval / 0.14f);
-                    int val = MathUtils.clamp(chunk[row][col], 3, 4);
+                    chunk[TILELAYER][row][col] = (int) (eval / 0.14f);
+                    int val = MathUtils.clamp(chunk[TILELAYER][row][col], 3, 4);
                     if(val == 3) {
-                        chunk[row][col] = LAVA_STONE;
+                        chunk[TILELAYER][row][col] = LAVA_STONE;
                     } else {
-                        chunk[row][col] = LAVA;
+                        chunk[TILELAYER][row][col] = LAVA;
                     }
                 } else {
-                    chunk[row][col] = GROUND;
+                    chunk[TILELAYER][row][col] = GROUND;
                 }
 //                chunk[row][col] = (int) (eval*7);
             }
