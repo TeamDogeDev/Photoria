@@ -17,6 +17,17 @@ import java.util.HashMap;
  */
 public class ChunkBuffer {
 
+    public static final int TUNDRA = 0;
+    public static final int GRASS_DESERT_BIOM = 1;
+    public static final int DESERT_BIOM = 2;
+    public static final int TAIGA_BIOM= 3;
+    public static final int WOODS_BIOM = 4;
+    public static final int SAVANNA_BIOM = 5;
+    public static final int FOREST_BIOM = 6;
+    public static final int SEASONAL_FOREST_BIOM = 7;
+    public static final int SWAMP_BIOM = 8;
+    public static final int RAIN_FOREST_BIOM = 9;
+
     public static final int COLLISION = 0;
     public static final int GROUND = 1;
     public static final int FLUID = 3;
@@ -73,7 +84,7 @@ public class ChunkBuffer {
         int[][][] generate = generator.generate(chunk.x, chunk.y, 64, 4);
         int[][] generatedMap = generate[AbstractMapGenerator.TILELAYER];
         int[][] generatedBiom = generate[AbstractMapGenerator.BIOMLAYER];
-        
+
         createGroundLayer(chunk, generatedMap, 4);
         createDecoration(chunk, generatedMap, 4);
 
