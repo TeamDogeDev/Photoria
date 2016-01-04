@@ -41,13 +41,13 @@ public class EntityLoader {
     }
 
     private void createRandomEntity(float x, float y, ChunkBuffer buffer){
-        ChunkCell cell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.COLLISION);
+        ChunkCell cell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME);
         if(cell == null){
             return;
         }
-        if(cell.value == TileCollisionMapper.LAVA_STONE){
+        if(cell.value == ChunkBuffer.FOREST_BIOM){
             createSlime(x,y);
-        } else if(cell.value == TileCollisionMapper.GROUND){
+        } else if(cell.value != ChunkBuffer.FOREST_BIOM){
             createEyeball(x,y);
         } else if(cell.value == TileCollisionMapper.LAVA){
 

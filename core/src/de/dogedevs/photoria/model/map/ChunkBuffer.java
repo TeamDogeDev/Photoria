@@ -28,10 +28,12 @@ public class ChunkBuffer {
     public static final int SWAMP_BIOM = 8;
     public static final int RAIN_FOREST_BIOM = 9;
 
+    public static final int BIOME = -1;
     public static final int COLLISION = 0;
     public static final int GROUND = 1;
     public static final int FLUID = 3;
     public static final int DECO1 = 2;
+
 
     HashMap<String, Chunk> chunks; //String x+"_"+y
     private AbstractMapGenerator generator;
@@ -84,11 +86,23 @@ public class ChunkBuffer {
         int[][][] generate = generator.generate(chunk.x, chunk.y, 64, 4);
         int[][] generatedMap = generate[AbstractMapGenerator.TILELAYER];
         int[][] generatedBiom = generate[AbstractMapGenerator.BIOMLAYER];
-
+        createBiomeLayer(chunk, generatedBiom, 4);
         createGroundLayer(chunk, generatedMap, 4);
         createDecoration(chunk, generatedMap, 4);
 
         return chunk;
+    }
+
+    private void createBiomeLayer(Chunk chunk, int[][] biomeData, int overlap)   {
+        ChunkCell cell;
+        chunk.addLayer(BIOME, new ChunkCell[CHUNK_SIZE][CHUNK_SIZE]);
+        for (int row = overlap; row < CHUNK_SIZE+overlap; row++) {
+            for (int col = overlap; col < CHUNK_SIZE + overlap; col++) {
+                cell = new ChunkCell();
+                cell.value = biomeData[row][col];
+                chunk.setCell(cell, row-overlap, col-overlap, BIOME);
+            }
+        }
     }
 
     private int[][] createGroundLayer(Chunk chunk, int[][] generatedMap, int overlap) {
