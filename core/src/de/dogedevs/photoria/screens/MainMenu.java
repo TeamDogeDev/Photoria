@@ -43,7 +43,7 @@ public class MainMenu implements Screen {
         starfieldBatch = new SpriteBatch();
 
         ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/starfield.vsh"), Gdx.files.internal("./shaders/starfield.fsh"));
+        shader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/starfield.fsh"));
 
         System.out.println(shader.isCompiled() ? "Starfield shader compiled" : shader.getLog());
         starfieldBatch.setShader(shader);

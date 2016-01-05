@@ -4,10 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.EnergyComponent;
@@ -50,15 +54,29 @@ public class GameOverlay extends AbstractOverlay {
     private Vector2 stat3 = new Vector2(52,12);
     private Vector2 stat4 = new Vector2(6,156);
     private Entity player;
+
+    private ShaderProgram bloomShader;
+
     private PlayerComponent playerComponent;
     private HealthComponent healthComponent;
     private EnergyComponent energyComponent;
     private ElementsComponent elementsComponent;
 
+    private Batch bloomBatch = new SpriteBatch();
+
     public GameOverlay(Entity playerEntity) {
         this.player = playerEntity;
+        initShader();
         initComponents();
         init();
+    }
+
+    private void initShader() {
+        ShaderProgram.pedantic = false;
+        bloomShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/bloomShader.fsh"));
+        MainGame.log(bloomShader.isCompiled() ? "WaterShader compiled" : bloomShader.getLog());
+
+//        bloomBatch.setShader(bloomShader);
     }
 
     private void initComponents() {
@@ -113,18 +131,22 @@ public class GameOverlay extends AbstractOverlay {
 
     private float offset = 10;
     private float spacing = 5;
+
     private void renderHealth() {
         health.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        batch.begin();
+        bloomBatch.begin();
         float healthScale = (float) healthComponent.health / healthComponent.maxHealth;
         float energyScale = (float) energyComponent.energy / energyComponent.maxEnergy;
-        batch.draw(healthBar, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());
-        batch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth() * energyScale, energyBar.getRegionHeight());
+        bloomBatch.draw(healthBar, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());
+        bloomBatch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth() * energyScale, energyBar.getRegionHeight());
+        bloomBatch.end();
+
+        batch.begin();
         batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));
         batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
-
-
         batch.end();
+
+
     }
 
     @Override

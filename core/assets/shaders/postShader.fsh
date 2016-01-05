@@ -29,7 +29,7 @@ void pixelize(in float pixelSize) {
     float dy = pixelSize*(1./768); // BAD
 
     vec4 intensity = texture2D(u_sampler2D, v_texCoord0);
-    intensity = vec4(vec3((intensity.g * 3 + intensity.r * 2 + intensity.b)/6), 1);
+    intensity = vec4(vec3(((intensity.g * 3 + intensity.r * 2 + intensity.b)/6)+.4), 1);
 
     vec2 coord = vec2(dx*floor(v_texCoord0.x/dx), dy*floor(v_texCoord0.y/dy));
     gl_FragColor = texture2D(u_sampler2D, coord) * intensity;
@@ -98,22 +98,22 @@ void bloom2() {
 
 void bloom() {
     vec4 blurSample = vec4(0.0);
-    vec4 tmpPix;
-    vec4 offPix;
-    for(int tx =-2; tx < 3; tx++) {
-        for(int ty = -2; ty < 3; ty++) {
-            vec2 uv = v_texCoord0.st;
-            uv.x = uv.x + tx*0.01;
-            uv.y = uv.y + ty*0.01;
-            tmpPix = texture2D(u_sampler2D,uv);
-            offPix = -0.3+tmpPix;
-            offPix = offPix *32;
-            blurSample = blurSample + offPix;
+        vec4 tmpPix;
+        vec4 offPix;
+        for(int tx =-2; tx < 3; tx++) {
+            for(int ty = -2; ty < 3; ty++) {
+                vec2 uv = v_texCoord0.st;
+                uv.x = uv.x + tx*0.01;
+                uv.y = uv.y + ty*0.01;
+                tmpPix = texture2D(u_sampler2D,uv);
+                offPix = -0.3+tmpPix;
+                offPix = offPix *32;
+                blurSample = blurSample + offPix;
+            }
         }
-    }
 
-    blurSample = blurSample / 1024;
-    gl_FragColor = texture2D(u_sampler2D,v_texCoord0.st)*2+blurSample*1.2;
+        blurSample = blurSample / 1024;
+        gl_FragColor = texture2D(u_sampler2D,v_texCoord0.st)*2+blurSample*1.2;
 }
 
 void gray() {
@@ -127,8 +127,8 @@ void main() {
 //     cartoon();
 
     // PixelizeShader
-     float pixelSize = 64;
-     pixelize(pixelSize);
+//     float pixelSize = 256;
+//     pixelize(pixelSize);
 
     // FishEye
 //     float ap = 178.0;
@@ -139,7 +139,7 @@ void main() {
 //    float power = 0.5;
 //    bloom();
     // Passthrough
-//    gl_FragColor = texture2D(u_sampler2D, v_texCoord0);
+    gl_FragColor = texture2D(u_sampler2D, v_texCoord0);
 
 
 //    gray();

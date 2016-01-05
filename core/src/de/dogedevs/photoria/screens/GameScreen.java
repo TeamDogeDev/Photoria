@@ -177,7 +177,7 @@ public class GameScreen implements Screen {
 
     private void initShader() {
         ShaderProgram.pedantic = false;
-        cloudShader = new ShaderProgram(Gdx.files.internal("./shaders/cloudShader.vsh"), Gdx.files.internal("./shaders/cloudShader.fsh"));
+        cloudShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/cloudShader.fsh"));
         MainGame.log(cloudShader.isCompiled() ? "CloudShader compiled" : cloudShader.getLog());
         cloudBatch.setShader(cloudShader);
 
@@ -192,7 +192,7 @@ public class GameScreen implements Screen {
         waterBatch.setShader(waterShader);
 
         ShaderProgram.pedantic = false;
-        postShader = new ShaderProgram(Gdx.files.internal("./shaders/postShader.vsh"), Gdx.files.internal("./shaders/postShader.fsh"));
+        postShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/passthrough.fsh"));
         MainGame.log(postShader.isCompiled() ? "PostShader compiled" : postShader.getLog());
         testBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
