@@ -28,8 +28,11 @@ void pixelize(in float pixelSize) {
     float dx = pixelSize*(1./1280); // BAD
     float dy = pixelSize*(1./768); // BAD
 
+    vec4 intensity = texture2D(u_sampler2D, v_texCoord0);
+    intensity = vec4(vec3((intensity.g * 3 + intensity.r * 2 + intensity.b)/6), 1);
+
     vec2 coord = vec2(dx*floor(v_texCoord0.x/dx), dy*floor(v_texCoord0.y/dy));
-    gl_FragColor = texture2D(u_sampler2D, coord);
+    gl_FragColor = texture2D(u_sampler2D, coord) * intensity;
 
 }
 
@@ -113,23 +116,31 @@ void bloom() {
     gl_FragColor = texture2D(u_sampler2D,v_texCoord0.st)*2+blurSample*1.2;
 }
 
+void gray() {
+    vec4 color = texture2D(u_sampler2D, v_texCoord0);
+    color = vec4(vec3((color.g * 3 + color.r * 2 + color.b)/6), 1);
+    gl_FragColor = color;
+}
+
 void main() {
     // CartoonShader
-    // cartoon();
+//     cartoon();
 
     // PixelizeShader
-    // float pixelSize = 4;
-    // pixelize(pixelSize);
+     float pixelSize = 64;
+     pixelize(pixelSize);
 
     // FishEye
-    // float ap = 178.0;
-    // fishEye(ap);
+//     float ap = 178.0;
+//     fishEye(ap);
 
     // HalfMid
 //    halfMid();
 //    float power = 0.5;
-    bloom();
+//    bloom();
     // Passthrough
 //    gl_FragColor = texture2D(u_sampler2D, v_texCoord0);
 
+
+//    gray();
 }
