@@ -35,6 +35,8 @@ public class GameOverlay extends AbstractOverlay {
     private static final int HUD_TILE_HEIGHT = 32;
 
     private Texture hudBarTexture = new Texture(Gdx.files.internal(HUDBAR_PATH));
+    private Texture itemSlotTexture = new Texture(Gdx.files.internal("./itemSlot.png"));
+
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion healthBar = hudBars[0][0];
     private TextureRegion energyBar = hudBars[0][1];
@@ -63,6 +65,12 @@ public class GameOverlay extends AbstractOverlay {
     private ElementsComponent elementsComponent;
 
     private Batch bloomBatch = new SpriteBatch();
+
+
+    private float offset = 10;
+    private float spacing = 5;
+    private int numSlots = 6;
+    private int itemBarWidth = (int) (numSlots * (itemSlotTexture.getWidth()+spacing));
 
     public GameOverlay(Entity playerEntity) {
         this.player = playerEntity;
@@ -107,7 +115,7 @@ public class GameOverlay extends AbstractOverlay {
     private void renderStats() {
         batch.begin();
         batch.draw(netTexture, netOffset.x, netOffset.y);
-        batch.draw(textBox, (Gdx.graphics.getWidth() - textBox.getWidth())>>1, 32);
+//        batch.draw(textBox, (Gdx.graphics.getWidth() - textBox.getWidth())>>1, 32);
         batch.end();
 
         Gdx.gl.glLineWidth(3);
@@ -129,9 +137,6 @@ public class GameOverlay extends AbstractOverlay {
         return new float[]{posst0.x, posst0.y, posst1.x, posst1.y, posst2.x, posst2.y, posst3.x, posst3.y, posst4.x, posst4.y, };
     }
 
-    private float offset = 10;
-    private float spacing = 5;
-
     private void renderHealth() {
         health.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bloomBatch.begin();
@@ -144,6 +149,10 @@ public class GameOverlay extends AbstractOverlay {
         batch.begin();
         batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));
         batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
+
+        for(int i = 0; i < numSlots; i++) {
+            batch.draw(itemSlotTexture, ((itemSlotTexture.getWidth()+ spacing)*i) + ((Gdx.graphics.getWidth()-itemBarWidth)>>1), Gdx.graphics.getHeight()-itemSlotTexture.getHeight()-offset);
+        }
         batch.end();
 
 
