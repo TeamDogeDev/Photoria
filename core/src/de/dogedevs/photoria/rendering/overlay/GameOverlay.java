@@ -151,7 +151,10 @@ public class GameOverlay extends AbstractOverlay {
         batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
 
         for(int i = 0; i < numSlots; i++) {
-            batch.draw(itemSlotTexture, ((itemSlotTexture.getWidth()+ spacing)*i) + ((Gdx.graphics.getWidth()-itemBarWidth)>>1), Gdx.graphics.getHeight()-itemSlotTexture.getHeight()-offset);
+            float x = ((itemSlotTexture.getWidth()+ spacing)*i) + ((Gdx.graphics.getWidth()-itemBarWidth)>>1);
+            float y =  Gdx.graphics.getHeight()-itemSlotTexture.getHeight()-offset;
+            batch.draw(itemSlotTexture, x, y);
+            font.draw(batch, "" + (i+1), x, y+ itemSlotTexture.getHeight());
         }
         batch.end();
 
