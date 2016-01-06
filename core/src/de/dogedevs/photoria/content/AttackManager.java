@@ -82,7 +82,7 @@ public class AttackManager {
 
             private void die(Entity other, Entity self) {
                 ElementsComponent ec = ComponentMappers.elements.get(other);
-                ElementsComponent playerEc = ComponentMappers.elements.get(self);
+                ElementsComponent playerEc = ComponentMappers.elements.get(parent);
                 if(ec != null && playerEc != null){
                     playerEc.blue += ec.blue;
                     playerEc.yellow += ec.yellow;
