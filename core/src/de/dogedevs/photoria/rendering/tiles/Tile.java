@@ -28,19 +28,41 @@ public abstract class Tile extends StaticTiledMapTile {
     protected static Map<Integer, Map<Integer, Tile>> tiles2 = new HashMap<>();
 
     static {
-        tileTexture.put(ChunkBuffer.RAIN_FOREST_BIOM, AssetLoader.getTexture(Textures.MAIN_TILESET));
-        TextureRegion[][] splitRain = TextureRegion.split(tileTexture.get(ChunkBuffer.RAIN_FOREST_BIOM), TILE_WIDTH, TILE_HEIGHT);
+        tileTexture.put(ChunkBuffer.TUNDRA, AssetLoader.getTexture(Textures.TUNDRA_TILESET));
+        tiles.put(ChunkBuffer.TUNDRA, TextureRegion.split(tileTexture.get(ChunkBuffer.TUNDRA), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.GRASS_DESERT_BIOM, AssetLoader.getTexture(Textures.GRASS_DESERT_TILESET));
+        tiles.put(ChunkBuffer.GRASS_DESERT_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.GRASS_DESERT_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
         tileTexture.put(ChunkBuffer.DESERT_BIOM, AssetLoader.getTexture(Textures.DESERT_TILESET));
-        TextureRegion[][] splitDesert = TextureRegion.split(tileTexture.get(ChunkBuffer.DESERT_BIOM), TILE_WIDTH, TILE_HEIGHT);
+        tiles.put(ChunkBuffer.DESERT_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.DESERT_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.TAIGA_BIOM, AssetLoader.getTexture(Textures.TAIGA_TILESET));
+        tiles.put(ChunkBuffer.TAIGA_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.TAIGA_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.WOODS_BIOM, AssetLoader.getTexture(Textures.WOODS_TILESET));
+        tiles.put(ChunkBuffer.WOODS_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.WOODS_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.SAVANNA_BIOM, AssetLoader.getTexture(Textures.SAVANNA_TILESET));
+        tiles.put(ChunkBuffer.SAVANNA_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.SAVANNA_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.FOREST_BIOM, AssetLoader.getTexture(Textures.FOREST_TILESET));
+        tiles.put(ChunkBuffer.FOREST_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.FOREST_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.SEASONAL_FOREST_BIOM, AssetLoader.getTexture(Textures.SEASONAL_FOREST_TILESET));
+        tiles.put(ChunkBuffer.SEASONAL_FOREST_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.SEASONAL_FOREST_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.SWAMP_BIOM, AssetLoader.getTexture(Textures.SWAMP_TILESET));
+        tiles.put(ChunkBuffer.SWAMP_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.SWAMP_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+        tileTexture.put(ChunkBuffer.RAIN_FOREST_BIOM, AssetLoader.getTexture(Textures.RAIN_FOREST_TILESET));
+        tiles.put(ChunkBuffer.RAIN_FOREST_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.RAIN_FOREST_BIOM), TILE_WIDTH, TILE_HEIGHT));
+
+
 
         // TODO MIN MAX ALL
         for (int i = 0; i < 9+1; i++) {
-            if(i < 5) {
-                tiles.put(i, splitRain);
-            } else {
-                tiles.put(i, splitDesert);
-            }
+
             Map<Integer, Tile> biomTiles = new HashMap<>();
             TextureRegion[][] localTiles = tiles.get(i);
 

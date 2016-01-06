@@ -9,9 +9,19 @@ public enum Textures {
 
     // WORLD
     CLOUD_STUB("clouds.png"),
-    MAIN_TILESET("tilesets/tileset.png"),
-//    MAIN_TILESET("tilesets/tileset_accid.png"),
+//    MAIN_TILESET("tilesets/tileset.png"),
+
+    TUNDRA_TILESET("tilesets/tileset.png"),
+    GRASS_DESERT_TILESET("tilesets/tileset_accid.png"),
     DESERT_TILESET("tilesets/tileset1.png"),
+    TAIGA_TILESET("tilesets/tileset.png"),
+    WOODS_TILESET("tilesets/tileset.png"),
+    SAVANNA_TILESET("tilesets/tileset.png"),
+    FOREST_TILESET("tilesets/tileset.png"),
+    SEASONAL_FOREST_TILESET("tilesets/tileset.png"),
+    SWAMP_TILESET("tilesets/tileset.png"),
+    RAIN_FOREST_TILESET("tilesets/tileset.png"),
+
 
     // MOBS
     EYE("mobs/eyeball.png"),
