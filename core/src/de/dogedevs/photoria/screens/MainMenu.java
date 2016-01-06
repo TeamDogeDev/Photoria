@@ -16,7 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.Textures;
+import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
  * Created by elektropapst on 20.12.2015.
@@ -42,10 +43,7 @@ public class MainMenu implements Screen {
         spriteBatch = new SpriteBatch();
         starfieldBatch = new SpriteBatch();
 
-        ShaderProgram.pedantic = false;
-        shader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/starfield.fsh"));
-
-        MainGame.log(shader.isCompiled() ? "Starfield shader compiled" : shader.getLog());
+        shader = AssetLoader.getShader(ShaderPrograms.STARFIELD_SHADER);
         starfieldBatch.setShader(shader);
 
         shader.begin();

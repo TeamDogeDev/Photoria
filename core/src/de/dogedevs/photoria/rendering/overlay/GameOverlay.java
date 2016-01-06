@@ -11,14 +11,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.Textures;
+import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
  * Created by elektropapst on 27.12.2015.
@@ -87,10 +87,7 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     private void initShader() {
-        ShaderProgram.pedantic = false;
-        bloomShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/bloomShader.fsh"));
-        MainGame.log(bloomShader.isCompiled() ? "WaterShader compiled" : bloomShader.getLog());
-
+        bloomShader = AssetLoader.getShader(ShaderPrograms.BLOOM_SHADER);
 //        bloomBatch.setShader(bloomShader);
     }
 

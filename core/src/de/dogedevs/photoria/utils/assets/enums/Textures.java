@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.utils.assets;
+package de.dogedevs.photoria.utils.assets.enums;
 
 /**
  * Created by elektropapst on 03.01.2016.

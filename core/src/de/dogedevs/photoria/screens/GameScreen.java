@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.systems.*;
 import de.dogedevs.photoria.model.map.MapCompositor;
@@ -30,7 +29,8 @@ import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.Textures;
+import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.Arrays;
 
@@ -186,24 +186,17 @@ public class GameScreen implements Screen {
     }
 
     private void initShader() {
-        ShaderProgram.pedantic = false;
-        cloudShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/cloudShader.fsh"));
-        MainGame.log(cloudShader.isCompiled() ? "CloudShader compiled" : cloudShader.getLog());
+        cloudShader = AssetLoader.getShader(ShaderPrograms.CLOUD_SHADER);
         cloudBatch.setShader(cloudShader);
-
         cloudShader.begin();
         cloudShader.setUniformf("resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         cloudShader.setUniformf("cloudsize", 0.4f);
         cloudShader.end();
 
-        ShaderProgram.pedantic = false;
-        waterShader = new ShaderProgram(Gdx.files.internal("./shaders/liquidShader.vsh"), Gdx.files.internal("./shaders/liquidShader.fsh"));
-        MainGame.log(waterShader.isCompiled() ? "WaterShader compiled" : waterShader.getLog());
+        waterShader = AssetLoader.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        ShaderProgram.pedantic = false;
-        postShader = new ShaderProgram(Gdx.files.internal("./shaders/vertexStub.vsh"), Gdx.files.internal("./shaders/passthrough.fsh"));
-        MainGame.log(postShader.isCompiled() ? "PostShader compiled" : postShader.getLog());
+        postShader = AssetLoader.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
         testBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
 

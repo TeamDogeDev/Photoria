@@ -13,7 +13,7 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
-import de.dogedevs.photoria.utils.assets.Textures;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
 import java.util.Collection;

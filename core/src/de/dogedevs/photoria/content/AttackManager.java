@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +12,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
-import de.dogedevs.photoria.utils.assets.Textures;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.Random;
 
