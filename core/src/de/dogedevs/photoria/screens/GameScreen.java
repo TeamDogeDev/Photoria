@@ -104,6 +104,7 @@ public class GameScreen implements Screen {
         getAshley().addSystem(new EntityGcSystem(camera, mapCompositor.getBuffer()));
         getAshley().addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
         getAshley().addSystem(new LifetimeSystem());
+        getAshley().addSystem(new HealthSystem());
         if (!Config.enableDebugCamera) {
             getAshley().addSystem(new CameraSystem(camera));
         }
@@ -159,6 +160,7 @@ public class GameScreen implements Screen {
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = 100;
         hc.health = 75;
+        hc.maxImmuneTime = 2;
         player.add(hc);
 
         EnergyComponent ec = ashley.createComponent(EnergyComponent.class);

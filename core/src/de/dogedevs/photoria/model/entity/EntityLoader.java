@@ -150,6 +150,20 @@ public class EntityLoader {
         entity.add(ac);
         CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
         cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+        cc.collisionListener = new CollisionComponent.CollisionListener() {
+            @Override
+            public boolean onCollision(Entity other, Entity self) {
+                if(ComponentMappers.player.has(other)){
+                    HealthComponent hc = ComponentMappers.health.get(other);
+                    if(hc.immuneTime == 0){
+                        hc.health -= 5;
+                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                        hc.immuneTime = hc.maxImmuneTime;
+                    }
+                }
+                return false;
+            }
+        };
         entity.add(cc);
         ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
         ec.blue = MathUtils.random(-2f, 2f);

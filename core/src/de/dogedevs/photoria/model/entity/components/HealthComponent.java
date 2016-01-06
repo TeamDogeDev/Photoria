@@ -11,19 +11,28 @@ public class HealthComponent implements Component, Pool.Poolable {
     public float health;
     public float maxHealth;
 
+    public float immuneTime;
+    public float maxImmuneTime;
+
     public HealthComponent() {
         health = 100;
         maxHealth = 100;
+        immuneTime = 0;
+        maxImmuneTime = 0;
     }
 
     public HealthComponent(float health, float maxHealth) {
         this.health = health;
         this.maxHealth = maxHealth;
+        this.immuneTime = 0;
+        this.maxImmuneTime = 0;
     }
 
     @Override
     public void reset() {
         health = 100;
         maxHealth = 100;
+        immuneTime = 0;
+        maxImmuneTime = 0;
     }
 }
