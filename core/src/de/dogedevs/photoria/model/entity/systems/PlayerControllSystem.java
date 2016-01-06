@@ -41,7 +41,7 @@ public class PlayerControllSystem extends EntitySystem {
 //        MainGame.log("update: "+entities.size());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " Yay22", 5);
+            GameOverlay.addTextbox(UUID.randomUUID().toString() + " Yay22");
         }
 
         if (entities.size() == 0) {

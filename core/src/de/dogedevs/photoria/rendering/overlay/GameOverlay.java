@@ -5,10 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -31,6 +28,10 @@ public class GameOverlay extends AbstractOverlay {
     private static final String NET_PATH = "./net.png";
 
     private Texture textBox = new Texture(Gdx.files.internal("./textbox.png"));
+    private Texture okButtonSheet = new Texture(Gdx.files.internal("./okButton.png"));
+    private TextureRegion[] okFrames = TextureRegion.split(okButtonSheet, okButtonSheet.getWidth()/10, okButtonSheet.getHeight())[0];
+    private Animation okButtonAnimation = new Animation(0.05f, okFrames);
+
 
     private BitmapFont font;
     private Texture hudTexture = new Texture(Gdx.files.internal(HUD_PATH));
@@ -169,16 +170,25 @@ public class GameOverlay extends AbstractOverlay {
 
     }
 
+    private float stateTime = 0f;
+
     private void renderTextBox() {
         batch.begin();
         float x = (Gdx.graphics.getWidth() - textBox.getWidth()) >> 1;
         float y = 32;
-
         batch.draw(textBox, x, y);
         font.draw(batch, currentTextbox.text, x + 10, y + textBox.getHeight() - 10, textBox.getWidth(), Align.left, true);
+
+        if(!currentTextbox.isDeterminant()) {
+            stateTime += Gdx.graphics.getDeltaTime();
+            TextureRegion keyFrame = okButtonAnimation.getKeyFrame(stateTime, true);
+            batch.draw(keyFrame, x + textBox.getWidth() - keyFrame.getRegionWidth() - 5, y + 5);
+        } else {
+            stateTime = 0f;
+        }
         batch.end();
 
-        if (currentTextbox.duration > 0) {
+        if (currentTextbox.isDeterminant()) {
             currentTextbox.visibleSince += Gdx.graphics.getDeltaTime();
             if (currentTextbox.visibleSince >= currentTextbox.duration) {
                 nextTextbox();
@@ -222,6 +232,7 @@ public class GameOverlay extends AbstractOverlay {
         netTexture.dispose();
         hudBarTexture.dispose();
         textBox.dispose();
+        okButtonSheet.dispose();
     }
 
     private static class Textbox {
@@ -232,6 +243,10 @@ public class GameOverlay extends AbstractOverlay {
         public Textbox(String text, float duration) {
             this.text = text;
             this.duration = duration;
+        }
+
+        public boolean isDeterminant() {
+            return duration > 0;
         }
     }
 }
