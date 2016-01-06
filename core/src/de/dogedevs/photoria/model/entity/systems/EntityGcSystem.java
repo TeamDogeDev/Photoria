@@ -50,6 +50,11 @@ public class EntityGcSystem extends EntitySystem {
         for(Entity entity: entities){
             position = ComponentMappers.position.get(entity);
             if(chunkBuffer.getCellLazy((int)(position.x/32), (int)(position.y/32), 2) == null){
+                if(ComponentMappers.inventory.has(entity)){
+                    for(Entity item: ComponentMappers.inventory.get(entity).items){
+                        getEngine().removeEntity(item);
+                    }
+                }
                 getEngine().removeEntity(entity);
             }
 //            if(!(position.x >= minX && position.x < maxX) && !(position.y >= minY && position.y < maxY)){
