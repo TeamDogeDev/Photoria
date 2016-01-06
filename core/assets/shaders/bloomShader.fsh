@@ -22,6 +22,6 @@ void main() {
         }
     }
 
-    blurSample = blurSample / 1024;
+    blurSample = blurSample / 1500;
     gl_FragColor = texture2D(u_sampler2D,v_texCoord0.st)*2+blurSample*1.2;
 }

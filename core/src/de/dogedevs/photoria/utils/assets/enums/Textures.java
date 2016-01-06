@@ -10,6 +10,7 @@ public enum Textures {
     // WORLD
     CLOUD_STUB("clouds.png"),
     MAIN_TILESET("tilesets/tileset.png"),
+    MAIN_TILESET("tilesets/tileset_accid.png"),
     DESERT_TILESET("tilesets/tileset1.png"),
 
     // MOBS
