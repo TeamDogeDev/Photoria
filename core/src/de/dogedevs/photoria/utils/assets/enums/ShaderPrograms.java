@@ -9,6 +9,7 @@ public enum ShaderPrograms {
     WATER_SHADER("shaders/liquidShader.vsh", "shaders/liquidShader.fsh"),
     PASSTHROUGH_SHADER("shaders/vertexStub.vsh", "shaders/passthrough.fsh"),
     BLOOM_SHADER("shaders/vertexStub.vsh", "shaders/bloomShader.fsh"),
+    POST_SHADER("shaders/vertexStub.vsh", "shaders/postShader.fsh"),
     STARFIELD_SHADER("shaders/vertexStub.vsh", "shaders/starfield.fsh");
 
     public String fragmentShader;

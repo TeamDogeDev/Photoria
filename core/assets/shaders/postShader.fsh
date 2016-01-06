@@ -3,6 +3,7 @@
 varying vec4 v_color;
 varying vec2 v_texCoord0;
 
+uniform float biom;
 uniform sampler2D u_sampler2D;
 const float PI = 3.1415926535;
 
@@ -122,6 +123,28 @@ void gray() {
     gl_FragColor = color;
 }
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+void randomTest() {
+    float dx = 1.*(1./32); // BAD
+    float dy = 1.*(1./32); // BAD
+
+    vec2 coord = vec2(dx*floor(v_texCoord0.x/dx), dy*floor(v_texCoord0.y/dy));
+    vec4 intensity = texture2D(u_sampler2D, v_texCoord0);
+    intensity = vec4(vec3(((intensity.g * 3 + intensity.r * 2 + intensity.b)/6)+.4), 1);
+
+    if(biom == 1) {
+        vec4 tmpCol = vec4(1, 0, 0, 1);
+        gl_FragColor = texture2D(u_sampler2D, v_texCoord0) * tmpCol;
+    } else {
+        vec4 tmpCol = vec4(0, 0, 1, 1);
+        gl_FragColor = texture2D(u_sampler2D, v_texCoord0) * tmpCol;
+    }
+
+}
+
 void main() {
     // CartoonShader
 //     cartoon();
@@ -141,6 +164,6 @@ void main() {
     // Passthrough
     gl_FragColor = texture2D(u_sampler2D, v_texCoord0);
 
-
+//    randomTest();
 //    gray();
 }
