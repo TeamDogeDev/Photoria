@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -37,6 +38,9 @@ public class PlayerControllSystem extends EntitySystem {
     public void update (float deltaTime) {
 //        MainGame.log("update: "+entities.size());
 
+        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            GameOverlay.showTextbox("WOW. such textbox. many multiline. So [#00fd00]Color[].\nMor [#0000f9] color [].\n[#ff0000]<3 libgdx[]", 3);
+        }
 
         if (entities.size() == 0) {
             return;

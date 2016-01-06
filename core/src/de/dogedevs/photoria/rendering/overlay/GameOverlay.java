@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.ElementsComponent;
@@ -96,7 +97,8 @@ public class GameOverlay extends AbstractOverlay {
 
     @Override
     public void init() {
-        font = new BitmapFont();
+        font = new BitmapFont(Gdx.files.internal("./fonts/textboxFont.fnt"));
+        font.getData().markupEnabled = true;
     }
 
     @Override
@@ -108,6 +110,9 @@ public class GameOverlay extends AbstractOverlay {
     public void render() {
         renderHealth();
         renderStats();
+        if(textBoxVisible) {
+            renderTextBox();
+        }
     }
 
     private static ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -159,6 +164,49 @@ public class GameOverlay extends AbstractOverlay {
         batch.end();
 
 
+    }
+
+    private void renderTextBox() {
+        batch.begin();
+        float x = (Gdx.graphics.getWidth() - textBox.getWidth())>>1;
+        float y = 32;
+
+        batch.draw(textBox, x, y);
+        font.draw(batch, textBoxText, x + 10, y + textBox.getHeight() - 10, textBox.getWidth(), Align.left, true);
+        batch.end();
+
+        textboxVisibleTime += Gdx.graphics.getDeltaTime();
+        MainGame.log(textboxVisibleTime  + "");
+        if(textboxVisibleTime >= textboxDuration) {
+            resetTextbox();
+        }
+    }
+
+    private void resetTextbox() {
+        textBoxVisible = false;
+        textBoxText = "";
+        textboxDuration = 5;
+        textboxVisibleTime = 0;
+    }
+
+    private static boolean textBoxVisible = false;
+    private static String textBoxText = "";
+    private static float textboxDuration = 5000;
+    private static float textboxVisibleTime = 0;
+
+    public static boolean isTextBoxVisible() {
+        return textBoxVisible;
+    }
+
+    public static void showTextbox(String text) {
+        showTextbox(text, 5);
+    }
+
+    public static void showTextbox(String text, float duration) {
+        textBoxVisible = true;
+        textBoxText = text;
+        textboxDuration = duration;
+        textboxVisibleTime = 0f;
     }
 
     @Override
