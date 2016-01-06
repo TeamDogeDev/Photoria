@@ -15,6 +15,9 @@ import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.Textures;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 /**
  * Created by Furuha on 02.01.2016.
  */
@@ -158,11 +161,42 @@ public class EntityLoader {
         AiComponent aiComponent = ashley.createComponent(AiComponent.class);
         aiComponent.ai = new SlimeAi();
         entity.add(aiComponent);
+        InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
+        ic.items.addAll(createMobItems(0.5f, 1));
+        entity.add(ic);
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
         vc.direction = MathUtils.random(0, 7);
         vc.speed = 20;
         entity.add(vc);
         ashley.addEntity(entity);
+    }
+
+    private Collection<? extends Entity> createMobItems(float chance, int type) {
+        ArrayList<Entity> result = new ArrayList<>();
+        if(MathUtils.randomBoolean(chance)){
+            Animation[] animations = AnimationLoader.getMovementAnimations(Textures.EYE, true, 4, 3);
+            Animation walkAnimationU = animations[0];
+            Animation walkAnimationD = animations[1];
+            Animation walkAnimationL = animations[2];
+            Animation walkAnimationR = animations[3];
+
+            Entity entity = ashley.createEntity();
+            AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
+            ac.idleAnimation = walkAnimationD;
+            ac.leftAnimation = walkAnimationL;
+            ac.rightAnimation = walkAnimationR;
+            ac.upAnimation = walkAnimationU;
+            ac.downAnimation = walkAnimationD;
+            entity.add(ac);
+            CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+            cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+            entity.add(cc);
+            ItemComponent ic = ashley.createComponent(ItemComponent.class);
+            entity.add(ic);
+            ashley.addEntity(entity);
+            result.add(entity);
+        }
+        return result;
     }
 
 //    public void onChunkPurge(Chunk chunk) {

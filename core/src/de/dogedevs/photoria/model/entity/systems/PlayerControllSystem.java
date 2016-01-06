@@ -67,7 +67,8 @@ public class PlayerControllSystem extends EntitySystem {
 
                     @Override
                     public boolean onCollision(Entity other, Entity self) {
-                        if (other == e) {
+                        ItemComponent itemC = ComponentMappers.item.get(other);
+                        if (other == e || itemC != null) {
                             return false;
                         }
                         hit.play();
@@ -87,6 +88,17 @@ public class PlayerControllSystem extends EntitySystem {
                             playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
                             playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
                         }
+                        InventoryComponent ic = ComponentMappers.inventory.get(other);
+                        PositionComponent pc = ComponentMappers.position.get(other);
+                        if(ic != null){
+                            for(Entity item: ic.items){
+                                PositionComponent newPc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
+                                newPc.x = pc.x;
+                                newPc.y = pc.y;
+                                item.add(newPc);
+                            }
+                        }
+
                         getEngine().removeEntity(other);
                         getEngine().removeEntity(self);
                         return true;
