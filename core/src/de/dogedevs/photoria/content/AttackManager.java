@@ -49,8 +49,8 @@ public class AttackManager {
         ashley.addEntity(shot);
     }
 
-    private CollisionComponent.CollisionListener createNormalListener(Entity parent) {
-        PooledEngine ashley = GameScreen.getAshley();
+    private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {
+        final PooledEngine ashley = GameScreen.getAshley();
         CollisionComponent.CollisionListener listener = new CollisionComponent.CollisionListener() {
 
             @Override
