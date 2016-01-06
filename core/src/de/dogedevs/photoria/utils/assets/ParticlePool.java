@@ -16,6 +16,10 @@ public class ParticlePool {
 
     private static ParticlePool instance;
 
+    public void removeEffect(ParticleEffectPool.PooledEffect effect, boolean b) {
+        bloodEffects.removeValue(effect, b);
+    }
+
     public enum ParticleType {
         BLOOD
     }
@@ -39,15 +43,31 @@ public class ParticlePool {
         bloodEffects = new Array<>();
     }
 
-    public ParticleEffectPool.PooledEffect obtain(ParticleType particleType) {
+//    @Deprecated
+//    public ParticleEffectPool.PooledEffect obtain(ParticleType particleType) {
+//        switch(particleType) {
+//            case BLOOD:
+//                ParticleEffectPool.PooledEffect bloodEffect = bloodPool.obtain();
+//                bloodEffects.add(bloodEffect);
+//                return bloodEffect;
+//        }
+//
+//        return null; // TODO RETURN EMPTY PARTICLE(!)
+//    }
+
+    public void createParticleAt(ParticleType particleType, float x, float y) {
+//        MainGame.log(x + "_ " + y);
         switch(particleType) {
             case BLOOD:
                 ParticleEffectPool.PooledEffect bloodEffect = bloodPool.obtain();
+                bloodEffect.setPosition(x, y);
                 bloodEffects.add(bloodEffect);
-                return bloodEffect;
+                bloodEffect.start();
         }
+    }
 
-        return null; // TODO RETURN EMPTY PARTICLE(!)
+    public Array<ParticleEffectPool.PooledEffect> getEffects() {
+        return bloodEffects;
     }
 
 }

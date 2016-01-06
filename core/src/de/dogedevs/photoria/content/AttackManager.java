@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
 
 /**
  * Created by Furuha on 06.01.2016.
@@ -94,6 +95,12 @@ public class AttackManager {
                 }
                 InventoryComponent ic = ComponentMappers.inventory.get(other);
                 PositionComponent pc = ComponentMappers.position.get(other);
+
+//                ParticleEffectPool.PooledEffect effect = ParticlePool.instance().obtain(ParticlePool.ParticleType.BLOOD);
+//                effect.setPosition(pc.x, pc.y);
+//                effect.start();
+                ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
+
                 if(ic != null){
                     for(Entity item: ic.items){
                         PositionComponent newPc = ashley.createComponent(PositionComponent.class);
