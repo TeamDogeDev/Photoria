@@ -170,22 +170,22 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     private float stateTime = 0f;
-    private float fadeInVal = 0f;
+    private float fadeVal = 0f;
 
     private void renderTextBox() {
         if(!fadeOut) {
-            if(fadeInVal < 1) {
-                fadeInVal += 0.05f;
+            if(fadeVal < 1) {
+                fadeVal += 0.05f;
             }
         } else {
-            if(fadeInVal > 0) {
-                fadeInVal -= 0.05f;
+            if(fadeVal > 0) {
+                fadeVal -= 0.05f;
             } else {
             }
         }
         batch.begin();
         float x = (Gdx.graphics.getWidth() - textBox.getWidth()) >> 1;
-        float y = -textBox.getHeight() + ((textBox.getHeight()+32)*fadeInVal);
+        float y = -textBox.getHeight() + ((textBox.getHeight()+32)* fadeVal);
         batch.draw(textBox, x, y);
         font.draw(batch, currentTextbox.text, x + 10, y + textBox.getHeight()-10, textBox.getWidth(), Align.left, true);
 
@@ -206,17 +206,18 @@ public class GameOverlay extends AbstractOverlay {
         } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             nextTextbox();
         }
+        if(fadeVal <= 0) {
+            fadeOut = false;
+            currentTextbox = null;
+        }
     }
 
     private void nextTextbox() {
         if (textboxes.size > 0) {
             currentTextbox = textboxes.removeFirst();
         } else {
-            if(fadeInVal > 0) {
+            if(fadeVal > 0) {
                 fadeOut = true;
-            } else {
-                fadeOut = false;
-                currentTextbox = null;
             }
         }
     }
