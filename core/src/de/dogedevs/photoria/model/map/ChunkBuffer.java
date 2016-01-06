@@ -140,16 +140,16 @@ public class ChunkBuffer {
                 //Collision layer
                 cellCollision = new ChunkCell();
                 if(generatedMap[row][col] == TileMapper.LAVA) {
-                    cellCollision.value = TileCollisionMapper.LAVA;
+                    cellCollision.value = TileCollisionMapper.HIGH_GROUND_FLUID;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 } else if(generatedMap[row][col] == TileMapper.WATER) {
-                    cellCollision.value = TileCollisionMapper.WATER;
+                    cellCollision.value = TileCollisionMapper.FLUID;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 } else if(generatedMap[row][col] == TileMapper.GROUND) {
                     cellCollision.value = TileCollisionMapper.GROUND;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 } else if(generatedMap[row][col] == TileMapper.LAVA_STONE) {
-                    cellCollision.value = TileCollisionMapper.LAVA_STONE;
+                    cellCollision.value = TileCollisionMapper.HIGH_GROUND;
                     chunk.setCell(cellCollision,  row-overlap, col - overlap, COLLISION);
                 } else {
                     cellCollision.value = TileCollisionMapper.VOID;
@@ -174,15 +174,15 @@ public class ChunkBuffer {
                 if(cell.value != TileMapper.VOID){
                     cellCollision = new ChunkCell();
                     if(generatedMap[row][col] > TileMapper.WATER && generatedMap[row][col] <= TileMapper.WATER_BOTTOM_RIGHT_INNER) {
-                        cellCollision.value = TileCollisionMapper.WATER_BORDER;
+                        cellCollision.value = TileCollisionMapper.FLUID_BORDER;
                         chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
 
                     } else if(generatedMap[row][col] > TileMapper.LAVA && generatedMap[row][col] <= TileMapper.LAVA_BOTTOM_RIGHT_INNER) {
-                        cellCollision.value = TileCollisionMapper.LAVA_BORDER;
+                        cellCollision.value = TileCollisionMapper.HIGH_GROUND_FLUID_BORDER;
                         chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
 
                     } else if(generatedMap[row][col] > TileMapper.LAVA_STONE && generatedMap[row][col] <= TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT) {
-                        cellCollision.value = TileCollisionMapper.LAVA_STONE_BORDER;
+                        cellCollision.value = TileCollisionMapper.HIGH_GROUND_BORDER;
                         chunk.setCell(cellCollision, row-overlap, col-overlap, COLLISION);
 
                     } else {

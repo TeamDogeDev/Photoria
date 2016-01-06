@@ -213,7 +213,7 @@ public abstract class Tile extends StaticTiledMapTile {
 //    public static final Tile LAVA_BOTTOM_RIGHT_INNER = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[1][4], false);
 //
 //
-//    public static final Tile LAVA_STONE = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[4][10], true);
+//    public static final Tile HIGH_GROUND = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[4][10], true);
 //    public static final Tile LAVA_STONE2 = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[6][9], true);
 //    public static final Tile LAVA_STONE3 = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[6][10], true);
 //    public static final Tile LAVA_STONE4 = new BasicTile(tiles.get(ChunkBuffer.DESERT_BIOM)[6][11], true);

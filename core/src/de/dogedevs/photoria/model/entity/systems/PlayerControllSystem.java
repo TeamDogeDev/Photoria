@@ -27,7 +27,7 @@ import java.util.UUID;
 public class PlayerControllSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
-    public static final int SPEED = 128*2;
+    public static final int SPEED = 128*4;
 
     public PlayerControllSystem() {
     }

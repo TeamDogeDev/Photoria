@@ -11,7 +11,7 @@ public enum Textures {
     CLOUD_STUB("clouds.png"),
 //    MAIN_TILESET("tilesets/tileset.png"),
 
-    TUNDRA_TILESET("tilesets/tileset.png"),
+    TUNDRA_TILESET("tilesets/tileset_ice.png"),
     GRASS_DESERT_TILESET("tilesets/tileset_accid.png"),
     DESERT_TILESET("tilesets/tileset1.png"),
     TAIGA_TILESET("tilesets/tileset.png"),

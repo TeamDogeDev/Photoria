@@ -53,9 +53,9 @@ public class EntityLoader {
             createSlime(x,y);
         } else if(cell.value == ChunkBuffer.GRASS_DESERT_BIOM){
             createEyeball(x,y);
-        } else if(cell.value == TileCollisionMapper.LAVA){
+        } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
 
-        } else if(cell.value == TileCollisionMapper.WATER){
+        } else if(cell.value == TileCollisionMapper.FLUID){
 
         }
     }
@@ -65,13 +65,13 @@ public class EntityLoader {
         if(cell == null){
             return;
         }
-        if(cell.value == TileCollisionMapper.LAVA_STONE){
+        if(cell.value == TileCollisionMapper.HIGH_GROUND){
             createLavaDeco(x, y);
         } else if(cell.value == TileCollisionMapper.GROUND){
 
-        } else if(cell.value == TileCollisionMapper.LAVA){
+        } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
 
-        } else if(cell.value == TileCollisionMapper.WATER){
+        } else if(cell.value == TileCollisionMapper.FLUID){
 
         }
     }
