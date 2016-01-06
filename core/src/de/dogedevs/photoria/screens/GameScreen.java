@@ -164,6 +164,9 @@ public class GameScreen implements Screen {
         ElementsComponent elc = ashley.createComponent(ElementsComponent.class);
         player.add(elc);
 
+        InventoryComponent inventory = ashley.createComponent(InventoryComponent.class);
+        player.add(inventory);
+
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
         ac.leftAnimation = playerAnimations[2];
         ac.rightAnimation = playerAnimations[3];

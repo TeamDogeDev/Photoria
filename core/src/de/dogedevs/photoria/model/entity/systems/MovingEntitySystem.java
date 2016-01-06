@@ -117,22 +117,31 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             }
             Entity other = null;
             if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
-                if(!collision.ghost){
+                if(other != null){
+                    CollisionComponent collisionOther = ComponentMappers.collision.get(other);
+                    if(!collision.ghost && !collisionOther.ghost){
+                        position.y = oldY;
+                        position.x = oldX;
+                        velocity.blockedDelta += deltaTime;
+                    }
+                    if(!collisioned.contains(other.toString()+""+e.toString())){
+                        if(collision.collisionListener != null){
+                            collision.collisionListener.onCollision(other, e);
+                        }
+                        if(collisionOther != null && collisionOther.collisionListener != null){
+                            collisionOther.collisionListener.onCollision(e, other);
+                        }
+                        collisioned.add(e.toString()+""+other.toString());
+                    }
+                } else if(!collision.ghost){
                     position.y = oldY;
                     position.x = oldX;
                     velocity.blockedDelta += deltaTime;
                 }
-                if(other != null && collision.collisionListener != null && !collisioned.contains(other.toString()+""+e.toString())){
-                    collision.collisionListener.onCollision(other, e);
-                    collision = ComponentMappers.collision.get(other);
-                    if(collision != null && collision.collisionListener != null){
-                        collision.collisionListener.onCollision(e, other);
-                    }
-                    collisioned.add(e.toString()+""+other.toString());
-                }
             }
 
         }
+        collisioned.clear();
 //        MainGame.log("Checks: "+checks);
 //        checks = 0;
     }
@@ -157,11 +166,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 continue;
             }
             position = ComponentMappers.position.get(sortedEntities.get(i));
+            if(position == null){
+                continue;
+            }
             if((y - position.y) >= 32){
                 break;
             }
             collision = ComponentMappers.collision.get(sortedEntities.get(i));
-            if(collision == null || collision.ghost){
+            if(collision == null){
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
@@ -174,11 +186,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 continue;
             }
             position = ComponentMappers.position.get(sortedEntities.get(i));
+            if(position == null){
+                continue;
+            }
             if((position.y - y) >= 32){
                 break;
             }
             collision = ComponentMappers.collision.get(sortedEntities.get(i));
-            if(collision == null || collision.ghost){
+            if(collision == null){
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
