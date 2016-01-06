@@ -117,7 +117,7 @@ public class AttackManager {
                         item.add(lc);
                     }
                 }
-                ashley.removeEntity(other);
+//                ashley.removeEntity(other);
             }
         };
         return listener;

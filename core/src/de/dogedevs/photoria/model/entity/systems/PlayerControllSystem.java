@@ -74,35 +74,28 @@ public class PlayerControllSystem extends EntitySystem {
 //                energyComponent.energy--;
                 energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
                 AttackManager am = new AttackManager();
-                int direction = 0;
                 Vector2 dir = new Vector2();
 
                 if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    direction = VelocityComponent.NORTH_WEST;
                     dir.set(-1, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    direction = VelocityComponent.NORTH_EAST;
                     dir.set(1, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    direction = VelocityComponent.SOUTH_EAST;
                     dir.set(1, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    direction = VelocityComponent.SOUTH_WEST;
                     dir.set(-1, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    direction = VelocityComponent.NORTH;
                     dir.set(0, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    direction = VelocityComponent.WEST;
                     dir.set(-1, 0);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    direction = VelocityComponent.SOUTH;
                     dir.set(0, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    direction = VelocityComponent.EAST;
                     dir.set(1, 0);
+                }else if (Gdx.input.isTouched()) {
+                    dir.set(Gdx.input.getX()-Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()-Gdx.input.getY())-Gdx.graphics.getHeight()/2).nor();
                 }
-                dir.set(Gdx.input.getX()-Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()-Gdx.input.getY())-Gdx.graphics.getHeight()/2).nor();
+
                 am.shootNormal(e, dir, null);
             }
         }
