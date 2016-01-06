@@ -3,6 +3,8 @@ package de.dogedevs.photoria.model.entity.ai;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AiComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
@@ -47,6 +49,12 @@ public class SlimeAi implements AiComponent.AiInterface {
                     } else {
                         velocity.direction = VelocityComponent.SOUTH_WEST;
                     }
+                }
+                if(MathUtils.randomBoolean(0.01f)){
+                    Vector2 dir = new Vector2();
+                    dir.set(playerPosition.x, playerPosition.y).sub(selfPosition.x, selfPosition.y).nor();
+                    AttackManager am = new AttackManager();
+                    am.shootNormal(self, dir, null);
                 }
                 velocity.speed = 80;
             } else {

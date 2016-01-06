@@ -33,13 +33,17 @@ public class HealthSystem extends EntitySystem {
     @Override
     public void update (float deltaTime) {
         HealthComponent healthComponent;
-
         for(Entity entity: entities){
             healthComponent = ComponentMappers.health.get(entity);
             if(healthComponent.immuneTime > 0){
                 healthComponent.immuneTime -= deltaTime;
             }
             healthComponent.immuneTime = MathUtils.clamp(healthComponent.immuneTime, 0, healthComponent.maxImmuneTime);
+            if(healthComponent.health <= 0){
+                if(!ComponentMappers.player.has(entity)){
+                    getEngine().removeEntity(entity);
+                }
+            }
         }
     }
 }
