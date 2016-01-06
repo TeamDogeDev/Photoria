@@ -29,6 +29,8 @@ import de.dogedevs.photoria.rendering.overlay.ParticleOverlay;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 import java.util.Arrays;
 
@@ -54,7 +56,7 @@ public class GameScreen implements Screen {
     private final int[] fluidLayer = {0};
     private final int[] foregroundLayers = {1, 2, 3};
 
-    private Texture clouds = new Texture(Gdx.files.internal("clouds.png"));
+    private Texture clouds = AssetLoader.getTexture(Textures.CLOUD_STUB);
 
     public void show() {
         ambient.setLooping(true);

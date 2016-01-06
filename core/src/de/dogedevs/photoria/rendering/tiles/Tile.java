@@ -1,20 +1,21 @@
 package de.dogedevs.photoria.rendering.tiles;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 /**
  * Created by elektropapst on 20.12.2015.
  */
 public abstract class Tile extends StaticTiledMapTile {
 
-    private static final String TILESET_PATH ="./tilesets/tileset.png";
+//    private static final String TILESET_PATH ="./tilesets/tileset.png";
     private static final int TILE_WIDTH = 32;
     private static final int TILE_HEIGHT = 32;
 
-    protected static Texture tileTexture = new Texture(Gdx.files.internal(TILESET_PATH));
+    protected static Texture tileTexture = AssetLoader.getTexture(Textures.MAIN_TILESET);
     protected static TextureRegion[][] tiles = TextureRegion.split(tileTexture, TILE_WIDTH, TILE_HEIGHT);
 
     public static final Tile VOID = new BasicTile(tiles[0][0], false);

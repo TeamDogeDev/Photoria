@@ -17,35 +17,37 @@ import de.dogedevs.photoria.model.entity.components.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 /**
  * Created by elektropapst on 27.12.2015.
  */
 public class GameOverlay extends AbstractOverlay {
 
-    private static final String HUD_PATH = "./hud/hud.png";
-    private static final String HUDBAR_PATH = "./hud/hudBars.png";
-    private static final String NET_PATH = "./hud/net.png";
+//    private static final String HUD_PATH = "./hud/hud.png";
+//    private static final String HUDBAR_PATH = "./hud/hudBars.png";
+//    private static final String NET_PATH = "./hud/net.png";
 
-    private Texture textBox = new Texture(Gdx.files.internal("./hud/textbox.png"));
-    private Texture okButtonSheet = new Texture(Gdx.files.internal("./hud/okButton.png"));
+    private Texture textBox = AssetLoader.getTexture(Textures.HUD_TEXTBOX);
+    private Texture okButtonSheet = AssetLoader.getTexture(Textures.HUD_OK_BUTTON);
     private TextureRegion[] okFrames = TextureRegion.split(okButtonSheet, okButtonSheet.getWidth()/10, okButtonSheet.getHeight())[0];
     private Animation okButtonAnimation = new Animation(0.05f, okFrames);
 
 
     private BitmapFont font;
-    private Texture hudTexture = new Texture(Gdx.files.internal(HUD_PATH));
+    private Texture hudTexture = AssetLoader.getTexture(Textures.HUD_BARS);
     private static final int HUD_TILE_WIDTH = 720 >> 1;
     private static final int HUD_TILE_HEIGHT = 32;
 
-    private Texture hudBarTexture = new Texture(Gdx.files.internal(HUDBAR_PATH));
-    private Texture itemSlotTexture = new Texture(Gdx.files.internal("./hud/itemSlot.png"));
+    private Texture hudBarTexture = AssetLoader.getTexture(Textures.HUD_BARS_FILL);
+    private Texture itemSlotTexture = AssetLoader.getTexture(Textures.HUD_ITEM_SLOTS);
 
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion healthBar = hudBars[0][0];
     private TextureRegion energyBar = hudBars[0][1];
 
-    private Texture netTexture = new Texture(Gdx.files.internal(NET_PATH));
+    private Texture netTexture = AssetLoader.getTexture(Textures.HUD_RADAR_CHART);
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
 
     private TextureRegion health = hudParts[0][0];
