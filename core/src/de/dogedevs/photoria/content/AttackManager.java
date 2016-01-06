@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
@@ -24,7 +25,7 @@ public class AttackManager {
     private static Random rand = new Random();
     private final Sound hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.wav"));
 
-    public void shootNormal(Entity self, int direction, CollisionComponent.CollisionListener listener){
+    public void shootNormal(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
         PooledEngine ashley = GameScreen.getAshley();
         Entity shot = ashley.createEntity();
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
@@ -46,7 +47,7 @@ public class AttackManager {
         pc.z = 26;
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
         vc.speed = 512;
-        vc.direction = direction;
+        vc.vectorDirection = direction;
         shot.add(pc);
         shot.add(sc);
         shot.add(vc);

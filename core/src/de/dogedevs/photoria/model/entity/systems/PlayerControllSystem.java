@@ -9,10 +9,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 
@@ -58,6 +60,7 @@ public class PlayerControllSystem extends EntitySystem {
         final Entity e = entities.get(0);
 
         EnergyComponent energyComponent = ComponentMappers.energy.get(e);
+        PositionComponent positionComponent = ComponentMappers.position.get(e);
         energyComponent.energy += 2*deltaTime;
         energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
 
@@ -65,31 +68,42 @@ public class PlayerControllSystem extends EntitySystem {
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
         velocity.speed = 0;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isTouched()){
 
             if(energyComponent.energy >= 1) {
 //                energyComponent.energy--;
                 energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
                 AttackManager am = new AttackManager();
                 int direction = 0;
+                Vector2 dir = new Vector2();
+
                 if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     direction = VelocityComponent.NORTH_WEST;
+                    dir.set(-1, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     direction = VelocityComponent.NORTH_EAST;
+                    dir.set(1, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     direction = VelocityComponent.SOUTH_EAST;
+                    dir.set(1, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                     direction = VelocityComponent.SOUTH_WEST;
+                    dir.set(-1, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                     direction = VelocityComponent.NORTH;
+                    dir.set(0, 1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     direction = VelocityComponent.WEST;
+                    dir.set(-1, 0);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
                     direction = VelocityComponent.SOUTH;
+                    dir.set(0, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     direction = VelocityComponent.EAST;
+                    dir.set(1, 0);
                 }
-                am.shootNormal(e, direction, null);
+                dir.set(Gdx.input.getX()-Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()-Gdx.input.getY())-Gdx.graphics.getHeight()/2).nor();
+                am.shootNormal(e, dir, null);
             }
         }
 

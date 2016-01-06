@@ -2,8 +2,11 @@ package de.dogedevs.photoria.model.entity.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.CollisionComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 
@@ -84,37 +87,45 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
             oldY = position.y;
             oldX = position.x;
-
-            switch (velocity.direction){
-                case VelocityComponent.SOUTH:
-                    position.y -= velocity.speed * deltaTime;
-                    break;
-                case VelocityComponent.NORTH:
-                    position.y += velocity.speed * deltaTime;
-                    break;
-                case VelocityComponent.WEST:
-                    position.x -= velocity.speed * deltaTime;
-                    break;
-                case VelocityComponent.EAST:
-                    position.x += velocity.speed * deltaTime;
-                    break;
-                case VelocityComponent.NORTH_EAST:
-                    position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    break;
-                case VelocityComponent.NORTH_WEST:
-                    position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    break;
-                case VelocityComponent.SOUTH_EAST:
-                    position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    break;
-                case VelocityComponent.SOUTH_WEST:
-                    position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
-                    break;
+            if(velocity.vectorDirection != null){
+//                dir.set(touch).sub(position).nor();
+//                velocity = new Vector2(dir).scl(speed);
+                Vector2 deltaPos = new Vector2(velocity.vectorDirection).scl(velocity.speed);
+                position.x += deltaPos.x*deltaTime;
+                position.y += deltaPos.y*deltaTime;
+            } else {
+                switch (velocity.direction){
+                    case VelocityComponent.SOUTH:
+                        position.y -= velocity.speed * deltaTime;
+                        break;
+                    case VelocityComponent.NORTH:
+                        position.y += velocity.speed * deltaTime;
+                        break;
+                    case VelocityComponent.WEST:
+                        position.x -= velocity.speed * deltaTime;
+                        break;
+                    case VelocityComponent.EAST:
+                        position.x += velocity.speed * deltaTime;
+                        break;
+                    case VelocityComponent.NORTH_EAST:
+                        position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        break;
+                    case VelocityComponent.NORTH_WEST:
+                        position.y += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        break;
+                    case VelocityComponent.SOUTH_EAST:
+                        position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        position.x += velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        break;
+                    case VelocityComponent.SOUTH_WEST:
+                        position.y -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        position.x -= velocity.speed * deltaTime * DIAGONAL_CORRECTION;
+                        break;
+                }
             }
+
             Entity other = null;
             if(collision != null && (checkMapCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
                 if(other != null){
