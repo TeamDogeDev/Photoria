@@ -2,9 +2,12 @@ package de.dogedevs.photoria.utils.assets;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.utils.assets.enums.Particles;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -17,13 +20,26 @@ public class AssetLoader {
 
     public AssetLoader() {
         loadTextures();
+        loadParticles();
         manager.finishLoading();
+    }
+
+    private void loadParticles() {
+        for(Particles particle : Particles.values()) {
+            ParticleEffectLoader.ParticleEffectParameter params = new ParticleEffectLoader.ParticleEffectParameter();
+            params.imagesDir = Gdx.files.internal(particle.imageDir);
+            manager.load(particle.effectFile, ParticleEffect.class, params);
+        }
     }
 
     private void loadTextures() {
         for(Textures tex : Textures.values()) {
             manager.load(tex.name, Texture.class);
         }
+    }
+
+    public static ParticleEffect getParticleEffect(Particles effect) {
+        return manager.get(effect.effectFile, ParticleEffect.class);
     }
 
     public static Texture getTexture(Textures texture) {

@@ -1,10 +1,9 @@
 package de.dogedevs.photoria.utils.assets;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.utils.Array;
+import de.dogedevs.photoria.utils.assets.enums.Particles;
 
 /**
  * Created by elektropapst on 06.01.2016.
@@ -26,8 +25,8 @@ public class ParticlePool {
 
     public enum ParticleType {
 
-        BLOOD(new GameEffect(Gdx.files.internal("./effects/blood.p"), Gdx.files.internal("./effects/images"), 25, 100)),
-        FIRE(new GameEffect(Gdx.files.internal("./effects/fire.p"), Gdx.files.internal("./effects/images"), 25, 100));
+        BLOOD(new GameEffect(AssetLoader.getParticleEffect(Particles.BLOOD_PARTICLE), 25, 100)),
+        FIRE(new GameEffect(AssetLoader.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100));
 
         GameEffect gameEffect;
         ParticleType(GameEffect gameEffect) {
@@ -68,9 +67,8 @@ public class ParticlePool {
         ParticleEffect prototype;
         ParticleEffectPool pool;
 
-        public GameEffect(FileHandle effectFile, FileHandle imageDir, int initialCapacity, int maxCapacity) {
-            prototype = new ParticleEffect();
-            prototype.load(effectFile, imageDir);
+        public GameEffect(ParticleEffect prototype, int initialCapacity, int maxCapacity) {
+            this.prototype = prototype;
             pool = new ParticleEffectPool(prototype, initialCapacity, maxCapacity);
         }
 
