@@ -352,15 +352,18 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
+        mapBatch.dispose();
         batch.dispose();
         cloudBatch.dispose();
-        mapBatch.dispose();
         waterBatch.dispose();
         testBatch.dispose();
         waterShader.dispose();
-        tiledMapRenderer.dispose();
         ambient.stop();
         ambient.dispose();
+
+        for(AbstractOverlay overlay : overlays) {
+            overlay.dispose();
+        }
     }
 
     public static PooledEngine getAshley() {

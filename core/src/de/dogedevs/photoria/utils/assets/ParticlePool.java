@@ -11,19 +11,32 @@ import com.badlogic.gdx.utils.Array;
  */
 public class ParticlePool {
 
-    private ParticleEffect bloodPrototype;
-    private ParticleEffectPool bloodPool;
-    private Array<ParticleEffectPool.PooledEffect> bloodEffects;
+//    private ParticleEffect bloodPrototype;
+//    private ParticleEffectPool bloodPool;
+//    private Array<ParticleEffectPool.PooledEffect> bloodEffects;
 
+
+    Array<ParticleEffectPool.PooledEffect> effects = new Array<>();
 
     private static ParticlePool instance;
 
     public void removeEffect(ParticleEffectPool.PooledEffect effect, boolean b) {
-        bloodEffects.removeValue(effect, b);
+        boolean b1 = effects.removeValue(effect, b);
     }
 
     public enum ParticleType {
-        BLOOD
+
+        BLOOD(new GameEffect(Gdx.files.internal("./effects/blood.p"), Gdx.files.internal("./effects/images"), 25, 100)),
+        FIRE(new GameEffect(Gdx.files.internal("./effects/fire.p"), Gdx.files.internal("./effects/images"), 25, 100));
+
+        GameEffect gameEffect;
+        ParticleType(GameEffect gameEffect) {
+            this.gameEffect = gameEffect;
+        }
+
+        void dispose() {
+            gameEffect.dispose();
+        }
     }
 
     public static ParticlePool instance() {
@@ -31,48 +44,34 @@ public class ParticlePool {
     }
 
     private ParticlePool() {
-        initEffects();
-    }
-
-    private void initEffects() {
-        initBlood();
-    }
-
-    private void initBlood() {
-        bloodPrototype = new ParticleEffect();
-        bloodPrototype.load(Gdx.files.internal("./effects/blood.p"), Gdx.files.internal("./effects/images"));
-        bloodPool = new ParticleEffectPool(bloodPrototype, 25, 100);
-        bloodEffects = new Array<>();
     }
 
     public void createParticleAt(ParticleType particleType, float x, float y) {
-        switch(particleType) {
-            case BLOOD:
-                ParticleEffectPool.PooledEffect bloodEffect = bloodPool.obtain();
-                bloodEffect.setPosition(x, y);
-                bloodEffects.add(bloodEffect);
-                bloodEffect.start();
-        }
+        ParticleEffectPool.PooledEffect effect = particleType.gameEffect.pool.obtain();
+        effect.reset();
+        effect.setPosition(x, y);
+        effects.add(effect);
+        effect.start();
     }
 
     public Array<ParticleEffectPool.PooledEffect> getEffects() {
-        return bloodEffects;
+        return effects;
     }
 
     public void dispose() {
+        for(ParticleType type : ParticleType.values()) {
+            type.dispose();
+        }
     }
 
-    class GameEffect {
+    static class GameEffect {
         ParticleEffect prototype;
         ParticleEffectPool pool;
-        Array<ParticleEffectPool.PooledEffect> effects;
 
-        public GameEffect() {}
         public GameEffect(FileHandle effectFile, FileHandle imageDir, int initialCapacity, int maxCapacity) {
             prototype = new ParticleEffect();
             prototype.load(effectFile, imageDir);
             pool = new ParticleEffectPool(prototype, initialCapacity, maxCapacity);
-            effects = new Array<>();
         }
 
         public void dispose() {

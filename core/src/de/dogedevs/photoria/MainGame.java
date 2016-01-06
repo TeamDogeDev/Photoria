@@ -75,4 +75,9 @@ public class MainGame extends Game {
         game.logString(text);
     }
 
+    @Override
+    public void dispose() {
+        super.dispose();
+        currentScreen.dispose();
+    }
 }

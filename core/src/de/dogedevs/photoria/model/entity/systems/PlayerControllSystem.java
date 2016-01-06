@@ -64,7 +64,7 @@ public class PlayerControllSystem extends EntitySystem {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 
             if(energyComponent.energy >= 1) {
-                energyComponent.energy--;
+//                energyComponent.energy--;
                 energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
                 AttackManager am = new AttackManager();
                 int direction = 0;
