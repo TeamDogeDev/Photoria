@@ -8,7 +8,24 @@ public class TileMapper {
     public static final int VOID = 0;
 
     public static final int GROUND = 2;
+    public static final int GROUND2 = 3;
+    public static final int GROUND3 = 4;
+    public static final int GROUND4 = 5;
 
+
+    public static final int LAVA_DECO_1 = 6;
+
+    public static final int LAVA_STONE2 = 7;
+    public static final int LAVA_STONE3 = 8;
+    public static final int LAVA_STONE4 = 9;
+
+    public static final int LAVA2 = 10;
+    public static final int LAVA3 = 11;
+    public static final int LAVA4 = 12;
+
+    public static final int WATER2 = 13;
+    public static final int WATER3 = 14;
+    public static final int WATER4 = 15;
     // WATER
     public static final int WATER = 16;
     public static final int WATER_TOP_LEFT = 17;

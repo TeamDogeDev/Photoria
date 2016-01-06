@@ -11,6 +11,7 @@ import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -82,7 +83,8 @@ public class EntityLoader {
         pc.y = y;
         entity.add(pc);
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
-        sc.region = Tile.LAVA_DECO_1.getTextureRegion();
+//        sc.region = Tile.LAVA_DECO_1.getTextureRegion();
+        sc.region = Tile.getTileForBiome(TileMapper.LAVA_DECO_1, ChunkBuffer.DESERT_BIOM).getTextureRegion();
         entity.add(sc);
         MapCollisionComponent mc = ashley.createComponent(MapCollisionComponent.class);
         mc.value = TileCollisionMapper.ENTITY;

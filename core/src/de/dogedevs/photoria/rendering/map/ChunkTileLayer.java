@@ -1,11 +1,9 @@
 package de.dogedevs.photoria.rendering.map;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
-import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 /** @brief Layer for a TiledMap */
 public class ChunkTileLayer extends TiledMapTileLayer {
@@ -67,104 +65,107 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 
 		if(chunkCell.cell == null){
 			chunkCell.cell = new Cell();
-			switch(chunkCell.value) {
-				default:
-				case TileMapper.VOID : break;
-				case TileMapper.GROUND :
-					if(MathUtils.random(3) == 0){
-						chunkCell.cell.setTile(Tile.GROUND4); break;
-//						switch(MathUtils.random(2)){
-//							case 0 : chunkCell.cell.setTile(Tile.GROUND2); break;
-//							case 1 : chunkCell.cell.setTile(Tile.GROUND3); break;
-//							case 2 : chunkCell.cell.setTile(Tile.GROUND4); break;
-//						}
-					} else {
-						chunkCell.cell.setTile(Tile.GROUND);
-					}
-					break;
-				case TileMapper.LAVA_STONE :
-					if(MathUtils.random(3) == 0){
-						chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
-//						switch(MathUtils.random(2)){
-//							case 0 : chunkCell.cell.setTile(Tile.LAVA_STONE2); break;
-//							case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE3); break;
-//							case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
-//						}
-					} else {
-						chunkCell.cell.setTile(Tile.LAVA_STONE);
-					}
-					break;
+//			System.out.println();
+			chunkCell.cell.setTile(Tile.getTileForBiome(chunkCell.value, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value));
 
-				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
-				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
-				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
-				case TileMapper.WATER_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_LEFT); break;
-				case TileMapper.WATER_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_RIGHT); break;
-				case TileMapper.WATER_BOTTOM_LEFT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT); break;
-				case TileMapper.WATER_BOTTOM_MIDDLE: chunkCell.cell.setTile(Tile.WATER_BOTTOM_MIDDLE); break;
-				case TileMapper.WATER_BOTTOM_RIGHT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT); break;
-
-				case TileMapper.WATER_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT_INNER); break;
-				case TileMapper.WATER_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT_INNER); break;
-				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
-				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
-
-				case TileMapper.LAVA_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT); break;
-				case TileMapper.LAVA_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_TOP_MIDDLE); break;
-				case TileMapper.LAVA_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT); break;
-				case TileMapper.LAVA_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_MIDDLE_LEFT); break;
-				case TileMapper.LAVA_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_MIDDLE_RIGHT); break;
-				case TileMapper.LAVA_BOTTOM_LEFT: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_LEFT); break;
-				case TileMapper.LAVA_BOTTOM_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_MIDDLE); break;
-				case TileMapper.LAVA_BOTTOM_RIGHT: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_RIGHT); break;
-
-				case TileMapper.LAVA_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT_INNER); break;
-				case TileMapper.LAVA_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT_INNER); break;
-				case TileMapper.LAVA_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_LEFT_INNER); break;
-				case TileMapper.LAVA_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_RIGHT_INNER); break;
-
-				case TileMapper.LAVA_STONE_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT); break;
-				case TileMapper.LAVA_STONE_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_MIDDLE); break;
-				case TileMapper.LAVA_STONE_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT); break;
-				case TileMapper.LAVA_STONE_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT); break;
-
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_0); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_1); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
-
-				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_0); break;
-				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_1); break;
-				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_2); break;
-
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_0); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_1); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
-
-				case TileMapper.LAVA_STONE_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER); break;
-				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_INNER); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_INNER); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_0); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_1); break;
-				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_0); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_1); break;
-				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT); break;
-				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER); break;
-
-				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER); break;
-				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT); break;
-
-				case TileMapper.DEBUG: chunkCell.cell.setTile(Tile.DEBUG); break;
-			}
+//			switch(chunkCell.value) {
+//				default:
+//				case TileMapper.VOID : break;
+//				case TileMapper.GROUND :
+//					if(MathUtils.random(3) == 0){
+//						chunkCell.cell.setTile(Tile.GROUND4); break;
+////						switch(MathUtils.random(2)){
+////							case 0 : chunkCell.cell.setTile(Tile.GROUND2); break;
+////							case 1 : chunkCell.cell.setTile(Tile.GROUND3); break;
+////							case 2 : chunkCell.cell.setTile(Tile.GROUND4); break;
+////						}
+//					} else {
+//						chunkCell.cell.setTile(Tile.GROUND);
+//					}
+//					break;
+//				case TileMapper.LAVA_STONE :
+//					if(MathUtils.random(3) == 0){
+//						chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
+////						switch(MathUtils.random(2)){
+////							case 0 : chunkCell.cell.setTile(Tile.LAVA_STONE2); break;
+////							case 1 : chunkCell.cell.setTile(Tile.LAVA_STONE3); break;
+////							case 2 : chunkCell.cell.setTile(Tile.LAVA_STONE4); break;
+////						}
+//					} else {
+//						chunkCell.cell.setTile(Tile.LAVA_STONE);
+//					}
+//					break;
+//
+//				case TileMapper.WATER_TOP_LEFT: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT); break;
+//				case TileMapper.WATER_TOP_MIDDLE: chunkCell.cell.setTile(Tile.WATER_TOP_MIDDLE); break;
+//				case TileMapper.WATER_TOP_RIGHT: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT); break;
+//				case TileMapper.WATER_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_LEFT); break;
+//				case TileMapper.WATER_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.WATER_MIDDLE_RIGHT); break;
+//				case TileMapper.WATER_BOTTOM_LEFT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT); break;
+//				case TileMapper.WATER_BOTTOM_MIDDLE: chunkCell.cell.setTile(Tile.WATER_BOTTOM_MIDDLE); break;
+//				case TileMapper.WATER_BOTTOM_RIGHT: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT); break;
+//
+//				case TileMapper.WATER_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_LEFT_INNER); break;
+//				case TileMapper.WATER_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_TOP_RIGHT_INNER); break;
+//				case TileMapper.WATER_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_LEFT_INNER); break;
+//				case TileMapper.WATER_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.WATER_BOTTOM_RIGHT_INNER); break;
+//
+//				case TileMapper.LAVA_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT); break;
+//				case TileMapper.LAVA_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_TOP_MIDDLE); break;
+//				case TileMapper.LAVA_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT); break;
+//				case TileMapper.LAVA_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_MIDDLE_LEFT); break;
+//				case TileMapper.LAVA_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_MIDDLE_RIGHT); break;
+//				case TileMapper.LAVA_BOTTOM_LEFT: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_LEFT); break;
+//				case TileMapper.LAVA_BOTTOM_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_MIDDLE); break;
+//				case TileMapper.LAVA_BOTTOM_RIGHT: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_RIGHT); break;
+//
+//				case TileMapper.LAVA_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_TOP_LEFT_INNER); break;
+//				case TileMapper.LAVA_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_TOP_RIGHT_INNER); break;
+//				case TileMapper.LAVA_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_LEFT_INNER); break;
+//				case TileMapper.LAVA_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_BOTTOM_RIGHT_INNER); break;
+//
+//				case TileMapper.LAVA_STONE_TOP_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT); break;
+//				case TileMapper.LAVA_STONE_TOP_MIDDLE: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_MIDDLE); break;
+//				case TileMapper.LAVA_STONE_TOP_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT); break;
+//
+//				case TileMapper.LAVA_STONE_MIDDLE_LEFT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT); break;
+//				case TileMapper.LAVA_STONE_MIDDLE_RIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT); break;
+//
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_0); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_1); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
+//
+//				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_0); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_1); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_MIDDLE_2); break;
+//
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_0); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_1); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
+//
+//				case TileMapper.LAVA_STONE_TOP_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_LEFT_INNER); break;
+//				case TileMapper.LAVA_STONE_TOP_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_TOP_RIGHT_INNER); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_INNER); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_INNER: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_INNER); break;
+//
+//				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_0); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_WALL_1); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_LEFT_2); break;
+//
+//				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_0: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_0); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_1: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_WALL_1); break;
+//				case TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_2: chunkCell.cell.setTile(Tile.LAVA_STONE_BOTTOM_RIGHT_2); break;
+//
+//				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_STRAIGHT); break;
+//				case TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER); break;
+//
+//				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER); break;
+//				case TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT: chunkCell.cell.setTile(Tile.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT); break;
+//
+//				case TileMapper.DEBUG: chunkCell.cell.setTile(Tile.DEBUG); break;
+//			}
 		}
 
 		return this.buffer.getCell(x,y,layer).cell;

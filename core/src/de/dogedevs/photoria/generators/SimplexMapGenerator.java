@@ -53,8 +53,8 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
             for (int col = 0; col < realSize; col++) {
                 local_x = row + (chunkX * size);
                 local_y = col + (chunkY * size);
-                local_x_biom = local_x/4;
-                local_y_biom = local_y/4;
+                local_x_biom = local_x;///4;
+                local_y_biom = local_y;///4;
 
                 eval = osn.eval((local_x / size), (local_y / size));
                 temperatureNoise = temperatureOsn.eval((local_x_biom / size), (local_y_biom / size));

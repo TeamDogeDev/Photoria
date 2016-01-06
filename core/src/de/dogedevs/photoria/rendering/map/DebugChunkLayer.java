@@ -1,15 +1,9 @@
 package de.dogedevs.photoria.rendering.map;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import de.dogedevs.photoria.generators.AbstractMapGenerator;
-import de.dogedevs.photoria.generators.ChunkDebugMapGenerator;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
-import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
-
-import java.util.HashMap;
 
 /** @brief Layer for a TiledMap */
 public class DebugChunkLayer extends TiledMapTileLayer {
@@ -59,7 +53,7 @@ public class DebugChunkLayer extends TiledMapTileLayer {
 			for (int y = 0; y < cells[x].length; y++){
 				cells[x][y] = new Cell();
 				if(x == 0 || y == 0){
-					cells[x][y].setTile(Tile.DEBUG);
+					cells[x][y].setTile(Tile.getTileForBiome(TileMapper.DEBUG, ChunkBuffer.DESERT_BIOM));
 				}
 			}
 		}

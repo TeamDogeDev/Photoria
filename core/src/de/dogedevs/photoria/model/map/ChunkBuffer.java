@@ -28,6 +28,7 @@ public class ChunkBuffer {
     public static final int SWAMP_BIOM = 8;
     public static final int RAIN_FOREST_BIOM = 9;
 
+
     public static final int BIOME = -1;
     public static final int COLLISION = 0;
     public static final int GROUND = 1;
