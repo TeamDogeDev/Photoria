@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class InventoryComponent implements Component, Pool.Poolable {
 
-    List<Entity> items;
+    public List<Entity> items;
 
     public InventoryComponent() {
         items = new ArrayList<>();

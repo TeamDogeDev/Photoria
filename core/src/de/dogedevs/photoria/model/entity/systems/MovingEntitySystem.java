@@ -20,6 +20,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
     private List<Entity> sortedEntities = new ArrayList<>();
     private YComparator comparator = new YComparator();
     public static final float DIAGONAL_CORRECTION = 0.70710678118f;
+    private HashSet<String> collisioned = new HashSet<>();
 
     public MovingEntitySystem(ChunkBuffer buffer) {
         this.buffer = buffer;
@@ -44,8 +45,8 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
     @Override
     public void addedToEngine (Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(PositionComponent.class, VelocityComponent.class).get());
-        engine.addEntityListener(Family.all(PositionComponent.class, VelocityComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
+        entities = engine.getEntitiesFor(Family.all(PositionComponent.class).get());
+        engine.addEntityListener(Family.all(PositionComponent.class).get(), this);
         for(Entity e: entities){
             sortedEntities.add(e);
         }
@@ -73,6 +74,9 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 
         for (int i = 0; i < sortedEntities.size(); ++i) {
             Entity e = sortedEntities.get(i);
+            if(ComponentMappers.velocity.get(e) == null){
+                continue;
+            }
 
             position = ComponentMappers.position.get(e);
             velocity = ComponentMappers.velocity.get(e);
@@ -118,8 +122,13 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.x = oldX;
                     velocity.blockedDelta += deltaTime;
                 }
-                if(other != null && collision.collisionListener != null){
+                if(other != null && collision.collisionListener != null && !collisioned.contains(other.toString()+""+e.toString())){
                     collision.collisionListener.onCollision(other, e);
+                    collision = ComponentMappers.collision.get(other);
+                    if(collision != null && collision.collisionListener != null){
+                        collision.collisionListener.onCollision(e, other);
+                    }
+                    collisioned.add(e.toString()+""+other.toString());
                 }
             }
 
