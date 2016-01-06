@@ -4,14 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.dogedevs.photoria.MainGame;
-import de.dogedevs.photoria.utils.assets.enums.Musics;
-import de.dogedevs.photoria.utils.assets.enums.Particles;
-import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
-import de.dogedevs.photoria.utils.assets.enums.Textures;
+import de.dogedevs.photoria.utils.assets.enums.*;
 
 /**
  * Created by elektropapst on 03.01.2016.
@@ -24,7 +23,10 @@ public class AssetLoader {
         loadTextures();
         loadParticles();
         loadMusics();
+        loadSounds();
+        loadBitmapFonts();
         manager.finishLoading();
+        MainGame.log("Loaded Assets: " + manager.getLoadedAssets());
     }
 
     private void loadParticles() {
@@ -47,6 +49,24 @@ public class AssetLoader {
         }
     }
 
+    private void loadSounds() {
+        for(Sounds sound : Sounds.values()) {
+            manager.load(sound.name, Sound.class);
+        }
+    }
+
+    private void loadBitmapFonts() {
+        for(BitmapFonts font : BitmapFonts.values()) {
+            manager.load(font.name, BitmapFont.class);
+        }
+    }
+
+    public static BitmapFont getBitmapFont(BitmapFonts font, boolean markupEnabled) {
+        BitmapFont bitmapFont = manager.get(font.name, BitmapFont.class);
+        bitmapFont.getData().markupEnabled = markupEnabled;
+        return bitmapFont;
+    }
+
     public static ParticleEffect getParticleEffect(Particles effect) {
         return manager.get(effect.effectFile, ParticleEffect.class);
     }
@@ -57,6 +77,10 @@ public class AssetLoader {
 
     public static Music getMusic(Musics music) {
         return manager.get(music.name, Music.class);
+    }
+
+    public static Sound getSound(Sounds sound) {
+        return manager.get(sound.name, Sound.class);
     }
 
     public static ShaderProgram getShader(ShaderPrograms shaderProgram) {

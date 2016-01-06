@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.MusicManager;
+import de.dogedevs.photoria.utils.assets.enums.Musics;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -37,9 +39,8 @@ public class MainMenu implements Screen {
     private ShaderProgram shader;
 
     public MainMenu() {
-        music = Gdx.audio.newMusic(Gdx.files.internal("./music/title.mp3"));
-        music.setLooping(true);
-        music.play();
+        MusicManager.playMusic(Musics.TITLE, true);
+        MusicManager.stopMusic();
         spriteBatch = new SpriteBatch();
         starfieldBatch = new SpriteBatch();
 
@@ -136,8 +137,7 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
-        music.dispose();
-        stage.dispose();
+//        stage.dispose();
         spriteBatch.dispose();
         starfieldBatch.dispose();
         title.dispose();

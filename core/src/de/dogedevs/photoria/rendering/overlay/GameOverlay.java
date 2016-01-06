@@ -17,6 +17,7 @@ import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -100,8 +101,7 @@ public class GameOverlay extends AbstractOverlay {
 
     @Override
     public void init() {
-        font = new BitmapFont(Gdx.files.internal("./fonts/textboxFont.fnt"));
-        font.getData().markupEnabled = true;
+        font = AssetLoader.getBitmapFont(BitmapFonts.TEXTBOX_FONT, true);
     }
 
     @Override

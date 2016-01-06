@@ -7,7 +7,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
@@ -28,7 +27,6 @@ import java.util.UUID;
 public class PlayerControllSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
-    private final Sound hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.wav"));
     public static final int SPEED = 128*2;
 
     public PlayerControllSystem() {

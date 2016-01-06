@@ -2,8 +2,6 @@ package de.dogedevs.photoria.content;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -12,6 +10,8 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.SoundManager;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.Random;
@@ -22,7 +22,6 @@ import java.util.Random;
 public class AttackManager {
 
     private static Random rand = new Random();
-    private final Sound hit = Gdx.audio.newSound(Gdx.files.internal("audio/hit.wav"));
 
     public void shootNormal(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
         PooledEngine ashley = GameScreen.getAshley();
@@ -69,7 +68,7 @@ public class AttackManager {
                 if (other == parent || itemC != null && cC.ghost || cC.projectile) {
                     return false;
                 }
-                hit.play();
+                SoundManager.playSound(Sounds.MOB_HIT);
 
                 HealthComponent hc = ComponentMappers.health.get(other);
                 if(hc != null){
