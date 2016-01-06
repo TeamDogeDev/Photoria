@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
 /**
@@ -19,6 +20,7 @@ public class VelocityComponent implements Component, Pool.Poolable {
     public static final int WEST = 2;
     public static final int EAST = 3;
 
+    public Vector2 vectorDirection;
     public int direction;
     public float blockedDelta;
     public float speed;
@@ -26,11 +28,13 @@ public class VelocityComponent implements Component, Pool.Poolable {
     public VelocityComponent() {
         this.direction = 0;
         this.speed = 0;
+        this.vectorDirection = null;
     }
 
     public VelocityComponent(int direction, float speed) {
         this.direction = direction;
         this.speed = speed;
+        this.vectorDirection = null;
     }
 
     @Override
@@ -38,6 +42,7 @@ public class VelocityComponent implements Component, Pool.Poolable {
         direction = 0;
         blockedDelta = 0;
         speed = 0;
+        vectorDirection = null;
     }
 
 }
