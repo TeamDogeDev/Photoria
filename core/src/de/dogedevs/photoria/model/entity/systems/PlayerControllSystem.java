@@ -1,15 +1,19 @@
 package de.dogedevs.photoria.model.entity.systems;
 
-import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.EnergyComponent;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 
 import java.util.UUID;
@@ -60,102 +64,28 @@ public class PlayerControllSystem extends EntitySystem {
         if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 
             if(energyComponent.energy >= 1) {
-
                 energyComponent.energy--;
-
-                Entity shot = ((PooledEngine) getEngine()).createEntity();
-                SpriteComponent sc = ((PooledEngine) getEngine()).createComponent(SpriteComponent.class);
-                sc.region = new TextureRegion(new Texture("bullet.png"));
-                PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
-                CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
-                cc.ghost = true;
-                cc.projectile = true;
-                cc.collisionListener = new CollisionComponent.CollisionListener() {
-
-                    @Override
-                    public boolean onCollision(Entity other, Entity self) {
-                        ItemComponent itemC = ComponentMappers.item.get(other);
-                        CollisionComponent cC = ComponentMappers.collision.get(other);
-                        if (other == e || itemC != null && cC.ghost || cC.projectile) {
-                            return false;
-                        }
-                        hit.play();
-
-                        HealthComponent hc = ComponentMappers.health.get(other);
-                        if(hc != null){
-                            hc.health -= 25;
-                            hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
-                            if(hc.health == 0){
-                              die(other, self);
-                            }
-                        } else {
-                            die(other, self);
-                        }
-                        getEngine().removeEntity(self);
-                        return true;
-                    }
-
-                    private void die(Entity other, Entity self) {
-                        ElementsComponent ec = ComponentMappers.elements.get(other);
-                        ElementsComponent playerEc = ComponentMappers.elements.get(e);
-                        if(ec != null && playerEc != null){
-                            playerEc.blue += ec.blue;
-                            playerEc.yellow += ec.yellow;
-                            playerEc.red += ec.red;
-                            playerEc.purple += ec.purple;
-                            playerEc.green += ec.green;
-
-                            playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
-                            playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
-                            playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
-                            playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
-                            playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
-                        }
-                        InventoryComponent ic = ComponentMappers.inventory.get(other);
-                        PositionComponent pc = ComponentMappers.position.get(other);
-                        if(ic != null){
-                            for(Entity item: ic.items){
-                                PositionComponent newPc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
-                                newPc.x = pc.x;
-                                newPc.y = pc.y;
-                                item.add(newPc);
-                                LifetimeComponent lc = ((PooledEngine) getEngine()).createComponent(LifetimeComponent.class);
-                                lc.maxTime = 10;
-                                item.add(lc);
-                            }
-                        }
-                        getEngine().removeEntity(other);
-                    }
-
-                };
-                PositionComponent position = ComponentMappers.position.get(e);
-                pc.x = position.x;
-                pc.y = position.y;
-                pc.z = 26;
-                VelocityComponent vc = ((PooledEngine) getEngine()).createComponent(VelocityComponent.class);
-                vc.speed = 512;
-                shot.add(pc);
-                shot.add(sc);
-                shot.add(vc);
-                shot.add(cc);
-                getEngine().addEntity(shot);
+                energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
+                AttackManager am = new AttackManager();
+                int direction = 0;
                 if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    vc.direction = VelocityComponent.NORTH_WEST;
+                    direction = VelocityComponent.NORTH_WEST;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    vc.direction = VelocityComponent.NORTH_EAST;
+                    direction = VelocityComponent.NORTH_EAST;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    vc.direction = VelocityComponent.SOUTH_EAST;
+                    direction = VelocityComponent.SOUTH_EAST;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    vc.direction = VelocityComponent.SOUTH_WEST;
+                    direction = VelocityComponent.SOUTH_WEST;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    vc.direction = VelocityComponent.NORTH;
+                    direction = VelocityComponent.NORTH;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    vc.direction = VelocityComponent.WEST;
+                    direction = VelocityComponent.WEST;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    vc.direction = VelocityComponent.SOUTH;
+                    direction = VelocityComponent.SOUTH;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    vc.direction = VelocityComponent.EAST;
+                    direction = VelocityComponent.EAST;
                 }
+                am.shootNormal(e, direction, null);
             }
         }
 
