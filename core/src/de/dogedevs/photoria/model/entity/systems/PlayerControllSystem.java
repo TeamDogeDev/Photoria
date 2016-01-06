@@ -17,6 +17,8 @@ import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
+import de.dogedevs.photoria.utils.assets.MusicManager;
+import de.dogedevs.photoria.utils.assets.enums.Musics;
 
 import java.util.UUID;
 
@@ -52,6 +54,13 @@ public class PlayerControllSystem extends EntitySystem {
             GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
             GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
             GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
+            MusicManager.playMusic(Musics.TITLE, false);
+
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
+            MusicManager.playMusic(Musics.AMBIENT, false);
         }
 
         if (entities.size() == 0) {

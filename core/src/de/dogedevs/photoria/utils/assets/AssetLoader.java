@@ -3,10 +3,12 @@ package de.dogedevs.photoria.utils.assets;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.ParticleEffectLoader;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.utils.assets.enums.Musics;
 import de.dogedevs.photoria.utils.assets.enums.Particles;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -21,6 +23,7 @@ public class AssetLoader {
     public AssetLoader() {
         loadTextures();
         loadParticles();
+        loadMusics();
         manager.finishLoading();
     }
 
@@ -38,12 +41,22 @@ public class AssetLoader {
         }
     }
 
+    private void loadMusics() {
+        for(Musics music : Musics.values()) {
+            manager.load(music.name, Music.class);
+        }
+    }
+
     public static ParticleEffect getParticleEffect(Particles effect) {
         return manager.get(effect.effectFile, ParticleEffect.class);
     }
 
     public static Texture getTexture(Textures texture) {
         return manager.get(texture.name, Texture.class);
+    }
+
+    public static Music getMusic(Musics music) {
+        return manager.get(music.name, Music.class);
     }
 
     public static ShaderProgram getShader(ShaderPrograms shaderProgram) {

@@ -7,7 +7,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -29,6 +28,8 @@ import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.MusicManager;
+import de.dogedevs.photoria.utils.assets.enums.Musics;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -40,7 +41,6 @@ import java.util.Arrays;
 public class GameScreen implements Screen {
 
     static private PooledEngine ashley;
-    private Music ambient = Gdx.audio.newMusic(Gdx.files.internal("./music/ambient.mp3"));
 
     private Batch batch, waterBatch, mapBatch, cloudBatch;
     private MapCompositor mapCompositor;
@@ -59,7 +59,6 @@ public class GameScreen implements Screen {
     private Texture clouds = AssetLoader.getTexture(Textures.CLOUD_STUB);
 
     public void show() {
-        ambient.setLooping(true);
 //        ambient.play();
 
         initCamera();
@@ -355,8 +354,8 @@ public class GameScreen implements Screen {
         waterBatch.dispose();
         testBatch.dispose();
         waterShader.dispose();
-        ambient.stop();
-        ambient.dispose();
+//        ambient.stop();
+//        ambient.dispose();
 
         for(AbstractOverlay overlay : overlays) {
             overlay.dispose();
