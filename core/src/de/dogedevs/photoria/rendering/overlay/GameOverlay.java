@@ -124,7 +124,6 @@ public class GameOverlay extends AbstractOverlay {
     private void renderStats() {
         batch.begin();
         batch.draw(netTexture, netOffset.x, netOffset.y);
-//        batch.draw(textBox, (Gdx.graphics.getWidth() - textBox.getWidth())>>1, 32);
         batch.end();
 
         Gdx.gl.glLineWidth(3);
@@ -171,13 +170,24 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     private float stateTime = 0f;
+    private float fadeInVal = 0f;
 
     private void renderTextBox() {
+        if(!fadeOut) {
+            if(fadeInVal < 1) {
+                fadeInVal += 0.05f;
+            }
+        } else {
+            if(fadeInVal > 0) {
+                fadeInVal -= 0.05f;
+            } else {
+            }
+        }
         batch.begin();
         float x = (Gdx.graphics.getWidth() - textBox.getWidth()) >> 1;
-        float y = 32;
+        float y = -textBox.getHeight() + ((textBox.getHeight()+32)*fadeInVal);
         batch.draw(textBox, x, y);
-        font.draw(batch, currentTextbox.text, x + 10, y + textBox.getHeight() - 10, textBox.getWidth(), Align.left, true);
+        font.draw(batch, currentTextbox.text, x + 10, y + textBox.getHeight()-10, textBox.getWidth(), Align.left, true);
 
         if(!currentTextbox.isDeterminant()) {
             stateTime += Gdx.graphics.getDeltaTime();
@@ -202,12 +212,18 @@ public class GameOverlay extends AbstractOverlay {
         if (textboxes.size > 0) {
             currentTextbox = textboxes.removeFirst();
         } else {
-            currentTextbox = null;
+            if(fadeInVal > 0) {
+                fadeOut = true;
+            } else {
+                fadeOut = false;
+                currentTextbox = null;
+            }
         }
     }
 
 
     private static Textbox currentTextbox;
+    private boolean fadeOut = false;
 
     public static boolean isTextBoxVisible() {
         return currentTextbox != null;
