@@ -12,6 +12,8 @@ import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 
+import java.util.UUID;
+
 /**
  * Created by Furuha on 21.12.2015.
  */
@@ -39,7 +41,7 @@ public class PlayerControllSystem extends EntitySystem {
 //        MainGame.log("update: "+entities.size());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            GameOverlay.showTextbox("WOW. such textbox. many multiline. So [#00fd00]Color[].\nMor [#0000f9] color [].\n[#ff0000]<3 libgdx[]", 3);
+            GameOverlay.addTextbox(UUID.randomUUID().toString() + " WOW. such textbox. many multiline. So [#00fd00]Color[]. Mor [#0000f9] color [].\n[#ff0000]<3 libgdx[]");
         }
 
         if (entities.size() == 0) {

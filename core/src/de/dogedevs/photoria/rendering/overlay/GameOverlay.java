@@ -2,6 +2,7 @@ package de.dogedevs.photoria.rendering.overlay;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Queue;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.ElementsComponent;
@@ -32,7 +34,7 @@ public class GameOverlay extends AbstractOverlay {
 
     private BitmapFont font;
     private Texture hudTexture = new Texture(Gdx.files.internal(HUD_PATH));
-    private static final int HUD_TILE_WIDTH = 720>>1;
+    private static final int HUD_TILE_WIDTH = 720 >> 1;
     private static final int HUD_TILE_HEIGHT = 32;
 
     private Texture hudBarTexture = new Texture(Gdx.files.internal(HUDBAR_PATH));
@@ -48,14 +50,14 @@ public class GameOverlay extends AbstractOverlay {
     private TextureRegion health = hudParts[0][0];
     private TextureRegion energy = hudParts[0][1];
 
-    private Vector2 netOffset = new Vector2(Gdx.graphics.getWidth()-netTexture.getWidth(), Gdx.graphics.getHeight()-netTexture.getHeight());
+    private Vector2 netOffset = new Vector2(Gdx.graphics.getWidth() - netTexture.getWidth(), Gdx.graphics.getHeight() - netTexture.getHeight());
 
-    private Vector2 netCenter = new Vector2(128,128);
-    private Vector2 stat0 = new Vector2(128,244);
-    private Vector2 stat1 = new Vector2(250,156);
-    private Vector2 stat2 = new Vector2(204,12);
-    private Vector2 stat3 = new Vector2(52,12);
-    private Vector2 stat4 = new Vector2(6,156);
+    private Vector2 netCenter = new Vector2(128, 128);
+    private Vector2 stat0 = new Vector2(128, 244);
+    private Vector2 stat1 = new Vector2(250, 156);
+    private Vector2 stat2 = new Vector2(204, 12);
+    private Vector2 stat3 = new Vector2(52, 12);
+    private Vector2 stat4 = new Vector2(6, 156);
     private Entity player;
 
     private ShaderProgram bloomShader;
@@ -67,11 +69,12 @@ public class GameOverlay extends AbstractOverlay {
 
     private Batch bloomBatch = new SpriteBatch();
 
-
     private float offset = 10;
     private float spacing = 5;
     private int numSlots = 6;
-    private int itemBarWidth = (int) (numSlots * (itemSlotTexture.getWidth()+spacing));
+    private int itemBarWidth = (int) (numSlots * (itemSlotTexture.getWidth() + spacing));
+
+    private static Queue<Textbox> textboxes = new Queue<>();
 
     public GameOverlay(Entity playerEntity) {
         this.player = playerEntity;
@@ -110,7 +113,7 @@ public class GameOverlay extends AbstractOverlay {
     public void render() {
         renderHealth();
         renderStats();
-        if(textBoxVisible) {
+        if (isTextBoxVisible()) {
             renderTextBox();
         }
     }
@@ -126,7 +129,7 @@ public class GameOverlay extends AbstractOverlay {
         Gdx.gl.glLineWidth(3);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.GREEN.add(Color.YELLOW));
-        shapeRenderer.polygon(statsToVertices(elementsComponent.green/20, elementsComponent.red/20, elementsComponent.yellow/20, elementsComponent.blue/20, elementsComponent.purple/20));
+        shapeRenderer.polygon(statsToVertices(elementsComponent.green / 20, elementsComponent.red / 20, elementsComponent.yellow / 20, elementsComponent.blue / 20, elementsComponent.purple / 20));
 
         shapeRenderer.end();
         Gdx.gl.glLineWidth(1);
@@ -139,7 +142,7 @@ public class GameOverlay extends AbstractOverlay {
         Vector2 posst2 = netOffset.cpy().add(netCenter.cpy().add(stat2.cpy().sub(netCenter).scl(st2)));
         Vector2 posst3 = netOffset.cpy().add(netCenter.cpy().add(stat3.cpy().sub(netCenter).scl(st3)));
         Vector2 posst4 = netOffset.cpy().add(netCenter.cpy().add(stat4.cpy().sub(netCenter).scl(st4)));
-        return new float[]{posst0.x, posst0.y, posst1.x, posst1.y, posst2.x, posst2.y, posst3.x, posst3.y, posst4.x, posst4.y, };
+        return new float[]{posst0.x, posst0.y, posst1.x, posst1.y, posst2.x, posst2.y, posst3.x, posst3.y, posst4.x, posst4.y,};
     }
 
     private void renderHealth() {
@@ -147,19 +150,19 @@ public class GameOverlay extends AbstractOverlay {
         bloomBatch.begin();
         float healthScale = (float) healthComponent.health / healthComponent.maxHealth;
         float energyScale = (float) energyComponent.energy / energyComponent.maxEnergy;
-        bloomBatch.draw(healthBar, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());
-        bloomBatch.draw(energyBar, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)), energy.getRegionWidth() * energyScale, energyBar.getRegionHeight());
+        bloomBatch.draw(healthBar, offset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());
+        bloomBatch.draw(energyBar, offset, Gdx.graphics.getHeight() - ((energy.getRegionHeight() * 2 + offset + spacing)), energy.getRegionWidth() * energyScale, energyBar.getRegionHeight());
         bloomBatch.end();
 
         batch.begin();
-        batch.draw(health, offset, Gdx.graphics.getHeight()-(health.getRegionHeight()+offset));
-        batch.draw(energy, offset, Gdx.graphics.getHeight()-((energy.getRegionHeight()*2+offset+spacing)));
+        batch.draw(health, offset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset));
+        batch.draw(energy, offset, Gdx.graphics.getHeight() - ((energy.getRegionHeight() * 2 + offset + spacing)));
 
-        for(int i = 0; i < numSlots; i++) {
-            float x = ((itemSlotTexture.getWidth()+ spacing)*i) + ((Gdx.graphics.getWidth()-itemBarWidth)>>1);
-            float y =  Gdx.graphics.getHeight()-itemSlotTexture.getHeight()-offset;
+        for (int i = 0; i < numSlots; i++) {
+            float x = ((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
+            float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
-            font.draw(batch, "" + (i+1), x, y+ itemSlotTexture.getHeight());
+            font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
         }
         batch.end();
 
@@ -168,45 +171,47 @@ public class GameOverlay extends AbstractOverlay {
 
     private void renderTextBox() {
         batch.begin();
-        float x = (Gdx.graphics.getWidth() - textBox.getWidth())>>1;
+        float x = (Gdx.graphics.getWidth() - textBox.getWidth()) >> 1;
         float y = 32;
 
         batch.draw(textBox, x, y);
-        font.draw(batch, textBoxText, x + 10, y + textBox.getHeight() - 10, textBox.getWidth(), Align.left, true);
+        font.draw(batch, currentTextbox.text, x + 10, y + textBox.getHeight() - 10, textBox.getWidth(), Align.left, true);
         batch.end();
 
-        textboxVisibleTime += Gdx.graphics.getDeltaTime();
-        MainGame.log(textboxVisibleTime  + "");
-        if(textboxVisibleTime >= textboxDuration) {
-            resetTextbox();
+        if (currentTextbox.duration > 0) {
+            currentTextbox.visibleSince += Gdx.graphics.getDeltaTime();
+            if (currentTextbox.visibleSince >= currentTextbox.duration) {
+                nextTextbox();
+            }
+        } else if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            nextTextbox();
         }
     }
 
-    private void resetTextbox() {
-        textBoxVisible = false;
-        textBoxText = "";
-        textboxDuration = 5;
-        textboxVisibleTime = 0;
+    private void nextTextbox() {
+        if (textboxes.size > 0) {
+            currentTextbox = textboxes.removeFirst();
+        } else {
+            currentTextbox = null;
+        }
     }
 
-    private static boolean textBoxVisible = false;
-    private static String textBoxText = "";
-    private static float textboxDuration = 5000;
-    private static float textboxVisibleTime = 0;
+
+    private static Textbox currentTextbox;
 
     public static boolean isTextBoxVisible() {
-        return textBoxVisible;
+        return currentTextbox != null;
     }
 
-    public static void showTextbox(String text) {
-        showTextbox(text, 5);
+    public static void addTextbox(String text) {
+        addTextbox(text, -1);
     }
 
-    public static void showTextbox(String text, float duration) {
-        textBoxVisible = true;
-        textBoxText = text;
-        textboxDuration = duration;
-        textboxVisibleTime = 0f;
+    public static void addTextbox(String text, float duration) {
+        textboxes.addLast(new Textbox(text, duration));
+        if (!isTextBoxVisible()) {
+            currentTextbox = textboxes.removeFirst();
+        }
     }
 
     @Override
@@ -217,5 +222,16 @@ public class GameOverlay extends AbstractOverlay {
         netTexture.dispose();
         hudBarTexture.dispose();
         textBox.dispose();
+    }
+
+    private static class Textbox {
+        String text;
+        float duration;
+        float visibleSince = 0;
+
+        public Textbox(String text, float duration) {
+            this.text = text;
+            this.duration = duration;
+        }
     }
 }
