@@ -30,7 +30,6 @@ public class ParticleOverlay extends AbstractOverlay {
         update();
         batch.begin();
         for(ParticleEffectPool.PooledEffect effect : ParticlePool.instance().getEffects()) {
-//            effect.setPosition(0, 0);
             effect.draw(batch, Gdx.graphics.getDeltaTime());
             if(effect.isComplete()) {
                 ParticlePool.instance().removeEffect(effect, true);

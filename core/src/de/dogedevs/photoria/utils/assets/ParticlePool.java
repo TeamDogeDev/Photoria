@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.utils.assets;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.utils.Array;
@@ -13,6 +14,7 @@ public class ParticlePool {
     private ParticleEffect bloodPrototype;
     private ParticleEffectPool bloodPool;
     private Array<ParticleEffectPool.PooledEffect> bloodEffects;
+
 
     private static ParticlePool instance;
 
@@ -43,20 +45,7 @@ public class ParticlePool {
         bloodEffects = new Array<>();
     }
 
-//    @Deprecated
-//    public ParticleEffectPool.PooledEffect obtain(ParticleType particleType) {
-//        switch(particleType) {
-//            case BLOOD:
-//                ParticleEffectPool.PooledEffect bloodEffect = bloodPool.obtain();
-//                bloodEffects.add(bloodEffect);
-//                return bloodEffect;
-//        }
-//
-//        return null; // TODO RETURN EMPTY PARTICLE(!)
-//    }
-
     public void createParticleAt(ParticleType particleType, float x, float y) {
-//        MainGame.log(x + "_ " + y);
         switch(particleType) {
             case BLOOD:
                 ParticleEffectPool.PooledEffect bloodEffect = bloodPool.obtain();
@@ -68,6 +57,27 @@ public class ParticlePool {
 
     public Array<ParticleEffectPool.PooledEffect> getEffects() {
         return bloodEffects;
+    }
+
+    public void dispose() {
+    }
+
+    class GameEffect {
+        ParticleEffect prototype;
+        ParticleEffectPool pool;
+        Array<ParticleEffectPool.PooledEffect> effects;
+
+        public GameEffect() {}
+        public GameEffect(FileHandle effectFile, FileHandle imageDir, int initialCapacity, int maxCapacity) {
+            prototype = new ParticleEffect();
+            prototype.load(effectFile, imageDir);
+            pool = new ParticleEffectPool(prototype, initialCapacity, maxCapacity);
+            effects = new Array<>();
+        }
+
+        public void dispose() {
+            prototype.dispose();
+        }
     }
 
 }
