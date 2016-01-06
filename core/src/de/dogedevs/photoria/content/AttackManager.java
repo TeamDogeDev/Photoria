@@ -10,7 +10,9 @@ import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.Textures;
 
 import java.util.Random;
 
@@ -26,7 +28,7 @@ public class AttackManager {
         PooledEngine ashley = GameScreen.getAshley();
         Entity shot = ashley.createEntity();
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(new Texture("bullet.png"));
+        sc.region = new TextureRegion(AssetLoader.getTexture(Textures.BULLET));
 
         CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
         cc.ghost = true;

@@ -58,7 +58,7 @@ public class AnimationLoader {
     }
 
     public static Animation[] getPlayerAnimations(){
-        Texture walkSheet = new Texture(Gdx.files.internal("player_demo.png"));
+        Texture walkSheet = AssetLoader.getTexture(Textures.PLAYER);
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/13, walkSheet.getHeight()/21);
         TextureRegion[][] walkFrames = new TextureRegion[4][8];
         for (int i = 0; i < 4; i++) {

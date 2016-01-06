@@ -23,12 +23,12 @@ import de.dogedevs.photoria.model.entity.components.PlayerComponent;
  */
 public class GameOverlay extends AbstractOverlay {
 
-    private static final String HUD_PATH = "./hud.png";
-    private static final String HUDBAR_PATH = "./hudBars.png";
-    private static final String NET_PATH = "./net.png";
+    private static final String HUD_PATH = "./hud/hud.png";
+    private static final String HUDBAR_PATH = "./hud/hudBars.png";
+    private static final String NET_PATH = "./hud/net.png";
 
-    private Texture textBox = new Texture(Gdx.files.internal("./textbox.png"));
-    private Texture okButtonSheet = new Texture(Gdx.files.internal("./okButton.png"));
+    private Texture textBox = new Texture(Gdx.files.internal("./hud/textbox.png"));
+    private Texture okButtonSheet = new Texture(Gdx.files.internal("./hud/okButton.png"));
     private TextureRegion[] okFrames = TextureRegion.split(okButtonSheet, okButtonSheet.getWidth()/10, okButtonSheet.getHeight())[0];
     private Animation okButtonAnimation = new Animation(0.05f, okFrames);
 
@@ -39,7 +39,7 @@ public class GameOverlay extends AbstractOverlay {
     private static final int HUD_TILE_HEIGHT = 32;
 
     private Texture hudBarTexture = new Texture(Gdx.files.internal(HUDBAR_PATH));
-    private Texture itemSlotTexture = new Texture(Gdx.files.internal("./itemSlot.png"));
+    private Texture itemSlotTexture = new Texture(Gdx.files.internal("./hud/itemSlot.png"));
 
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion healthBar = hudBars[0][0];

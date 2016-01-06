@@ -10,7 +10,7 @@ import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
  */
 public abstract class Tile extends StaticTiledMapTile {
 
-    private static final String TILESET_PATH ="./tileset.png";
+    private static final String TILESET_PATH ="./tilesets/tileset.png";
     private static final int TILE_WIDTH = 32;
     private static final int TILE_HEIGHT = 32;
 

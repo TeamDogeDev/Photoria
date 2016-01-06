@@ -31,7 +31,6 @@ public class ParticleOverlay extends AbstractOverlay {
     public void render() {
         update();
         batch.begin();
-        System.out.println();
         for(ParticleEffectPool.PooledEffect effect : ParticlePool.instance().getEffects()) {
             effect.draw(batch, Gdx.graphics.getDeltaTime());
             if(effect.isComplete()) {
