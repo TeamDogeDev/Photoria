@@ -28,8 +28,6 @@ import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.MusicManager;
-import de.dogedevs.photoria.utils.assets.enums.Musics;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -195,7 +193,7 @@ public class GameScreen implements Screen {
         waterShader = AssetLoader.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = AssetLoader.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
+        postShader = AssetLoader.getShader(ShaderPrograms.BLOOM_SHADER);
         testBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
 

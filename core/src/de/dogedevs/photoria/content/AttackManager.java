@@ -9,7 +9,6 @@ import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -106,7 +105,6 @@ public class AttackManager {
 //                ParticleEffectPool.PooledEffect effect = ParticlePool.instance().obtain(ParticlePool.ParticleType.BLOOD);
 //                effect.setPosition(pc.x, pc.y);
 //                effect.start();
-                ParticlePool.instance().createParticleAt(rand.nextBoolean() ? ParticlePool.ParticleType.BLOOD : ParticlePool.ParticleType.FIRE, pc.x, pc.y);
 
                 if(ic != null){
                     for(Entity item: ic.items){

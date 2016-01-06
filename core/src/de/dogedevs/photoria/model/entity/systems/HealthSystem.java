@@ -8,6 +8,10 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.SoundManager;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -40,6 +44,10 @@ public class HealthSystem extends EntitySystem {
             }
             healthComponent.immuneTime = MathUtils.clamp(healthComponent.immuneTime, 0, healthComponent.maxImmuneTime);
             if(healthComponent.health <= 0){
+                PositionComponent pc = ComponentMappers.position.get(entity);
+                ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
+                SoundManager.playSound(Sounds.MOB_DIE);
+
                 if(!ComponentMappers.player.has(entity)){
                     getEngine().removeEntity(entity);
                 }
