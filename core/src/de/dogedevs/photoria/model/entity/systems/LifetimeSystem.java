@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.LifetimeComponent;
 
@@ -41,7 +40,6 @@ public class LifetimeSystem extends EntitySystem {
             }
             lifetimeComponent.currentTime +=deltaTime;
             if(lifetimeComponent.currentTime >= lifetimeComponent.maxTime){
-                MainGame.log("remove "+entity);
                 getEngine().removeEntity(entity);
             }
         }

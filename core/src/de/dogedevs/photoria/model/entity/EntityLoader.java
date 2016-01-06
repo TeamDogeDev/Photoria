@@ -164,6 +164,10 @@ public class EntityLoader {
         InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
         ic.items.addAll(createMobItems(0.5f, 1));
         entity.add(ic);
+        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        hc.maxHealth = 100;
+        hc.health = 100;
+        entity.add(hc);
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
         vc.direction = MathUtils.random(0, 7);
         vc.speed = 20;

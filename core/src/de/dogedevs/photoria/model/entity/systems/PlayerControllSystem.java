@@ -81,6 +81,21 @@ public class PlayerControllSystem extends EntitySystem {
                         }
                         hit.play();
 
+                        HealthComponent hc = ComponentMappers.health.get(other);
+                        if(hc != null){
+                            hc.health -= 25;
+                            hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                            if(hc.health == 0){
+                              die(other, self);
+                            }
+                        } else {
+                            die(other, self);
+                        }
+
+                        return true;
+                    }
+
+                    private void die(Entity other, Entity self) {
                         ElementsComponent ec = ComponentMappers.elements.get(other);
                         ElementsComponent playerEc = ComponentMappers.elements.get(e);
                         if(ec != null && playerEc != null){
@@ -109,10 +124,8 @@ public class PlayerControllSystem extends EntitySystem {
                                 item.add(lc);
                             }
                         }
-
                         getEngine().removeEntity(other);
                         getEngine().removeEntity(self);
-                        return true;
                     }
 
                 };
