@@ -39,6 +39,8 @@ public class AttackManager {
             cc.collisionListener = listener;
         }
 
+        LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
+        lc.maxTime = 1;
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
         PositionComponent position = ComponentMappers.position.get(self);
         pc.x = position.x;
@@ -51,6 +53,7 @@ public class AttackManager {
         shot.add(sc);
         shot.add(vc);
         shot.add(cc);
+        shot.add(lc);
 
         ashley.addEntity(shot);
     }
