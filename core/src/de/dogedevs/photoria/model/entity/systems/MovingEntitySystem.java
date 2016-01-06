@@ -116,7 +116,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     break;
             }
             Entity other = null;
-            if(collision != null && (checkCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
+            if(collision != null && (checkMapCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
                 if(other != null){
                     CollisionComponent collisionOther = ComponentMappers.collision.get(other);
                     if(!collision.ghost && !collisionOther.ghost){
@@ -146,7 +146,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
 //        checks = 0;
     }
 
-    private boolean checkCollision(float x, float y, int[] groundCollision) {
+    private boolean checkMapCollision(float x, float y, int[] groundCollision) {
         ChunkCell cell = buffer.getCellLazy((int)(x/32), (int)(y/32), ChunkBuffer.COLLISION);
         if(cell == null){
             return true;
@@ -165,19 +165,35 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if(i == startIndex){
                 continue;
             }
-            position = ComponentMappers.position.get(sortedEntities.get(i));
+            Entity other = sortedEntities.get(i);
+            position = ComponentMappers.position.get(other);
             if(position == null){
                 continue;
             }
             if((y - position.y) >= 32){
                 break;
             }
-            collision = ComponentMappers.collision.get(sortedEntities.get(i));
+            collision = ComponentMappers.collision.get(other);
             if(collision == null){
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
-                return sortedEntities.get(i);
+                if(collision.ghost){
+                    Entity self = sortedEntities.get(startIndex);
+                    CollisionComponent selfCollision = ComponentMappers.collision.get(self);
+                    if(!collisioned.contains(other.toString()+""+self.toString())){
+                        if(selfCollision.collisionListener != null){
+                            selfCollision.collisionListener.onCollision(other, self);
+                        }
+                        if(collision.collisionListener != null){
+                            collision.collisionListener.onCollision(self, other);
+                        }
+                        collisioned.add(self.toString()+""+other.toString());
+                    }
+                    continue;
+                } else {
+                    return sortedEntities.get(i);
+                }
             }
         }
 
@@ -185,6 +201,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             if(i == startIndex){
                 continue;
             }
+            Entity other = sortedEntities.get(i);
             position = ComponentMappers.position.get(sortedEntities.get(i));
             if(position == null){
                 continue;
@@ -197,7 +214,22 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 continue;
             }
             if(rectCollides(x, y, position.x, position.y, collision.size/2+ownSize/2)){
-                return sortedEntities.get(i);
+                if(collision.ghost){
+                    Entity self = sortedEntities.get(startIndex);
+                    CollisionComponent selfCollision = ComponentMappers.collision.get(self);
+                    if(!collisioned.contains(other.toString()+""+self.toString())){
+                        if(selfCollision.collisionListener != null){
+                            selfCollision.collisionListener.onCollision(other, self);
+                        }
+                        if(collision.collisionListener != null){
+                            collision.collisionListener.onCollision(self, other);
+                        }
+                        collisioned.add(self.toString()+""+other.toString());
+                    }
+                    continue;
+                } else {
+                    return sortedEntities.get(i);
+                }
             }
         }
         return null;
