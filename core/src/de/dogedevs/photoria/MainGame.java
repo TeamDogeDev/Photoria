@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 
@@ -31,7 +32,6 @@ public class MainGame extends Game {
 
     @Override
     public void create() {
-
         game = this;
         logs = new LinkedList<>();
         batch = new SpriteBatch();
