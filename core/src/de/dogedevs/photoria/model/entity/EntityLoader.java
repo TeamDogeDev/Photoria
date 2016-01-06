@@ -199,6 +199,10 @@ public class EntityLoader {
                         if(ic != null){
                             ic.items.add(self);
                         }
+                        LifetimeComponent lc = ComponentMappers.lifetime.get(self);
+                        if(lc != null){
+                            self.remove(LifetimeComponent.class);
+                        }
                         self.remove(PositionComponent.class);
                         return true;
                     }

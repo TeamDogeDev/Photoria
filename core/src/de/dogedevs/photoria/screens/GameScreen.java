@@ -102,6 +102,7 @@ public class GameScreen implements Screen {
         getAshley().addSystem(new EntityDrawSystem(camera));
         getAshley().addSystem(new EntityGcSystem(camera, mapCompositor.getBuffer()));
         getAshley().addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
+        getAshley().addSystem(new LifetimeSystem());
         if (!Config.enableDebugCamera) {
             getAshley().addSystem(new CameraSystem(camera));
         }

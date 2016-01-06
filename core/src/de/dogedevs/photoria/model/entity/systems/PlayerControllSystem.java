@@ -104,6 +104,9 @@ public class PlayerControllSystem extends EntitySystem {
                                 newPc.x = pc.x;
                                 newPc.y = pc.y;
                                 item.add(newPc);
+                                LifetimeComponent lc = ((PooledEngine) getEngine()).createComponent(LifetimeComponent.class);
+                                lc.maxTime = 10;
+                                item.add(lc);
                             }
                         }
 
