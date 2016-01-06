@@ -41,7 +41,7 @@ public class PlayerControllSystem extends EntitySystem {
 //        MainGame.log("update: "+entities.size());
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " WOW. such textbox. many multiline. So [#00fd00]Color[]. Mor [#0000f9] color [].\n[#ff0000]<3 libgdx[]");
+            GameOverlay.addTextbox(UUID.randomUUID().toString() + " Yay22", 5);
         }
 
         if (entities.size() == 0) {
