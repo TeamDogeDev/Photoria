@@ -190,6 +190,21 @@ public class EntityLoader {
             entity.add(ac);
             CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
             cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+            cc.ghost = true;
+            cc.collisionListener = new CollisionComponent.CollisionListener() {
+                @Override
+                public boolean onCollision(Entity other, Entity self) {
+                    if(ComponentMappers.player.get(other) != null){
+                        InventoryComponent ic = ComponentMappers.inventory.get(other);
+                        if(ic != null){
+                            ic.items.add(self);
+                        }
+                        self.remove(PositionComponent.class);
+                        return true;
+                    }
+                    return false;
+                }
+            };
             entity.add(cc);
             ItemComponent ic = ashley.createComponent(ItemComponent.class);
             entity.add(ic);

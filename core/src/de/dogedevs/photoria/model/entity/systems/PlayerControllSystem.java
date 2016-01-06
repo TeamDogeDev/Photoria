@@ -63,12 +63,14 @@ public class PlayerControllSystem extends EntitySystem {
                 PositionComponent pc = ((PooledEngine) getEngine()).createComponent(PositionComponent.class);
                 CollisionComponent cc = ((PooledEngine) getEngine()).createComponent(CollisionComponent.class);
                 cc.ghost = true;
+                cc.projectile = true;
                 cc.collisionListener = new CollisionComponent.CollisionListener() {
 
                     @Override
                     public boolean onCollision(Entity other, Entity self) {
                         ItemComponent itemC = ComponentMappers.item.get(other);
-                        if (other == e || itemC != null) {
+                        CollisionComponent cC = ComponentMappers.collision.get(other);
+                        if (other == e || itemC != null && cC.ghost || cC.projectile) {
                             return false;
                         }
                         hit.play();

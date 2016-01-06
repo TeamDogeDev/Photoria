@@ -11,6 +11,7 @@ public class CollisionComponent implements Component, Pool.Poolable {
 
     public float size;
     public boolean ghost;
+    public boolean projectile;
     public int[] groundCollision;
     public CollisionListener collisionListener;
 
@@ -24,6 +25,7 @@ public class CollisionComponent implements Component, Pool.Poolable {
         this.size = size;
         this.collisionListener = collisionListener;
         this.ghost = false;
+        this.projectile = false;
         this.groundCollision = null;
     }
 
@@ -32,6 +34,7 @@ public class CollisionComponent implements Component, Pool.Poolable {
         this.size = 16;
         this.collisionListener = null;
         this.groundCollision = null;
+        this.projectile = false;
         this.ghost = false;
     }
 
