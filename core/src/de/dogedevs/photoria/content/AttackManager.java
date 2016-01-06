@@ -77,8 +77,6 @@ public class AttackManager {
                     if(hc.health == 0){
                         die(other, self);
                     }
-                } else {
-                    die(other, self);
                 }
                 ashley.removeEntity(self);
                 return true;
