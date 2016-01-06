@@ -73,23 +73,23 @@ public class LiquidChunkTileLayer extends TiledMapTileLayer {
                 case TileMapper.WATER :
                     if(MathUtils.random(25) == 0){
                         switch(MathUtils.random(2)){
-                            case 0 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER2, ChunkBuffer.DESERT_BIOM)); break;
-                            case 1 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER3, ChunkBuffer.DESERT_BIOM)); break;
-                            case 2 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER4, ChunkBuffer.DESERT_BIOM)); break;
+                            case 0 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER2, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
+                            case 1 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER3, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
+                            case 2 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER4, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
                         }
                     } else {
-                        chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER, ChunkBuffer.DESERT_BIOM));
+                        chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.WATER, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value));
                     }
                     break;
                 case TileMapper.LAVA :
                     if(MathUtils.random(25) == 0){
                         switch(MathUtils.random(2)){
-                            case 0 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA2, ChunkBuffer.DESERT_BIOM)); break;
-                            case 1 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA3, ChunkBuffer.DESERT_BIOM)); break;
-                            case 2 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA4, ChunkBuffer.DESERT_BIOM)); break;
+                            case 0 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA2, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
+                            case 1 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA3, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
+                            case 2 : chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA4, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value)); break;
                         }
                     } else {
-                        chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA, ChunkBuffer.DESERT_BIOM));
+                        chunkCell.cell.setTile(Tile.getTileForBiome(TileMapper.LAVA, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value));
                     }
                     break;
             }

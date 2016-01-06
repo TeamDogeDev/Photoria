@@ -4,6 +4,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
+import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 /** @brief Layer for a TiledMap */
 public class ChunkTileLayer extends TiledMapTileLayer {
@@ -66,7 +67,9 @@ public class ChunkTileLayer extends TiledMapTileLayer {
 		if(chunkCell.cell == null){
 			chunkCell.cell = new Cell();
 //			System.out.println();
-			chunkCell.cell.setTile(Tile.getTileForBiome(chunkCell.value, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value));
+			if(chunkCell.value != TileMapper.WATER && chunkCell.value != TileMapper.LAVA) {
+				chunkCell.cell.setTile(Tile.getTileForBiome(chunkCell.value, buffer.getCellLazy(x, y, ChunkBuffer.BIOME).value));
+			}
 
 //			switch(chunkCell.value) {
 //				default:
