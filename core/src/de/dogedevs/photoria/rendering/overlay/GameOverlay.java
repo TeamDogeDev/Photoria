@@ -135,6 +135,12 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     private float[] statsToVertices(float st0, float st1, float st2, float st3, float st4) {
+        st0 = st0*0.9f+0.1f;
+        st1 = st1*0.9f+0.1f;
+        st2 = st2*0.9f+0.1f;
+        st3 = st3*0.9f+0.1f;
+        st4 = st4*0.9f+0.1f;
+
 //        Vector2 posst0 = stat0.cpy().add(netCenter).add(netOffset).scl(1f);
         Vector2 posst0 = netOffset.cpy().add(netCenter.cpy().add(stat0.cpy().sub(netCenter).scl(st0)));
         Vector2 posst1 = netOffset.cpy().add(netCenter.cpy().add(stat1.cpy().sub(netCenter).scl(st1)));
