@@ -9,7 +9,7 @@ public enum Textures {
 
     // WORLD
     CLOUD_STUB("clouds.png"),
-    MAIN_TILESET("tilesets/tileset.png"),
+    MAIN_TILESET("tilesets/tileset_accid.png"),
 
     // MOBS
     EYE("mobs/eyeball.png"),
