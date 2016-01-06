@@ -91,7 +91,7 @@ public class PlayerControllSystem extends EntitySystem {
                         } else {
                             die(other, self);
                         }
-
+                        getEngine().removeEntity(self);
                         return true;
                     }
 
@@ -125,7 +125,6 @@ public class PlayerControllSystem extends EntitySystem {
                             }
                         }
                         getEngine().removeEntity(other);
-                        getEngine().removeEntity(self);
                     }
 
                 };
