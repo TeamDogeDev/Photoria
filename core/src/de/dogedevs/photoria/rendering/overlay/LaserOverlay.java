@@ -1,6 +1,5 @@
 package de.dogedevs.photoria.rendering.overlay;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.dogedevs.photoria.rendering.laser.Laser;
 
@@ -29,7 +28,7 @@ public class LaserOverlay extends AbstractOverlay {
     public void render() {
 //        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        laser.render(batch, Gdx.graphics.getDeltaTime());
+//        laser.render(batch, Gdx.graphics.getDeltaTime());
         batch.end();
     }
 

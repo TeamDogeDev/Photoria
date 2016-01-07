@@ -5,10 +5,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.AnimationComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.SpriteComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -132,6 +129,14 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                     yOffset = visual.region.getRegionWidth()/2;
                 }
                 batch.draw(visual.region, position.x-yOffset, position.y+position.z);
+            }
+
+            //Check special attack hits
+            AttackComponent attack = ComponentMappers.attack.get(e);
+            if(attack != null){
+                if(attack.laser != null){
+                    attack.laser.render(batch, deltaTime);
+                }
             }
         }
 

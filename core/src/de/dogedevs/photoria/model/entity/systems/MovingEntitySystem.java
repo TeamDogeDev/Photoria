@@ -2,7 +2,9 @@ package de.dogedevs.photoria.model.entity.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.CollisionComponent;
@@ -156,7 +158,22 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             AttackComponent attack = ComponentMappers.attack.get(e);
             if(attack != null){
                 if(attack.laser != null){
-//                    Intersector.distanceLinePoint(attack.laser.begin.x, attack.laser.begin.y, );
+                    Vector2 end = attack.laser.getEndPoint();
+                    int hitCount = 1;
+                    for(Entity entity: sortedEntities){
+                        if(entity  == e){
+                            continue;
+                        }
+                        PositionComponent pc = ComponentMappers.position.get(entity);
+                        if(Intersector.distanceLinePoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y) < 32){
+                            if(ComponentMappers.ai.has(entity)){
+                                MainGame.log("HIT AI "+ (hitCount++));
+                            }
+                        }
+                    }
+                    if(hitCount == 1){
+                        MainGame.log("HIT NOTHING");
+                    }
                 }
             }
 

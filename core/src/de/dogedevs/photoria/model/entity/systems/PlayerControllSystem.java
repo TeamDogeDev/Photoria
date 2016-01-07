@@ -1,9 +1,6 @@
 package de.dogedevs.photoria.model.entity.systems;
 
-import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.EntitySystem;
-import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,10 +8,8 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.EnergyComponent;
-import de.dogedevs.photoria.model.entity.components.PlayerComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.rendering.laser.Laser;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.MusicManager;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
@@ -101,11 +96,20 @@ public class PlayerControllSystem extends EntitySystem {
                     dir.set(0, -1);
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     dir.set(1, 0);
-                }else if (Gdx.input.isTouched()) {
-                    dir.set(Gdx.input.getX()-Gdx.graphics.getWidth()/2, (Gdx.graphics.getHeight()-Gdx.input.getY())-Gdx.graphics.getHeight()/2).nor();
+                } else if (Gdx.input.isTouched()) {
+                    dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
+                    AttackComponent ac = ComponentMappers.attack.get(e);
+                    if(ac == null){
+                        ac = ((PooledEngine) getEngine()).createComponent(AttackComponent.class);
+                        ac.laser = new Laser();
+                        ac.laser.length = 400;
+                        e.add(ac);
+                    }
+                    ac.laser.setBegin(new Vector2(positionComponent.x, positionComponent.y));
+                    ac.laser.setAngle(dir);
                 }
 
-                am.shootNormal(e, dir, null);
+//                am.shootNormal(e, dir, null);
             }
         }
 

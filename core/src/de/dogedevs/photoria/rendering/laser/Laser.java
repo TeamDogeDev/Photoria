@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -21,10 +20,10 @@ public class Laser {
 //    Interference Overlay: A repeatable overlay animation showing “interference” which will give direction and realism.
 
     public Vector2 begin;
-    private Vector2 endVec;
+    private Vector2  endVec;
 
     public float rotation = 270;
-    public float length = 400;
+    public float length = 700;
     private Color color1;
     private Color color2;
 
@@ -56,7 +55,8 @@ public class Laser {
     }
 
     public void setAngle(Vector2 angle){
-        rotation = angle.sub(begin).angle()-90;
+        endVec = new Vector2(angle);
+        rotation = endVec.sub(begin).angle()-90;
     }
 
     public void setColors(Color color1, Color color2){
@@ -71,8 +71,6 @@ public class Laser {
 
     public void render(Batch batch, float deltaTime){
 
-        MainGame.log("angle " +getEndPoint().x + " " + getEndPoint().y);
-
         Texture start = AssetLoader.getTexture(Textures.LASER_BEGIN);
         Texture mid = AssetLoader.getTexture(Textures.LASER);
         mid.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
@@ -83,6 +81,7 @@ public class Laser {
         color1.a = MathUtils.clamp(color1.a, 0.7f, 1);
         color2.a = color1.a+MathUtils.random(-0.05f,0.05f);
         color2.a = MathUtils.clamp(color1.a, 0.7f, 1);
+        Color c = new Color(batch.getColor());
         batch.setColor(color1);
 
         batch.draw(start,
@@ -147,6 +146,8 @@ public class Laser {
                 rotation, //Rotation
                 0, 0, midOverlay.getWidth(), midOverlay.getHeight(), //Texture being/size
                 false,false); //flip
+
+        batch.setColor(c);
     }
 
 }
