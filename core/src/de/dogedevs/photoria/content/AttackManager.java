@@ -96,6 +96,7 @@ public class AttackManager {
                     playerEc.red += ec.red;
                     playerEc.purple += ec.purple;
                     playerEc.green += ec.green;
+                    other.remove(ElementsComponent.class);
 
                     playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
                     playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);

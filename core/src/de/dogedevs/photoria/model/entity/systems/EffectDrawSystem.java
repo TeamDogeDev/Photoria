@@ -47,7 +47,7 @@ public class EffectDrawSystem extends EntitySystem  {
             AttackComponent attack = ComponentMappers.attack.get(e);
             if(attack != null){
                 if(attack.laser != null){
-                    attack.laser.render(batch, deltaTime);
+                    attack.laser.render(batch, deltaTime, 25);
                 }
             }
         }

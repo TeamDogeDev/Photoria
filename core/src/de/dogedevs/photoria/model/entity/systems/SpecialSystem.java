@@ -53,7 +53,7 @@ public class SpecialSystem extends EntitySystem {
                         PositionComponent pc = ComponentMappers.position.get(entity);
                         float dist = Intersector.distanceSegmentPoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y);
 
-                        if(dist < 16){
+                        if(dist < 24){
                             if(attack.listener != null){
                                 attack.listener.onCollision(entity, self);
                             }

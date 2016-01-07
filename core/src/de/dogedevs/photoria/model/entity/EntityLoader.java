@@ -121,6 +121,10 @@ public class EntityLoader {
         ec.purple = MathUtils.random(-2f, 2f);
         ec.yellow = MathUtils.random(-2f, 2f);
         entity.add(ec);
+        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        hc.maxHealth = 1;
+        hc.health = 1;
+        entity.add(hc);
         AiComponent aiComponent = ashley.createComponent(AiComponent.class);
         aiComponent.ai = new SlimeAi();
         entity.add(aiComponent);

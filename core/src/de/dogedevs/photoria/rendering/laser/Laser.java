@@ -69,7 +69,7 @@ public class Laser {
         this.color2 = Color.WHITE;
     }
 
-    public void render(Batch batch, float deltaTime){
+    public void render(Batch batch, float deltaTime, float offset){
 
         Texture start = AssetLoader.getTexture(Textures.LASER_BEGIN);
         Texture mid = AssetLoader.getTexture(Textures.LASER);
@@ -84,7 +84,7 @@ public class Laser {
         batch.setColor(color1);
 
         batch.draw(start,
-                begin.x-start.getWidth()/2, begin.y, //start
+                begin.x-start.getWidth()/2, begin.y+offset, //start
                 start.getWidth()/2, 0,//begin.x, begin.y, //rotation origin
                 start.getWidth(), start.getHeight(),
                 1, 1, //Scale
@@ -93,7 +93,7 @@ public class Laser {
                 false,false); //flip
 
         batch.draw(mid,
-                begin.x-start.getWidth()/2, begin.y+start.getHeight(), //start
+                begin.x-start.getWidth()/2, begin.y+offset+start.getHeight(), //start
                 start.getWidth()/2, 0-start.getHeight(),//begin.x, begin.y, //rotation origin
                 mid.getWidth(), length-start.getHeight()-end.getHeight(),
                 1, 1, //Scale
@@ -102,7 +102,7 @@ public class Laser {
                 false,false); //flip
 
         batch.draw(end,
-                begin.x-start.getWidth()/2, begin.y+length-end.getHeight(), //start
+                begin.x-start.getWidth()/2, begin.y+offset+length-end.getHeight(), //start
                 start.getWidth()/2, 0-length+end.getHeight(),//begin.x, begin.y, //rotation origin
                 end.getWidth(), end.getHeight(),
                 1, 1, //Scale
@@ -120,7 +120,7 @@ public class Laser {
         batch.setColor(color2);
 
         batch.draw(startOverlay,
-                begin.x-start.getWidth()/2, begin.y, //start
+                begin.x-start.getWidth()/2, begin.y+offset, //start
                 startOverlay.getWidth()/2, 0,//begin.x, begin.y, //rotation origin
                 startOverlay.getWidth(), startOverlay.getHeight(),
                 1, 1, //Scale
@@ -129,7 +129,7 @@ public class Laser {
                 false,false); //flip
 
         batch.draw(midOverlay,
-                begin.x-startOverlay.getWidth()/2, begin.y+startOverlay.getHeight(), //start
+                begin.x-startOverlay.getWidth()/2, begin.y+offset+startOverlay.getHeight(), //start
                 startOverlay.getWidth()/2, 0-startOverlay.getHeight(),//begin.x, begin.y, //rotation origin
                 midOverlay.getWidth(), length-startOverlay.getHeight()-endOverlay.getHeight(),
                 1, 1, //Scale
@@ -138,7 +138,7 @@ public class Laser {
                 false,false); //flip
 
         batch.draw(endOverlay,
-                begin.x-startOverlay.getWidth()/2, begin.y+length-endOverlay.getHeight(), //start
+                begin.x-startOverlay.getWidth()/2, begin.y+offset+length-endOverlay.getHeight(), //start
                 startOverlay.getWidth()/2, 0-length+endOverlay.getHeight(),//begin.x, begin.y, //rotation origin
                 endOverlay.getWidth(), endOverlay.getHeight(),
                 1, 1, //Scale

@@ -90,7 +90,7 @@ public class PlayerControllSystem extends EntitySystem {
                         public boolean onCollision(Entity other, Entity self) {
                             ItemComponent itemC = ComponentMappers.item.get(other);
                             CollisionComponent cC = ComponentMappers.collision.get(other);
-                            if (other == e || itemC != null && cC.ghost || cC.projectile) {
+                            if (other == e || itemC != null || cC== null || cC.ghost || cC.projectile) {
                                 return false;
                             }
                             SoundManager.playSound(Sounds.MOB_HIT);
@@ -115,6 +115,7 @@ public class PlayerControllSystem extends EntitySystem {
                                 playerEc.red += ec.red;
                                 playerEc.purple += ec.purple;
                                 playerEc.green += ec.green;
+                                other.remove(ElementsComponent.class);
 
                                 playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
                                 playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
