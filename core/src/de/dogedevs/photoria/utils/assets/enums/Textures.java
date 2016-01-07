@@ -45,7 +45,7 @@ public enum Textures {
     LASER("weapons/laser/laser.png"),
     LASER_OVERLAY("weapons/laser/laserOver.png"),
     LASER_ANIMATION_OVERLAY("weapons/laser/laserAnimation.png"),
-    LASER_END("weapons/laser/end.png"),
+    LASER_END("weapons/laser/endAlt.png"),
     LASER_END_OVERLAY("weapons/laser/endOver.png"),
 
     // HUD
