@@ -1,5 +1,7 @@
 package de.dogedevs.photoria.rendering.laser;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
@@ -18,35 +20,86 @@ public class Laser {
     Vector2 begin;
     Vector2 end;
 
-    float rotation = 0;
-    float length = 1000;
+    float rotation = 270;
+    float length = 400;
 
     public Laser(){
-        begin = new Vector2(150, 150);
+        begin = new Vector2(640, 360);
         end = new Vector2(1000, 150);
-//        AssetLoader.getTexture(Textures.LASER).setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
+//        mid.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
     }
 
     public void render(Batch batch, float deltaTime){
 
-//        rotation += 50*deltaTime;
+        Texture start = AssetLoader.getTexture(Textures.LASER_BEGIN);
+        Texture mid = AssetLoader.getTexture(Textures.LASER);
+        mid.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        Texture end = AssetLoader.getTexture(Textures.LASER_END);
 
-        batch.draw(AssetLoader.getTexture(Textures.LASER),
-                begin.x+AssetLoader.getTexture(Textures.LASER_BEGIN).getHeight(), begin.y, //start
-                0+AssetLoader.getTexture(Textures.LASER).getWidth()/2, 0,//begin.x, begin.y, //rotation origin
-                AssetLoader.getTexture(Textures.LASER).getWidth(), length-AssetLoader.getTexture(Textures.LASER_BEGIN).getHeight(),
+        rotation += 50*deltaTime;
+
+        batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE_MINUS_SRC_ALPHA);
+
+        batch.draw(start,
+                begin.x-start.getWidth()/2, begin.y, //start
+                start.getWidth()/2, 0,//begin.x, begin.y, //rotation origin
+                start.getWidth(), start.getHeight(),
                 1, 1, //Scale
                 rotation, //Rotation
-                0, 0, AssetLoader.getTexture(Textures.LASER).getWidth(), AssetLoader.getTexture(Textures.LASER).getHeight(), //Texture being/size
+                0, 0, start.getWidth(), start.getHeight(), //Texture being/size
                 false,false); //flip
 
-        batch.draw(AssetLoader.getTexture(Textures.LASER_BEGIN),
-                begin.x, begin.y, //start
-                0+AssetLoader.getTexture(Textures.LASER_BEGIN).getWidth()/2-begin.x+AssetLoader.getTexture(Textures.LASER_BEGIN).getHeight(), 0,//begin.x, begin.y, //rotation origin
-                AssetLoader.getTexture(Textures.LASER_BEGIN).getWidth(), AssetLoader.getTexture(Textures.LASER_BEGIN).getHeight(),
+        batch.draw(mid,
+                begin.x-start.getWidth()/2, begin.y+start.getHeight(), //start
+                start.getWidth()/2, 0-start.getHeight(),//begin.x, begin.y, //rotation origin
+                mid.getWidth(), length-start.getHeight()-end.getHeight(),
                 1, 1, //Scale
                 rotation, //Rotation
-                0, 0, AssetLoader.getTexture(Textures.LASER_BEGIN).getWidth(), AssetLoader.getTexture(Textures.LASER_BEGIN).getHeight(), //Texture being/size
+                0, 0, mid.getWidth(), mid.getHeight(), //Texture being/size
+                false,false); //flip
+
+        batch.draw(end,
+                begin.x-start.getWidth()/2, begin.y+length-end.getHeight(), //start
+                start.getWidth()/2, 0-length+end.getHeight(),//begin.x, begin.y, //rotation origin
+                end.getWidth(), end.getHeight(),
+                1, 1, //Scale
+                rotation, //Rotation
+                0, 0, mid.getWidth(), mid.getHeight(), //Texture being/size
+                false,false); //flip
+
+
+        Texture startOverlay = AssetLoader.getTexture(Textures.LASER_BEGIN_OVERLAY);
+        Texture midOverlay = AssetLoader.getTexture(Textures.LASER_OVERLAY);
+        midOverlay.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+        Texture endOverlay = AssetLoader.getTexture(Textures.LASER_END_OVERLAY);
+
+        batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE);
+
+        batch.draw(startOverlay,
+                begin.x-start.getWidth()/2, begin.y, //start
+                startOverlay.getWidth()/2, 0,//begin.x, begin.y, //rotation origin
+                startOverlay.getWidth(), startOverlay.getHeight(),
+                1, 1, //Scale
+                rotation, //Rotation
+                0, 0, startOverlay.getWidth(), startOverlay.getHeight(), //Texture being/size
+                false,false); //flip
+
+        batch.draw(midOverlay,
+                begin.x-startOverlay.getWidth()/2, begin.y+startOverlay.getHeight(), //start
+                startOverlay.getWidth()/2, 0-startOverlay.getHeight(),//begin.x, begin.y, //rotation origin
+                midOverlay.getWidth(), length-startOverlay.getHeight()-endOverlay.getHeight(),
+                1, 1, //Scale
+                rotation, //Rotation
+                0, 0, midOverlay.getWidth(), midOverlay.getHeight(), //Texture being/size
+                false,false); //flip
+
+        batch.draw(endOverlay,
+                begin.x-startOverlay.getWidth()/2, begin.y+length-endOverlay.getHeight(), //start
+                startOverlay.getWidth()/2, 0-length+endOverlay.getHeight(),//begin.x, begin.y, //rotation origin
+                endOverlay.getWidth(), endOverlay.getHeight(),
+                1, 1, //Scale
+                rotation, //Rotation
+                0, 0, midOverlay.getWidth(), midOverlay.getHeight(), //Texture being/size
                 false,false); //flip
     }
 

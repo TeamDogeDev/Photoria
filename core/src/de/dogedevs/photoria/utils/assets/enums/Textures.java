@@ -40,6 +40,7 @@ public enum Textures {
 
     // LASER
     LASER_BEGIN("weapons/laser/start.png"),
+//    LASER_BEGIN("weapons/laser/laserAnimation.png"),
     LASER_BEGIN_OVERLAY("weapons/laser/startOver.png"),
     LASER("weapons/laser/laser.png"),
     LASER_OVERLAY("weapons/laser/laserOver.png"),
