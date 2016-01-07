@@ -22,5 +22,5 @@ public class ComponentMappers {
         public static final ComponentMapper<InventoryComponent> inventory = ComponentMapper.getFor(InventoryComponent.class);
         public static final ComponentMapper<ItemComponent> item = ComponentMapper.getFor(ItemComponent.class);
         public static final ComponentMapper<LifetimeComponent> lifetime = ComponentMapper.getFor(LifetimeComponent.class);
-
+        public static final ComponentMapper<AttackComponent> attack = ComponentMapper.getFor(AttackComponent.class);
 }

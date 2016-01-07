@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.CollisionComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
@@ -148,6 +149,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.y = oldY;
                     position.x = oldX;
                     velocity.blockedDelta += deltaTime;
+                }
+            }
+
+            //Check special attack hits
+            AttackComponent attack = ComponentMappers.attack.get(e);
+            if(attack != null){
+                if(attack.laser != null){
+//                    Intersector.distanceLinePoint(attack.laser.begin.x, attack.laser.begin.y, );
                 }
             }
 
