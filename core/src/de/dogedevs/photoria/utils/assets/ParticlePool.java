@@ -2,6 +2,7 @@ package de.dogedevs.photoria.utils.assets;
 
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
+import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.utils.assets.enums.Particles;
 
@@ -26,7 +27,8 @@ public class ParticlePool {
     public enum ParticleType {
 
         BLOOD(new GameEffect(AssetLoader.getParticleEffect(Particles.BLOOD_PARTICLE), 25, 100)),
-        FIRE(new GameEffect(AssetLoader.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100));
+        FIRE(new GameEffect(AssetLoader.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100)),
+        FLAME_THROWER(new GameEffect(AssetLoader.getParticleEffect(Particles.FLAME_THROWER), 25, 100));
 
         GameEffect gameEffect;
         ParticleType(GameEffect gameEffect) {
@@ -51,6 +53,22 @@ public class ParticlePool {
         effect.setPosition(x, y);
         effects.add(effect);
         effect.start();
+    }
+
+    public void createParticleAt(ParticleType particleType, float x, float y, float newAngle, float spr) {
+        ParticleEffectPool.PooledEffect effect = particleType.gameEffect.pool.obtain();
+        effect.reset();
+        effect.setPosition(x, y);
+        for(ParticleEmitter emitter : effect.getEmitters()) {
+            emitter.getAngle().setHigh(newAngle-spr, newAngle+spr);
+            emitter.getAngle().setLow(newAngle-spr, newAngle+spr);
+        }
+        effects.add(effect);
+        effect.start();
+    }
+
+    public void createParticleAt(ParticleType particleType, float x, float y, float newAngle) {
+        createParticleAt(particleType, x, y, newAngle, 0);
     }
 
     public Array<ParticleEffectPool.PooledEffect> getEffects() {

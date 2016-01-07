@@ -22,11 +22,11 @@ public enum Textures {
 //    SWAMP_TILESET("tilesets/tileset.png"),
 //    RAIN_FOREST_TILESET("tilesets/tileset.png"),
 
-    GREEN_TILESET("tilesets/tileset_accid.png"),
-    PURPLE_TILESET("tilesets/tileset.png"),
-    YELLOW_TILESET("tilesets/tileset.png"),
+    GREEN_TILESET("tilesets/tileset_acid.png"),
+    PURPLE_TILESET("tilesets/tileset_tmpPurple.png"),
+    YELLOW_TILESET("tilesets/tileset_tmpYellow.png"),
     BLUE_TILESET("tilesets/tileset_ice.png"),
-    RED_TILESET("tilesets/tileset.png"),
+    RED_TILESET("tilesets/tileset_tmpRed.png"),
     NORMAL_TILESET("tilesets/tileset.png"),
 
 
