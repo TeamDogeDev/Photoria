@@ -3,6 +3,7 @@ package de.dogedevs.photoria.model.entity.systems;
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
@@ -71,6 +72,7 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
         AnimationComponent animation;
         VelocityComponent velocity;
         HealthComponent health;
+        PlayerComponent player;
 //        MainGame.log("update: " + entities.size());
 //        Collections.sort(sortedEntities, comparator);
 
@@ -86,14 +88,22 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
             velocity = ComponentMappers.velocity.get(e);
             visual = ComponentMappers.sprite.get(e);
             health = ComponentMappers.health.get(e);
+            player = ComponentMappers.player.get(e);
 
-            if(health != null) {
-                if(health.health < health.maxHealth) {
-                    batch.draw(AssetLoader.getTexture(Textures.BULLET), position.x, position.y);
-                }
-            }
+
             
             if(animation != null) {
+                if(health != null && player == null) {
+                    if(health.health < health.maxHealth) {
+                        Texture border = AssetLoader.getTexture(Textures.HUD_MOB_HEALTH);
+                        Texture fill = AssetLoader.getTexture(Textures.HUD_MOB_HEALTH_BAR);
+                        float x = position.x - (border.getWidth() / 2);
+                        float y = position.y + animation.idleAnimation.getKeyFrames()[0].getRegionHeight();
+                        batch.draw(fill, x, y, border.getWidth() * (health.health / health.maxHealth), border.getHeight());
+                        batch.draw(border, x, y);
+                    }
+                }
+
                 animation.stateTime += deltaTime;
                 float yOffset = 0;
                 if(ComponentMappers.mapCollision.get(e) == null){
