@@ -130,14 +130,6 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                 }
                 batch.draw(visual.region, position.x-yOffset, position.y+position.z);
             }
-
-            //Check special attack hits
-            AttackComponent attack = ComponentMappers.attack.get(e);
-            if(attack != null){
-                if(attack.laser != null){
-                    attack.laser.render(batch, deltaTime);
-                }
-            }
         }
 
         batch.end();

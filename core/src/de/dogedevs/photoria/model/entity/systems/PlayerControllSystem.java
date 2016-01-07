@@ -12,8 +12,9 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.rendering.laser.Laser;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.MusicManager;
-import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 import java.util.UUID;
 
@@ -37,6 +38,9 @@ public class PlayerControllSystem extends EntitySystem {
     public void removedFromEngine (Engine engine) {
 
     }
+
+
+    boolean wasActive = false;
 
     @Override
     public void update (float deltaTime) {
@@ -68,14 +72,92 @@ public class PlayerControllSystem extends EntitySystem {
         energyComponent.energy += 2*deltaTime;
         energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
 
+        if(!Gdx.input.isTouched()){
+            if(wasActive){
+                wasActive = false;
+                e.remove(AttackComponent.class);
+            }
+        } else {
+            if(!wasActive){
+                wasActive = true;
+                AttackComponent ac = ComponentMappers.attack.get(e);
+                if(ac == null){
+                    ac = ((PooledEngine) getEngine()).createComponent(AttackComponent.class);
+                    ac.laser = new Laser();
+                    ac.laser.length = 400;
+                    ac.listener = new CollisionComponent.CollisionListener() {
+                        @Override
+                        public boolean onCollision(Entity other, Entity self) {
+                            ItemComponent itemC = ComponentMappers.item.get(other);
+                            CollisionComponent cC = ComponentMappers.collision.get(other);
+                            if (other == e || itemC != null && cC.ghost || cC.projectile) {
+                                return false;
+                            }
+                            SoundManager.playSound(Sounds.MOB_HIT);
+
+                            HealthComponent hc = ComponentMappers.health.get(other);
+                            if(hc != null){
+                                hc.health -= 10*Gdx.graphics.getDeltaTime();
+                                hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                                if(hc.health == 0){
+                                    die(other, self);
+                                }
+                            }
+                            return true;
+                        }
+
+                        private void die(Entity other, Entity self) {
+                            ElementsComponent ec = ComponentMappers.elements.get(other);
+                            ElementsComponent playerEc = ComponentMappers.elements.get(e);
+                            if(ec != null && playerEc != null){
+                                playerEc.blue += ec.blue;
+                                playerEc.yellow += ec.yellow;
+                                playerEc.red += ec.red;
+                                playerEc.purple += ec.purple;
+                                playerEc.green += ec.green;
+
+                                playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
+                                playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
+                                playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
+                                playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
+                                playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
+                            }
+                            InventoryComponent ic = ComponentMappers.inventory.get(other);
+                            PositionComponent pc = ComponentMappers.position.get(other);
+
+                            if(ic != null){
+                                for(Entity item: ic.items){
+                                    PositionComponent newPc = ((PooledEngine)getEngine()).createComponent(PositionComponent.class);
+                                    newPc.x = pc.x;
+                                    newPc.y = pc.y;
+                                    item.add(newPc);
+                                    LifetimeComponent lc = ((PooledEngine)getEngine()).createComponent(LifetimeComponent.class);
+                                    lc.maxTime = 10;
+                                    item.add(lc);
+                                }
+                            }
+                        }
+                    };
+
+                    e.add(ac);
+                }
+            } else {
+                Vector2 dir = new Vector2();
+                dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
+                AttackComponent ac = ComponentMappers.attack.get(e);
+                ac.laser.setBegin(new Vector2(positionComponent.x, positionComponent.y));
+                ac.laser.setAngle(dir);
+            }
+        }
+
 
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
         velocity.speed = 0;
 
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isTouched()){
+        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
 
             if(energyComponent.energy >= 1) {
-//                energyComponent.energy--;
+                energyComponent.energy--;
                 energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
                 AttackManager am = new AttackManager();
                 Vector2 dir = new Vector2();
@@ -98,18 +180,8 @@ public class PlayerControllSystem extends EntitySystem {
                     dir.set(1, 0);
                 } else if (Gdx.input.isTouched()) {
                     dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
-                    AttackComponent ac = ComponentMappers.attack.get(e);
-                    if(ac == null){
-                        ac = ((PooledEngine) getEngine()).createComponent(AttackComponent.class);
-                        ac.laser = new Laser();
-                        ac.laser.length = 400;
-                        e.add(ac);
-                    }
-                    ac.laser.setBegin(new Vector2(positionComponent.x, positionComponent.y));
-                    ac.laser.setAngle(dir);
                 }
-
-//                am.shootNormal(e, dir, null);
+                //                am.shootNormal(e, dir, null);
             }
         }
 

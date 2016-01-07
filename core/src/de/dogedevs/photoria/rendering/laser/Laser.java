@@ -81,7 +81,6 @@ public class Laser {
         color1.a = MathUtils.clamp(color1.a, 0.7f, 1);
         color2.a = color1.a+MathUtils.random(-0.05f,0.05f);
         color2.a = MathUtils.clamp(color1.a, 0.7f, 1);
-        Color c = new Color(batch.getColor());
         batch.setColor(color1);
 
         batch.draw(start,
@@ -147,7 +146,6 @@ public class Laser {
                 0, 0, midOverlay.getWidth(), midOverlay.getHeight(), //Texture being/size
                 false,false); //flip
 
-        batch.setColor(c);
     }
 
 }

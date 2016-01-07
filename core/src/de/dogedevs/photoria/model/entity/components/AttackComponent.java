@@ -10,11 +10,16 @@ import de.dogedevs.photoria.rendering.laser.Laser;
 public class AttackComponent implements Component, Pool.Poolable {
 
     public Laser laser;
+    public CollisionComponent.CollisionListener listener;
 
     public AttackComponent() {
+        laser = null;
+        listener = null;
     }
 
     @Override
     public void reset() {
+        laser = null;
+        listener = null;
     }
 }
