@@ -165,9 +165,11 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                             continue;
                         }
                         PositionComponent pc = ComponentMappers.position.get(entity);
-                        if(Intersector.distanceLinePoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y) < 32){
+                        float dist = Intersector.distanceSegmentPoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y);
+
+                        if(dist < 32){
                             if(ComponentMappers.ai.has(entity)){
-                                MainGame.log("HIT AI "+ (hitCount++));
+                                MainGame.log("HIT AI " + (hitCount++));
                             }
                         }
                     }
