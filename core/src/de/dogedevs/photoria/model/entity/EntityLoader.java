@@ -66,7 +66,7 @@ public class EntityLoader {
             return;
         }
         if(cell.value == TileCollisionMapper.HIGH_GROUND){
-            createLavaDeco(x, y);
+            createLavaDeco(x, y, buffer);
         } else if(cell.value == TileCollisionMapper.GROUND){
 
         } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
@@ -76,7 +76,7 @@ public class EntityLoader {
         }
     }
 
-    private void createLavaDeco(float x, float y) {
+    private void createLavaDeco(float x, float y, ChunkBuffer buffer) {
         Entity entity = ashley.createEntity();
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
         pc.x = x;
@@ -84,7 +84,7 @@ public class EntityLoader {
         entity.add(pc);
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
 //        sc.region = Tile.LAVA_DECO_1.getTextureRegion();
-        sc.region = Tile.getTileForBiome(TileMapper.LAVA_DECO_1, ChunkBuffer.DESERT_BIOM).getTextureRegion();
+        sc.region = Tile.getTileForBiome(TileMapper.LAVA_DECO_1, buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         MapCollisionComponent mc = ashley.createComponent(MapCollisionComponent.class);
         mc.value = TileCollisionMapper.ENTITY;

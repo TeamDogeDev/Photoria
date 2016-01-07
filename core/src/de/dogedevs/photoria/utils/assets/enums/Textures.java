@@ -13,7 +13,7 @@ public enum Textures {
 
     TUNDRA_TILESET("tilesets/tileset_ice.png"),
     GRASS_DESERT_TILESET("tilesets/tileset_accid.png"),
-    DESERT_TILESET("tilesets/tileset1.png"),
+    DESERT_TILESET("tilesets/tileset_ice.png"),
     TAIGA_TILESET("tilesets/tileset.png"),
     WOODS_TILESET("tilesets/tileset.png"),
     SAVANNA_TILESET("tilesets/tileset.png"),
