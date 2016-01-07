@@ -1,9 +1,11 @@
 package de.dogedevs.photoria.rendering.laser;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -18,14 +20,18 @@ public class Laser {
 //    Interference Overlay: A repeatable overlay animation showing “interference” which will give direction and realism.
 
     Vector2 begin;
-    Vector2 end;
+    Vector2 endVec;
 
     float rotation = 270;
     float length = 400;
+    float lifeTimeOfLaser = 0;
+    float totalTimeOfLaser = 10;
 
     public Laser(){
-        begin = new Vector2(640, 360);
-        end = new Vector2(1000, 150);
+        begin = new Vector2(620, 380);
+        endVec = new Vector2(0, 0);
+        rotation = endVec.sub(begin).angle()-90;
+        MainGame.log("angle "+rotation);
 //        mid.setWrap(Texture.TextureWrap.ClampToEdge, Texture.TextureWrap.ClampToEdge);
     }
 
@@ -37,8 +43,11 @@ public class Laser {
         Texture end = AssetLoader.getTexture(Textures.LASER_END);
 
         rotation += 50*deltaTime;
+        lifeTimeOfLaser += deltaTime;
 
         batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE_MINUS_SRC_ALPHA);
+        Color color = Color.RED;
+        batch.setColor(color);
 
         batch.draw(start,
                 begin.x-start.getWidth()/2, begin.y, //start
@@ -74,6 +83,8 @@ public class Laser {
         Texture endOverlay = AssetLoader.getTexture(Textures.LASER_END_OVERLAY);
 
         batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE);
+        color = Color.WHITE;
+        batch.setColor(color);
 
         batch.draw(startOverlay,
                 begin.x-start.getWidth()/2, begin.y, //start

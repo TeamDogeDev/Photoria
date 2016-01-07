@@ -20,10 +20,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.systems.*;
 import de.dogedevs.photoria.model.map.MapCompositor;
 import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
-import de.dogedevs.photoria.rendering.overlay.AbstractOverlay;
-import de.dogedevs.photoria.rendering.overlay.DebugOverlay;
-import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.rendering.overlay.ParticleOverlay;
+import de.dogedevs.photoria.rendering.overlay.*;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
@@ -114,6 +111,7 @@ public class GameScreen implements Screen {
             overlays.add(new DebugOverlay(camera, getAshley(), mapCompositor.getBuffer()));
         }
         overlays.add(new ParticleOverlay(camera));
+        overlays.add(new LaserOverlay(camera));
         Entity playerEntity = getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         overlays.add(new GameOverlay(playerEntity));
     }
