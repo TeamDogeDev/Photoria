@@ -2,16 +2,16 @@ Untitled
 - Delay -
 active: false
 - Duration - 
-lowMin: 3000.0
-lowMax: 3000.0
+lowMin: 200.0
+lowMax: 200.0
 - Count - 
-min: 10
-max: 5000
+min: 25
+max: 50
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
 highMin: 0.0
-highMax: 50.0
+highMax: 0.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -73,34 +73,43 @@ timeline0: 0.0
 active: true
 lowMin: 0.0
 lowMax: 0.0
-highMin: 0.0
-highMax: -180.0
+highMin: 30.0
+highMax: 150.0
 relative: false
-scalingCount: 1
-scaling0: 1.0
-timelineCount: 1
-timeline0: 0.0
-- Angle - 
-active: true
-lowMin: 90.0
-lowMax: 90.0
-highMin: 230.0
-highMax: -45.0
-relative: false
-scalingCount: 3
+scalingCount: 2
 scaling0: 1.0
 scaling1: 0.0
-scaling2: 0.0
-timelineCount: 3
+timelineCount: 2
 timeline0: 0.0
-timeline1: 0.5
-timeline2: 1.0
+timeline1: 1.0
+- Angle - 
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: 0.0
+highMax: 180.0
+relative: false
+scalingCount: 2
+scaling0: 1.0
+scaling1: 1.0
+timelineCount: 2
+timeline0: 0.0
+timeline1: 1.0
 - Rotation - 
 active: false
 - Wind - 
 active: false
 - Gravity - 
-active: false
+active: true
+lowMin: 0.0
+lowMax: 0.0
+highMin: -90.0
+highMax: -90.0
+relative: false
+scalingCount: 1
+scaling0: 1.0
+timelineCount: 1
+timeline0: 0.0
 - Tint - 
 colorsCount: 3
 colors0: 1.0
@@ -132,4 +141,4 @@ additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-images/drop.png
+/F:/IntelliJProjects/Tools/images/drop.png
