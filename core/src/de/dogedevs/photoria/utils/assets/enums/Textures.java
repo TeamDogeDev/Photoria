@@ -38,6 +38,15 @@ public enum Textures {
     // OTHER ENTITIES
     BULLET("weapons/bullet.png"),
 
+    // LASER
+    LASER_BEGIN("weapons/laser/start.png"),
+    LASER_BEGIN_OVERLAY("weapons/laser/startOver.png"),
+    LASER("weapons/laser/laser.png"),
+    LASER_OVERLAY("weapons/laser/laserOver.png"),
+    LASER_ANIMATION_OVERLAY("weapons/laser/laserAnimation.png"),
+    LASER_END("weapons/laser/end.png"),
+    LASER_END_OVERLAY("weapons/laser/endOver.png"),
+
     // HUD
     HUD_TEXTBOX("hud/textbox.png"),
     HUD_OK_BUTTON("hud/okButton.png"),

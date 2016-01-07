@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.rendering.laser.Laser;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.SoundManager;
@@ -54,6 +55,11 @@ public class AttackManager {
         shot.add(lc);
 
         ashley.addEntity(shot);
+    }
+
+    public Laser shootLaser(){
+
+        return null;
     }
 
     private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {

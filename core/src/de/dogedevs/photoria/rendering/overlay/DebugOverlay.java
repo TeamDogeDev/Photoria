@@ -1,10 +1,12 @@
 package de.dogedevs.photoria.rendering.overlay;
 
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
+import de.dogedevs.photoria.rendering.laser.Laser;
 
 import java.text.DecimalFormat;
 
@@ -17,6 +19,8 @@ public class DebugOverlay extends AbstractOverlay {
     private OrthographicCamera camera;
     private DecimalFormat floatFormat = new DecimalFormat("#.##");
     private PooledEngine ashley;
+    private Laser laser;
+
     public DebugOverlay(OrthographicCamera camera, PooledEngine ashley, ChunkBuffer chunkBuffer) {
         init();
         this.chunkBuffer = chunkBuffer;
@@ -27,6 +31,7 @@ public class DebugOverlay extends AbstractOverlay {
     @Override
     public void init() {
         font = new BitmapFont();
+        laser = new Laser();
     }
 
     @Override
@@ -36,6 +41,9 @@ public class DebugOverlay extends AbstractOverlay {
     @Override
     public void render() {
         batch.begin();
+
+        laser.render(batch, Gdx.graphics.getDeltaTime());
+
         font.draw(batch, "chunks="+chunkBuffer.getChunkCount(), 1070, 180, 200, Align.right, false);
         font.draw(batch, "cam x="+floatFormat.format(camera.position.x), 1070, 160, 200, Align.right, false);
         font.draw(batch, "cam y="+floatFormat.format(camera.position.y) , 1070, 140, 200, Align.right, false);
