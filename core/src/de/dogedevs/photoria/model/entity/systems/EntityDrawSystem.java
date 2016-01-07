@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,6 +70,7 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
         SpriteComponent visual;
         AnimationComponent animation;
         VelocityComponent velocity;
+        HealthComponent health;
 //        MainGame.log("update: " + entities.size());
 //        Collections.sort(sortedEntities, comparator);
 
@@ -82,7 +85,14 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
             animation = ComponentMappers.animation.get(e);
             velocity = ComponentMappers.velocity.get(e);
             visual = ComponentMappers.sprite.get(e);
+            health = ComponentMappers.health.get(e);
 
+            if(health != null) {
+                if(health.health < health.maxHealth) {
+                    batch.draw(AssetLoader.getTexture(Textures.BULLET), position.x, position.y);
+                }
+            }
+            
             if(animation != null) {
                 animation.stateTime += deltaTime;
                 float yOffset = 0;
