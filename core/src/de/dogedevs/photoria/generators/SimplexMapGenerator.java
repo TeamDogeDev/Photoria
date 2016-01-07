@@ -53,8 +53,8 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
             for (int col = 0; col < realSize; col++) {
                 local_x = row + (chunkX * size);
                 local_y = col + (chunkY * size);
-                local_x_biom = local_x/16;
-                local_y_biom = local_y/16;
+                local_x_biom = local_x;
+                local_y_biom = local_y;
 
                 eval = osn.eval((local_x / size), (local_y / size));
                 temperatureNoise = temperatureOsn.eval((local_x_biom / size), (local_y_biom / size));
@@ -94,44 +94,74 @@ public class SimplexMapGenerator extends AbstractMapGenerator {
     private int getBiom(double temperature, double rainfall) {
         if(rainfall < 25) {
             if(temperature < 25) {
-                return ChunkBuffer.TUNDRA;
+                return ChunkBuffer.BLUE_BIOM;
             } else if(temperature < 70) {
-                return ChunkBuffer.GRASS_DESERT_BIOM;
+                return ChunkBuffer.NORMAL_BIOM;
             } else {
-                return ChunkBuffer.DESERT_BIOM;
+                return ChunkBuffer.RED_BIOM;
             }
-        } else if (rainfall < 50) {
-            if (temperature < 25) {
-                return ChunkBuffer.TUNDRA;
-            } else if (temperature < 50) {
-                return ChunkBuffer.TAIGA_BIOM;
-            } else if (temperature < 75) {
-                return ChunkBuffer.WOODS_BIOM;
+        } else if(rainfall < 50) {
+            if(temperature < 25) {
+                return ChunkBuffer.BLUE_BIOM;
+            } else if(temperature < 75) {
+                return ChunkBuffer.NORMAL_BIOM;
             } else {
-                return ChunkBuffer.SAVANNA_BIOM;
+                return ChunkBuffer.YELLOW_BIOM;
             }
         } else if(rainfall < 75) {
-            if (temperature < 25) {
-                return ChunkBuffer.TUNDRA;
-            } else if (temperature < 50) {
-                return ChunkBuffer.TAIGA_BIOM;
-            } else if (temperature < 75) {
-                return ChunkBuffer.FOREST_BIOM;
+            if(temperature < 25) {
+                return ChunkBuffer.BLUE_BIOM;
+            } else if(temperature < 50) {
+                return ChunkBuffer.PURPLE_BIOM;
             } else {
-                return ChunkBuffer.SEASONAL_FOREST_BIOM;
+                return ChunkBuffer.YELLOW_BIOM;
             }
         } else {
-            if (temperature < 25) {
-                return ChunkBuffer.TUNDRA;
-            } else if (temperature < 50) {
-                return ChunkBuffer.TAIGA_BIOM;
-            } else if (temperature < 75) {
-                return ChunkBuffer.SWAMP_BIOM;
+            if(temperature < 50) {
+                return ChunkBuffer.PURPLE_BIOM;
             } else {
-                return ChunkBuffer.RAIN_FOREST_BIOM;
+                return ChunkBuffer.GREEN_BIOM;
             }
         }
-    }
+//        if(rainfall < 25) {
+//            if(temperature < 25) {
+//                return ChunkBuffer.TUNDRA;
+//            } else if(temperature < 70) {
+//                return ChunkBuffer.GRASS_DESERT_BIOM;
+//            } else {
+//                return ChunkBuffer.DESERT_BIOM;
+//            }
+//        } else if (rainfall < 50) {
+//            if (temperature < 25) {
+//                return ChunkBuffer.TUNDRA;
+//            } else if (temperature < 50) {
+//                return ChunkBuffer.TAIGA_BIOM;
+//            } else if (temperature < 75) {
+//                return ChunkBuffer.WOODS_BIOM;
+//            } else {
+//                return ChunkBuffer.SAVANNA_BIOM;
+//            }
+//        } else if(rainfall < 75) {
+//            if (temperature < 25) {
+//                return ChunkBuffer.TUNDRA;
+//            } else if (temperature < 50) {
+//                return ChunkBuffer.TAIGA_BIOM;
+//            } else if (temperature < 75) {
+//                return ChunkBuffer.FOREST_BIOM;
+//            } else {
+//                return ChunkBuffer.SEASONAL_FOREST_BIOM;
+//            }
+//        } else {
+//            if (temperature < 25) {
+//                return ChunkBuffer.TUNDRA;
+//            } else if (temperature < 50) {
+//                return ChunkBuffer.TAIGA_BIOM;
+//            } else if (temperature < 75) {
+//                return ChunkBuffer.SWAMP_BIOM;
+//            } else {
+//                return ChunkBuffer.RAIN_FOREST_BIOM;
+//            }
+        }
 
 
 }

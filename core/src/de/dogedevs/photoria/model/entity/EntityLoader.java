@@ -49,9 +49,9 @@ public class EntityLoader {
         if(cell == null){
             return;
         }
-        if(cell.value == ChunkBuffer.FOREST_BIOM){
+        if(cell.value == ChunkBuffer.GREEN_BIOM){
             createSlime(x,y);
-        } else if(cell.value == ChunkBuffer.GRASS_DESERT_BIOM){
+        } else if(cell.value == ChunkBuffer.RED_BIOM){
             createEyeball(x,y);
         } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
 

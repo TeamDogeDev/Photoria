@@ -53,7 +53,7 @@ public class DebugChunkLayer extends TiledMapTileLayer {
 			for (int y = 0; y < cells[x].length; y++){
 				cells[x][y] = new Cell();
 				if(x == 0 || y == 0){
-					cells[x][y].setTile(Tile.getTileForBiome(TileMapper.DEBUG, ChunkBuffer.DESERT_BIOM));
+					cells[x][y].setTile(Tile.getTileForBiome(TileMapper.DEBUG, ChunkBuffer.NORMAL_BIOM));
 				}
 			}
 		}
