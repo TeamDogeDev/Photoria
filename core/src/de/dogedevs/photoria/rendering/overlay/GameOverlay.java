@@ -12,12 +12,14 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.enums.*;
+import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
+import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
  * Created by elektropapst on 27.12.2015.
@@ -112,6 +114,7 @@ public class GameOverlay extends AbstractOverlay {
         renderHealth();
         renderStats();
         renderItemBar();
+//        renderMouseArrow();
         if (isTextBoxVisible()) {
             renderTextBox();
         }
@@ -165,6 +168,30 @@ public class GameOverlay extends AbstractOverlay {
         batch.end();
 
 
+    }
+
+    Vector2 dir = new Vector2(0,0);
+    float rotation;
+    private void renderMouseArrow() {
+
+        dir.x += (Gdx.input.getDeltaX()*100);
+        dir.y -= (Gdx.input.getDeltaY()*100);
+
+//        rotation += Gdx.graphics.getDeltaTime()*100;
+        float rotation = dir.sub(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2)).angle()-90;
+        batch.begin();
+        Texture arrow = AssetLoader.getTexture(Textures.HUD_ARROW);
+        batch.draw(arrow,
+        Gdx.graphics.getWidth()/2 - arrow.getWidth(), Gdx.graphics.getHeight()/2+10,
+        arrow.getWidth()/2, 0,
+        arrow.getWidth(), arrow.getHeight(),
+        1f, 1f,
+        rotation, // rot
+        0, 0,
+        arrow.getWidth(), arrow.getHeight(),
+        false, false);
+//        batch.draw(arrow, 100, 100);
+        batch.end();
     }
 
     private void renderItemBar() {

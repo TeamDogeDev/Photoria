@@ -126,6 +126,7 @@ public abstract class Tile extends StaticTiledMapTile {
 
             biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_0, new BasicTile(localTiles[7][13], false));
             biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_1, new BasicTile(localTiles[8][13], false));
+            biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_LEFT_WALL_2, new BasicTile(localTiles[11][5], false));
 
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL, new BasicTile(localTiles[9][8], false));
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_LEFT_WALL_CORNER, new BasicTile(localTiles[9][13], false));
@@ -138,6 +139,8 @@ public abstract class Tile extends StaticTiledMapTile {
 
             biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_0, new BasicTile(localTiles[7][12], false));
             biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_1, new BasicTile(localTiles[8][12], false));
+            biomTiles.put(TileMapper.LAVA_STONE_BOTTOM_RIGHT_WALL_2, new BasicTile(localTiles[11][7], false));
+
 
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL, new BasicTile(localTiles[9][9], false));
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER, new BasicTile(localTiles[9][12], false));

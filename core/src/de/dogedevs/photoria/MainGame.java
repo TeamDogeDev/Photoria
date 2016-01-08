@@ -43,6 +43,7 @@ public class MainGame extends Game {
 //        currentScreen = new MainMenu();
         this.setScreen(currentScreen);
         font = new BitmapFont();
+//        Gdx.input.setCursorCatched(true);
     }
 
     @Override
