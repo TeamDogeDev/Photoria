@@ -51,7 +51,7 @@ public class EffectDrawSystem extends EntitySystem {
 //                }
                 if (attack.flamethrower != null) {
                     attack.flamethrower.render(batch, deltaTime, 25);
-                    attack.flamethrower.render(batch, deltaTime, 25);
+//                    attack.flamethrower.render(batch, deltaTime, 25);
                 }
             }
         }
