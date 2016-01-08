@@ -2,11 +2,11 @@ Untitled
 - Delay -
 active: false
 - Duration - 
-lowMin: 1000.0
-lowMax: 1000.0
+lowMin: 10.0
+lowMax: 10.0
 - Count - 
 min: 0
-max: 200
+max: 1
 - Emission - 
 lowMin: 0.0
 lowMax: 0.0
@@ -74,7 +74,7 @@ active: true
 lowMin: 0.0
 lowMax: 0.0
 highMin: 30.0
-highMax: 300.0
+highMax: 400.0
 relative: false
 scalingCount: 1
 scaling0: 1.0
@@ -126,10 +126,10 @@ timeline2: 0.8
 timeline3: 1.0
 - Options - 
 attached: false
-continuous: true
+continuous: false
 aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-images/particle_round.png
+particle_round.png

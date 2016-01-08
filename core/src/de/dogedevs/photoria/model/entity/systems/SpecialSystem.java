@@ -44,14 +44,31 @@ public class SpecialSystem extends EntitySystem {
             //Check special attack hits
             AttackComponent attack = ComponentMappers.attack.get(self);
             if(attack != null){
-                if(attack.laser != null){
-                    Vector2 end = attack.laser.getEndPoint();
+//                if(attack.laser != null){
+//                    Vector2 end = attack.laser.getEndPoint();
+//                    for(Entity entity: allEntities){
+//                        if(entity  == self){
+//                            continue;
+//                        }
+//                        PositionComponent pc = ComponentMappers.position.get(entity);
+//                        float dist = Intersector.distanceSegmentPoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y);
+//
+//                        if(dist < 24){
+//                            if(attack.listener != null){
+//                                attack.listener.onCollision(entity, self);
+//                            }
+//                        }
+//                    }
+//                }
+
+                if(attack.flamethrower != null){
+                    Vector2 end = attack.flamethrower.getEndPoint();
                     for(Entity entity: allEntities){
                         if(entity  == self){
                             continue;
                         }
                         PositionComponent pc = ComponentMappers.position.get(entity);
-                        float dist = Intersector.distanceSegmentPoint(attack.laser.begin.x, attack.laser.begin.y, end.x, end.y, pc.x, pc.y);
+                        float dist = Intersector.distanceSegmentPoint(attack.flamethrower.beginVec.x, attack.flamethrower.beginVec.y, end.x, end.y, pc.x, pc.y);
 
                         if(dist < 24){
                             if(attack.listener != null){

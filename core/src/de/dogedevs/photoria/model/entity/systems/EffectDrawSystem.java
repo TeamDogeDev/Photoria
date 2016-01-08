@@ -14,7 +14,7 @@ import de.dogedevs.photoria.model.entity.components.PositionComponent;
 /**
  * Created by Furuha on 21.12.2015.
  */
-public class EffectDrawSystem extends EntitySystem  {
+public class EffectDrawSystem extends EntitySystem {
 
 
     private final SpriteBatch batch;
@@ -27,16 +27,16 @@ public class EffectDrawSystem extends EntitySystem  {
     }
 
     @Override
-    public void addedToEngine (Engine engine) {
+    public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(PositionComponent.class, AttackComponent.class).get());
     }
 
     @Override
-    public void removedFromEngine (Engine engine) {
+    public void removedFromEngine(Engine engine) {
     }
 
     @Override
-    public void update (float deltaTime) {
+    public void update(float deltaTime) {
 
         batch.begin();
         batch.setProjectionMatrix(camera.combined);
@@ -45,9 +45,13 @@ public class EffectDrawSystem extends EntitySystem  {
 
             //Check special attack hits
             AttackComponent attack = ComponentMappers.attack.get(e);
-            if(attack != null){
-                if(attack.laser != null){
-                    attack.laser.render(batch, deltaTime, 25);
+            if (attack != null) {
+//                if (attack.laser != null) {
+//                    attack.laser.render(batch, deltaTime, 25);
+//                }
+                if (attack.flamethrower != null) {
+                    attack.flamethrower.render(batch, deltaTime, 25);
+                    attack.flamethrower.render(batch, deltaTime, 25);
                 }
             }
         }

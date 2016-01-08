@@ -9,8 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
-import de.dogedevs.photoria.rendering.weapons.Laser;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
+import de.dogedevs.photoria.rendering.weapons.Flamethrower;
+import de.dogedevs.photoria.rendering.weapons.Laser;
 import de.dogedevs.photoria.utils.assets.MusicManager;
 import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
@@ -84,7 +85,9 @@ public class PlayerControllSystem extends EntitySystem {
                 if(ac == null){
                     ac = ((PooledEngine) getEngine()).createComponent(AttackComponent.class);
                     ac.laser = new Laser();
+                    ac.flamethrower = new Flamethrower();
                     ac.laser.length = 400;
+//                    ac.flamethrower.length = 400;
                     ac.listener = new CollisionComponent.CollisionListener() {
                         @Override
                         public boolean onCollision(Entity other, Entity self) {
@@ -146,6 +149,8 @@ public class PlayerControllSystem extends EntitySystem {
                 Vector2 dir = new Vector2();
                 dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
                 AttackComponent ac = ComponentMappers.attack.get(e);
+                ac.flamethrower.setBegin(new Vector2(positionComponent.x, positionComponent.y));
+                ac.flamethrower.setAngle(dir);
                 ac.laser.setBegin(new Vector2(positionComponent.x, positionComponent.y));
                 ac.laser.setAngle(dir);
             }
