@@ -4,11 +4,8 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
 
 import java.util.List;
 
@@ -28,14 +25,20 @@ public class ParticleShooter implements Weapon {
         endVec = new Vector2(0,0);
     }
 
+    float deltaSum = 0;
+
     @Override
     public void render(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = AssetLoader.getParticleEffect(Particles.FLAME_THROWER);
-        AttackManager am = new AttackManager();
-        Vector2 dir = new Vector2();
-        Vector2 target = getEnd();
-        dir.set(target).sub(beginVec).nor();
-        am.shootParticleBall(owner, dir, null);
+        deltaSum -= deltaTime;
+        if(deltaSum <= 0){
+            deltaSum = 1;
+            AttackManager am = new AttackManager();
+            Vector2 dir = new Vector2();
+            Vector2 target = getEnd();
+            dir.set(target).sub(beginVec).nor();
+            am.shootParticleBall(owner, dir, null);
+        }
     }
 
     @Override
@@ -71,15 +74,7 @@ public class ParticleShooter implements Weapon {
 
     @Override
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
-        Vector2 endVec = getEnd();
-        for(Entity entity: entityList){
-            PositionComponent pc = ComponentMappers.position.get(entity);
-            float dist = Intersector.distanceSegmentPoint(beginVec.x, beginVec.y, endVec.x, endVec.y, pc.x, pc.y);
 
-            if(dist < 24){
-                resultList.add(entity);
-            }
-        }
     }
 
     public Vector2 getEnd(){
