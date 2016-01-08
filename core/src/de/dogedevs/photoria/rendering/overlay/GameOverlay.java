@@ -26,6 +26,7 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
  */
 public class GameOverlay extends AbstractOverlay {
 
+
 //    private static final String HUD_PATH = "./hud/hud.png";
 //    private static final String HUDBAR_PATH = "./hud/hudBars.png";
 //    private static final String NET_PATH = "./hud/net.png";
