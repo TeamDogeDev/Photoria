@@ -6,7 +6,8 @@ package de.dogedevs.photoria.utils.assets.enums;
 public enum Particles {
     BLOOD_PARTICLE("effects/blood.p", "effects/images"),
     FIRE_PARTICLE("effects/fire.p", "effects/images"),
-    FLAME_THROWER("effects/flameThrower.p", "effects/images");
+    FLAME_THROWER("effects/flameThrower.p", "effects/images"),
+    ENERGY_BALL("effects/energyBall.p", "effects/images");
 
     public String effectFile;
     public String imageDir;
