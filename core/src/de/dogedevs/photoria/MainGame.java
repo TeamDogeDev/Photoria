@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 
@@ -72,7 +71,7 @@ public class MainGame extends Game {
 
     public static void log(String text){
         System.out.println(text);
-        game.logString(text);
+//        game.logString(text);
     }
 
     @Override
