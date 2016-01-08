@@ -2,7 +2,7 @@ package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;
-import de.dogedevs.photoria.rendering.laser.Laser;
+import de.dogedevs.photoria.rendering.weapons.Laser;
 
 /**
  * Created by Furuha on 27.12.2015.

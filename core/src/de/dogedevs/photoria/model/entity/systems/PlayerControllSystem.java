@@ -9,7 +9,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
-import de.dogedevs.photoria.rendering.laser.Laser;
+import de.dogedevs.photoria.rendering.weapons.Laser;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.MusicManager;
 import de.dogedevs.photoria.utils.assets.SoundManager;

@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.rendering.laser;
+package de.dogedevs.photoria.rendering.weapons;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -17,7 +17,7 @@ public class Laser {
 //    Start Cap background; The initial blast coming from the nozzle
 //    Middle Section:  The repeatable part of your laser
 //    End Cap: The end part of your laser. (E.g. A fadeout)
-//    Interference Overlay: A repeatable overlay animation showing “interference” which will give direction and realism.
+//    Interference Overlay: A repeatable overlay animation showing ï¿½interferenceï¿½ which will give direction and realism.
 
     public Vector2 begin;
     private Vector2  endVec;
