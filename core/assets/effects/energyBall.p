@@ -103,7 +103,7 @@ active: false
 active: false
 - Tint - 
 colorsCount: 12
-colors0: 0.8039216
+colors0: 0.8
 colors1: 0.24705882
 colors2: 1.0
 colors3: 0.03137255
@@ -138,10 +138,10 @@ timeline2: 0.8
 timeline3: 1.0
 - Options - 
 attached: false
-continuous: true
+continuous: false
 aligned: false
 additive: true
 behind: false
 premultipliedAlpha: false
 - Image Path -
-images/particle_round.png
+particle_round.png
