@@ -98,10 +98,10 @@ public class PlayerControllSystem extends EntitySystem {
                 Weapon weapon = new Laser();
                 weapon.setRange(350);
                 weapon.setColors(Color.RED, Color.YELLOW);
-                am.createAttack(e, weapon);
+//                am.createAttack(e, weapon);
                 weapon = new Flamethrower();
-                am.createAttack(e, weapon);
-                weapon = new Shooter();
+//                am.createAttack(e, weapon);
+                weapon = new ParticleShooter();
                 am.createAttack(e, weapon);
             }
         }
