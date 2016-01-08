@@ -45,19 +45,41 @@ public class EntityLoader {
     }
 
     private void createRandomEntity(float x, float y, ChunkBuffer buffer){
-        ChunkCell cell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME);
-        if(cell == null){
+        ChunkCell biomCell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME);
+        ChunkCell liquidCell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.FLUID);
+        if(biomCell == null){
             return;
         }
-        if(cell.value == ChunkBuffer.GREEN_BIOM){
-            createSlime(x,y);
-        } else if(cell.value == ChunkBuffer.RED_BIOM){
-            createEyeball(x,y);
-        } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
-
-        } else if(cell.value == TileCollisionMapper.FLUID){
-
+        if(biomCell.value == ChunkBuffer.BLUE_BIOM){
+            if(liquidCell.value == TileMapper.WATER
+            || liquidCell.value == TileMapper.WATER2
+            || liquidCell.value == TileMapper.WATER3
+            || liquidCell.value == TileMapper.WATER4) {
+                createSlime(Textures.SLIME_BLUE, x, y);
+            }
+        } else if(biomCell.value == ChunkBuffer.GREEN_BIOM){
+            createSlime(Textures.SLIME_GREEN, x,y);
+        } else if(biomCell.value == ChunkBuffer.PURPLE_BIOM){
+            createSlime(Textures.SLIME_PURPLE, x,y);
+        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
+            if(liquidCell.value == TileMapper.LAVA
+            || liquidCell.value == TileMapper.LAVA2
+            || liquidCell.value == TileMapper.LAVA3
+            || liquidCell.value == TileMapper.LAVA4) {
+                createSlime(Textures.SLIME_RED, x, y);
+            }
+        } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
+            createSlime(Textures.SLIME_YELLOW, x,y);
         }
+//        if(biomCell.value == ChunkBuffer.GREEN_BIOM){
+//            createSlime(x,y);
+//        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
+//            createEyeball(x,y);
+//        } else if(biomCell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
+//
+//        } else if(biomCell.value == TileCollisionMapper.FLUID){
+//
+//        }
     }
 
     private void createRandomDecoEntity(float x, float y, ChunkBuffer buffer){
@@ -135,8 +157,8 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
-    private void createSlime(float x, float y){
-        Animation[] animations = AnimationLoader.getMovementAnimations(Textures.SLIME, true, 4, 3);
+    private void createSlime(Textures texture, float x, float y){
+        Animation[] animations = AnimationLoader.getMovementAnimations(texture, true, 4, 3);
         Animation walkAnimationU = animations[0];
         Animation walkAnimationD = animations[1];
         Animation walkAnimationL = animations[2];

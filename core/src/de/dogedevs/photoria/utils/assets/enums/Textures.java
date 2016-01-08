@@ -32,7 +32,11 @@ public enum Textures {
 
     // MOBS
     EYE("mobs/eyeball.png"),
-    SLIME("mobs/slime.png"),
+    SLIME_BLUE("mobs/slime_blue.png"),
+    SLIME_GREEN("mobs/slime_green.png"),
+    SLIME_PURPLE("mobs/slime_purple.png"),
+    SLIME_RED("mobs/slime_red.png"),
+    SLIME_YELLOW("mobs/slime_yellow.png"),
     PLAYER("mobs/player_demo.png"),
 
     // OTHER ENTITIES
