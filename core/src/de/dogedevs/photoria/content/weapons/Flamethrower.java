@@ -76,6 +76,11 @@ public class Flamethrower implements Weapon {
         }
     }
 
+    @Override
+    public void setAdditionalThrust(Vector2 thrust) {
+
+    }
+
     public Vector2 getEnd(){
         float rot = rotation;
         endVec.x = beginVec.x + MathUtils.cosDeg(rot) * length;

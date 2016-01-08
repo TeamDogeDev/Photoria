@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.ParticleComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 
@@ -48,7 +49,8 @@ public class AttackRenderSystem extends EntitySystem {
             Entity e = entities.get(i);
             //Check special attack hits
             AttackComponent attack = ComponentMappers.attack.get(e);
-            if (attack.weapon != null) {
+            TargetComponent targetComponent = ComponentMappers.target.get(e);
+            if (attack.weapon != null && targetComponent !=null && targetComponent.isShooting) {
                 attack.weapon.render(batch, deltaTime, 25);
             }
         }

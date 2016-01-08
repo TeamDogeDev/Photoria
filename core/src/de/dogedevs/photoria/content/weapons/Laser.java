@@ -66,6 +66,11 @@ public class Laser implements Weapon{
     }
 
     @Override
+    public void setAdditionalThrust(Vector2 thrust) {
+
+    }
+
+    @Override
     public void setRange(float range) {
         length = range;
     }

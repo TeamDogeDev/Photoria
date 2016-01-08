@@ -51,6 +51,7 @@ public class AttackSystem extends EntitySystem {
 
             if(attack.weapon != null){
                 Entity parentEntity = null;
+                target.thrust = null;
                 if(parent != null && parent.parent != null){
                     parentEntity = parent.parent;
                     PositionComponent parentPosition = ComponentMappers.position.get(parentEntity);
@@ -58,16 +59,20 @@ public class AttackSystem extends EntitySystem {
                         attack.weapon.setBegin(new Vector2(parentPosition.x, parentPosition.y));
                     }
                     TargetComponent parentTarget = ComponentMappers.target.get(parentEntity);
-                    if(parentTarget != null){
-                        target.x = parentTarget.x;
-                        target.y = parentTarget.y;
-                        attack.weapon.setAngle(new Vector2(target.x, target.y));
-                    } else if(parentTarget == null || !parentTarget.on) {
+                    if(parentTarget == null) {
                         getEngine().removeEntity(self);
                         continue;
+                    } else {
+                        target.x = parentTarget.x;
+                        target.y = parentTarget.y;
+                        target.thrust = parentTarget.thrust;
+                        target.isShooting = parentTarget.isShooting;
+                        attack.weapon.setAngle(new Vector2(target.x, target.y));
                     }
                 }
-
+                if(!target.isShooting){
+                    continue;
+                }
                 resultList.clear();
                 attack.weapon.checkCollision(allEntities, resultList);
                 for(Entity targetEntity: resultList){

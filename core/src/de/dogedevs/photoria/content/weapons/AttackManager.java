@@ -1,7 +1,9 @@
 package de.dogedevs.photoria.content.weapons;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -54,6 +56,16 @@ public class AttackManager {
         ashley.addEntity(attack);
 
         return attack;
+    }
+
+    public void deleteWeaponsFrom(Entity parent){
+        ImmutableArray<Entity> entities = GameScreen.getAshley().getEntitiesFor(Family.all(AttackComponent.class).get());
+        for(Entity entity: entities){
+            ParentComponent pc = ComponentMappers.parent.get(entity);
+            if(pc != null && pc.parent == parent){
+                GameScreen.getAshley().removeEntity(entity);
+            }
+        }
     }
 
     public AttackComponent.OnHitListener createOnHitListener(){

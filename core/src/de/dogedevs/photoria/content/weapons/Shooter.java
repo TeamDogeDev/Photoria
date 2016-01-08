@@ -17,7 +17,6 @@ public class Shooter implements Weapon {
     public Vector2 beginVec, endVec;
     public float rotation;
     private float length = 300;
-    AttackManager am = new AttackManager();
     private Entity owner;
 
     public Shooter() {
@@ -25,14 +24,20 @@ public class Shooter implements Weapon {
         endVec = new Vector2(0,0);
     }
 
+    float deltaSum = 0;
+
     @Override
     public void render(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = AssetLoader.getParticleEffect(Particles.FLAME_THROWER);
-        AttackManager am = new AttackManager();
-        Vector2 dir = new Vector2();
-        Vector2 target = getEnd();
-        dir.set(target).sub(beginVec).nor();
-        am.shootNormal(owner, dir, null);
+        deltaSum -= deltaTime;
+        if(deltaSum <= 0) {
+            deltaSum = 0.1f;
+            AttackManager am = new AttackManager();
+            Vector2 dir = new Vector2();
+            Vector2 target = getEnd();
+            dir.set(target).sub(beginVec).nor();
+            am.shootNormal(owner, dir, null);
+        }
     }
 
     @Override
@@ -64,6 +69,11 @@ public class Shooter implements Weapon {
     @Override
     public void setOwner(Entity owner) {
         this.owner = owner;
+    }
+
+    @Override
+    public void setAdditionalThrust(Vector2 thrust) {
+
     }
 
     @Override

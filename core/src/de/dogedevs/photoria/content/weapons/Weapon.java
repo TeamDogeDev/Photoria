@@ -29,4 +29,6 @@ public interface Weapon {
 
     public void setOwner(Entity owner);
 
+    public void setAdditionalThrust(Vector2 thrust);
+
 }
