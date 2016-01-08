@@ -1,7 +1,7 @@
 package de.dogedevs.photoria.content;
 
-import de.dogedevs.photoria.model.entity.ai.EscapeOnDamageAi;
-import de.dogedevs.photoria.model.entity.ai.FollowAi;
+import de.dogedevs.photoria.content.ai.EscapeOnDamageAi;
+import de.dogedevs.photoria.content.ai.FollowAi;
 import de.dogedevs.photoria.model.entity.components.AiComponent;
 
 /**

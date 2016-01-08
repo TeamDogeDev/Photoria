@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity.ai;
+package de.dogedevs.photoria.content.ai;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.MathUtils;
