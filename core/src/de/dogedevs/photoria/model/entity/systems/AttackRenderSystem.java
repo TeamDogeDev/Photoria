@@ -11,6 +11,7 @@ import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.ParticleComponent;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -56,6 +57,7 @@ public class AttackRenderSystem extends EntitySystem {
             Entity e = particelEntities.get(i);
             PositionComponent positionComponent = ComponentMappers.position.get(e);
             //Render particle here!!!
+            ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.ENERGY_BALL, positionComponent.x, positionComponent.y);
         }
 
         batch.end();
