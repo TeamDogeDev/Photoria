@@ -25,4 +25,8 @@ public interface Weapon {
 
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList); //second parameter to avoid GC
 
+    public boolean despawnOnStop();
+
+    public void setOwner(Entity owner);
+
 }

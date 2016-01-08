@@ -93,6 +93,16 @@ public class Laser implements Weapon{
         }
     }
 
+    @Override
+    public boolean despawnOnStop() {
+        return false;
+    }
+
+    @Override
+    public void setOwner(Entity owner) {
+
+    }
+
     public void render(Batch batch, float deltaTime, float z){
 
         Texture start = AssetLoader.getTexture(Textures.LASER_BEGIN);
