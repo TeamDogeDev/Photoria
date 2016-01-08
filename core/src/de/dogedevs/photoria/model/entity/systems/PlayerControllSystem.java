@@ -10,10 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.content.weapons.AttackManager;
-import de.dogedevs.photoria.content.weapons.Flamethrower;
-import de.dogedevs.photoria.content.weapons.Laser;
-import de.dogedevs.photoria.content.weapons.Weapon;
+import de.dogedevs.photoria.content.weapons.*;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -103,6 +100,8 @@ public class PlayerControllSystem extends EntitySystem {
                 weapon.setColors(Color.RED, Color.WHITE);
                 am.createAttack(e, weapon);
                 weapon = new Flamethrower();
+                am.createAttack(e, weapon);
+                weapon = new Shooter();
                 am.createAttack(e, weapon);
             }
         }

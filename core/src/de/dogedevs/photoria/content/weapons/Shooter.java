@@ -9,19 +9,21 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.utils.assets.ParticlePool;
 
 import java.util.List;
 
 /**
  * Created by elektropapst on 08.01.2016.
  */
-public class Flamethrower implements Weapon {
+public class Shooter implements Weapon {
 
     public Vector2 beginVec, endVec;
     public float rotation;
     private float length = 300;
-    public Flamethrower() {
+    AttackManager am = new AttackManager();
+    private Entity owner;
+
+    public Shooter() {
         beginVec = new Vector2(100,100);
         endVec = new Vector2(0,0);
     }
@@ -29,7 +31,11 @@ public class Flamethrower implements Weapon {
     @Override
     public void render(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = AssetLoader.getParticleEffect(Particles.FLAME_THROWER);
-        ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, beginVec.x, beginVec.y+z, rotation, 10);
+        AttackManager am = new AttackManager();
+        Vector2 dir = new Vector2();
+        Vector2 target = getEnd();
+        dir.set(target).sub(beginVec).nor();
+        am.shootNormal(owner, dir, null);
     }
 
     @Override
@@ -60,7 +66,7 @@ public class Flamethrower implements Weapon {
 
     @Override
     public void setOwner(Entity owner) {
-
+        this.owner = owner;
     }
 
     @Override
