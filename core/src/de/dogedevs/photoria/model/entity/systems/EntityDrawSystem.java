@@ -114,32 +114,32 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
                 }
                 if (velocity != null) {
                     if(velocity.speed == 0){
-                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y);
+                        batch.draw(animation.idleAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y);
                     } else {
                         switch (velocity.direction) {
                             case VelocityComponent.SOUTH:
-                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.downAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH:
-                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.upAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.SOUTH_WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.SOUTH_EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH_WEST:
-                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.leftAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                             case VelocityComponent.NORTH_EAST:
-                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset/2, position.y+position.z);
+                                batch.draw(animation.rightAnimation.getKeyFrame(animation.stateTime, true), position.x-yOffset, position.y+position.z);
                                 break;
                         }
                     }
