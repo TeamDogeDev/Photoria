@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity.components;
+package de.dogedevs.photoria.model.entity.components.stats;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.utils.Pool;

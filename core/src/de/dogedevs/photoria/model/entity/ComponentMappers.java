@@ -2,6 +2,12 @@ package de.dogedevs.photoria.model.entity;
 
 import com.badlogic.ashley.core.ComponentMapper;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
+import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -23,4 +29,6 @@ public class ComponentMappers {
         public static final ComponentMapper<ItemComponent> item = ComponentMapper.getFor(ItemComponent.class);
         public static final ComponentMapper<LifetimeComponent> lifetime = ComponentMapper.getFor(LifetimeComponent.class);
         public static final ComponentMapper<AttackComponent> attack = ComponentMapper.getFor(AttackComponent.class);
+        public static final ComponentMapper<ParentComponent> parent = ComponentMapper.getFor(ParentComponent.class);
+        public static final ComponentMapper<TargetComponent> target = ComponentMapper.getFor(TargetComponent.class);
 }

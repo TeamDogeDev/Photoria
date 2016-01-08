@@ -1,29 +1,31 @@
-package de.dogedevs.photoria.rendering.weapons;
+package de.dogedevs.photoria.content.weapons;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
+
+import java.util.List;
 
 /**
  * Created by Furuha on 07.01.2016.
  */
-public class Laser {
+public class Laser implements Weapon{
 
-//    Start Cap background; The initial blast coming from the nozzle
-//    Middle Section:  The repeatable part of your laser
-//    End Cap: The end part of your laser. (E.g. A fadeout)
-//    Interference Overlay: A repeatable overlay animation showing �interference� which will give direction and realism.
-
-    public Vector2 begin;
+    private Vector2 begin;
     private Vector2  endVec;
 
-    public float rotation = 270;
-    public float length = 700;
+    private float rotation = 270;
+    private float length = 700;
     private Color color1;
     private Color color2;
 
@@ -35,28 +37,37 @@ public class Laser {
         color2 = Color.WHITE;
     }
 
-    public Vector2 getEndPoint(){
+    public Vector2 getEnd(){
         float rot = rotation+90;
         endVec.x = begin.x + MathUtils.cosDeg(rot) * length;
         endVec.y = begin.y + MathUtils.sinDeg(rot) * length;
         return endVec;
     }
 
-    public void setLength(float length){
-        this.length = length;
+    @Override
+    public void setColors(Color... colors) {
+        if(colors.length == 1){
+            setColor(colors[0]);
+        }
+        if(colors.length >= 2){
+            setColors(colors[0], colors[1]);
+        }
     }
 
+    @Override
     public void setBegin(Vector2 begin){
         this.begin = begin;
     }
 
-    public void setAngle(float angle){
-        rotation = angle;
-    }
-
+    @Override
     public void setAngle(Vector2 angle){
         endVec = new Vector2(angle);
         rotation = endVec.sub(begin).angle()-90;
+    }
+
+    @Override
+    public void setRange(float range) {
+        length = range;
     }
 
     public void setColors(Color color1, Color color2){
@@ -67,6 +78,19 @@ public class Laser {
     public void setColor(Color color){
         this.color1 = color;
         this.color2 = Color.WHITE;
+    }
+
+    @Override
+    public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
+        Vector2 end = getEnd();
+        for(Entity entity: entityList){
+            PositionComponent pc = ComponentMappers.position.get(entity);
+            float dist = Intersector.distanceSegmentPoint(begin.x, begin.y, end.x, end.y, pc.x, pc.y);
+
+            if(dist < 24){
+                resultList.add(entity);
+            }
+        }
     }
 
     public void render(Batch batch, float deltaTime, float z){

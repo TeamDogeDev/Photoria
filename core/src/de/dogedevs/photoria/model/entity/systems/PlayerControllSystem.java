@@ -1,21 +1,29 @@
 package de.dogedevs.photoria.model.entity.systems;
 
-import com.badlogic.ashley.core.*;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.content.AttackManager;
+import de.dogedevs.photoria.content.weapons.AttackManager;
+import de.dogedevs.photoria.content.weapons.Flamethrower;
+import de.dogedevs.photoria.content.weapons.Laser;
+import de.dogedevs.photoria.content.weapons.Weapon;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.TargetComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.rendering.weapons.Flamethrower;
-import de.dogedevs.photoria.rendering.weapons.Laser;
+import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.MusicManager;
-import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
-import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 import java.util.UUID;
 
@@ -76,83 +84,26 @@ public class PlayerControllSystem extends EntitySystem {
         if(!Gdx.input.isTouched()){
             if(wasActive){
                 wasActive = false;
-                e.remove(AttackComponent.class);
+                e.remove(TargetComponent.class);
             }
         } else {
+            TargetComponent target = ComponentMappers.target.get(e);
+            if(target == null){
+                target = GameScreen.getAshley().createComponent(TargetComponent.class);
+                e.add(target);
+            }
+            target.x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x;
+            target.y = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y;
+            target.on = true;
             if(!wasActive){
                 wasActive = true;
-                AttackComponent ac = ComponentMappers.attack.get(e);
-                if(ac == null){
-                    ac = ((PooledEngine) getEngine()).createComponent(AttackComponent.class);
-                    ac.laser = new Laser();
-                    ac.flamethrower = new Flamethrower();
-                    ac.laser.length = 400;
-//                    ac.flamethrower.length = 400;
-                    ac.listener = new CollisionComponent.CollisionListener() {
-                        @Override
-                        public boolean onCollision(Entity other, Entity self) {
-                            ItemComponent itemC = ComponentMappers.item.get(other);
-                            CollisionComponent cC = ComponentMappers.collision.get(other);
-                            if (other == e || itemC != null || cC== null || cC.ghost || cC.projectile) {
-                                return false;
-                            }
-                            SoundManager.playSound(Sounds.MOB_HIT);
-
-                            HealthComponent hc = ComponentMappers.health.get(other);
-                            if(hc != null){
-                                hc.health -= 10*Gdx.graphics.getDeltaTime();
-                                hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
-                                if(hc.health == 0){
-                                    die(other, self);
-                                }
-                            }
-                            return true;
-                        }
-
-                        private void die(Entity other, Entity self) {
-                            ElementsComponent ec = ComponentMappers.elements.get(other);
-                            ElementsComponent playerEc = ComponentMappers.elements.get(e);
-                            if(ec != null && playerEc != null){
-                                playerEc.blue += ec.blue;
-                                playerEc.yellow += ec.yellow;
-                                playerEc.red += ec.red;
-                                playerEc.purple += ec.purple;
-                                playerEc.green += ec.green;
-                                other.remove(ElementsComponent.class);
-
-                                playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
-                                playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
-                                playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
-                                playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
-                                playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
-                            }
-                            InventoryComponent ic = ComponentMappers.inventory.get(other);
-                            PositionComponent pc = ComponentMappers.position.get(other);
-
-                            if(ic != null){
-                                for(Entity item: ic.items){
-                                    PositionComponent newPc = ((PooledEngine)getEngine()).createComponent(PositionComponent.class);
-                                    newPc.x = pc.x;
-                                    newPc.y = pc.y;
-                                    item.add(newPc);
-                                    LifetimeComponent lc = ((PooledEngine)getEngine()).createComponent(LifetimeComponent.class);
-                                    lc.maxTime = 10;
-                                    item.add(lc);
-                                }
-                            }
-                        }
-                    };
-
-                    e.add(ac);
-                }
-            } else {
-                Vector2 dir = new Vector2();
-                dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
-                AttackComponent ac = ComponentMappers.attack.get(e);
-                ac.flamethrower.setBegin(new Vector2(positionComponent.x, positionComponent.y));
-                ac.flamethrower.setAngle(dir);
-                ac.laser.setBegin(new Vector2(positionComponent.x, positionComponent.y));
-                ac.laser.setAngle(dir);
+                AttackManager am = new AttackManager();
+                Weapon weapon = new Laser();
+                weapon.setRange(350);
+                weapon.setColors(Color.RED, Color.WHITE);
+                am.createAttack(e, weapon);
+                weapon = new Flamethrower();
+                am.createAttack(e, weapon);
             }
         }
 

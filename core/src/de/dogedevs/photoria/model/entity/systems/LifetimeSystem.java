@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.LifetimeComponent;
+import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 
 /**
  * Created by Furuha on 21.12.2015.

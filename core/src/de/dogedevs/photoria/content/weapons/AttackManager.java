@@ -1,13 +1,17 @@
-package de.dogedevs.photoria.content;
+package de.dogedevs.photoria.content.weapons;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
-import de.dogedevs.photoria.rendering.weapons.Laser;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
+import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.SoundManager;
@@ -20,6 +24,90 @@ import java.util.Random;
  * Created by Furuha on 06.01.2016.
  */
 public class AttackManager {
+
+    public Entity createAttack(Entity parent, Weapon weapon){
+        PooledEngine ashley = GameScreen.getAshley();
+        Entity attack = GameScreen.getAshley().createEntity();
+
+        TargetComponent tc = ashley.createComponent(TargetComponent.class);
+        attack.add(tc);
+        ParentComponent parentComponent = ashley.createComponent(ParentComponent.class);
+        parentComponent.parent = parent;
+        attack.add(parentComponent);
+        AttackComponent attackComponent = ashley.createComponent(AttackComponent.class);
+//        attackComponent.listener = new AttackComponent.OnHitListener() {
+//            @Override
+//            public void onEnemyHit(Entity target, Entity attack, Entity parent) {
+//                if(target == parent || target == attack){
+//                    return;
+//                }
+//                SoundManager.playSound(Sounds.MOB_HIT);
+//            }
+//        };
+        attackComponent.listener = createOnHitListener();
+        attackComponent.weapon = weapon;
+        attack.add(attackComponent);
+
+        ashley.addEntity(attack);
+
+        return attack;
+    }
+
+    public AttackComponent.OnHitListener createOnHitListener(){
+        return new AttackComponent.OnHitListener() {
+            @Override
+            public void onEnemyHit(Entity target, Entity attack, Entity parent) {
+                CollisionComponent cC = ComponentMappers.collision.get(target);
+                if (target == parent || target == attack || cC== null || cC.ghost || cC.projectile) {
+                    return;
+                }
+                SoundManager.playSound(Sounds.MOB_HIT);
+
+                HealthComponent hc = ComponentMappers.health.get(target);
+                if(hc != null){
+                    hc.health -= 10* Gdx.graphics.getDeltaTime();
+                    hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                    if(hc.health == 0){
+                        die(target, parent);
+                    }
+                }
+                return;
+            }
+
+            private void die(Entity target, Entity parent) {
+                ElementsComponent ec = ComponentMappers.elements.get(target);
+                ElementsComponent playerEc = ComponentMappers.elements.get(parent);
+                if(ec != null && playerEc != null){
+                    playerEc.blue += ec.blue;
+                    playerEc.yellow += ec.yellow;
+                    playerEc.red += ec.red;
+                    playerEc.purple += ec.purple;
+                    playerEc.green += ec.green;
+                    target.remove(ElementsComponent.class);
+
+                    playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
+                    playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
+                    playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
+                    playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
+                    playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
+                }
+                InventoryComponent ic = ComponentMappers.inventory.get(target);
+                PositionComponent pc = ComponentMappers.position.get(target);
+
+                if(ic != null){
+                    for(Entity item: ic.items){
+                        PositionComponent newPc = GameScreen.getAshley().createComponent(PositionComponent.class);
+                        newPc.x = pc.x;
+                        newPc.y = pc.y;
+                        item.add(newPc);
+                        LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
+                        lc.maxTime = 10;
+                        item.add(lc);
+                    }
+                }
+            }
+        };
+    }
 
     private static Random rand = new Random();
 
