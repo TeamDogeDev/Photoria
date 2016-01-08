@@ -56,7 +56,17 @@ public enum Textures {
     HUD_ITEM_SLOTS("hud/itemSlot.png"),
     HUD_RADAR_CHART("hud/net.png"),
     HUD_MOB_HEALTH("hud/mobHealth.png"),
-    HUD_MOB_HEALTH_BAR("hud/mobHealthBar.png");
+    HUD_MOB_HEALTH_BAR("hud/mobHealthBar.png"),
+
+    // Items
+    ORB_BLUE("items/orbs/orbBlue.png"),
+    ORB_GREEN("items/orbs/orbGreen.png"),
+    ORB_GREEN_PURPLE("items/orbs/orbGreenShiny.png"),
+    ORB_PINK("items/orbs/orbPink.png"),
+    ORB_PURPLE("items/orbs/orbPurple.png"),
+    ORB_RED("items/orbs/orbRed.png"),
+    ORB_YELLOW("items/orbs/orbYellow.png"),
+    ORB_BLUE_PINK("items/orbs/orbShiny.png");
 
 
 

@@ -6,10 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.content.AttackManager;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.AiComponent;
-import de.dogedevs.photoria.model.entity.components.PlayerComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.screens.GameScreen;
 
 /**
@@ -28,15 +25,15 @@ public class SlimeAi implements AiComponent.AiInterface {
     public void tick(float deltaTime, Entity self) {
         PlayerComponent playerComponent = ComponentMappers.player.get(playerEntity);
         PositionComponent playerPosition = ComponentMappers.position.get(playerEntity);
-
+        HealthComponent selfHealth = ComponentMappers.health.get(self);
 
         VelocityComponent velocity = ComponentMappers.velocity.get(self);
         PositionComponent selfPosition = ComponentMappers.position.get(self);
-        if(velocity != null && selfPosition != null) {
+        if(velocity != null && selfPosition != null && selfHealth != null) {
             double eDist = Math.sqrt(Math.pow(playerPosition.x - selfPosition.x, 2) +
                     Math.pow(playerPosition.y - selfPosition.y, 2));
 
-            if (eDist <= DIST) {
+            if (eDist <= DIST || selfHealth.health < selfHealth.maxHealth) {
                 if (playerPosition.x - selfPosition.x > 0) {
                     if (playerPosition.y - selfPosition.y > 0) {
                         velocity.direction = VelocityComponent.NORTH_EAST;

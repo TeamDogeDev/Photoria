@@ -17,9 +17,7 @@ import de.dogedevs.photoria.model.entity.components.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
-import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
-import de.dogedevs.photoria.utils.assets.enums.Textures;
+import de.dogedevs.photoria.utils.assets.enums.*;
 
 /**
  * Created by elektropapst on 27.12.2015.
@@ -113,6 +111,7 @@ public class GameOverlay extends AbstractOverlay {
     public void render() {
         renderHealth();
         renderStats();
+        renderItemBar();
         if (isTextBoxVisible()) {
             renderTextBox();
         }
@@ -163,15 +162,32 @@ public class GameOverlay extends AbstractOverlay {
         batch.draw(health, offset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset));
         batch.draw(energy, offset, Gdx.graphics.getHeight() - ((energy.getRegionHeight() * 2 + offset + spacing)));
 
+        batch.end();
+
+
+    }
+
+    private void renderItemBar() {
+        batch.begin();
         for (int i = 0; i < numSlots; i++) {
+
             float x = ((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
             float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
             font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
+
+            Texture texture = AssetLoader.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal()+i]);
+            int borderPx = 5;
+            batch.draw(texture,
+                        x+4+borderPx, y+4+borderPx,
+                        0, 0,
+                        texture.getWidth()-4-(borderPx<<1), texture.getHeight()-4-(borderPx<<1),
+                        1, 1, 0, 0, 0,
+                        texture.getWidth(), texture.getHeight(),
+                        false, false);
+
         }
         batch.end();
-
-
     }
 
     private float stateTime = 0f;
