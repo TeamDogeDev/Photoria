@@ -48,6 +48,8 @@ public class AttackManager {
         attackComponent.weapon = weapon;
         attack.add(attackComponent);
 
+        weapon.setOwner(parent);
+
         ashley.addEntity(attack);
 
         return attack;
