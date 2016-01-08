@@ -1,4 +1,4 @@
-package de.dogedevs.photoria.model.entity.components;
+package de.dogedevs.photoria.model.entity.components.rendering;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;

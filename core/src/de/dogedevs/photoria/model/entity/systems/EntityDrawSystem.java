@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -34,8 +37,8 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
 
     @Override
     public void addedToEngine (Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get());
-        engine.addEntityListener(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).get(), this);
+        entities = engine.getEntitiesFor(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).exclude(AttackComponent.class).get());
+        engine.addEntityListener(Family.all(PositionComponent.class).one(SpriteComponent.class, AnimationComponent.class).exclude(AttackComponent.class).get(), this);
         for(Entity e: entities){
             sortedEntities.add(e);
         }

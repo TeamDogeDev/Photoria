@@ -9,26 +9,25 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
-import de.dogedevs.photoria.model.entity.components.PositionComponent;
 
 /**
  * Created by Furuha on 21.12.2015.
  */
-public class EffectDrawSystem extends EntitySystem {
+public class AttackRenderSystem extends EntitySystem {
 
 
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private ImmutableArray<Entity> entities;
 
-    public EffectDrawSystem(OrthographicCamera camera) {
+    public AttackRenderSystem(OrthographicCamera camera) {
         this.camera = camera;
         batch = new SpriteBatch();
     }
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.all(PositionComponent.class, AttackComponent.class).get());
+        entities = engine.getEntitiesFor(Family.all(AttackComponent.class).get());
     }
 
     @Override
@@ -42,17 +41,10 @@ public class EffectDrawSystem extends EntitySystem {
         batch.setProjectionMatrix(camera.combined);
         for (int i = 0; i < entities.size(); ++i) {
             Entity e = entities.get(i);
-
             //Check special attack hits
             AttackComponent attack = ComponentMappers.attack.get(e);
-            if (attack != null) {
-//                if (attack.laser != null) {
-//                    attack.laser.render(batch, deltaTime, 25);
-//                }
-                if (attack.flamethrower != null) {
-                    attack.flamethrower.render(batch, deltaTime, 25);
-//                    attack.flamethrower.render(batch, deltaTime, 25);
-                }
+            if (attack.weapon != null) {
+                attack.weapon.render(batch, deltaTime, 25);
             }
         }
 

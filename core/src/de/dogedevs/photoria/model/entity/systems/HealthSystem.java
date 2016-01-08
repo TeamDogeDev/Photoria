@@ -7,7 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.HealthComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.SoundManager;
