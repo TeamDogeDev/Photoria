@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.rendering.ParticleComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
@@ -112,6 +113,39 @@ public class AttackManager {
     }
 
     private static Random rand = new Random();
+
+    public void shootParticleBall(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
+        PooledEngine ashley = GameScreen.getAshley();
+        Entity shot = ashley.createEntity();
+
+        shot.add(ashley.createComponent(ParticleComponent.class));
+
+        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        cc.ghost = true;
+        cc.projectile = true;
+        if(listener == null){
+            cc.collisionListener = createNormalListener(self);
+        } else {
+            cc.collisionListener = listener;
+        }
+
+        LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
+        lc.maxTime = 1;
+        PositionComponent pc = ashley.createComponent(PositionComponent.class);
+        PositionComponent position = ComponentMappers.position.get(self);
+        pc.x = position.x;
+        pc.y = position.y;
+        pc.z = 26;
+        VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
+        vc.speed = 512;
+        vc.vectorDirection = direction;
+        shot.add(pc);
+        shot.add(vc);
+        shot.add(cc);
+        shot.add(lc);
+
+        ashley.addEntity(shot);
+    }
 
     public void shootNormal(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
         PooledEngine ashley = GameScreen.getAshley();
