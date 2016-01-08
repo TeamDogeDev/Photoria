@@ -16,7 +16,6 @@ import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.utils.Utils;
 import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
@@ -172,10 +171,10 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     Vector2 dir = new Vector2(0,0);
-    Texture arrowSheet = AssetLoader.getTexture(Textures.HUD_ARROW);
-    TextureRegion[] arrowRegions = TextureRegion.split(arrowSheet, arrowSheet.getWidth()/4, arrowSheet.getHeight()/1)[0];
-    private Animation arrowAnimation = new Animation(0.1f, arrowRegions);
-    private float arrowTime;
+//    Texture arrowSheet = AssetLoader.getTexture(Textures.HUD_ARROW);
+//    TextureRegion[] arrowRegions = TextureRegion.split(arrowSheet, arrowSheet.getWidth()/4, arrowSheet.getHeight()/1)[0];
+//    private Animation arrowAnimation = new Animation(0.1f, arrowRegions);
+//    private float arrowTime;
 
     @Deprecated
     private void renderMouseArrow() {
@@ -183,24 +182,24 @@ public class GameOverlay extends AbstractOverlay {
 
 
 //        MainGame.log(Gdx.input.getX() + " : " + Gdx.input.getY());
-        Utils.grabMouse(250);
-        dir.x = Gdx.input.getX();
-        dir.y = Gdx.graphics.getHeight()-Gdx.input.getY();
-
-        float rotation = dir.cpy().sub(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2)).angle()-90;
-//        rotation += Gdx.graphics.getDeltaTime()*100;
-        arrowTime += Gdx.graphics.getDeltaTime();
-        TextureRegion arrow = arrowAnimation.getKeyFrame(arrowTime, true);
-        batch.begin();
-        batch.draw(arrow,
-                (Gdx.graphics.getWidth()-arrow.getRegionWidth())/2,
-                ((Gdx.graphics.getHeight()-arrow.getRegionHeight())/2),
-
-                arrow.getRegionWidth()/2, arrow.getRegionHeight()/2,
-                arrow.getRegionWidth(), arrow.getRegionHeight(),
-                1f, 1f,
-                rotation);
-        batch.end();
+//        Utils.grabMouse(250);
+//        dir.x = Gdx.input.getX();
+//        dir.y = Gdx.graphics.getHeight()-Gdx.input.getY();
+//
+//        float rotation = dir.cpy().sub(new Vector2(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2)).angle()-90;
+////        rotation += Gdx.graphics.getDeltaTime()*100;
+//        arrowTime += Gdx.graphics.getDeltaTime();
+//        TextureRegion arrow = arrowAnimation.getKeyFrame(arrowTime, true);
+//        batch.begin();
+//        batch.draw(arrow,
+//                (Gdx.graphics.getWidth()-arrow.getRegionWidth())/2,
+//                ((Gdx.graphics.getHeight()-arrow.getRegionHeight())/2),
+//
+//                arrow.getRegionWidth()/2, arrow.getRegionHeight()/2,
+//                arrow.getRegionWidth(), arrow.getRegionHeight(),
+//                1f, 1f,
+//                rotation);
+//        batch.end();
     }
 
     private void renderItemBar() {
