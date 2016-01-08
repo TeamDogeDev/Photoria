@@ -115,7 +115,7 @@ public class GameOverlay extends AbstractOverlay {
         renderHealth();
         renderStats();
         renderItemBar();
-        renderMouseArrow();
+//        renderMouseArrow();
         if (isTextBoxVisible()) {
             renderTextBox();
         }
@@ -177,6 +177,7 @@ public class GameOverlay extends AbstractOverlay {
     private Animation arrowAnimation = new Animation(0.1f, arrowRegions);
     private float arrowTime;
 
+    @Deprecated
     private void renderMouseArrow() {
 
 

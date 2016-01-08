@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.math.Circle;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 
 /**
@@ -17,20 +18,42 @@ public class Utils {
                 Math.pow(pos1.y - pos2.y, 2));
     }
 
+    private static int lastX;
+    private static int lastY;
+    private static int currentX;
+    private static int currentY;
+
+    @Deprecated
     public static void grabMouse(int areaAroundCenter) {
-        if(Gdx.input.getX() <= (Gdx.graphics.getWidth()/2) - areaAroundCenter) {
-            Gdx.input.setCursorPosition((Gdx.graphics.getWidth() / 2) - areaAroundCenter, Gdx.input.getY());
-        }
-        if(Gdx.input.getX() >= (Gdx.graphics.getWidth()/2) + areaAroundCenter) {
-            Gdx.input.setCursorPosition((Gdx.graphics.getWidth() / 2) + areaAroundCenter, Gdx.input.getY());
+        currentX = Gdx.input.getX();
+        currentY = Gdx.input.getY();
+        if(lastX == 0 && lastY == 0) {
+            int oldX = Gdx.graphics.getWidth()/2;
+            int oldY = Gdx.graphics.getHeight()/2;
         }
 
-        if(Gdx.input.getY() <= (Gdx.graphics.getHeight() / 2) - areaAroundCenter) {
-            Gdx.input.setCursorPosition(Gdx.input.getX(), (Gdx.graphics.getHeight() / 2) - areaAroundCenter);
+        Circle c = new Circle(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2, areaAroundCenter);
+        if(!c.contains(currentX, currentY)) {
+            Gdx.input.setCursorPosition(lastX, lastY);
+        } else {
+            lastX = currentX;
+            lastY = currentY;
         }
-        if(Gdx.input.getY() >= (Gdx.graphics.getHeight() / 2) + areaAroundCenter) {
-            Gdx.input.setCursorPosition(Gdx.input.getX(), (Gdx.graphics.getHeight() / 2) + areaAroundCenter);
-        }
+
+
+//        if(Gdx.input.getX() <= (Gdx.graphics.getWidth()/2) - areaAroundCenter) {
+//            Gdx.input.setCursorPosition((Gdx.graphics.getWidth() / 2) - areaAroundCenter, Gdx.input.getY());
+//        }
+//        if(Gdx.input.getX() >= (Gdx.graphics.getWidth()/2) + areaAroundCenter) {
+//            Gdx.input.setCursorPosition((Gdx.graphics.getWidth() / 2) + areaAroundCenter, Gdx.input.getY());
+//        }
+//
+//        if(Gdx.input.getY() <= (Gdx.graphics.getHeight() / 2) - areaAroundCenter) {
+//            Gdx.input.setCursorPosition(Gdx.input.getX(), (Gdx.graphics.getHeight() / 2) - areaAroundCenter);
+//        }
+//        if(Gdx.input.getY() >= (Gdx.graphics.getHeight() / 2) + areaAroundCenter) {
+//            Gdx.input.setCursorPosition(Gdx.input.getX(), (Gdx.graphics.getHeight() / 2) + areaAroundCenter);
+//        }
 
     }
 
