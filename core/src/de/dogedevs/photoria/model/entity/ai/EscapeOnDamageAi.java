@@ -2,6 +2,7 @@ package de.dogedevs.photoria.model.entity.ai;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
+import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AiComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
@@ -47,6 +48,13 @@ public class EscapeOnDamageAi implements AiComponent.AiInterface {
                 }
                 selfVelocity.speed = 80;
             } else {
+                if(MathUtils.randomBoolean(0.001f)){
+                    selfVelocity.direction = MathUtils.random(0, 7);
+                }
+                if(selfVelocity.blockedDelta > 0.5f){
+                    selfVelocity.direction = MathUtils.random(0, 7);
+                    selfVelocity.blockedDelta = 0;
+                }
                 selfVelocity.speed = 20;
             }
         } else {
