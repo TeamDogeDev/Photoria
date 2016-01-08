@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.ParticleComponent;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -19,6 +21,7 @@ public class AttackRenderSystem extends EntitySystem {
     private final SpriteBatch batch;
     private final OrthographicCamera camera;
     private ImmutableArray<Entity> entities;
+    private ImmutableArray<Entity> particelEntities;
 
     public AttackRenderSystem(OrthographicCamera camera) {
         this.camera = camera;
@@ -28,6 +31,7 @@ public class AttackRenderSystem extends EntitySystem {
     @Override
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(Family.all(AttackComponent.class).get());
+        particelEntities = engine.getEntitiesFor(Family.all(ParticleComponent.class, PositionComponent.class).get());
     }
 
     @Override
@@ -46,6 +50,12 @@ public class AttackRenderSystem extends EntitySystem {
             if (attack.weapon != null) {
                 attack.weapon.render(batch, deltaTime, 25);
             }
+        }
+
+        for (int i = 0; i < particelEntities.size(); ++i) {
+            Entity e = particelEntities.get(i);
+            PositionComponent positionComponent = ComponentMappers.position.get(e);
+            //Render particle here!!!
         }
 
         batch.end();
