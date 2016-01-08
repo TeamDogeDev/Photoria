@@ -31,6 +31,9 @@ public class MainGame extends Game {
     private int y = 40;
     private float a = 1;
 
+    public MainGame() {
+    }
+
     @Override
     public void create() {
         game = this;
@@ -46,6 +49,7 @@ public class MainGame extends Game {
         this.setScreen(currentScreen);
         font = new BitmapFont();
 //        Gdx.input.setCursorCatched(true);
+
         Pixmap pm = new Pixmap(Gdx.files.internal("hud/cursor.png"));
         int xHS = pm.getWidth()/2;
         int yHS = pm.getHeight()/2;
