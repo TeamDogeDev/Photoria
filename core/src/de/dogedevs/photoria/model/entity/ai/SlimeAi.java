@@ -12,6 +12,7 @@ import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.screens.GameScreen;
+import de.dogedevs.photoria.utils.Utils;
 
 /**
  * Created by elektropapst on 03.01.2016.
@@ -34,8 +35,7 @@ public class SlimeAi implements AiComponent.AiInterface {
         VelocityComponent velocity = ComponentMappers.velocity.get(self);
         PositionComponent selfPosition = ComponentMappers.position.get(self);
         if(velocity != null && selfPosition != null && selfHealth != null) {
-            double eDist = Math.sqrt(Math.pow(playerPosition.x - selfPosition.x, 2) +
-                    Math.pow(playerPosition.y - selfPosition.y, 2));
+            double eDist = Utils.euclDist(selfPosition, playerPosition);
 
             if (eDist <= DIST || selfHealth.health < selfHealth.maxHealth) {
                 if (playerPosition.x - selfPosition.x > 0) {

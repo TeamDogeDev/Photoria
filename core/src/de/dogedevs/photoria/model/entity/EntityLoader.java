@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
+import de.dogedevs.photoria.model.entity.ai.EyeAi;
 import de.dogedevs.photoria.model.entity.ai.SlimeAi;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
@@ -74,7 +75,7 @@ public class EntityLoader {
                 createSlime(Textures.SLIME_RED, x, y);
             }
         } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
-            createSlime(Textures.SLIME_YELLOW, x,y);
+            createEyeball(x,y);
         }
 //        if(biomCell.value == ChunkBuffer.GREEN_BIOM){
 //            createSlime(x,y);
@@ -153,7 +154,7 @@ public class EntityLoader {
         hc.health = 1;
         entity.add(hc);
         AiComponent aiComponent = ashley.createComponent(AiComponent.class);
-        aiComponent.ai = new SlimeAi();
+        aiComponent.ai = new EyeAi();
         entity.add(aiComponent);
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
         vc.direction = MathUtils.random(0, 7);
