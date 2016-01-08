@@ -14,10 +14,10 @@ import de.dogedevs.photoria.utils.Utils;
 /**
  * Created by elektropapst on 08.01.2016.
  */
-public class EyeAi implements AiComponent.AiInterface {
+public class EscapeOnDamageAi implements AiComponent.AiInterface {
     private Entity playerEntity;
     private static final float DIST = 600;
-    public EyeAi() {
+    public EscapeOnDamageAi() {
         playerEntity = GameScreen.getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
     }
 

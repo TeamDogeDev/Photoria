@@ -17,12 +17,12 @@ import de.dogedevs.photoria.utils.Utils;
 /**
  * Created by elektropapst on 03.01.2016.
  */
-public class SlimeAi implements AiComponent.AiInterface {
+public class FollowAi implements AiComponent.AiInterface {
 
     private Entity playerEntity;
     private static final float DIST = 200;
 
-    public SlimeAi() {
+    public FollowAi() {
         playerEntity = GameScreen.getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
     }
 
