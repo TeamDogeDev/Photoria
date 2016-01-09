@@ -77,6 +77,8 @@ public class GameScreen implements Screen {
                 return super.scrolled(amount);
             }
 
+            boolean fullscreen = false;
+
             @Override
             public boolean keyDown(int keycode) {
                 if (keycode == Input.Keys.NUM_1) {
@@ -91,6 +93,14 @@ public class GameScreen implements Screen {
                 if (keycode == Input.Keys.F12) {
                     ScreenshotFactory.saveScreenshot();
                 }
+                if(keycode == Input.Keys.F11){
+                    fullscreen = !fullscreen;
+                    Gdx.graphics.setDisplayMode(1280, 720, fullscreen);
+                    return true;
+                } else if(keycode == Input.Keys.F9){
+                    Gdx.app.exit();
+                }
+
                 return super.keyDown(keycode);
             }
         });

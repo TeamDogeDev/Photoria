@@ -46,26 +46,6 @@ public class MainGame extends Game {
         font = new BitmapFont();
         Gdx.input.setCursorCatched(true);
 
-        Gdx.input.setInputProcessor(new InputAdapter(){
-
-            boolean fullscreen = false;
-
-            @Override
-            public boolean keyDown(int keycode) {
-
-                if(keycode == Input.Keys.F11){
-                    fullscreen = !fullscreen;
-                    Gdx.graphics.setDisplayMode(1280, 720, fullscreen);
-                    return true;
-                } else if(keycode == Input.Keys.F9){
-                    Gdx.app.exit();
-                }
-
-
-                return false;
-            }
-
-        });
     }
 
     @Override
