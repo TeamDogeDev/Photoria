@@ -48,6 +48,14 @@ public class ParticlePool {
     private ParticlePool() {
     }
 
+    public int getPoolPeek(ParticleType type) {
+        return type.gameEffect.pool.peak;
+    }
+
+    public int getPoolMax(ParticleType type) {
+        return type.gameEffect.pool.max;
+    }
+
     public void createParticleAt(ParticleType particleType, float x, float y) {
         ParticleEffectPool.PooledEffect effect = particleType.gameEffect.pool.obtain();
         effect.reset();

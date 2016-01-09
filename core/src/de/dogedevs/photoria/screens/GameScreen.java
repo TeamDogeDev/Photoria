@@ -120,6 +120,7 @@ public class GameScreen implements Screen {
         overlays.add(new LaserOverlay(camera));
         Entity playerEntity = getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         overlays.add(new GameOverlay(playerEntity));
+        overlays.add(new MouseOverlay());
     }
 
     private void initCamera() {

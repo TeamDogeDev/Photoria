@@ -3,8 +3,6 @@ package de.dogedevs.photoria;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Cursor;
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.screens.GameScreen;
@@ -48,14 +46,7 @@ public class MainGame extends Game {
 //        currentScreen = new MainMenu();
         this.setScreen(currentScreen);
         font = new BitmapFont();
-//        Gdx.input.setCursorCatched(true);
-
-        Pixmap pm = new Pixmap(Gdx.files.internal("hud/cursor.png"));
-        int xHS = pm.getWidth()/2;
-        int yHS = pm.getHeight()/2;
-        Cursor customCursor = Gdx.graphics.newCursor(pm, xHS, yHS);
-        Gdx.graphics.setCursor(customCursor);
-        pm.dispose();
+        Gdx.input.setCursorCatched(true);
     }
 
     @Override
