@@ -179,17 +179,17 @@ public class GameOverlay extends AbstractOverlay {
             float x = healthEnergyOffset +health.getRegionWidth()+ spacing + (i*(itemSlotTexture.getWidth()+spacing)); //((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
             float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
-            font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
+//            font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
 
-            Texture texture = AssetLoader.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal() + i]);
-            int borderPx = 5;
-            batch.draw(texture,
-                    x + 4 + borderPx, y + 4 + borderPx,
-                    0, 0,
-                    texture.getWidth() - 4 - (borderPx << 1), texture.getHeight() - 4 - (borderPx << 1),
-                    3, 3, 0, 0, 0,
-                    texture.getWidth(), texture.getHeight(),
-                    false, false);
+//            Texture texture = AssetLoader.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal() + i]);
+//            int borderPx = 5;
+//            batch.draw(texture,
+//                    x + 4 + borderPx, y + 4 + borderPx,
+//                    0, 0,
+//                    texture.getWidth() - 4 - (borderPx << 1), texture.getHeight() - 4 - (borderPx << 1),
+//                    3, 3, 0, 0, 0,
+//                    texture.getWidth(), texture.getHeight(),
+//                    false, false);
 
         }
         batch.end();
