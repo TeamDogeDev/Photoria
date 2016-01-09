@@ -10,9 +10,14 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.content.weapons.*;
+import de.dogedevs.photoria.content.weapons.AttackManager;
+import de.dogedevs.photoria.content.weapons.Laser;
+import de.dogedevs.photoria.content.weapons.Weapon;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.*;
+import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.TargetComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.screens.GameScreen;
@@ -82,32 +87,38 @@ public class PlayerControllSystem extends EntitySystem {
             if(target == null){
                 target = GameScreen.getAshley().createComponent(TargetComponent.class);
                 e.add(target);
+                AttackManager am = new AttackManager();
+                am.deleteWeaponsFrom(e);
+                Weapon weapon = new Laser();
+                weapon.setRange(350);
+                weapon.setColors(Color.RED, Color.WHITE);
+                am.createAttack(e, weapon);
             }
 
-            if(MathUtils.randomBoolean(0.05f)){
-                AttackManager am = new AttackManager();
-                Weapon weapon;
-                int numb = MathUtils.random(0, 3);
-                if(numb == 0){
-                    am.deleteWeaponsFrom(e);
-                    weapon = new Laser();
-                    weapon.setRange(350);
-                    weapon.setColors(Color.RED, Color.WHITE);
-                    am.createAttack(e, weapon);
-                } else if(numb == 1){
-                    am.deleteWeaponsFrom(e);
-                    weapon = new Flamethrower();
-                    am.createAttack(e, weapon);
-                } else if(numb == 2){
-                    am.deleteWeaponsFrom(e);
-                    weapon = new Shooter();
-                    am.createAttack(e, weapon);
-                } else if(numb == 3){
-                    am.deleteWeaponsFrom(e);
-                    weapon = new ParticleShooter();
-                    am.createAttack(e, weapon);
-                }
-            }
+//            if(MathUtils.randomBoolean(0.05f)){
+//                AttackManager am = new AttackManager();
+//                Weapon weapon;
+//                int numb = MathUtils.random(0, 3);
+//                if(numb == 0){
+//                    am.deleteWeaponsFrom(e);
+//                    weapon = new Laser();
+//                    weapon.setRange(350);
+//                    weapon.setColors(Color.RED, Color.WHITE);
+//                    am.createAttack(e, weapon);
+//                } else if(numb == 1){
+//                    am.deleteWeaponsFrom(e);
+//                    weapon = new Flamethrower();
+//                    am.createAttack(e, weapon);
+//                } else if(numb == 2){
+//                    am.deleteWeaponsFrom(e);
+//                    weapon = new Shooter();
+//                    am.createAttack(e, weapon);
+//                } else if(numb == 3){
+//                    am.deleteWeaponsFrom(e);
+//                    weapon = new ParticleShooter();
+//                    am.createAttack(e, weapon);
+//                }
+//            }
 
             target.x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x;
             target.y = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y;

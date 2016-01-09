@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
@@ -167,8 +168,14 @@ public class GameScreen implements Screen {
         cc.groundCollision = TileCollisionMapper.normalBorderCollision;
         Arrays.sort(cc.groundCollision);
         player.add(cc);
-
-        player.add(new PositionComponent(300 * 64 * 32 + (32 * 32), 300 * 64 * 32 + (32 * 32)));
+        PositionComponent pc = new PositionComponent(300 * 64 * 32 + (32 * 32), 300 * 64 * 32 + (32 * 32));
+        pc.listener = new PositionComponent.OnBiomeChangeListener() {
+            @Override
+            public void onBiomeChange(int newBiome, int oldBiome) {
+                MainGame.log("New Biome: "+newBiome +" OldBiome: "+oldBiome);
+            }
+        };
+        player.add(pc);
         player.add(new VelocityComponent(0, 10));
 
         HealthComponent hc = ashley.createComponent(HealthComponent.class);

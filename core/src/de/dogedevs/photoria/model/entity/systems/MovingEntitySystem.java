@@ -126,6 +126,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                 }
             }
 
+            int oldBiome = -1;
+            if(position.listener != null){
+                ChunkCell cell = buffer.getCellLazy((int) (oldX / 32), (int) (oldY / 32), ChunkBuffer.BIOME);
+                if(cell != null){
+                    oldBiome = cell.value;
+                }
+            }
+
             Entity other = null;
             if(collision != null && (checkMapCollision(position.x, position.y, collision.groundCollision) || (other = checkEntityCollision(position.x, position.y, collision.size, i)) != null)){
                 if(other != null){
@@ -150,7 +158,14 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     velocity.blockedDelta += deltaTime;
                 }
             }
+            if(position.listener != null && oldBiome > -1){
+                int newBiome = buffer.getCellLazy((int)position.x/32, (int)position.y/32, ChunkBuffer.BIOME).value;
+                if(oldBiome != newBiome){
+                    position.listener.onBiomeChange(newBiome, oldBiome);
+                }
+            }
         }
+
         collisioned.clear();
 //        MainGame.log("Checks: "+checks);
 //        checks = 0;

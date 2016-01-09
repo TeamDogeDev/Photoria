@@ -25,7 +25,6 @@ public class MouseOverlay extends AbstractOverlay {
     @Override
     public void update(float delta) {
         Utils.lockMouseToScreen();
-        System.out.println(Gdx.input.getX() + " : " + Gdx.input.getY());
     }
 
     @Override

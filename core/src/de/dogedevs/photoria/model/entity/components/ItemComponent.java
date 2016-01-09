@@ -8,14 +8,20 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class ItemComponent implements Component, Pool.Poolable {
 
-    String name;
+    public String name;
+    public ItemType type;
 
     public ItemComponent() {
-        name = "Item";
+        reset();
     }
 
     @Override
     public void reset() {
         name = "Item";
+        type = ItemType.OTHER;
+    }
+
+    public enum ItemType {
+        ATTACK, DEFENSE, REGENERATION, STATSUP, OTHER, USE;
     }
 }

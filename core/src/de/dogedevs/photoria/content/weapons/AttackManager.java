@@ -108,15 +108,24 @@ public class AttackManager {
                 PositionComponent pc = ComponentMappers.position.get(target);
 
                 if(ic != null){
-                    for(Entity item: ic.items){
-                        PositionComponent newPc = GameScreen.getAshley().createComponent(PositionComponent.class);
-                        newPc.x = pc.x;
-                        newPc.y = pc.y;
-                        item.add(newPc);
-                        LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
-                        lc.maxTime = 10;
-                        item.add(lc);
+                    dropItem(ic.slotAttack, pc);
+                    dropItem(ic.slotDefense, pc);
+                    dropItem(ic.slotOther, pc);
+                    dropItem(ic.slotRegeneration, pc);
+                    dropItem(ic.slotStatsUp, pc);
+
+                    for(Entity item: ic.slotUse){
+                        dropItem(item, pc);
                     }
+                }
+            }
+
+            private void dropItem(Entity item, PositionComponent positionComponent) {
+                if(item != null){
+//                    LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
+//                    lc.maxTime = 10;
+//                    item.add(lc);
+                    item.add(new PositionComponent(positionComponent.x, positionComponent.y));
                 }
             }
         };
@@ -239,17 +248,25 @@ public class AttackManager {
 //                effect.start();
 
                 if(ic != null){
-                    for(Entity item: ic.items){
-                        PositionComponent newPc = ashley.createComponent(PositionComponent.class);
-                        newPc.x = pc.x;
-                        newPc.y = pc.y;
-                        item.add(newPc);
-                        LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
-                        lc.maxTime = 10;
-                        item.add(lc);
+                    dropItem(ic.slotAttack, pc);
+                    dropItem(ic.slotDefense, pc);
+                    dropItem(ic.slotOther, pc);
+                    dropItem(ic.slotRegeneration, pc);
+                    dropItem(ic.slotStatsUp, pc);
+
+                    for(Entity item: ic.slotUse){
+                        dropItem(item, pc);
                     }
                 }
-//                ashley.removeEntity(other);
+            }
+
+            private void dropItem(Entity item, PositionComponent positionComponent) {
+                if(item != null){
+                    LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
+                    lc.maxTime = 10;
+                    item.add(lc);
+                    item.add(new PositionComponent(positionComponent.x, positionComponent.y));
+                }
             }
         };
         return listener;
