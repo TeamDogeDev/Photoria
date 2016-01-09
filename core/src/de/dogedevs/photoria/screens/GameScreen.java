@@ -276,12 +276,7 @@ public class GameScreen implements Screen {
             cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
             cloudBatch.end();
 
-            //Render Overlays
-            for (AbstractOverlay overlay : overlays) {
-                if (overlay.isVisible()) {
-                    overlay.render();
-                }
-            }
+
         }
         buffer.end();
 
@@ -299,6 +294,13 @@ public class GameScreen implements Screen {
                 false, true);
 
         testBatch.end();
+
+        //Render Overlays
+        for (AbstractOverlay overlay : overlays) {
+            if (overlay.isVisible()) {
+                overlay.render();
+            }
+        }
 
 
     }
