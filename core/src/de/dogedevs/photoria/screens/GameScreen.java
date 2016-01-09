@@ -208,7 +208,9 @@ public class GameScreen implements Screen {
         waterShader = AssetLoader.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = AssetLoader.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
+        postShader = AssetLoader.getShader(ShaderPrograms.SCANLINE_SHADER);
+//        postShader.setUniformf("u_Resolution",new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+//        postShader.setUniformf("scale", 1f);
         testBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
 

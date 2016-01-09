@@ -10,7 +10,8 @@ public enum ShaderPrograms {
     PASSTHROUGH_SHADER("shaders/vertexStub.vsh", "shaders/passthrough.fsh"),
     BLOOM_SHADER("shaders/vertexStub.vsh", "shaders/bloomShader.fsh"),
     POST_SHADER("shaders/vertexStub.vsh", "shaders/postShader.fsh"),
-    STARFIELD_SHADER("shaders/vertexStub.vsh", "shaders/starfield.fsh");
+    STARFIELD_SHADER("shaders/vertexStub.vsh", "shaders/starfield.fsh"),
+    SCANLINE_SHADER("shaders/vertexStub.vsh", "shaders/scanline.fsh");
 
     public String fragmentShader;
     public String vertexShader;
