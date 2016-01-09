@@ -53,6 +53,6 @@ public class CameraSystem extends EntitySystem {
         Entity e = entities.get(entityNumber);
         position = ComponentMappers.position.get(e);
         camera.position.y = Math.round(position.y+16);
-        camera.position.x = Math.round(position.x+16);
+        camera.position.x = Math.round(position.x);
     }
 }
