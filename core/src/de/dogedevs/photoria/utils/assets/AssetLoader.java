@@ -8,9 +8,10 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.google.gson.Gson;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.content.mob.MobManager;
 import de.dogedevs.photoria.utils.assets.enums.*;
 
 /**
@@ -28,6 +29,10 @@ public class AssetLoader {
         loadBitmapFonts();
         manager.finishLoading();
         MainGame.log("Loaded Assets: " + manager.getLoadedAssets());
+
+        Gson gson = new Gson();
+        MobManager mm = new MobManager();
+        System.out.println(gson.toJson(mm.getRandomTemplateForBiome(0)));
     }
 
     private void loadParticles() {

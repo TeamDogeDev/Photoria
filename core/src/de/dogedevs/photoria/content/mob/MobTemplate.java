@@ -9,6 +9,9 @@ import java.util.List;
  */
 public class MobTemplate {
 
+    int id;
+    String name;
+
     Textures texture;
 
     int green;
