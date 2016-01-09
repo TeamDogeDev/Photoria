@@ -12,15 +12,26 @@ import java.util.List;
  */
 public class InventoryComponent implements Component, Pool.Poolable {
 
-    public List<Entity> items;
+    public List<Entity> slotUse;
+
+    public Entity slotAttack;
+    public Entity slotDefense;
+    public Entity slotRegeneration;
+    public Entity slotStatsUp;
+    public Entity slotOther;
 
     public InventoryComponent() {
-        items = new ArrayList<>();
+        slotUse = new ArrayList<>();
     }
 
     @Override
     public void reset() {
-        items = new ArrayList<>();
+        slotAttack = null;
+        slotDefense = null;
+        slotRegeneration = null;
+        slotStatsUp = null;
+        slotOther = null;
+        slotUse = new ArrayList<>();
     }
 
 }

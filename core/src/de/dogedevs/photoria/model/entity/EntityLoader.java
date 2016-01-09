@@ -6,12 +6,12 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import de.dogedevs.photoria.content.MobStats;
+import de.dogedevs.photoria.content.items.ItemManager;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
@@ -20,9 +20,6 @@ import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 /**
  * Created by Furuha on 02.01.2016.
@@ -161,7 +158,7 @@ public class EntityLoader {
         entity.add(vc);
         ashley.addEntity(entity);
     }
-
+//    private void createMob(MobTemplate template, float x, float y)
     private void createSlime(Textures texture, float x, float y){
         Animation[] animations = AnimationLoader.getMovementAnimations(texture, true, 4, 3);
         Animation walkAnimationU = animations[0];
@@ -209,8 +206,9 @@ public class EntityLoader {
         aiComponent.ai = MobStats.SLIME_AI;
         entity.add(aiComponent);
         InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
-        ic.items.addAll(createMobItems(0.5f, 1));
+        ItemManager im = new ItemManager();
         entity.add(ic);
+        im.populateInventory(entity, 1);
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = MobStats.SLIME_HEALTH;
         hc.health = MobStats.SLIME_HEALTH;
@@ -222,52 +220,7 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
-    private Collection<? extends Entity> createMobItems(float chance, int type) {
-        ArrayList<Entity> result = new ArrayList<>();
-        if(MathUtils.randomBoolean(chance)){
-            Animation[] animations = AnimationLoader.getMovementAnimations(Textures.EYE, true, 4, 3);
-            Animation walkAnimationU = animations[0];
-            Animation walkAnimationD = animations[1];
-            Animation walkAnimationL = animations[2];
-            Animation walkAnimationR = animations[3];
 
-            Entity entity = ashley.createEntity();
-            AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
-            ac.idleAnimation = walkAnimationD;
-            ac.leftAnimation = walkAnimationL;
-            ac.rightAnimation = walkAnimationR;
-            ac.upAnimation = walkAnimationU;
-            ac.downAnimation = walkAnimationD;
-            entity.add(ac);
-            CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
-            cc.groundCollision = TileCollisionMapper.normalBorderCollision;
-            cc.ghost = true;
-            cc.collisionListener = new CollisionComponent.CollisionListener() {
-                @Override
-                public boolean onCollision(Entity other, Entity self) {
-                    if(ComponentMappers.player.get(other) != null){
-                        InventoryComponent ic = ComponentMappers.inventory.get(other);
-                        if(ic != null){
-                            ic.items.add(self);
-                        }
-                        LifetimeComponent lc = ComponentMappers.lifetime.get(self);
-                        if(lc != null){
-                            self.remove(LifetimeComponent.class);
-                        }
-                        self.remove(PositionComponent.class);
-                        return true;
-                    }
-                    return false;
-                }
-            };
-            entity.add(cc);
-            ItemComponent ic = ashley.createComponent(ItemComponent.class);
-            entity.add(ic);
-            ashley.addEntity(entity);
-            result.add(entity);
-        }
-        return result;
-    }
 
 //    public void onChunkPurge(Chunk chunk) {
 //        PooledEngine ashley = GameScreen.getAshley();

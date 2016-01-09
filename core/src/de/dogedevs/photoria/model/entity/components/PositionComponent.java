@@ -12,6 +12,8 @@ public class PositionComponent implements Component, Pool.Poolable {
     public float y;
     public float z;
 
+    public OnBiomeChangeListener listener;
+
     public PositionComponent() {
         this.x = 0;
         this.y = 0;
@@ -31,4 +33,7 @@ public class PositionComponent implements Component, Pool.Poolable {
         z = 0;
     }
 
+    public interface OnBiomeChangeListener {
+        void onBiomeChange(int newBiome, int oldBiome);
+    }
 }

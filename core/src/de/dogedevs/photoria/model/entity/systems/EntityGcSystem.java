@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.InventoryComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
@@ -51,7 +52,13 @@ public class EntityGcSystem extends EntitySystem {
             position = ComponentMappers.position.get(entity);
             if(chunkBuffer.getCellLazy((int)(position.x/32), (int)(position.y/32), 2) == null){
                 if(ComponentMappers.inventory.has(entity)){
-                    for(Entity item: ComponentMappers.inventory.get(entity).items){
+                    InventoryComponent ic = ComponentMappers.inventory.get(entity);
+                    if(ic.slotAttack != null)getEngine().removeEntity(ic.slotAttack);
+                    if(ic.slotDefense != null)getEngine().removeEntity(ic.slotDefense);
+                    if(ic.slotOther != null)getEngine().removeEntity(ic.slotOther);
+                    if(ic.slotRegeneration != null)getEngine().removeEntity(ic.slotRegeneration);
+                    if(ic.slotStatsUp != null)getEngine().removeEntity(ic.slotStatsUp);
+                    for(Entity item: ic.slotUse){
                         getEngine().removeEntity(item);
                     }
                 }

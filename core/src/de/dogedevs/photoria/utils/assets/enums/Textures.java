@@ -71,7 +71,13 @@ public enum Textures {
     ORB_PURPLE("items/orbs/orbPurple.png"),
     ORB_RED("items/orbs/orbRed.png"),
     ORB_YELLOW("items/orbs/orbYellow.png"),
-    ORB_BLUE_PINK("items/orbs/orbShiny.png");
+    ORB_BLUE_PINK("items/orbs/orbShiny.png"),
+
+    ORE_PURPLE("items/ore/orePurple.png"),
+    ORE_RED("items/ore/oreRed.png"),
+    ORE_YELLOW("items/ore/oreYellow.png"),
+    ORE_BLUE("items/ore/oreBlue.png"),
+    ORE_GREEN("items/ore/oreGreen.png");
 
 
 

@@ -9,8 +9,8 @@ import de.dogedevs.photoria.model.entity.components.AiComponent;
  */
 public class MobStats {
     // Mob's initial health
-    public static final float EYE_HEALTH = 1000;
-    public static final float SLIME_HEALTH = 100;
+    public static final float EYE_HEALTH = 1;
+    public static final float SLIME_HEALTH = 1;
 
     // Mob's AI
     public static final AiComponent.AiInterface SLIME_AI = new FollowAi();

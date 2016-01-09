@@ -187,7 +187,7 @@ public class GameOverlay extends AbstractOverlay {
                     x + 4 + borderPx, y + 4 + borderPx,
                     0, 0,
                     texture.getWidth() - 4 - (borderPx << 1), texture.getHeight() - 4 - (borderPx << 1),
-                    1, 1, 0, 0, 0,
+                    3, 3, 0, 0, 0,
                     texture.getWidth(), texture.getHeight(),
                     false, false);
 
