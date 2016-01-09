@@ -21,8 +21,6 @@ import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
-import java.util.Random;
-
 /**
  * Created by Furuha on 06.01.2016.
  */
@@ -124,8 +122,6 @@ public class AttackManager {
         };
     }
 
-    private static Random rand = new Random();
-
     public void shootParticleBall(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
         PooledEngine ashley = GameScreen.getAshley();
         Entity shot = ashley.createEntity();
@@ -191,11 +187,6 @@ public class AttackManager {
         shot.add(lc);
 
         ashley.addEntity(shot);
-    }
-
-    public Laser shootLaser(){
-
-        return null;
     }
 
     private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {
