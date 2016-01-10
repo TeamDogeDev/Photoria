@@ -252,7 +252,7 @@ public class EntityLoader {
                 if(ComponentMappers.player.has(other)){
                     HealthComponent hc = ComponentMappers.health.get(other);
                     if(hc.immuneTime == 0){
-                        hc.health -= 5;
+                        hc.health -= template.baseDamage;
                         hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
                         hc.immuneTime = hc.maxImmuneTime;
                     }
@@ -271,12 +271,19 @@ public class EntityLoader {
         entity.add(ec);
 
         AiComponent aiComponent = ashley.createComponent(AiComponent.class);
-        aiComponent.ai = MobStats.SLIME_AI;
+        switch (template.ai){
+            case FOLLOW:
+                aiComponent.ai = MobStats.SLIME_AI;
+                break;
+            case ESCAPE:
+                aiComponent.ai = MobStats.EYE_AI;
+                break;
+        }
         entity.add(aiComponent);
 
         InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
         entity.add(ic);
-        Statics.item.populateInventory(entity, template.type);
+        Statics.item.populateInventory(entity, 0);
 
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = template.maxHealth;

@@ -5,6 +5,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.MathUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import de.dogedevs.photoria.content.ai.AiType;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
@@ -70,7 +71,11 @@ public class MobManager {
         template.biome.add(5);
         template.biome.add(6);
 
-        template.ai = 1;
+        template.attributes = new ArrayList<>();
+        template.attributes.add(MobAttribute.MULTIPLY);
+        template.attributes.add(MobAttribute.GROUND);
+
+        template.ai = AiType.FOLLOW;
 
         template.blue = 1;
         template.red = 1;
@@ -82,7 +87,7 @@ public class MobManager {
 
         template.maxHealth = 30;
 
-        template.type = 1;
+        template.type = MobType.LOW;
 
         template.texture = Textures.SLIME_GREEN;
         System.out.print(gson.toJson(template));

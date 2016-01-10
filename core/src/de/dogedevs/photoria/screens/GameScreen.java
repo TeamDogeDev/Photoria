@@ -182,8 +182,8 @@ public class GameScreen implements Screen {
         player.add(new VelocityComponent(0, 10));
 
         HealthComponent hc = Statics.ashley.createComponent(HealthComponent.class);
-        hc.maxHealth = 1000000000;
-        hc.health = 1000000000;
+        hc.maxHealth = 50;
+        hc.health = 50;
         hc.maxImmuneTime = 2;
         player.add(hc);
 

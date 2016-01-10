@@ -1,5 +1,7 @@
 package de.dogedevs.photoria.content.mob;
 
+import de.dogedevs.photoria.content.ai.AiType;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.List;
@@ -13,6 +15,8 @@ public class MobTemplate {
     public String name;
 
     public Textures texture;
+    public Sounds movementSound;
+    public Sounds deathSound;
 
     public float green;
     public float red;
@@ -20,14 +24,19 @@ public class MobTemplate {
     public float yellow;
     public float purple;
 
-    public int speed;
+    public MobType type;
+    public List<MobAttribute> attributes;
 
-    public int type;
     public List<Integer> biome;
 
-    public int ai; //ENUM
+    public AiType ai;
     public int weapon;
 
+    public int speed;
     public int maxHealth;
+    public int baseDamage;
+    public int baseDefense;
+
+
 
 }

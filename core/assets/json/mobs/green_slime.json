@@ -2,12 +2,16 @@
   "id": 1,
   "name": "Green Slime",
   "texture": "SLIME_GREEN",
-  "green": -1.0,
-  "red": -1.0,
-  "blue": 0.0,
-  "yellow": 5.0,
-  "purple": 10.0,
-  "type": 1,
+  "green": 1.0,
+  "red": 1.0,
+  "blue": 1.0,
+  "yellow": 1.0,
+  "purple": 1.0,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
   "biome": [
     0,
     2,
@@ -16,8 +20,10 @@
     5,
     6
   ],
-  "ai": 1,
+  "ai": "ESCAPE",
   "weapon": 1,
-  "maxHealth": 1,
-  "speed": 20
+  "speed": 0,
+  "maxHealth": 30,
+  "baseDamage": 0,
+  "baseDefense": 0
 }
