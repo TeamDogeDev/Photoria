@@ -31,9 +31,7 @@ import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -172,7 +170,7 @@ public class GameScreen implements Screen {
 
             @Override
             public void onBiomeChange(int newBiome, int oldBiome) {
-                postProcessing(newBiome);
+//                postProcessing(newBiome);
 
                 if(!biomes.contains(newBiome)) {
                     GameOverlay.addTextbox("Hello " + ChunkBuffer.biomNames.get(newBiome), 1);
@@ -212,15 +210,16 @@ public class GameScreen implements Screen {
     private float intensity = 0;
     private boolean fadeIn = false;
     private boolean fadeOut = false;
+
     private void postProcessing(int biom) {
-        if (biom == ChunkBuffer.PURPLE_BIOM) {
-            fadeIn = true;
-            fadeOut = false;
-        } else {
-            fadeIn = false;
-            fadeOut = true;
-        }
+        postShader = biomShaderPrograms.get(biom);
+        postProcessingBatch.setShader(postShader);
+        intensity = 0;
+        fadeIn = true;
+        fadeOut = false;
     }
+
+    private Map<Integer, ShaderProgram> biomShaderPrograms = new HashMap<>();
 
     private void initShader() {
         cloudShader = Statics.asset.getShader(ShaderPrograms.CLOUD_SHADER);
@@ -233,13 +232,18 @@ public class GameScreen implements Screen {
         waterShader = Statics.asset.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER);
+
+        biomShaderPrograms.put(ChunkBuffer.PURPLE_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.YELLOW_BIOM, Statics.asset.getShader(ShaderPrograms.SEPIA_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.NORMAL_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.GREEN_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.RED_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
+
+
+        postShader = biomShaderPrograms.get(ChunkBuffer.NORMAL_BIOM);
         postShader.begin();
         postShader.setUniformf("intensity", 0);
-//        postShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//        postShader.setUniformf("radial_blur", 0);
-//        postShader.setUniformf("radial_bright", 1);
-//        postShader.setUniformf("scale", 1f);
         postShader.end();
         postProcessingBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
@@ -256,17 +260,7 @@ public class GameScreen implements Screen {
 
     float fadeSpeed = 0.2f;
     public void render(float delta) {
-        if(fadeIn && intensity < 1) {
-            intensity += delta*fadeSpeed;
-        } else {
-            fadeIn = false;
-        }
 
-        if(fadeOut && intensity > 0) {
-            intensity -= delta*fadeSpeed;
-        } else {
-            fadeOut = false;
-        }
 
 //        state += delta*2;
         postShader.begin();
