@@ -4,6 +4,7 @@ varying vec4 v_color;
 varying vec2 v_texCoord0;
 
 uniform sampler2D u_sampler2D;
+uniform float intensity;
 const float PI = 3.1415926535;
 
 void main() {
@@ -23,7 +24,6 @@ void main() {
     }
 
     blurSample = blurSample / 1500;
-    float intensity = 1;
 
     gl_FragColor = texture2D(u_sampler2D,v_texCoord0.st)*(1+intensity)+blurSample*(0.2+intensity);
 }

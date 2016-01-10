@@ -172,6 +172,8 @@ public class GameScreen implements Screen {
 
             @Override
             public void onBiomeChange(int newBiome, int oldBiome) {
+                postProcessing(newBiome);
+
                 if(!biomes.contains(newBiome)) {
                     GameOverlay.addTextbox("Hello " + ChunkBuffer.biomNames.get(newBiome), 1);
                     biomes.add(newBiome);
@@ -207,6 +209,19 @@ public class GameScreen implements Screen {
 
     }
 
+    private float intensity = 0;
+    private boolean fadeIn = false;
+    private boolean fadeOut = false;
+    private void postProcessing(int biom) {
+        if (biom == ChunkBuffer.PURPLE_BIOM) {
+            fadeIn = true;
+            fadeOut = false;
+        } else {
+            fadeIn = false;
+            fadeOut = true;
+        }
+    }
+
     private void initShader() {
         cloudShader = Statics.asset.getShader(ShaderPrograms.CLOUD_SHADER);
         cloudBatch.setShader(cloudShader);
@@ -218,14 +233,15 @@ public class GameScreen implements Screen {
         waterShader = Statics.asset.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
+        postShader = Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER);
         postShader.begin();
+        postShader.setUniformf("intensity", 0);
 //        postShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 //        postShader.setUniformf("radial_blur", 0);
 //        postShader.setUniformf("radial_bright", 1);
 //        postShader.setUniformf("scale", 1f);
         postShader.end();
-        testBatch.setShader(postShader);
+        postProcessingBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
 
     }
@@ -236,19 +252,31 @@ public class GameScreen implements Screen {
     private Vector2 windVelocity = new Vector2(0.0005f, 0f);
     private Vector2 windData = new Vector2(0, 0);
 
-    private Batch testBatch = new SpriteBatch();
+    private Batch postProcessingBatch = new SpriteBatch();
 
-    float state = 0;
+    float fadeSpeed = 0.2f;
     public void render(float delta) {
+        if(fadeIn && intensity < 1) {
+            intensity += delta*fadeSpeed;
+        } else {
+            fadeIn = false;
+        }
+
+        if(fadeOut && intensity > 0) {
+            intensity -= delta*fadeSpeed;
+        } else {
+            fadeOut = false;
+        }
+
 //        state += delta*2;
-//        postShader.begin();
-//        postShader.setUniformf("radial_blur", MathUtils.sin(state));
-//        postShader.end();
-//Clear buffer
+        postShader.begin();
+        postShader.setUniformf("intensity", intensity);
+        postShader.end();
 
 
         buffer.begin();
         {
+            //Clear buffer
             Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //Process debug camera controls
@@ -319,15 +347,15 @@ public class GameScreen implements Screen {
 
 //        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        testBatch.begin();
-        testBatch.draw(buffer.getColorBufferTexture(),
+        postProcessingBatch.begin();
+        postProcessingBatch.draw(buffer.getColorBufferTexture(),
                         0, 0,
                 buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
                 0, 0,
                 buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
                 false, true);
 
-        testBatch.end();
+        postProcessingBatch.end();
 
         //Render Overlays
         for (AbstractOverlay overlay : overlays) {
@@ -392,7 +420,7 @@ public class GameScreen implements Screen {
         batch.dispose();
         cloudBatch.dispose();
         waterBatch.dispose();
-        testBatch.dispose();
+        postProcessingBatch.dispose();
         waterShader.dispose();
 //        ambient.stop();
 //        ambient.dispose();
