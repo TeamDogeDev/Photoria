@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
@@ -212,11 +211,11 @@ public class GameScreen implements Screen {
         waterShader = Statics.asset.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = Statics.asset.getShader(ShaderPrograms.RADIAL_BLUR_SHADER);
+        postShader = Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
         postShader.begin();
-        postShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-        postShader.setUniformf("radial_blur", 0);
-        postShader.setUniformf("radial_bright", 1);
+//        postShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+//        postShader.setUniformf("radial_blur", 0);
+//        postShader.setUniformf("radial_bright", 1);
 //        postShader.setUniformf("scale", 1f);
         postShader.end();
         testBatch.setShader(postShader);
@@ -234,10 +233,10 @@ public class GameScreen implements Screen {
 
     float state = 0;
     public void render(float delta) {
-        state += delta*2;
-        postShader.begin();
-        postShader.setUniformf("radial_blur", MathUtils.sin(state));
-        postShader.end();
+//        state += delta*2;
+//        postShader.begin();
+//        postShader.setUniformf("radial_blur", MathUtils.sin(state));
+//        postShader.end();
         buffer.begin();
         {
             //Process debug camera controls
