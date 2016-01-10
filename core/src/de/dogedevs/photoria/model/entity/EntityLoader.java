@@ -221,7 +221,7 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
-    private void createMob(MobTemplate template, float x, float y){
+    private void createMob(final MobTemplate template, float x, float y){
         if(template == null){
             return;
         }
