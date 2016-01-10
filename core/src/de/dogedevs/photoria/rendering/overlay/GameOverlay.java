@@ -3,14 +3,15 @@ package de.dogedevs.photoria.rendering.overlay;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.EarClippingTriangulator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
+import com.badlogic.gdx.utils.ShortArray;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.InventoryComponent;
@@ -107,6 +108,7 @@ public class GameOverlay extends AbstractOverlay {
     public void init() {
         initShader();
         initComponents();
+        initPolyStuff();
         font = Statics.asset.getBitmapFont(BitmapFonts.TEXTBOX_FONT, true);
     }
 
@@ -152,18 +154,41 @@ public class GameOverlay extends AbstractOverlay {
         batch.end();
     }
 
+
+    private PolygonSpriteBatch psb = new PolygonSpriteBatch();
+    private PolygonSprite ps;
+    private TextureRegion tr;
+
+    private void initPolyStuff() {
+
+        Texture textureSolid = Statics.asset.getTexture(Textures.SLIME_GREEN);
+        tr = new TextureRegion(textureSolid);
+//        textureSolid.dispose();
+    }
+
     private void renderStats() {
         batch.begin();
         batch.draw(netTexture, netOffset.x, netOffset.y);
         batch.end();
+        elementsComponent.blue = elementsComponent.green = elementsComponent.purple = elementsComponent.red = elementsComponent.yellow = 10;
+        float[] vert = statsToVertices(elementsComponent.blue / 20, elementsComponent.green / 20, elementsComponent.yellow / 20, elementsComponent.red / 20, elementsComponent.purple / 20);
+        EarClippingTriangulator triangulator = new EarClippingTriangulator();
+        ShortArray ind = triangulator.computeTriangles(vert);
+        PolygonRegion polyReg = new PolygonRegion(tr, vert, ind.toArray());
+//        ps = new PolygonSprite(polyReg);
+//        ps.setPosition(0, 0);
+        psb.begin();
+        psb.draw(polyReg, 0, 0);
+//        ps.draw(psb);
+        psb.end();
 
-        Gdx.gl.glLineWidth(2);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.polygon(statsToVertices(elementsComponent.blue / 20, elementsComponent.green / 20, elementsComponent.yellow / 20, elementsComponent.red / 20, elementsComponent.purple / 20));
+//        Gdx.gl.glLineWidth(2);
+//        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+//        shapeRenderer.setColor(Color.WHITE);
+//        shapeRenderer.polygon(statsToVertices(elementsComponent.blue / 20, elementsComponent.green / 20, elementsComponent.yellow / 20, elementsComponent.red / 20, elementsComponent.purple / 20));
 
-        shapeRenderer.end();
-        Gdx.gl.glLineWidth(1);
+//        shapeRenderer.end();
+//        Gdx.gl.glLineWidth(1);
     }
 
     private float[] statsToVertices(float blue, float green, float yellow, float red, float purple) {

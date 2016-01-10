@@ -46,7 +46,7 @@ public class GameScreen implements Screen {
     private OrthographicCamera camera;
 
     private ShaderProgram waterShader, cloudShader, postShader;
-    private FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true);
+    private FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
     private Mesh quadMesh;
 
     private Array<AbstractOverlay> overlays = new Array();
@@ -312,7 +312,7 @@ public class GameScreen implements Screen {
         buffer.end();
 
         //Clear buffer
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
