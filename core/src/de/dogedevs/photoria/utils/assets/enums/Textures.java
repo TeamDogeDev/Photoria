@@ -61,7 +61,11 @@ public enum Textures {
     HUD_RADAR_CHART("hud/net.png"),
     HUD_MOB_HEALTH("hud/mobHealth.png"),
     HUD_MOB_HEALTH_BAR("hud/mobHealthBar.png"),
-//    HUD_ARROW("hud/arrow-sheet.png"),
+    HUD_PLAYER_GREEN("hud/player_green.png"),
+    HUD_PLAYER_PURPLE("hud/player_purple.png"),
+    HUD_PLAYER_RED("hud/player_red.png"),
+    HUD_PLAYER_YELLOW("hud/player_yellow.png"),
+    HUD_PLAYER_BLUE("hud/player_blue.png"),
     MOUSE_CURSOR("hud/cursor.png"),
     // Items
     ORB_BLUE("items/orbs/orbBlue.png"),

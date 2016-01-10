@@ -118,6 +118,7 @@ public class GameOverlay extends AbstractOverlay {
     public void render() {
         update(Gdx.graphics.getDeltaTime());
         renderStats();
+        renderPlayerIcon();
         renderHealth();
         renderItemBar();
         if (isTextBoxVisible()) {
@@ -125,6 +126,31 @@ public class GameOverlay extends AbstractOverlay {
         }
     }
 
+    private void renderPlayerIcon() {
+        batch.begin();
+        float biggest = elementsComponent.blue;
+        Textures bTextures = Textures.HUD_PLAYER_BLUE;
+        if(elementsComponent.yellow >= biggest){
+            biggest = elementsComponent.yellow;
+            bTextures = Textures.HUD_PLAYER_YELLOW;
+        }
+        if(elementsComponent.red >= biggest){
+            biggest = elementsComponent.red;
+            bTextures = Textures.HUD_PLAYER_RED;
+        }
+        if(elementsComponent.purple >= biggest){
+            biggest = elementsComponent.purple;
+            bTextures = Textures.HUD_PLAYER_PURPLE;
+        }
+        if(elementsComponent.green >= biggest){
+            bTextures = Textures.HUD_PLAYER_GREEN;
+        }
+        Texture playerIcon = Statics.asset.getTexture(bTextures);
+
+        batch.draw(playerIcon, 150, Gdx.graphics.getHeight() - playerIcon.getHeight() - offset);
+
+        batch.end();
+    }
 
     private void renderStats() {
         batch.begin();
