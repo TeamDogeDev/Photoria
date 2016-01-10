@@ -50,14 +50,14 @@ public class FollowAi implements AiComponent.AiInterface {
                 target.isShooting = true;
                 target.x = playerPosition.x;
                 target.y = playerPosition.y;
-                if(MathUtils.randomBoolean(0.01f)){
+//                if(MathUtils.randomBoolean(0.1f)){
 //                    Vector2 dir = new Vector2();
 //                    dir.set(playerPosition.x, playerPosition.y).sub(selfPosition.x, selfPosition.y).nor();
 //                    Statics.attack.shootNormal(self, dir, null);
                     target.isShooting = true;
-                } else {
-                    target.isShooting = false;
-                }
+//                } else {
+//                target.isShooting = false;
+//                }
                 velocity.speed = 80;
             } else {
                 if(MathUtils.randomBoolean(0.001f)){

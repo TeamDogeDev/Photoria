@@ -205,23 +205,12 @@ public class AttackManager {
 
             private void die(Entity other, Entity self) {
                 ElementsComponent ec = ComponentMappers.elements.get(other);
-                ElementsComponent playerEc = ComponentMappers.elements.get(parent);
-                if(ec != null && playerEc != null){
-                    playerEc.blue += ec.blue;
-                    playerEc.yellow += ec.yellow;
-                    playerEc.red += ec.red;
-                    playerEc.purple += ec.purple;
-                    playerEc.green += ec.green;
-                    other.remove(ElementsComponent.class);
-
-                    playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
-                    playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
-                    playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
-                    playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
-                    playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
-                }
                 InventoryComponent ic = ComponentMappers.inventory.get(other);
                 PositionComponent pc = ComponentMappers.position.get(other);
+
+                if(ec != null){
+                    Statics.item.createGemDrop(ec, pc);
+                }
 
 //                ParticleEffectPool.PooledEffect effect = ParticlePool.instance().obtain(ParticlePool.ParticleType.BLOOD);
 //                effect.setPosition(pc.x, pc.y);
