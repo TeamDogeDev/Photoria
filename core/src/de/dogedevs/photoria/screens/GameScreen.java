@@ -15,7 +15,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
@@ -23,6 +22,7 @@ import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.systems.*;
+import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.MapCompositor;
 import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.overlay.*;
@@ -32,6 +32,8 @@ import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Furuha on 20.12.2015.
@@ -166,9 +168,14 @@ public class GameScreen implements Screen {
         player.add(cc);
         PositionComponent pc = new PositionComponent(300 * 64 * 32 + (32 * 32), 300 * 64 * 32 + (32 * 32));
         pc.listener = new PositionComponent.OnBiomeChangeListener() {
+            private Set<Integer> biomes = new HashSet<>();
+
             @Override
             public void onBiomeChange(int newBiome, int oldBiome) {
-                MainGame.log("New Biome: "+newBiome +" OldBiome: "+oldBiome);
+                if(!biomes.contains(newBiome)) {
+                    GameOverlay.addTextbox("Hello " + ChunkBuffer.biomNames.get(newBiome), 1);
+                    biomes.add(newBiome);
+                }
             }
         };
         player.add(pc);

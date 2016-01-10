@@ -11,6 +11,7 @@ import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -34,7 +35,16 @@ public class ChunkBuffer {
     public static final int YELLOW_BIOM = 3;
     public static final int PURPLE_BIOM = 4;
     public static final int GREEN_BIOM = 5;
+    public static Map<Integer, String> biomNames = new HashMap<>();
 
+    static {
+        biomNames.put(RED_BIOM, "Red biome");
+        biomNames.put(NORMAL_BIOM, "Neutral biome");
+        biomNames.put(BLUE_BIOM, "Blue biome");
+        biomNames.put(YELLOW_BIOM, "Yellow biome");
+        biomNames.put(PURPLE_BIOM, "Purple biome");
+        biomNames.put(GREEN_BIOM, "Green biome");
+    }
 
     public static final int BIOME = -1;
     public static final int COLLISION = 0;
