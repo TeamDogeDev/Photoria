@@ -31,7 +31,7 @@ public class MobManager {
 
                 for(Integer biome: template.biome){
                     if(templates.get(biome) == null){
-                        templates.put(biome, new ArrayList<>());
+                        templates.put(biome, new ArrayList<MobTemplate>());
                     }
                     templates.get(biome).add(template);
                 }

@@ -212,8 +212,10 @@ public class GameScreen implements Screen {
         waterBatch.setShader(waterShader);
 
         postShader = Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
-//        postShader.setUniformf("u_Resolution",new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
-//        postShader.setUniformf("scale", 1f);
+        postShader.begin();
+        postShader.setUniformf("u_resolution", new Vector2(Gdx.graphics.getWidth(), 720));
+        postShader.setUniformf("scale", 1f);
+        postShader.end();
         testBatch.setShader(postShader);
 //        quadMesh = Utils.createFullscreenQuad();
 
@@ -249,9 +251,9 @@ public class GameScreen implements Screen {
             waterShader.setUniformf("waveData", angleWave, amplitudeWave);
             waterShader.end();
 
-            postShader.begin();
-            postShader.setUniformf("waveData", angleWave, amplitudeWave);
-            postShader.end();
+//            postShader.begin();
+//            postShader.setUniformf("waveData", angleWave, amplitudeWave);
+//            postShader.end();
 
             tiledMapRenderer.setBatch(waterBatch);
             tiledMapRenderer.setView(camera);

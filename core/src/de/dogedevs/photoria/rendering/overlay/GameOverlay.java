@@ -11,12 +11,14 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Queue;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.InventoryComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -75,6 +77,7 @@ public class GameOverlay extends AbstractOverlay {
     private HealthComponent healthComponent;
     private EnergyComponent energyComponent;
     private ElementsComponent elementsComponent;
+    private InventoryComponent inventoryComponent;
 
     private float stateTime = 0f;
     private boolean fadeOut = false;
@@ -97,6 +100,7 @@ public class GameOverlay extends AbstractOverlay {
         healthComponent = ComponentMappers.health.get(player);
         energyComponent = ComponentMappers.energy.get(player);
         elementsComponent = ComponentMappers.elements.get(player);
+        inventoryComponent = ComponentMappers.inventory.get(player);
     }
 
     @Override
@@ -170,6 +174,12 @@ public class GameOverlay extends AbstractOverlay {
 
     }
 
+    private static int SLOT_ATTACK = 0;
+    private static int SLOT_DEFENSE = 1;
+    private static int SLOT_REGENERATION = 2;
+    private static int SLOT_STATS_UP = 3;
+    private static int SLOT_OTHER = 4;
+//    private static int SLOT_USE = 5;
 
     private void renderItemBar() {
         batch.begin();
@@ -179,6 +189,28 @@ public class GameOverlay extends AbstractOverlay {
             float x = healthEnergyOffset +health.getRegionWidth()+ spacing + (i*(itemSlotTexture.getWidth()+spacing)); //((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
             float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
+            if(inventoryComponent != null) {
+                Entity itemEntity = null;
+                if(i == SLOT_ATTACK) {
+                    itemEntity = inventoryComponent.slotAttack;
+                } else if(i == SLOT_DEFENSE) {
+                    itemEntity = inventoryComponent.slotDefense;
+                } else if(i == SLOT_REGENERATION) {
+                    itemEntity = inventoryComponent.slotRegeneration;
+                } else if(i == SLOT_STATS_UP) {
+                    itemEntity = inventoryComponent.slotStatsUp;
+                } else if(i == SLOT_OTHER) {
+                    itemEntity = inventoryComponent.slotOther;
+                }
+                if(itemEntity != null) {
+                    SpriteComponent attackSprite = ComponentMappers.sprite.get(itemEntity);
+                    if (attackSprite != null) {
+                        if (attackSprite.region != null) {
+                            batch.draw(attackSprite.region, x + (attackSprite.region.getRegionWidth() / 2), y + (attackSprite.region.getRegionHeight() / 2));
+                        }
+                    }
+                }
+            }
 //            font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
 
 //            Texture texture = Statics.asset.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal() + i]);
