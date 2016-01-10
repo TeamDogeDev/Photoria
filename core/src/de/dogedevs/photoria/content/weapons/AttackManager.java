@@ -90,7 +90,9 @@ public class AttackManager {
                 InventoryComponent ic = ComponentMappers.inventory.get(target);
                 PositionComponent pc = ComponentMappers.position.get(target);
 
-                Statics.item.createGemDrop(ec, pc);
+                if(ec != null){
+                    Statics.item.createGemDrop(ec, pc);
+                }
 
                 if(ic != null){
                     Statics.item.dropItem(ic.slotAttack, pc);
