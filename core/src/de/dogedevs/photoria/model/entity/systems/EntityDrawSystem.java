@@ -10,7 +10,7 @@ import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
@@ -98,8 +98,8 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
             if(animation != null) {
                 if(health != null && player == null) {
                     if(health.health < health.maxHealth) {
-                        Texture border = AssetLoader.getTexture(Textures.HUD_MOB_HEALTH);
-                        Texture fill = AssetLoader.getTexture(Textures.HUD_MOB_HEALTH_BAR);
+                        Texture border = Statics.asset.getTexture(Textures.HUD_MOB_HEALTH);
+                        Texture fill = Statics.asset.getTexture(Textures.HUD_MOB_HEALTH_BAR);
                         float x = position.x - (border.getWidth() / 2);
                         float y = position.y + animation.idleAnimation.getKeyFrames()[0].getRegionHeight();
                         batch.draw(fill, x, y, border.getWidth() * (health.health / health.maxHealth), border.getHeight());

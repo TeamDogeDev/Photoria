@@ -16,7 +16,7 @@ import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -29,12 +29,12 @@ public class GameOverlay extends AbstractOverlay {
     private static final int HUD_TILE_WIDTH = 720 >> 1;
     private static final int HUD_TILE_HEIGHT = 32;
 
-    private Texture textBox = AssetLoader.getTexture(Textures.HUD_TEXTBOX);
-    private Texture okButtonSheet = AssetLoader.getTexture(Textures.HUD_OK_BUTTON);
-    private Texture hudBarTexture = AssetLoader.getTexture(Textures.HUD_BARS_FILL);
-    private Texture itemSlotTexture = AssetLoader.getTexture(Textures.HUD_ITEM_SLOTS);
-    private Texture netTexture = AssetLoader.getTexture(Textures.HUD_RADAR_CHART);
-    private Texture hudTexture = AssetLoader.getTexture(Textures.HUD_BARS);
+    private Texture textBox = Statics.asset.getTexture(Textures.HUD_TEXTBOX);
+    private Texture okButtonSheet = Statics.asset.getTexture(Textures.HUD_OK_BUTTON);
+    private Texture hudBarTexture = Statics.asset.getTexture(Textures.HUD_BARS_FILL);
+    private Texture itemSlotTexture = Statics.asset.getTexture(Textures.HUD_ITEM_SLOTS);
+    private Texture netTexture = Statics.asset.getTexture(Textures.HUD_RADAR_CHART);
+    private Texture hudTexture = Statics.asset.getTexture(Textures.HUD_BARS);
 
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
@@ -88,7 +88,7 @@ public class GameOverlay extends AbstractOverlay {
     }
 
     private void initShader() {
-        bloomShader = AssetLoader.getShader(ShaderPrograms.BLOOM_SHADER);
+        bloomShader = Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER);
 //        bloomBatch.setShader(bloomShader);
     }
 
@@ -103,7 +103,7 @@ public class GameOverlay extends AbstractOverlay {
     public void init() {
         initShader();
         initComponents();
-        font = AssetLoader.getBitmapFont(BitmapFonts.TEXTBOX_FONT, true);
+        font = Statics.asset.getBitmapFont(BitmapFonts.TEXTBOX_FONT, true);
     }
 
     @Override
@@ -181,7 +181,7 @@ public class GameOverlay extends AbstractOverlay {
             batch.draw(itemSlotTexture, x, y);
 //            font.draw(batch, "" + (i + 1), x, y + itemSlotTexture.getHeight());
 
-//            Texture texture = AssetLoader.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal() + i]);
+//            Texture texture = Statics.asset.getTexture(Textures.values()[Textures.ORB_BLUE.ordinal() + i]);
 //            int borderPx = 5;
 //            batch.draw(texture,
 //                    x + 4 + borderPx, y + 4 + borderPx,

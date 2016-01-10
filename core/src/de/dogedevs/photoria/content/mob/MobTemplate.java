@@ -9,23 +9,25 @@ import java.util.List;
  */
 public class MobTemplate {
 
-    int id;
-    String name;
+    public int id;
+    public String name;
 
-    Textures texture;
+    public Textures texture;
 
-    int green;
-    int red;
-    int blue;
-    int yellow;
-    int purple;
+    public float green;
+    public float red;
+    public float blue;
+    public float yellow;
+    public float purple;
 
-    int type;
-    List<Integer> biome;
+    public int speed;
 
-    int ai; //ENUM
-    int weapon;
+    public int type;
+    public List<Integer> biome;
 
-    int maxHealth;
+    public int ai; //ENUM
+    public int weapon;
+
+    public int maxHealth;
 
 }

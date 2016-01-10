@@ -3,13 +3,13 @@ package de.dogedevs.photoria.content.ai;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.MathUtils;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AiComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.Utils;
 
 /**
@@ -19,7 +19,7 @@ public class EscapeOnDamageAi implements AiComponent.AiInterface {
     private Entity playerEntity;
     private static final float DIST = 600;
     public EscapeOnDamageAi() {
-        playerEntity = GameScreen.getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        playerEntity = Statics.ashley.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
     }
 
     @Override

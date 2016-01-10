@@ -10,7 +10,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.content.weapons.AttackManager;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.weapons.Laser;
 import de.dogedevs.photoria.content.weapons.Weapon;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
@@ -20,8 +20,6 @@ import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.screens.GameScreen;
-import de.dogedevs.photoria.utils.assets.MusicManager;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 
 import java.util.UUID;
@@ -60,11 +58,11 @@ public class PlayerControllSystem extends EntitySystem {
             GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
-            MusicManager.playMusic(Musics.TITLE, false);
+            Statics.music.playMusic(Musics.TITLE, false);
 
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-            MusicManager.playMusic(Musics.AMBIENT, false);
+            Statics.music.playMusic(Musics.AMBIENT, false);
         }
 
         if (entities.size() == 0) {
@@ -85,14 +83,13 @@ public class PlayerControllSystem extends EntitySystem {
         } else {
             TargetComponent target = ComponentMappers.target.get(e);
             if(target == null){
-                target = GameScreen.getAshley().createComponent(TargetComponent.class);
+                target = Statics.ashley.createComponent(TargetComponent.class);
                 e.add(target);
-                AttackManager am = new AttackManager();
-                am.deleteWeaponsFrom(e);
+                Statics.attack.deleteWeaponsFrom(e);
                 Weapon weapon = new Laser();
                 weapon.setRange(350);
                 weapon.setColors(Color.RED, Color.WHITE);
-                am.createAttack(e, weapon);
+                Statics.attack.createAttack(e, weapon);
             }
 
 //            if(MathUtils.randomBoolean(0.05f)){
@@ -134,7 +131,6 @@ public class PlayerControllSystem extends EntitySystem {
             if(energyComponent.energy >= 1) {
                 energyComponent.energy--;
                 energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
-                AttackManager am = new AttackManager();
                 Vector2 dir = new Vector2();
                 if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                     dir.set(-1, 1);

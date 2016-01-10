@@ -2,7 +2,6 @@ package de.dogedevs.photoria.screens;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
 import de.dogedevs.photoria.MainGame;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
@@ -28,8 +28,6 @@ import de.dogedevs.photoria.rendering.map.CustomTiledMapRenderer;
 import de.dogedevs.photoria.rendering.overlay.*;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
-import de.dogedevs.photoria.utils.assets.AnimationLoader;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -39,8 +37,6 @@ import java.util.Arrays;
  * Created by Furuha on 20.12.2015.
  */
 public class GameScreen implements Screen {
-
-    static private PooledEngine ashley;
 
     private Batch batch, waterBatch, mapBatch, cloudBatch;
     private MapCompositor mapCompositor;
@@ -56,7 +52,7 @@ public class GameScreen implements Screen {
     private final int[] fluidLayer = {0};
     private final int[] foregroundLayers = {1, 2, 3};
 
-    private Texture clouds = AssetLoader.getTexture(Textures.CLOUD_STUB);
+    private Texture clouds = Statics.asset.getTexture(Textures.CLOUD_STUB);
 
     public void show() {
 //        ambient.play();
@@ -108,28 +104,28 @@ public class GameScreen implements Screen {
     }
 
     private void initAshley() {
-        getAshley().addSystem(new AiSystem());
-        getAshley().addSystem(new PlayerControllSystem());
-        getAshley().addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
-        getAshley().addSystem(new AttackSystem());
-        getAshley().addSystem(new EntityDrawSystem(camera));
-        getAshley().addSystem(new AttackRenderSystem(camera));
-        getAshley().addSystem(new EntityGcSystem(camera, mapCompositor.getBuffer()));
-        getAshley().addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
-        getAshley().addSystem(new LifetimeSystem());
-        getAshley().addSystem(new HealthSystem());
+        Statics.ashley.addSystem(new AiSystem());
+        Statics.ashley.addSystem(new PlayerControllSystem());
+        Statics.ashley.addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
+        Statics.ashley.addSystem(new AttackSystem());
+        Statics.ashley.addSystem(new EntityDrawSystem(camera));
+        Statics.ashley.addSystem(new AttackRenderSystem(camera));
+        Statics.ashley.addSystem(new EntityGcSystem(camera, mapCompositor.getBuffer()));
+        Statics.ashley.addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
+        Statics.ashley.addSystem(new LifetimeSystem());
+        Statics.ashley.addSystem(new HealthSystem());
         if (!Config.enableDebugCamera) {
-            getAshley().addSystem(new CameraSystem(camera));
+            Statics.ashley.addSystem(new CameraSystem(camera));
         }
     }
 
     private void initOverlays() {
         if (Config.showDebugUi) {
-            overlays.add(new DebugOverlay(camera, getAshley(), mapCompositor.getBuffer()));
+            overlays.add(new DebugOverlay(camera, Statics.ashley, mapCompositor.getBuffer()));
         }
         overlays.add(new ParticleOverlay(camera));
         overlays.add(new LaserOverlay(camera));
-        Entity playerEntity = getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        Entity playerEntity = Statics.ashley.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
         overlays.add(new GameOverlay(playerEntity));
         overlays.add(new MouseOverlay());
     }
@@ -158,13 +154,13 @@ public class GameScreen implements Screen {
 
     private void initEntities() {
 
-//        Animation shipRight = AnimationLoader.getShipAnimation()[0];
-        Animation[] playerAnimations = AnimationLoader.getPlayerAnimations();
+//        Animation shipRight = AnimationManager.getShipAnimation()[0];
+        Animation[] playerAnimations = Statics.animation.getPlayerAnimations();
 
-        Entity player = getAshley().createEntity();
+        Entity player = Statics.ashley.createEntity();
         player.add(new PlayerComponent());
 
-        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        CollisionComponent cc = Statics.ashley.createComponent(CollisionComponent.class);
         cc.groundCollision = TileCollisionMapper.normalBorderCollision;
         Arrays.sort(cc.groundCollision);
         player.add(cc);
@@ -178,19 +174,19 @@ public class GameScreen implements Screen {
         player.add(pc);
         player.add(new VelocityComponent(0, 10));
 
-        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        HealthComponent hc = Statics.ashley.createComponent(HealthComponent.class);
         hc.maxHealth = 1000000000;
         hc.health = 1000000000;
         hc.maxImmuneTime = 2;
         player.add(hc);
 
-        EnergyComponent ec = ashley.createComponent(EnergyComponent.class);
+        EnergyComponent ec = Statics.ashley.createComponent(EnergyComponent.class);
         player.add(ec);
 
-        ElementsComponent elc = ashley.createComponent(ElementsComponent.class);
+        ElementsComponent elc = Statics.ashley.createComponent(ElementsComponent.class);
         player.add(elc);
 
-        InventoryComponent inventory = ashley.createComponent(InventoryComponent.class);
+        InventoryComponent inventory = Statics.ashley.createComponent(InventoryComponent.class);
         player.add(inventory);
 
         AnimationComponent ac = new AnimationComponent(playerAnimations[4]);
@@ -200,22 +196,22 @@ public class GameScreen implements Screen {
         ac.downAnimation = playerAnimations[1];
         player.add(ac);
 
-        getAshley().addEntity(player);
+        Statics.ashley.addEntity(player);
 
     }
 
     private void initShader() {
-        cloudShader = AssetLoader.getShader(ShaderPrograms.CLOUD_SHADER);
+        cloudShader = Statics.asset.getShader(ShaderPrograms.CLOUD_SHADER);
         cloudBatch.setShader(cloudShader);
         cloudShader.begin();
         cloudShader.setUniformf("resolution", new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
         cloudShader.setUniformf("cloudsize", 0.4f);
         cloudShader.end();
 
-        waterShader = AssetLoader.getShader(ShaderPrograms.WATER_SHADER);
+        waterShader = Statics.asset.getShader(ShaderPrograms.WATER_SHADER);
         waterBatch.setShader(waterShader);
 
-        postShader = AssetLoader.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
+        postShader = Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER);
 //        postShader.setUniformf("u_Resolution",new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 //        postShader.setUniformf("scale", 1f);
         testBatch.setShader(postShader);
@@ -272,7 +268,7 @@ public class GameScreen implements Screen {
 //        windVelocity.y /= -10_000;
 
             //Process entities
-            ashley.update(Gdx.graphics.getDeltaTime());
+            Statics.ashley.update(Gdx.graphics.getDeltaTime());
 
             windData.add(windVelocity);
 
@@ -385,13 +381,6 @@ public class GameScreen implements Screen {
         for(AbstractOverlay overlay : overlays) {
             overlay.dispose();
         }
-    }
-
-    public static PooledEngine getAshley() {
-        if (ashley == null) {
-            ashley = new PooledEngine();
-        }
-        return ashley;
     }
 
 }

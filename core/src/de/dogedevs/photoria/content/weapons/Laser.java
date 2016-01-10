@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.List;
@@ -110,10 +110,10 @@ public class Laser implements Weapon{
 
     public void render(Batch batch, float deltaTime, float z){
 
-        Texture start = AssetLoader.getTexture(Textures.LASER_BEGIN);
-        Texture mid = AssetLoader.getTexture(Textures.LASER);
+        Texture start = Statics.asset.getTexture(Textures.LASER_BEGIN);
+        Texture mid = Statics.asset.getTexture(Textures.LASER);
         mid.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        Texture end = AssetLoader.getTexture(Textures.LASER_END);
+        Texture end = Statics.asset.getTexture(Textures.LASER_END);
 
         batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE_MINUS_SRC_ALPHA);
         color1.a = color1.a+MathUtils.random(-0.05f,0.05f);
@@ -150,10 +150,10 @@ public class Laser implements Weapon{
                 false,false); //flip
 
 
-        Texture startOverlay = AssetLoader.getTexture(Textures.LASER_BEGIN_OVERLAY);
-        Texture midOverlay = AssetLoader.getTexture(Textures.LASER_OVERLAY);
+        Texture startOverlay = Statics.asset.getTexture(Textures.LASER_BEGIN_OVERLAY);
+        Texture midOverlay = Statics.asset.getTexture(Textures.LASER_OVERLAY);
         midOverlay.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
-        Texture endOverlay = AssetLoader.getTexture(Textures.LASER_END_OVERLAY);
+        Texture endOverlay = Statics.asset.getTexture(Textures.LASER_END_OVERLAY);
 
         batch.setBlendFunction(Gdx.gl20.GL_SRC_ALPHA, Gdx.gl20.GL_ONE);
         batch.setColor(color2);

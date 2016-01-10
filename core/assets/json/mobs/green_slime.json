@@ -2,11 +2,11 @@
   "id": 1,
   "name": "Green Slime",
   "texture": "SLIME_GREEN",
-  "green": 3,
-  "red": 2,
-  "blue": 1,
-  "yellow": 4,
-  "purple": 5,
+  "green": -1.0,
+  "red": -1.0,
+  "blue": 0.0,
+  "yellow": 5.0,
+  "purple": 10.0,
   "type": 1,
   "biome": [
     0,
@@ -18,5 +18,6 @@
   ],
   "ai": 1,
   "weapon": 1,
-  "maxHealth": 30
+  "maxHealth": 1,
+  "speed": 20
 }

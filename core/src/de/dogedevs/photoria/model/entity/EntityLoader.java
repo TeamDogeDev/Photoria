@@ -5,8 +5,9 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.MobStats;
-import de.dogedevs.photoria.content.items.ItemManager;
+import de.dogedevs.photoria.content.mob.MobTemplate;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
@@ -17,8 +18,6 @@ import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
-import de.dogedevs.photoria.screens.GameScreen;
-import de.dogedevs.photoria.utils.assets.AnimationLoader;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -26,12 +25,12 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
  */
 public class EntityLoader {
 
-    PooledEngine ashley = GameScreen.getAshley();
+    PooledEngine ashley = Statics.ashley;
 
     public void createChunkEntities(int chunkX, int chunkY, long seed, ChunkBuffer buffer){
 //        long start = System.currentTimeMillis();
         int numEntities = 100;
-        ashley = GameScreen.getAshley();
+        ashley = Statics.ashley;
 
         for (int i = 0; i < numEntities; i++) {
             createRandomEntity(MathUtils.random(chunkX * 64 * 32, chunkX * 64 * 32 + 2048), MathUtils.random(chunkY * 64 * 32, chunkY * 64 * 32 + 2048), buffer);
@@ -48,27 +47,29 @@ public class EntityLoader {
 
     private void createRandomEntity(float x, float y, ChunkBuffer buffer){
         ChunkCell biomCell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME);
-        ChunkCell liquidCell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.FLUID);
+        ChunkCell collisionCell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.COLLISION);
         if(biomCell == null){
             return;
         }
         if(biomCell.value == ChunkBuffer.BLUE_BIOM){
-            if(liquidCell.value == TileMapper.WATER
-            || liquidCell.value == TileMapper.WATER2
-            || liquidCell.value == TileMapper.WATER3
-            || liquidCell.value == TileMapper.WATER4) {
-                createSlime(Textures.SLIME_BLUE, x, y);
+            if(collisionCell.value == TileCollisionMapper.GROUND || collisionCell.value == TileCollisionMapper.HIGH_GROUND) {
+//                createSlime(Textures.SLIME_BLUE, x, y);
+                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+                createMob(mob, x, y);
             }
         } else if(biomCell.value == ChunkBuffer.GREEN_BIOM){
-            createSlime(Textures.SLIME_GREEN, x,y);
+            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+            createMob(mob, x, y);
+//            createSlime(Textures.SLIME_GREEN, x, y);
         } else if(biomCell.value == ChunkBuffer.PURPLE_BIOM){
-            createSlime(Textures.SLIME_PURPLE, x,y);
+//            createSlime(Textures.SLIME_PURPLE, x,y);
+            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+            createMob(mob, x, y);
         } else if(biomCell.value == ChunkBuffer.RED_BIOM){
-            if(liquidCell.value == TileMapper.LAVA
-            || liquidCell.value == TileMapper.LAVA2
-            || liquidCell.value == TileMapper.LAVA3
-            || liquidCell.value == TileMapper.LAVA4) {
-                createSlime(Textures.SLIME_RED, x, y);
+            if(collisionCell.value == TileCollisionMapper.HIGH_GROUND_FLUID) {
+//                createSlime(Textures.SLIME_RED, x, y);
+                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+                createMob(mob, x, y);
             }
         } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
             createEyeball(x,y);
@@ -117,7 +118,7 @@ public class EntityLoader {
     }
 
     private void createEyeball(float x, float y){
-        Animation[] animations = AnimationLoader.getMovementAnimations(Textures.EYE, true, 4, 3);
+        Animation[] animations = Statics.animation.getMovementAnimations(Textures.EYE, true, 4, 3);
         Animation walkAnimationU = animations[0];
         Animation walkAnimationD = animations[1];
         Animation walkAnimationL = animations[2];
@@ -158,9 +159,9 @@ public class EntityLoader {
         entity.add(vc);
         ashley.addEntity(entity);
     }
-//    private void createMob(MobTemplate template, float x, float y)
+
     private void createSlime(Textures texture, float x, float y){
-        Animation[] animations = AnimationLoader.getMovementAnimations(texture, true, 4, 3);
+        Animation[] animations = Statics.animation.getMovementAnimations(texture, true, 4, 3);
         Animation walkAnimationU = animations[0];
         Animation walkAnimationD = animations[1];
         Animation walkAnimationL = animations[2];
@@ -206,9 +207,8 @@ public class EntityLoader {
         aiComponent.ai = MobStats.SLIME_AI;
         entity.add(aiComponent);
         InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
-        ItemManager im = new ItemManager();
         entity.add(ic);
-        im.populateInventory(entity, 1);
+        Statics.item.populateInventory(entity, 1);
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = MobStats.SLIME_HEALTH;
         hc.health = MobStats.SLIME_HEALTH;
@@ -220,21 +220,75 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
+    private void createMob(MobTemplate template, float x, float y){
+        if(template == null){
+            return;
+        }
+        Entity entity = ashley.createEntity();
 
+        PositionComponent pc = ashley.createComponent(PositionComponent.class);
+        pc.x = x;
+        pc.y = y;
+        entity.add(pc);
 
-//    public void onChunkPurge(Chunk chunk) {
-//        PooledEngine ashley = GameScreen.getAshley();
-//        ImmutableArray<Entity> entities = ashley.getEntitiesFor(Family.all(PositionComponent.class).get());
-//        int minX = chunk.x * 64 * 32;
-//        int minY = chunk.y * 64 * 32;
-//        int maxX = minX + 2048;
-//        int maxY = minY + 2048;
-//        for(Entity entity: entities){
-//            PositionComponent position = ComponentMappers.position.get(entity);
-//            if((position.x >= minX && position.x < maxX) && (position.y >= minY && position.y < maxY)){
-////                MainGame.log("removeEntity " + entity);
-//                ashley.removeEntity(entity);
-//            }
-//        }
-//    }
+        Animation[] animations = Statics.animation.getMovementAnimations(template.texture, true, 4, 3);
+        Animation walkAnimationU = animations[0];
+        Animation walkAnimationD = animations[1];
+        Animation walkAnimationL = animations[2];
+        Animation walkAnimationR = animations[3];
+        AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
+        ac.idleAnimation = walkAnimationD;
+        ac.leftAnimation = walkAnimationL;
+        ac.rightAnimation = walkAnimationR;
+        ac.upAnimation = walkAnimationU;
+        ac.downAnimation = walkAnimationD;
+        entity.add(ac);
+
+        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+        cc.collisionListener = new CollisionComponent.CollisionListener() {
+            @Override
+            public boolean onCollision(Entity other, Entity self) {
+                if(ComponentMappers.player.has(other)){
+                    HealthComponent hc = ComponentMappers.health.get(other);
+                    if(hc.immuneTime == 0){
+                        hc.health -= 5;
+                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                        hc.immuneTime = hc.maxImmuneTime;
+                    }
+                }
+                return false;
+            }
+        };
+        entity.add(cc);
+
+        ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
+        ec.blue = template.blue;
+        ec.red = template.red;
+        ec.green = template.green;
+        ec.purple = template.purple;
+        ec.yellow = template.yellow;
+        entity.add(ec);
+
+        AiComponent aiComponent = ashley.createComponent(AiComponent.class);
+        aiComponent.ai = MobStats.SLIME_AI;
+        entity.add(aiComponent);
+
+        InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
+        entity.add(ic);
+        Statics.item.populateInventory(entity, template.type);
+
+        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        hc.maxHealth = template.maxHealth;
+        hc.health = template.maxHealth;
+        entity.add(hc);
+
+        VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
+        vc.direction = MathUtils.random(0, 7);
+        vc.speed = template.speed;
+        entity.add(vc);
+
+        ashley.addEntity(entity);
+    }
+
 }

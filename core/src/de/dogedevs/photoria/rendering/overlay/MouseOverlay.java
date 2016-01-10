@@ -3,7 +3,7 @@ package de.dogedevs.photoria.rendering.overlay;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import de.dogedevs.photoria.utils.Utils;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -19,7 +19,7 @@ public class MouseOverlay extends AbstractOverlay {
 
     @Override
     public void init() {
-        cursorTexture = AssetLoader.getTexture(Textures.MOUSE_CURSOR);
+        cursorTexture = Statics.asset.getTexture(Textures.MOUSE_CURSOR);
     }
 
     @Override

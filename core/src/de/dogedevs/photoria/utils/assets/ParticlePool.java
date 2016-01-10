@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.ParticleEffectPool;
 import com.badlogic.gdx.graphics.g2d.ParticleEmitter;
 import com.badlogic.gdx.utils.Array;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Particles;
 
 /**
@@ -18,18 +19,16 @@ public class ParticlePool {
 
     Array<ParticleEffectPool.PooledEffect> effects = new Array<>();
 
-    private static ParticlePool instance;
-
     public void removeEffect(ParticleEffectPool.PooledEffect effect, boolean b) {
         boolean b1 = effects.removeValue(effect, b);
     }
 
     public enum ParticleType {
 
-        BLOOD(new GameEffect(AssetLoader.getParticleEffect(Particles.BLOOD_PARTICLE), 25, 100)),
-        FIRE(new GameEffect(AssetLoader.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100)),
-        FLAME_THROWER(new GameEffect(AssetLoader.getParticleEffect(Particles.FLAME_THROWER), 25, 100)),
-        ENERGY_BALL(new GameEffect(AssetLoader.getParticleEffect(Particles.ENERGY_BALL), 25, 100));
+        BLOOD(new GameEffect(Statics.asset.getParticleEffect(Particles.BLOOD_PARTICLE), 25, 100)),
+        FIRE(new GameEffect(Statics.asset.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100)),
+        FLAME_THROWER(new GameEffect(Statics.asset.getParticleEffect(Particles.FLAME_THROWER), 25, 100)),
+        ENERGY_BALL(new GameEffect(Statics.asset.getParticleEffect(Particles.ENERGY_BALL), 25, 100));
 
         GameEffect gameEffect;
         ParticleType(GameEffect gameEffect) {
@@ -41,11 +40,7 @@ public class ParticlePool {
         }
     }
 
-    public static ParticlePool instance() {
-        return (instance = (instance == null ? new ParticlePool() : instance));
-    }
-
-    private ParticlePool() {
+    public ParticlePool() {
     }
 
     public int getPoolPeek(ParticleType type) {

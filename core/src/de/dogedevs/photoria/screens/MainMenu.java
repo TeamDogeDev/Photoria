@@ -15,8 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.dogedevs.photoria.MainGame;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.MusicManager;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -27,7 +26,7 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
 public class MainMenu implements Screen {
 
     private SpriteBatch spriteBatch, starfieldBatch;
-    private Texture title = AssetLoader.getTexture(Textures.TITLE);
+    private Texture title = Statics.asset.getTexture(Textures.TITLE);
 
     private Skin uiSkin;
     private Stage stage;
@@ -39,12 +38,12 @@ public class MainMenu implements Screen {
     private ShaderProgram shader;
 
     public MainMenu() {
-        MusicManager.playMusic(Musics.TITLE, true);
-        MusicManager.stopMusic();
+        Statics.music.playMusic(Musics.TITLE, true);
+        Statics.music.stopMusic();
         spriteBatch = new SpriteBatch();
         starfieldBatch = new SpriteBatch();
 
-        shader = AssetLoader.getShader(ShaderPrograms.STARFIELD_SHADER);
+        shader = Statics.asset.getShader(ShaderPrograms.STARFIELD_SHADER);
         starfieldBatch.setShader(shader);
 
         shader.begin();

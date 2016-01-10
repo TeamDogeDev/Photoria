@@ -4,14 +4,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.content.weapons.AttackManager;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AiComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
-import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.utils.Utils;
 
 /**
@@ -23,7 +22,7 @@ public class FollowAi implements AiComponent.AiInterface {
     private static final float DIST = 200;
 
     public FollowAi() {
-        playerEntity = GameScreen.getAshley().getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
+        playerEntity = Statics.ashley.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
     }
 
     @Override
@@ -54,8 +53,7 @@ public class FollowAi implements AiComponent.AiInterface {
                 if(MathUtils.randomBoolean(0.01f)){
                     Vector2 dir = new Vector2();
                     dir.set(playerPosition.x, playerPosition.y).sub(selfPosition.x, selfPosition.y).nor();
-                    AttackManager am = new AttackManager();
-                    am.shootNormal(self, dir, null);
+                    Statics.attack.shootNormal(self, dir, null);
                 }
                 velocity.speed = 80;
             } else {

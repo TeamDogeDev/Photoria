@@ -1,10 +1,11 @@
 package de.dogedevs.photoria;
 
-import com.badlogic.gdx.*;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.dogedevs.photoria.screens.GameScreen;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -35,7 +36,7 @@ public class MainGame extends Game {
         game = this;
         logs = new LinkedList<>();
         batch = new SpriteBatch();
-        AssetLoader loader = new AssetLoader();
+        Statics.initCat();
 
         random = new Random();
         GAME_SEED = random.nextLong();

@@ -9,9 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.google.gson.Gson;
 import de.dogedevs.photoria.MainGame;
-import de.dogedevs.photoria.content.mob.MobManager;
 import de.dogedevs.photoria.utils.assets.enums.*;
 
 /**
@@ -19,7 +17,7 @@ import de.dogedevs.photoria.utils.assets.enums.*;
  */
 public class AssetLoader {
 
-    static AssetManager manager = new AssetManager();
+    private AssetManager manager = new AssetManager();
 
     public AssetLoader() {
         loadTextures();
@@ -29,10 +27,6 @@ public class AssetLoader {
         loadBitmapFonts();
         manager.finishLoading();
         MainGame.log("Loaded Assets: " + manager.getLoadedAssets());
-
-        Gson gson = new Gson();
-        MobManager mm = new MobManager();
-        System.out.println(gson.toJson(mm.getRandomTemplateForBiome(0)));
     }
 
     private void loadParticles() {
@@ -67,29 +61,29 @@ public class AssetLoader {
         }
     }
 
-    public static BitmapFont getBitmapFont(BitmapFonts font, boolean markupEnabled) {
+    public BitmapFont getBitmapFont(BitmapFonts font, boolean markupEnabled) {
         BitmapFont bitmapFont = manager.get(font.name, BitmapFont.class);
         bitmapFont.getData().markupEnabled = markupEnabled;
         return bitmapFont;
     }
 
-    public static ParticleEffect getParticleEffect(Particles effect) {
+    public ParticleEffect getParticleEffect(Particles effect) {
         return manager.get(effect.effectFile, ParticleEffect.class);
     }
 
-    public static Texture getTexture(Textures texture) {
+    public Texture getTexture(Textures texture) {
         return manager.get(texture.name, Texture.class);
     }
 
-    public static Music getMusic(Musics music) {
+    public Music getMusic(Musics music) {
         return manager.get(music.name, Music.class);
     }
 
-    public static Sound getSound(Sounds sound) {
+    public Sound getSound(Sounds sound) {
         return manager.get(sound.name, Sound.class);
     }
 
-    public static ShaderProgram getShader(ShaderPrograms shaderProgram) {
+    public ShaderProgram getShader(ShaderPrograms shaderProgram) {
         ShaderProgram.pedantic = false;
         ShaderProgram retVal = new ShaderProgram(Gdx.files.internal(shaderProgram.vertexShader),
                                                  Gdx.files.internal(shaderProgram.fragmentShader));

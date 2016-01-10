@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.Statics;
 
 import java.util.List;
 
@@ -28,15 +29,14 @@ public class Shooter implements Weapon {
 
     @Override
     public void render(Batch batch, float deltaTime, float z) {
-//        ParticleEffect particleEffect = AssetLoader.getParticleEffect(Particles.FLAME_THROWER);
+//        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         deltaSum -= deltaTime;
         if(deltaSum <= 0) {
             deltaSum = 0.1f;
-            AttackManager am = new AttackManager();
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();
             dir.set(target).sub(beginVec).nor();
-            am.shootNormal(owner, dir, null);
+            Statics.attack.shootNormal(owner, dir, null);
         }
     }
 

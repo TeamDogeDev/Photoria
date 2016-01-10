@@ -6,11 +6,11 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.MathUtils;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
-import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
-import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 /**
@@ -47,8 +47,8 @@ public class HealthSystem extends EntitySystem {
                 PositionComponent pc = ComponentMappers.position.get(entity);
 
                 if(!ComponentMappers.player.has(entity)){
-                    ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
-                    SoundManager.playSound(Sounds.MOB_DIE);
+                    Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
+                    Statics.sound.playSound(Sounds.MOB_DIE);
 
                     getEngine().removeEntity(entity);
                 }

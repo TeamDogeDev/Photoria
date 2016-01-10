@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.utils.assets;
 
 import com.badlogic.gdx.audio.Music;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 
 /**
@@ -8,38 +9,38 @@ import de.dogedevs.photoria.utils.assets.enums.Musics;
  */
 public class MusicManager {
 
-    private static Music currentMusic = null;
+    private Music currentMusic = null;
 
-    private static void loadMusic(Musics music) {
-        currentMusic = AssetLoader.getMusic(music);
+    private void loadMusic(Musics music) {
+        currentMusic = Statics.asset.getMusic(music);
     }
 
-    public static void pauseMusic() {
+    public void pauseMusic() {
         if(currentMusic != null && currentMusic.isPlaying()) {
             currentMusic.pause();
         }
     }
 
-    public static void resumeMusic() {
+    public void resumeMusic() {
         if(currentMusic != null && !currentMusic.isPlaying()) {
             currentMusic.play();
         }
     }
 
-    public static void stopMusic() {
+    public void stopMusic() {
         if(currentMusic != null && currentMusic.isPlaying()) {
             currentMusic.stop();
             currentMusic = null;
         }
     }
 
-    public static void setMusicVolume(float volume) {
+    public void setMusicVolume(float volume) {
         if(currentMusic != null) {
             currentMusic.setVolume(volume);
         }
     }
 
-    public static void playMusic(Musics music, boolean looping) {
+    public void playMusic(Musics music, boolean looping) {
         if(currentMusic != null && currentMusic.isPlaying()) {
             stopMusic();
         }

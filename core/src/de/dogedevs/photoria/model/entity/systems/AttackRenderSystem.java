@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -59,7 +60,7 @@ public class AttackRenderSystem extends EntitySystem {
             Entity e = particelEntities.get(i);
             PositionComponent positionComponent = ComponentMappers.position.get(e);
             //Render particle here!!!
-            ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.ENERGY_BALL, positionComponent.x, positionComponent.y);
+            Statics.particle.createParticleAt(ParticlePool.ParticleType.ENERGY_BALL, positionComponent.x, positionComponent.y);
         }
 
         batch.end();

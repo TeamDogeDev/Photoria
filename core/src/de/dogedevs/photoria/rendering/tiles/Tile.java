@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.HashMap;
@@ -28,22 +28,22 @@ public abstract class Tile extends StaticTiledMapTile {
     protected static Map<Integer, Map<Integer, Tile>> tiles2 = new HashMap<>();
 
     static {
-        tileTexture.put(ChunkBuffer.RED_BIOM, AssetLoader.getTexture(Textures.RED_TILESET));
+        tileTexture.put(ChunkBuffer.RED_BIOM, Statics.asset.getTexture(Textures.RED_TILESET));
         tiles.put(ChunkBuffer.RED_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.RED_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
-        tileTexture.put(ChunkBuffer.NORMAL_BIOM, AssetLoader.getTexture(Textures.NORMAL_TILESET));
+        tileTexture.put(ChunkBuffer.NORMAL_BIOM, Statics.asset.getTexture(Textures.NORMAL_TILESET));
         tiles.put(ChunkBuffer.NORMAL_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.NORMAL_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
-        tileTexture.put(ChunkBuffer.BLUE_BIOM, AssetLoader.getTexture(Textures.BLUE_TILESET));
+        tileTexture.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getTexture(Textures.BLUE_TILESET));
         tiles.put(ChunkBuffer.BLUE_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.BLUE_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
-        tileTexture.put(ChunkBuffer.YELLOW_BIOM, AssetLoader.getTexture(Textures.YELLOW_TILESET));
+        tileTexture.put(ChunkBuffer.YELLOW_BIOM, Statics.asset.getTexture(Textures.YELLOW_TILESET));
         tiles.put(ChunkBuffer.YELLOW_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.YELLOW_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
-        tileTexture.put(ChunkBuffer.PURPLE_BIOM, AssetLoader.getTexture(Textures.PURPLE_TILESET));
+        tileTexture.put(ChunkBuffer.PURPLE_BIOM, Statics.asset.getTexture(Textures.PURPLE_TILESET));
         tiles.put(ChunkBuffer.PURPLE_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.PURPLE_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
-        tileTexture.put(ChunkBuffer.GREEN_BIOM, AssetLoader.getTexture(Textures.GREEN_TILESET));
+        tileTexture.put(ChunkBuffer.GREEN_BIOM, Statics.asset.getTexture(Textures.GREEN_TILESET));
         tiles.put(ChunkBuffer.GREEN_BIOM, TextureRegion.split(tileTexture.get(ChunkBuffer.GREEN_BIOM), TILE_WIDTH, TILE_HEIGHT));
 
         // TODO MIN MAX ALL

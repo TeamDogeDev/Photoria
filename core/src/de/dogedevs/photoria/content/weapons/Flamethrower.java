@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
@@ -28,8 +29,8 @@ public class Flamethrower implements Weapon {
 
     @Override
     public void render(Batch batch, float deltaTime, float z) {
-//        ParticleEffect particleEffect = AssetLoader.getParticleEffect(Particles.FLAME_THROWER);
-        ParticlePool.instance().createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, beginVec.x, beginVec.y+z, rotation, 10);
+//        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
+        Statics.particle.createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, beginVec.x, beginVec.y + z, rotation, 10);
     }
 
     @Override

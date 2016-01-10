@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.utils.Align;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 
@@ -49,7 +50,7 @@ public class DebugOverlay extends AbstractOverlay {
         font.draw(batch, "y="+Math.round((camera.position.y)/32) , 1070, startY-120, 200, Align.right, false);
         font.draw(batch, "chunk x="+Math.round((camera.position.x)/32/64), 1070, startY-140, 200, Align.right, false);
         font.draw(batch, "chunk y="+Math.round((camera.position.y)/32/64) , 1070, startY-160, 200, Align.right, false);
-        font.draw(batch, "flameThrowerPeek=" + ParticlePool.instance().getPoolPeek(ParticlePool.ParticleType.FLAME_THROWER), 1070, startY-180, 200, Align.right, false);
+        font.draw(batch, "flameThrowerPeek=" + Statics.particle.getPoolPeek(ParticlePool.ParticleType.FLAME_THROWER), 1070, startY-180, 200, Align.right, false);
 
         batch.end();
     }

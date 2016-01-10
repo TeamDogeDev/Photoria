@@ -46,6 +46,9 @@ public class MobManager {
 
     public MobTemplate getRandomTemplateForBiome(int biome){
         List<MobTemplate> list = templates.get(biome);
+        if(list == null || list.isEmpty()){
+            return null;
+        }
         return list.get(MathUtils.random(0, list.size() - 1));
     }
 
@@ -70,10 +73,10 @@ public class MobManager {
         template.ai = 1;
 
         template.blue = 1;
-        template.red = 2;
-        template.green = 3;
-        template.yellow = 4;
-        template.purple = 5;
+        template.red = 1;
+        template.green = 1;
+        template.yellow = 1;
+        template.purple = 1;
 
         template.weapon = 1;
 

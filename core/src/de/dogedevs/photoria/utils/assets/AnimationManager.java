@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.HashMap;
@@ -11,17 +12,17 @@ import java.util.HashMap;
 /**
  * Created by Furuha on 01.01.2016.
  */
-public class AnimationLoader {
+public class AnimationManager {
 
-    private static HashMap<String, Animation[]> animations = new HashMap<>();
+    private HashMap<String, Animation[]> animations = new HashMap<>();
 
-    public static Animation[] getMovementAnimations(Textures texture, boolean mirrored, int rows, int cols){
+    public Animation[] getMovementAnimations(Textures texture, boolean mirrored, int rows, int cols){
         Animation[] result = animations.get(texture.name);
         if(result != null){
             return  result;
         }
 
-        Texture walkSheet = AssetLoader.getTexture(texture);
+        Texture walkSheet = Statics.asset.getTexture(texture);
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/cols, walkSheet.getHeight()/rows);
         TextureRegion[][] walkFrames;
         if(mirrored){
@@ -44,7 +45,7 @@ public class AnimationLoader {
         return  result;
     }
 
-    public static Animation[] getShipAnimation(){
+    public Animation[] getShipAnimation(){
         Texture wormWalkSheet = new Texture(Gdx.files.internal("ship_right.png"));
         TextureRegion[][] wormTmp = TextureRegion.split(wormWalkSheet, wormWalkSheet.getWidth()/4, wormWalkSheet.getHeight()/1);
         TextureRegion[][] wormWalkFrames = new TextureRegion[1][4];
@@ -58,8 +59,8 @@ public class AnimationLoader {
         return  result;
     }
 
-    public static Animation[] getPlayerAnimations(){
-        Texture walkSheet = AssetLoader.getTexture(Textures.PLAYER);
+    public Animation[] getPlayerAnimations(){
+        Texture walkSheet = Statics.asset.getTexture(Textures.PLAYER);
         TextureRegion[][] tmp = TextureRegion.split(walkSheet, walkSheet.getWidth()/13, walkSheet.getHeight()/21);
         TextureRegion[][] walkFrames = new TextureRegion[4][8];
         for (int i = 0; i < 4; i++) {

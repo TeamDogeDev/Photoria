@@ -8,6 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.ParticleComponent;
@@ -15,9 +16,6 @@ import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
-import de.dogedevs.photoria.screens.GameScreen;
-import de.dogedevs.photoria.utils.assets.AssetLoader;
-import de.dogedevs.photoria.utils.assets.SoundManager;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -27,8 +25,8 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
 public class AttackManager {
 
     public Entity createAttack(Entity parent, Weapon weapon){
-        PooledEngine ashley = GameScreen.getAshley();
-        Entity attack = GameScreen.getAshley().createEntity();
+        PooledEngine ashley = Statics.ashley;
+        Entity attack = Statics.ashley.createEntity();
 
         TargetComponent tc = ashley.createComponent(TargetComponent.class);
         attack.add(tc);
@@ -57,11 +55,11 @@ public class AttackManager {
     }
 
     public void deleteWeaponsFrom(Entity parent){
-        ImmutableArray<Entity> entities = GameScreen.getAshley().getEntitiesFor(Family.all(AttackComponent.class).get());
+        ImmutableArray<Entity> entities = Statics.ashley.getEntitiesFor(Family.all(AttackComponent.class).get());
         for(Entity entity: entities){
             ParentComponent pc = ComponentMappers.parent.get(entity);
             if(pc != null && pc.parent == parent){
-                GameScreen.getAshley().removeEntity(entity);
+                Statics.ashley.removeEntity(entity);
             }
         }
     }
@@ -74,7 +72,7 @@ public class AttackManager {
                 if (target == parent || target == attack || cC== null || cC.ghost || cC.projectile) {
                     return;
                 }
-                SoundManager.playSound(Sounds.MOB_HIT);
+                Statics.sound.playSound(Sounds.MOB_HIT);
 
                 HealthComponent hc = ComponentMappers.health.get(target);
                 if(hc != null){
@@ -89,50 +87,30 @@ public class AttackManager {
 
             private void die(Entity target, Entity parent) {
                 ElementsComponent ec = ComponentMappers.elements.get(target);
-                ElementsComponent playerEc = ComponentMappers.elements.get(parent);
-                if(ec != null && playerEc != null){
-                    playerEc.blue += ec.blue;
-                    playerEc.yellow += ec.yellow;
-                    playerEc.red += ec.red;
-                    playerEc.purple += ec.purple;
-                    playerEc.green += ec.green;
-                    target.remove(ElementsComponent.class);
-
-                    playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
-                    playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
-                    playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
-                    playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
-                    playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
-                }
                 InventoryComponent ic = ComponentMappers.inventory.get(target);
                 PositionComponent pc = ComponentMappers.position.get(target);
 
+                Statics.item.createGemDrop(ec, pc);
+
                 if(ic != null){
-                    dropItem(ic.slotAttack, pc);
-                    dropItem(ic.slotDefense, pc);
-                    dropItem(ic.slotOther, pc);
-                    dropItem(ic.slotRegeneration, pc);
-                    dropItem(ic.slotStatsUp, pc);
+                    Statics.item.dropItem(ic.slotAttack, pc);
+                    Statics.item.dropItem(ic.slotDefense, pc);
+                    Statics.item.dropItem(ic.slotOther, pc);
+                    Statics.item.dropItem(ic.slotRegeneration, pc);
+                    Statics.item.dropItem(ic.slotStatsUp, pc);
 
                     for(Entity item: ic.slotUse){
-                        dropItem(item, pc);
+                        Statics.item.dropItem(item, pc);
                     }
                 }
             }
 
-            private void dropItem(Entity item, PositionComponent positionComponent) {
-                if(item != null){
-//                    LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
-//                    lc.maxTime = 10;
-//                    item.add(lc);
-                    item.add(new PositionComponent(positionComponent.x, positionComponent.y));
-                }
-            }
+
         };
     }
 
     public void shootParticleBall(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
-        PooledEngine ashley = GameScreen.getAshley();
+        PooledEngine ashley = Statics.ashley;
         Entity shot = ashley.createEntity();
 
         shot.add(ashley.createComponent(ParticleComponent.class));
@@ -165,10 +143,10 @@ public class AttackManager {
     }
 
     public void shootNormal(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
-        PooledEngine ashley = GameScreen.getAshley();
+        PooledEngine ashley = Statics.ashley;
         Entity shot = ashley.createEntity();
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(AssetLoader.getTexture(Textures.BULLET));
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.BULLET));
 
         CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
         cc.ghost = true;
@@ -199,7 +177,7 @@ public class AttackManager {
     }
 
     private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {
-        final PooledEngine ashley = GameScreen.getAshley();
+        final PooledEngine ashley = Statics.ashley;
         CollisionComponent.CollisionListener listener = new CollisionComponent.CollisionListener() {
 
             @Override
@@ -209,7 +187,7 @@ public class AttackManager {
                 if (other == parent || itemC != null && cC.ghost || cC.projectile) {
                     return false;
                 }
-                SoundManager.playSound(Sounds.MOB_HIT);
+                Statics.sound.playSound(Sounds.MOB_HIT);
 
                 HealthComponent hc = ComponentMappers.health.get(other);
                 if(hc != null){
@@ -262,7 +240,7 @@ public class AttackManager {
 
             private void dropItem(Entity item, PositionComponent positionComponent) {
                 if(item != null){
-                    LifetimeComponent lc = GameScreen.getAshley().createComponent(LifetimeComponent.class);
+                    LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
                     lc.maxTime = 10;
                     item.add(lc);
                     item.add(new PositionComponent(positionComponent.x, positionComponent.y));
