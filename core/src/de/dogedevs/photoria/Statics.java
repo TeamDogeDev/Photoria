@@ -17,6 +17,8 @@ import de.dogedevs.photoria.utils.assets.*;
  * @author teamDogeDev */
 public class Statics {
 
+    public static float boat; //must be a float otherwise it sinks
+
     public static AssetLoader asset;
     public static PooledEngine ashley;
     public static MobManager mob;
