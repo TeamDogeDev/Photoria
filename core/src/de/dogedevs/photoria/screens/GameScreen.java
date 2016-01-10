@@ -244,8 +244,13 @@ public class GameScreen implements Screen {
 //        postShader.begin();
 //        postShader.setUniformf("radial_blur", MathUtils.sin(state));
 //        postShader.end();
+//Clear buffer
+
+
         buffer.begin();
         {
+            Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //Process debug camera controls
             if (Config.enableDebugCamera) {
                 input();
@@ -311,11 +316,9 @@ public class GameScreen implements Screen {
         }
         buffer.end();
 
-        //Clear buffer
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+//        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+//        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         testBatch.begin();
         testBatch.draw(buffer.getColorBufferTexture(),
                         0, 0,
