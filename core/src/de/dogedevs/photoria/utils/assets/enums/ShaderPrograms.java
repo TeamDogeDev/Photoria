@@ -11,7 +11,10 @@ public enum ShaderPrograms {
     BLOOM_SHADER("shaders/vertexStub.vsh", "shaders/bloomShader.fsh"),
     POST_SHADER("shaders/vertexStub.vsh", "shaders/postShader.fsh"),
     STARFIELD_SHADER("shaders/vertexStub.vsh", "shaders/starfield.fsh"),
-    SCANLINE_SHADER("shaders/vertexStub.vsh", "shaders/scanline.fsh");
+    SCANLINE_SHADER("shaders/vertexStub.vsh", "shaders/scanline.fsh"),
+    SEPIA_SHADER("shaders/vertexStub.vsh", "shaders/sepiaShader.fsh"),
+    RADIAL_BLUR_SHADER("shaders/vertexStub.vsh", "shaders/radialBlurShader.fsh");
+
 
     public String fragmentShader;
     public String vertexShader;
