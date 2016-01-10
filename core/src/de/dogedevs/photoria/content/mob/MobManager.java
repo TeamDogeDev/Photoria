@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.dogedevs.photoria.content.ai.AiType;
+import de.dogedevs.photoria.content.weapons.WeaponType;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
@@ -83,7 +84,7 @@ public class MobManager {
         template.yellow = 1;
         template.purple = 1;
 
-        template.weapon = 1;
+        template.weapon = WeaponType.LASER;
 
         template.maxHealth = 30;
 

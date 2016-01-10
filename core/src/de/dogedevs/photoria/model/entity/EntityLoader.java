@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.RandomXS128;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.MobStats;
 import de.dogedevs.photoria.content.mob.MobTemplate;
+import de.dogedevs.photoria.content.weapons.*;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
@@ -294,6 +295,36 @@ public class EntityLoader {
         vc.direction = MathUtils.random(0, 7);
         vc.speed = template.speed;
         entity.add(vc);
+
+        TargetComponent target = Statics.ashley.createComponent(TargetComponent.class);
+        entity.add(target);
+        Weapon weapon;
+        switch (template.weapon){
+            case NEUTRAL:
+                weapon = new Shooter();
+                break;
+            case LASER:
+                weapon = new Laser();
+                break;
+            case FLAMETHROWER:
+                weapon = new Flamethrower();
+                break;
+            case WATERTHROWER:
+                weapon = new Watercannon();
+                break;
+            case SLIMEBALLS:
+                weapon = new AcidShooter();
+                break;
+            case ENERGYGUN:
+                weapon = new ParticleShooter();
+                break;
+            default:
+                weapon = new Shooter();
+                break;
+        }
+        weapon.setRange(template.range);
+        Statics.attack.createAttack(entity, weapon);
+        target.isShooting = false;
 
         ashley.addEntity(entity);
     }

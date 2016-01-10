@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.content.mob;
 
 import de.dogedevs.photoria.content.ai.AiType;
+import de.dogedevs.photoria.content.weapons.WeaponType;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -30,12 +31,13 @@ public class MobTemplate {
     public List<Integer> biome;
 
     public AiType ai;
-    public int weapon;
+    public WeaponType weapon;
 
     public int speed;
     public int maxHealth;
     public int baseDamage;
     public int baseDefense;
+    public int range;
 
 
 
