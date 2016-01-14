@@ -1,6 +1,7 @@
 package de.dogedevs.photoria;
 
 import com.badlogic.ashley.core.PooledEngine;
+import de.dogedevs.photoria.content.GameMessages;
 import de.dogedevs.photoria.content.items.ItemManager;
 import de.dogedevs.photoria.content.mob.MobManager;
 import de.dogedevs.photoria.content.weapons.AttackManager;
@@ -28,6 +29,7 @@ public class Statics {
     public static MusicManager music;
     public static SoundManager sound;
     public static ItemManager item;
+    public static GameMessages message;
 
     public static void initCat(){
         ashley = new PooledEngine();
@@ -39,6 +41,7 @@ public class Statics {
         sound = new SoundManager();
         item = new ItemManager();
         particle = new ParticlePool();
+        message = new GameMessages();
     }
 
 }

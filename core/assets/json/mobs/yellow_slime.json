@@ -16,7 +16,7 @@
     3
   ],
   "ai": "FOLLOW",
-  "weapon": "ENERGYGUN",
+  "weapon": "LASER",
   "speed": 0,
   "range": 400,
   "maxHealth": 30,

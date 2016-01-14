@@ -173,8 +173,13 @@ public class GameScreen implements Screen {
 //                postProcessing(newBiome);
 
                 if(!biomes.contains(newBiome)) {
-                    GameOverlay.addTextbox("Hello " + ChunkBuffer.biomNames.get(newBiome), 1);
-                    biomes.add(newBiome);
+                    List<String> messages = Statics.message.getEnterMessageForBiome(newBiome);
+                    for(String s : messages) {
+                        float duration = (s.split(" ").length / 200f) * 60; // 2oo words pro min
+                        duration = duration < 5 ? 5 : duration; // min 5 sec.
+                        GameOverlay.addTextbox(s, duration);
+                        biomes.add(newBiome);
+                    }
                 }
             }
         };
