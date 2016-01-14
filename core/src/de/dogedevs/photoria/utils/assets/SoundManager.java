@@ -22,7 +22,7 @@ public class SoundManager {
     }
 
     public long playSound(Sounds sound) {
-        return playSound(sound, 1f);
+        return playSound(sound, Statics.settings.soundVolume);
     }
 
     public long playSound(Sounds sound, float volume) {

@@ -14,20 +14,33 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
 /**
  * Created by elektropapst on 11.01.2016.
  */
-public class MenuItem extends Actor {
+public class MenuButton extends Actor {
+
+    public enum ButtonType {
+        SMALL,
+        NORMAL
+    }
 
     private TextureRegion boxTexture;
     private String text;
     private BitmapFont font;
     private Color renderColor, fontColor, hoverColor;
 
-    public MenuItem(String text, float x, float y, BitmapFont font, Color fontColor, Color hoverColor) {
+    public MenuButton(String text, float x, float y, BitmapFont font, Color fontColor, Color hoverColor, ButtonType btnType) {
         this.text = text;
         this.font = font;
         this.fontColor = fontColor;
         this.hoverColor = hoverColor;
         this.renderColor = fontColor;
-        boxTexture = new TextureRegion(Statics.asset.getTexture(Textures.MENU_BOX));
+        switch (btnType) {
+            case SMALL:
+                boxTexture = new TextureRegion(Statics.asset.getTexture(Textures.MENU_BOX_SMALL));
+                break;
+            case NORMAL:
+            default:
+                boxTexture = new TextureRegion(Statics.asset.getTexture(Textures.MENU_BOX));
+                break;
+        }
         this.setPosition(x, y);
         this.setSize(boxTexture.getRegionWidth(), boxTexture.getRegionHeight());
         initListener();
@@ -55,7 +68,7 @@ public class MenuItem extends Actor {
         batch.draw(boxTexture, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         font.setColor(renderColor);
         font.draw(batch, text, getX(), getY() + font.getLineHeight(), getWidth(), Align.center, false);
-
+        font.setColor(fontColor);
     }
 
 

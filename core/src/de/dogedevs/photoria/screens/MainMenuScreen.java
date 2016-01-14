@@ -8,18 +8,23 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
-import de.dogedevs.photoria.screens.actors.MenuItem;
+import de.dogedevs.photoria.screens.actors.MenuButton;
 import de.dogedevs.photoria.utils.Utils;
 import de.dogedevs.photoria.utils.assets.enums.BitmapFonts;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import static de.dogedevs.photoria.Statics.asset;
+import static de.dogedevs.photoria.Statics.settings;
+import static de.dogedevs.photoria.Statics.sound;
 
 /**
  * Created by elektropapst on 11.01.2016.
@@ -28,11 +33,12 @@ public class MainMenuScreen implements Screen {
 
     private Batch mainBatch;
     private BitmapFont menuFont;
-    private Texture box, logoInner, logoOuter;
-    private float rot, offset;
+    private Texture box, logoInner, logoOuter, volumeBox, volumeBoxBar, cursorTex;
+    private float rot, offset, spacing, startX, startY, rightAligned;
     private Stage stage;
-    private MenuItem start, options, quit;
-
+    private MenuButton start, quit, sndPlus, sndMinus, musPlus, musMinus;
+    private int soundRow = 2;
+    private int musicRow = 3;
     public MainMenuScreen() {
         init();
         initUI();
@@ -44,22 +50,46 @@ public class MainMenuScreen implements Screen {
         box = asset.getTexture(Textures.MENU_BOX);
         logoOuter = asset.getTexture(Textures.MENU_LOGO_OUTER);
         logoInner = asset.getTexture(Textures.MENU_LOGO_INNER);
+        volumeBox = asset.getTexture(Textures.MENU_VOLUME_BOX);
+        volumeBoxBar = asset.getTexture(Textures.MENU_VOLUME_BOX_BAR);
+        cursorTex = asset.getTexture(Textures.MOUSE_CURSOR);
         offset = 50;
+        spacing = 50;
+        startX = offset;
+        startY = Gdx.graphics.getHeight() - offset - Statics.asset.getTexture(Textures.MENU_BOX).getHeight();
+        rightAligned = Statics.asset.getTexture(Textures.MENU_BOX).getWidth()-Statics.asset.getTexture(Textures.MENU_BOX_SMALL).getWidth();
+
     }
 
     private void initUI() {
         stage = new Stage(new ScreenViewport());
 
-        float spacing = 50;
+        start = new MenuButton("Start", startX, startY, menuFont, Color.BLACK, Color.WHITE, MenuButton.ButtonType.NORMAL);
+        quit = new MenuButton("Quit", startX, startY - (1 * spacing), menuFont, Color.BLACK, Color.WHITE, MenuButton.ButtonType.NORMAL);
 
-        float startX = offset;
-        float startY = Gdx.graphics.getHeight() - offset - Statics.asset.getTexture(Textures.MENU_BOX).getHeight();
+        sndMinus = new MenuButton("-",
+                startX, startY - ((soundRow+1) * spacing),
+                menuFont, Color.BLACK, Color.RED, MenuButton.ButtonType.SMALL);
 
-        start = new MenuItem("Start", startX, startY, menuFont, Color.BLACK, Color.DARK_GRAY);
-        quit = new MenuItem("Quit", startX, startY - (1 * spacing), menuFont, Color.BLACK, Color.DARK_GRAY);
+        sndPlus = new MenuButton("+",
+                startX + rightAligned, startY - ((soundRow+1) * spacing),
+                menuFont, Color.BLACK, Color.LIME, MenuButton.ButtonType.SMALL);
+
+        musMinus = new MenuButton("-",
+                startX, startY - ((musicRow+2) * spacing),
+                menuFont, Color.BLACK, Color.RED, MenuButton.ButtonType.SMALL);
+
+        musPlus = new MenuButton("+",
+                startX + rightAligned, startY - ((musicRow+2) * spacing),
+                menuFont, Color.BLACK, Color.LIME, MenuButton.ButtonType.SMALL);
 
         stage.addActor(start);
         stage.addActor(quit);
+        stage.addActor(sndMinus);
+        stage.addActor(sndPlus);
+        stage.addActor(musMinus);
+        stage.addActor(musPlus);
+
         initListener();
         Gdx.input.setInputProcessor(stage);
     }
@@ -80,6 +110,42 @@ public class MainMenuScreen implements Screen {
                 Gdx.app.exit();
             }
         });
+        final float sens = .1f;
+        sndMinus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                settings.soundVolume -= sens;
+                settings.soundVolume = MathUtils.clamp(settings.soundVolume, 0, 1);
+                sound.playSound(Sounds.MOB_HIT);
+            }
+        });
+
+        sndPlus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                settings.soundVolume += sens;
+                settings.soundVolume = MathUtils.clamp(settings.soundVolume, 0, 1);
+                sound.playSound(Sounds.MOB_HIT);
+            }
+        });
+
+        musMinus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                settings.musicVolume -= sens;
+                settings.musicVolume = MathUtils.clamp(settings.musicVolume, 0, 1);
+                sound.playSound(Sounds.MOB_DIE, settings.musicVolume);
+            }
+        });
+
+        musPlus.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                settings.musicVolume += sens;
+                settings.musicVolume = MathUtils.clamp(settings.musicVolume, 0, 1);
+                sound.playSound(Sounds.MOB_DIE, settings.musicVolume);
+            }
+        });
     }
 
     @Override
@@ -98,12 +164,29 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClearColor(191 / 255f, 191 / 255f, 191 / 255f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
-        renderLogo(delta, Gdx.graphics.getWidth() - logoOuter.getWidth()-offset, Gdx.graphics.getHeight() - logoOuter.getHeight()-offset);
+        mainBatch.begin();
+        menuFont.draw(mainBatch, "Sound:", startX, startY - (soundRow * spacing) + menuFont.getLineHeight(),
+                asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
+
+        menuFont.draw(mainBatch, "Music:", startX, startY - ((musicRow+1) * spacing) + menuFont.getLineHeight(),
+                asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
+        renderVolumeBox(3, Statics.settings.soundVolume);
+        renderVolumeBox(5, Statics.settings.musicVolume);
+        renderLogo(delta, Gdx.graphics.getWidth() - logoOuter.getWidth() - offset, Gdx.graphics.getHeight() - logoOuter.getHeight() - offset);
         renderCursor(delta);
+        mainBatch.end();
+    }
+
+    private void renderVolumeBox(int row, float value) {
+
+        mainBatch.draw(volumeBoxBar,  startX+asset.getTexture(Textures.MENU_BOX_SMALL).getWidth()+12, startY - (row * spacing),
+        volumeBox.getWidth()*value, volumeBox.getHeight());
+
+        mainBatch.draw(volumeBox, startX+asset.getTexture(Textures.MENU_BOX_SMALL).getWidth()+12, startY - (row * spacing));
+
     }
 
     private void renderLogo(float delta, float logoX, float logoY) {
-        mainBatch.begin();
         mainBatch.draw(logoInner, logoX, logoY);
         mainBatch.draw(logoOuter,
                 logoX, logoY,
@@ -112,17 +195,15 @@ public class MainMenuScreen implements Screen {
                 1, 1,
                 rot,
                 0, 0, logoOuter.getWidth(), logoOuter.getHeight(), false, false);
-        mainBatch.end();
     }
 
     private void renderCursor(float delta) {
-        Texture cursorTex = asset.getTexture(Textures.MOUSE_CURSOR);
-        mainBatch.begin();
+        Color oldColor = mainBatch.getColor();
         mainBatch.setColor(Color.BLACK);
         mainBatch.draw(cursorTex,
                 Gdx.input.getX() - (cursorTex.getWidth() / 2),
                 Gdx.graphics.getHeight() - Gdx.input.getY() - (cursorTex.getHeight() / 2));
-        mainBatch.end();
+        mainBatch.setColor(oldColor);
     }
 
     @Override
@@ -151,5 +232,8 @@ public class MainMenuScreen implements Screen {
         menuFont.dispose();
         mainBatch.dispose();
         stage.dispose();
+        volumeBoxBar.dispose();
+        volumeBox.dispose();
+        cursorTex.dispose();
     }
 }
