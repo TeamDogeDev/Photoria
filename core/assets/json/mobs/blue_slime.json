@@ -1,19 +1,19 @@
 {
   "id": 1,
-  "name": "Green Slime",
-  "texture": "SLIME_GREEN",
-  "green": 1.0,
-  "red": -0.3,
-  "blue": -0.3,
-  "yellow": -0.5,
-  "purple": -0.5,
+  "name": "Blue Slime",
+  "texture": "SLIME_BLUE",
+  "green": -0.5,
+  "red": -0.5,
+  "blue": 1.0,
+  "yellow": -0.3,
+  "purple": -0.3,
   "type": "LOW",
   "attributes": [
     "MULTIPLY",
     "GROUND"
   ],
   "biome": [
-    5
+    2
   ],
   "ai": "FOLLOW",
   "weapon": "ENERGYGUN",

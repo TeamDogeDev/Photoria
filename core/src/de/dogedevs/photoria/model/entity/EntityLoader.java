@@ -52,29 +52,34 @@ public class EntityLoader {
         if(biomCell == null){
             return;
         }
-        if(biomCell.value == ChunkBuffer.BLUE_BIOM){
-            if(collisionCell.value == TileCollisionMapper.GROUND || collisionCell.value == TileCollisionMapper.HIGH_GROUND) {
+        if(collisionCell.value == TileCollisionMapper.GROUND || collisionCell.value == TileCollisionMapper.HIGH_GROUND) {
 //                createSlime(Textures.SLIME_BLUE, x, y);
-                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-                createMob(mob, x, y);
-            }
-        } else if(biomCell.value == ChunkBuffer.GREEN_BIOM){
             MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
             createMob(mob, x, y);
-//            createSlime(Textures.SLIME_GREEN, x, y);
-        } else if(biomCell.value == ChunkBuffer.PURPLE_BIOM){
-//            createSlime(Textures.SLIME_PURPLE, x,y);
-            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-            createMob(mob, x, y);
-        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
-            if(collisionCell.value == TileCollisionMapper.HIGH_GROUND_FLUID) {
-//                createSlime(Textures.SLIME_RED, x, y);
-                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-                createMob(mob, x, y);
-            }
-        } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
-            createEyeball(x,y);
         }
+//        if(biomCell.value == ChunkBuffer.BLUE_BIOM){
+//            if(collisionCell.value == TileCollisionMapper.GROUND || collisionCell.value == TileCollisionMapper.HIGH_GROUND) {
+////                createSlime(Textures.SLIME_BLUE, x, y);
+//                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+//                createMob(mob, x, y);
+//            }
+//        } else if(biomCell.value == ChunkBuffer.GREEN_BIOM){
+//            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+//            createMob(mob, x, y);
+////            createSlime(Textures.SLIME_GREEN, x, y);
+//        } else if(biomCell.value == ChunkBuffer.PURPLE_BIOM){
+////            createSlime(Textures.SLIME_PURPLE, x,y);
+//            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+//            createMob(mob, x, y);
+//        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
+//            if(collisionCell.value == TileCollisionMapper.HIGH_GROUND_FLUID) {
+////                createSlime(Textures.SLIME_RED, x, y);
+//                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
+//                createMob(mob, x, y);
+//            }
+//        } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
+//            createEyeball(x,y);
+//        }
 //        if(biomCell.value == ChunkBuffer.GREEN_BIOM){
 //            createSlime(x,y);
 //        } else if(biomCell.value == ChunkBuffer.RED_BIOM){

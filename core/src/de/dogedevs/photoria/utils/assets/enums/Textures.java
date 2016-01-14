@@ -81,7 +81,12 @@ public enum Textures {
     ORE_RED("items/ore/oreRed.png"),
     ORE_YELLOW("items/ore/oreYellow.png"),
     ORE_BLUE("items/ore/oreBlue.png"),
-    ORE_GREEN("items/ore/oreGreen.png");
+    ORE_GREEN("items/ore/oreGreen.png"),
+
+    // MENU
+    MENU_BOX("menu/menuBox.png"),
+    MENU_LOGO_INNER("menu/logo_inner.png"),
+    MENU_LOGO_OUTER("menu/logo_outer.png");
 
 
 

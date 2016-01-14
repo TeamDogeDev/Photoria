@@ -66,9 +66,9 @@ public class ItemManager {
     private Entity generateBasicItem(String name, ItemComponent.ItemType type){
         Entity entity = Statics.ashley.createEntity();
 
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ORE_GREEN));
-        entity.add(sc);
+//        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+//        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ORE_GREEN));
+//        entity.add(sc);
 
         CollisionComponent cc = Statics.ashley.createComponent(CollisionComponent.class);
         cc.ghost = true;
