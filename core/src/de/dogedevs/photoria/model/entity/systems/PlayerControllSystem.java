@@ -11,13 +11,13 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
-import de.dogedevs.photoria.content.weapons.Laser;
-import de.dogedevs.photoria.content.weapons.Weapon;
+import de.dogedevs.photoria.content.weapons.*;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
@@ -86,11 +86,36 @@ public class PlayerControllSystem extends EntitySystem {
                 target = Statics.ashley.createComponent(TargetComponent.class);
                 e.add(target);
                 Statics.attack.deleteWeaponsFrom(e);
-                Weapon weapon = new Laser();
+                Weapon weapon = null;
+                ElementsComponent elementsComponent = ComponentMappers.elements.get(e);
+                if(elementsComponent != null) {
+                    float biggest = elementsComponent.blue;
+                    weapon = new Watercannon();
+                    if(elementsComponent.yellow >= biggest){
+                        biggest = elementsComponent.yellow;
+                        weapon = new Laser();
+                    }
+                    if(elementsComponent.red >= biggest){
+                        biggest = elementsComponent.red;
+                        weapon = new Flamethrower();
+                    }
+                    if(elementsComponent.purple >= biggest){
+                        biggest = elementsComponent.purple;
+                        weapon = new ParticleShooter();
+                    }
+                    if(elementsComponent.green >= biggest){
+                        weapon = new Shooter();
+                    }
+                }
+                else {
+                    weapon = new Laser();
+                }
                 weapon.setRange(350);
                 weapon.setColors(Color.RED, Color.WHITE);
                 Statics.attack.createAttack(e, weapon);
             }
+
+
 
 //            if(MathUtils.randomBoolean(0.05f)){
 //                AttackManager am = new AttackManager();

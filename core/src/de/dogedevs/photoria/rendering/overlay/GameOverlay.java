@@ -147,7 +147,7 @@ public class GameOverlay extends AbstractOverlay {
         }
         Texture playerIcon = Statics.asset.getTexture(bTextures);
 
-        batch.draw(playerIcon, 150, Gdx.graphics.getHeight() - playerIcon.getHeight() - offset);
+        batch.draw(playerIcon, 165, Gdx.graphics.getHeight() - playerIcon.getHeight() - offset - 8);
 
         batch.end();
     }
