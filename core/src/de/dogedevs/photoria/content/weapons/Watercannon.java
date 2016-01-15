@@ -30,7 +30,7 @@ public class Watercannon implements Weapon {
     @Override
     public void render(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
-        Statics.particle.createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, beginVec.x, beginVec.y + z, rotation, 10);
+        Statics.particle.createParticleAt(ParticlePool.ParticleType.WATER_THROWER, beginVec.x, beginVec.y + z, rotation, 5);
     }
 
     @Override
