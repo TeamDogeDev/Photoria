@@ -41,6 +41,7 @@ public enum Textures {
 
     // OTHER ENTITIES
     BULLET("weapons/bullet.png"),
+    BULLET_SPLASH("weapons/splash_base_big.png"),
 
     // LASER
     LASER_BEGIN("weapons/laser/start.png"),

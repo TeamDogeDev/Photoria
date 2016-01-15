@@ -1,13 +1,25 @@
 package de.dogedevs.photoria.content.weapons;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.CollisionComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.VelocityComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,23 +32,67 @@ public class AcidShooter implements Weapon {
     private float length = 300;
     private Entity owner;
 
+    private List<Vector2> checkList;
+
     public AcidShooter() {
         beginVec = new Vector2(100,100);
         endVec = new Vector2(0,0);
+        checkList =  new ArrayList<>();
     }
 
     float deltaSum = 0;
 
     @Override
     public void render(Batch batch, float deltaTime, float z) {
-//        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         deltaSum -= deltaTime;
         if(deltaSum <= 0) {
             deltaSum = 1f;
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();
             dir.set(target).sub(beginVec).nor();
-            Statics.attack.shootNormal(owner, dir, null);
+            PooledEngine ashley = Statics.ashley;
+            Entity shot = ashley.createEntity();
+            SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.BULLET_SPLASH));
+
+            CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+            cc.ghost = true;
+            cc.projectile = true;
+            cc.collisionListener = new CollisionComponent.CollisionListener() {
+
+                    @Override
+                    public boolean onCollision(Entity other, Entity self) {
+                        PositionComponent positionComponent = ComponentMappers.position.get(other);
+                        CollisionComponent cC = ComponentMappers.collision.get(other);
+                        if (other == owner || cC.ghost || cC.projectile || positionComponent == null) {
+                            return false;
+                        }
+                        Statics.sound.playSound(Sounds.MOB_HIT);
+
+                        checkList.add(new Vector2(positionComponent.x, positionComponent.y));
+                        Statics.particle.createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, positionComponent.x, positionComponent.y);
+                        ashley.removeEntity(self);
+                        return true;
+                    }
+            };
+
+            LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
+            lc.maxTime = 1;
+            PositionComponent pc = ashley.createComponent(PositionComponent.class);
+            PositionComponent position = ComponentMappers.position.get(owner);
+            pc.x = position.x;
+            pc.y = position.y;
+            pc.z = 26;
+            VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
+            vc.speed = 512;
+            vc.vectorDirection = dir;
+            shot.add(pc);
+            shot.add(sc);
+            shot.add(vc);
+            shot.add(cc);
+//        shot.add(lc);
+
+            ashley.addEntity(shot);
         }
     }
 
@@ -78,7 +134,16 @@ public class AcidShooter implements Weapon {
 
     @Override
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
-
+        for(Vector2 pos: checkList){
+            for(Entity entity: entityList){
+                PositionComponent pc = ComponentMappers.position.get(entity);
+                float dist = Vector2.dst(pos.x, pos.y, pc.x, pc.y);
+                if(dist < 40){
+                    resultList.add(entity);
+                }
+            }
+        }
+        checkList.clear();
     }
 
     public Vector2 getEnd(){
