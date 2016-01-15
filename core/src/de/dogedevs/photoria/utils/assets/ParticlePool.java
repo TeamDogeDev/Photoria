@@ -28,7 +28,8 @@ public class ParticlePool {
         BLOOD(new GameEffect(Statics.asset.getParticleEffect(Particles.BLOOD_PARTICLE), 25, 100)),
         FIRE(new GameEffect(Statics.asset.getParticleEffect(Particles.FIRE_PARTICLE), 25, 100)),
         FLAME_THROWER(new GameEffect(Statics.asset.getParticleEffect(Particles.FLAME_THROWER), 25, 100)),
-        ENERGY_BALL(new GameEffect(Statics.asset.getParticleEffect(Particles.ENERGY_BALL), 25, 100));
+        ENERGY_BALL(new GameEffect(Statics.asset.getParticleEffect(Particles.ENERGY_BALL), 25, 100)),
+        SLIME_SPLASH(new GameEffect(Statics.asset.getParticleEffect(Particles.SLIME_SPLASH), 25, 100));
 
         GameEffect gameEffect;
         ParticleType(GameEffect gameEffect) {
