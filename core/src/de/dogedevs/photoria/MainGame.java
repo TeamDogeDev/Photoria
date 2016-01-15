@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.dogedevs.photoria.screens.GameScreen;
 import de.dogedevs.photoria.screens.MainMenuScreen;
 
 import java.util.LinkedList;
@@ -42,7 +41,7 @@ public class MainGame extends Game {
         random = new Random();
         GAME_SEED = random.nextLong();
 
-        currentScreen = new GameScreen();
+//        currentScreen = new GameScreen();
         currentScreen = new MainMenuScreen();
 //        currentScreen = new MainMenu();
         this.setScreen(currentScreen);

@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
@@ -53,16 +54,20 @@ public class GameScreen implements Screen {
     private final int[] foregroundLayers = {1, 2, 3};
 
     private Texture clouds = Statics.asset.getTexture(Textures.CLOUD_STUB);
+    boolean pause = false;
 
-    public void show() {
-//        ambient.play();
-
+    public GameScreen() {
         initCamera();
         initMap();
         initShader();
         initAshley();
         initEntities();
         initOverlays();
+    }
+
+    public void show() {
+//        ambient.play();
+        pause = false;
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -90,17 +95,19 @@ public class GameScreen implements Screen {
                 if (keycode == Input.Keys.F12) {
                     ScreenshotFactory.saveScreenshot();
                 }
-                if(keycode == Input.Keys.F11){
+                if (keycode == Input.Keys.F11) {
                     fullscreen = !fullscreen;
                     Gdx.graphics.setDisplayMode(1280, 720, fullscreen);
                     return true;
-                } else if(keycode == Input.Keys.F9){
+                } else if (keycode == Input.Keys.F9) {
                     Gdx.app.exit();
                 }
 
                 return super.keyDown(keycode);
             }
         });
+
+
     }
 
     private void initAshley() {
@@ -172,9 +179,9 @@ public class GameScreen implements Screen {
             public void onBiomeChange(int newBiome, int oldBiome) {
 //                postProcessing(newBiome);
 
-                if(!biomes.contains(newBiome)) {
+                if (!biomes.contains(newBiome)) {
                     List<String> messages = Statics.message.getEnterMessageForBiome(newBiome);
-                    for(String s : messages) {
+                    for (String s : messages) {
                         float duration = (s.split(" ").length / 200f) * 60; // 2oo words pro min
                         duration = duration < 5 ? 5 : duration; // min 5 sec.
                         GameOverlay.addTextbox(s, duration);
@@ -264,67 +271,78 @@ public class GameScreen implements Screen {
     private Batch postProcessingBatch = new SpriteBatch();
 
     float fadeSpeed = 0.2f;
+
+    private void update(float delta) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (!pause) {
+                pause = true;
+                MainGame.game.setScreen(new PauseScreen(MainGame.game.getScreen()));
+            }
+        }
+    }
+
+
     public void render(float delta) {
-
-
+        if (!pause) {
+            update(delta);
 //        state += delta*2;
-        postShader.begin();
-        postShader.setUniformf("intensity", intensity);
-        postShader.end();
+            postShader.begin();
+            postShader.setUniformf("intensity", intensity);
+            postShader.end();
 
 
-        buffer.begin();
-        {
-            //Clear buffer
-            Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            //Process debug camera controls
-            if (Config.enableDebugCamera) {
-                input();
-            }
+            buffer.begin();
+            {
+                //Clear buffer
+                Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+                Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                //Process debug camera controls
+                if (Config.enableDebugCamera) {
+                    input();
+                }
 
-            //Camera
-            mapCompositor.getBuffer().purgeChunks();
-            camera.update();
+                //Camera
+                mapCompositor.getBuffer().purgeChunks();
+                camera.update();
 
-            //Render fluid maps
-            angleWave += delta * angleWaveSpeed;
-            while (angleWave > Math.PI * 2) {
-                angleWave -= Math.PI * 2;
-            }
+                //Render fluid maps
+                angleWave += delta * angleWaveSpeed;
+                while (angleWave > Math.PI * 2) {
+                    angleWave -= Math.PI * 2;
+                }
 
-            waterShader.begin();
-            waterShader.setUniformf("waveData", angleWave, amplitudeWave);
-            waterShader.end();
+                waterShader.begin();
+                waterShader.setUniformf("waveData", angleWave, amplitudeWave);
+                waterShader.end();
 
 //            postShader.begin();
 //            postShader.setUniformf("waveData", angleWave, amplitudeWave);
 //            postShader.end();
 
-            tiledMapRenderer.setBatch(waterBatch);
-            tiledMapRenderer.setView(camera);
-            tiledMapRenderer.render(fluidLayer);
+                tiledMapRenderer.setBatch(waterBatch);
+                tiledMapRenderer.setView(camera);
+                tiledMapRenderer.render(fluidLayer);
 
-            //Render map
-            tiledMapRenderer.setBatch(mapBatch);
-            tiledMapRenderer.setView(camera);
-            tiledMapRenderer.render(foregroundLayers);
+                //Render map
+                tiledMapRenderer.setBatch(mapBatch);
+                tiledMapRenderer.setView(camera);
+                tiledMapRenderer.render(foregroundLayers);
 
 //        windVelocity.x = Gdx.input.getX() - (Gdx.graphics.getWidth()>>1);
 //        windVelocity.y = Gdx.input.getY() - (Gdx.graphics.getHeight()>>1);
 //        windVelocity.x /= 10_000;
 //        windVelocity.y /= -10_000;
 
-            //Process entities
-            Statics.ashley.update(Gdx.graphics.getDeltaTime());
+                //Process entities
+                Statics.ashley.update(Gdx.graphics.getDeltaTime());
 
-            windData.add(windVelocity);
+                windData.add(windVelocity);
 
-            cloudShader.begin();
-            cloudShader.setUniformf("waveData", angleWave, amplitudeWave);
-            cloudShader.setUniformf("camPosition", camera.position);
-            cloudShader.setUniformf("scroll", windData);
-            cloudShader.end();
+                cloudShader.begin();
+                cloudShader.setUniformf("waveData", angleWave, amplitudeWave);
+                cloudShader.setUniformf("camPosition", camera.position);
+                cloudShader.setUniformf("scroll", windData);
+                cloudShader.end();
 
 
 //        ImmutableArray<Entity> entitiesFor = ashley.getEntitiesFor(Family.all(PlayerComponent.class).get());
@@ -334,35 +352,35 @@ public class GameScreen implements Screen {
 //        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_SRC_ALPHA);
 //        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE);
 
-            cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
-            cloudBatch.begin();
-            cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-            cloudBatch.end();
+                cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
+                cloudBatch.begin();
+                cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+                cloudBatch.end();
 
 
-        }
-        buffer.end();
+            }
+            buffer.end();
 
 
 //        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        postProcessingBatch.begin();
-        postProcessingBatch.draw(buffer.getColorBufferTexture(),
-                        0, 0,
-                buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
-                0, 0,
-                buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
-                false, true);
+            postProcessingBatch.begin();
+            postProcessingBatch.draw(buffer.getColorBufferTexture(),
+                    0, 0,
+                    buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
+                    0, 0,
+                    buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
+                    false, true);
 
-        postProcessingBatch.end();
+            postProcessingBatch.end();
 
-        //Render Overlays
-        for (AbstractOverlay overlay : overlays) {
-            if (overlay.isVisible()) {
-                overlay.render();
+            //Render Overlays
+            for (AbstractOverlay overlay : overlays) {
+                if (overlay.isVisible()) {
+                    overlay.render();
+                }
             }
         }
-
 
     }
 
@@ -424,7 +442,7 @@ public class GameScreen implements Screen {
 //        ambient.stop();
 //        ambient.dispose();
 
-        for(AbstractOverlay overlay : overlays) {
+        for (AbstractOverlay overlay : overlays) {
             overlay.dispose();
         }
     }
