@@ -49,7 +49,6 @@ public class HealthSystem extends EntitySystem {
                 if(!ComponentMappers.player.has(entity)){
                     Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
                     Statics.sound.playSound(Sounds.MOB_DIE);
-
                     getEngine().removeEntity(entity);
                 }
             }

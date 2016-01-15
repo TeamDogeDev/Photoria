@@ -95,9 +95,16 @@ public class PauseScreen implements Screen {
         stage.draw();
 
         mainBatch.begin();
+//        renderStats();
         renderCursor(delta);
         mainBatch.end();
     }
+
+    private void renderStats() {
+        menuFont.draw(mainBatch, "Killed enemies: " + Statics.stats.killedEnemies,
+        offset, Gdx.graphics.getHeight() - (3 * offset));
+    }
+
 
     private void renderCursor(float delta) {
         Color oldColor = mainBatch.getColor();

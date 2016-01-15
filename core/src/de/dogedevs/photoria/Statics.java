@@ -3,6 +3,7 @@ package de.dogedevs.photoria;
 import com.badlogic.ashley.core.PooledEngine;
 import de.dogedevs.photoria.content.GameMessages;
 import de.dogedevs.photoria.content.GameSettings;
+import de.dogedevs.photoria.content.Stats;
 import de.dogedevs.photoria.content.items.ItemManager;
 import de.dogedevs.photoria.content.mob.MobManager;
 import de.dogedevs.photoria.content.weapons.AttackManager;
@@ -32,6 +33,7 @@ public class Statics {
     public static ItemManager item;
     public static GameMessages message;
     public static GameSettings settings;
+    public static Stats stats;
 
     public static void initCat(){
         ashley = new PooledEngine();
@@ -45,6 +47,7 @@ public class Statics {
         particle = new ParticlePool();
         message = new GameMessages();
         settings = new GameSettings();
+        stats = new Stats();
     }
 
 }
