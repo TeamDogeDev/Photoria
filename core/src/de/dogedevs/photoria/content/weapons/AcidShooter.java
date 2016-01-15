@@ -50,7 +50,7 @@ public class AcidShooter implements Weapon {
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();
             dir.set(target).sub(beginVec).nor();
-            PooledEngine ashley = Statics.ashley;
+            final PooledEngine ashley = Statics.ashley;
             Entity shot = ashley.createEntity();
             SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
             sc.region = new TextureRegion(Statics.asset.getTexture(Textures.BULLET_SPLASH));
