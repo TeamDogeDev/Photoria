@@ -31,4 +31,5 @@ public class ComponentMappers {
         public static final ComponentMapper<AttackComponent> attack = ComponentMapper.getFor(AttackComponent.class);
         public static final ComponentMapper<ParentComponent> parent = ComponentMapper.getFor(ParentComponent.class);
         public static final ComponentMapper<TargetComponent> target = ComponentMapper.getFor(TargetComponent.class);
+        public static final ComponentMapper<DecreaseZComponent> z = ComponentMapper.getFor(DecreaseZComponent.class);
 }

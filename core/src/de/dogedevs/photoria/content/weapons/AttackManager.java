@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -76,7 +75,7 @@ public class AttackManager {
 
                 HealthComponent hc = ComponentMappers.health.get(target);
                 if(hc != null){
-                    hc.health -= 10* Gdx.graphics.getDeltaTime();
+                    hc.health -= 10;
                     hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
                     if(hc.health == 0){
                         die(target, parent);

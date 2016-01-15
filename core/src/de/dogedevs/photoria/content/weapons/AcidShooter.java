@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.CollisionComponent;
+import de.dogedevs.photoria.model.entity.components.DecreaseZComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
@@ -62,7 +63,7 @@ public class AcidShooter implements Weapon {
 
                     @Override
                     public boolean onCollision(Entity other, Entity self) {
-                        PositionComponent positionComponent = ComponentMappers.position.get(other);
+                        PositionComponent positionComponent = ComponentMappers.position.get(self);
                         CollisionComponent cC = ComponentMappers.collision.get(other);
                         if (other == owner || cC.ghost || cC.projectile || positionComponent == null) {
                             return false;
@@ -70,7 +71,7 @@ public class AcidShooter implements Weapon {
                         Statics.sound.playSound(Sounds.MOB_HIT);
 
                         checkList.add(new Vector2(positionComponent.x, positionComponent.y));
-                        Statics.particle.createParticleAt(ParticlePool.ParticleType.SLIME_SPLASH, positionComponent.x, positionComponent.y);
+                        Statics.particle.createParticleAt(ParticlePool.ParticleType.SLIME_SPLASH, positionComponent.x, positionComponent.y+positionComponent.z);
                         ashley.removeEntity(self);
                         return true;
                     }
@@ -86,6 +87,19 @@ public class AcidShooter implements Weapon {
             VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
             vc.speed = 512;
             vc.vectorDirection = dir;
+            DecreaseZComponent zc = ashley.createComponent(DecreaseZComponent.class);
+            zc.rate = 0.7f;
+            zc.listener = new DecreaseZComponent.OnDecreaseListener() {
+                @Override
+                public void onDecrease(float newZValue, float x, float y, Entity entity) {
+                    if(newZValue <= 0){
+                        checkList.add(new Vector2(x, y));
+                        Statics.particle.createParticleAt(ParticlePool.ParticleType.SLIME_SPLASH, x, y);
+                        ashley.removeEntity(entity);
+                    }
+                }
+            };
+            shot.add(zc);
             shot.add(pc);
             shot.add(sc);
             shot.add(vc);
@@ -138,7 +152,7 @@ public class AcidShooter implements Weapon {
             for(Entity entity: entityList){
                 PositionComponent pc = ComponentMappers.position.get(entity);
                 float dist = Vector2.dst(pos.x, pos.y, pc.x, pc.y);
-                if(dist < 40){
+                if(dist < 70){
                     resultList.add(entity);
                 }
             }

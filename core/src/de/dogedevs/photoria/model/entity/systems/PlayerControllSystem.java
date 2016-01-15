@@ -104,7 +104,7 @@ public class PlayerControllSystem extends EntitySystem {
                         weapon = new ParticleShooter();
                     }
                     if(elementsComponent.green >= biggest){
-                        weapon = new Shooter();
+                        weapon = new AcidShooter();
                     }
                 }
                 else {
