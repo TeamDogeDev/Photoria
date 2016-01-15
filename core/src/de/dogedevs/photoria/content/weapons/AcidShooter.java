@@ -70,7 +70,7 @@ public class AcidShooter implements Weapon {
                         Statics.sound.playSound(Sounds.MOB_HIT);
 
                         checkList.add(new Vector2(positionComponent.x, positionComponent.y));
-                        Statics.particle.createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, positionComponent.x, positionComponent.y);
+                        Statics.particle.createParticleAt(ParticlePool.ParticleType.SLIME_SPLASH, positionComponent.x, positionComponent.y);
                         ashley.removeEntity(self);
                         return true;
                     }
