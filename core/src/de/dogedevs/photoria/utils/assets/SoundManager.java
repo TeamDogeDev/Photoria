@@ -14,7 +14,7 @@ public class SoundManager {
     }
 
     public long loopSound(Sounds sound) {
-        return loopSound(sound, 1f);
+        return loopSound(sound, Statics.settings.soundVolume);
     }
 
     public long loopSound(Sounds sound, float volume) {

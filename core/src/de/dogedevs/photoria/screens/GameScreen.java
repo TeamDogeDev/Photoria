@@ -30,6 +30,7 @@ import de.dogedevs.photoria.rendering.overlay.*;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.utils.ScreenshotFactory;
 import de.dogedevs.photoria.utils.assets.enums.ShaderPrograms;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.*;
@@ -183,6 +184,7 @@ public class GameScreen implements Screen {
 
                 if (!biomes.contains(newBiome)) {
                     List<String> messages = Statics.message.getEnterMessageForBiome(newBiome);
+                    Statics.sound.playSound(Sounds.BIOM_ENTER);
                     for (String s : messages) {
                         float duration = (s.split(" ").length / 200f) * 60; // 2oo words pro min
                         duration = duration < 5 ? 5 : duration; // min 5 sec.
