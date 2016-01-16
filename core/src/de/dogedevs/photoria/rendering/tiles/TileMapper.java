@@ -105,5 +105,16 @@ public class TileMapper {
     public static final int LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER = 93;
     public static final int LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT = 94;
 
+    // LAVA STONE
+    public static final int TERRA_FORMING_MID_TOP = 200;
+    public static final int TERRA_FORMING_MID = 201;
+    public static final int TERRA_FORMING_MID_BOT = 202;
+    public static final int TERRA_FORMING_LEFT_TOP = 203;
+    public static final int TERRA_FORMING_LEFT = 204;
+    public static final int TERRA_FORMING_LEFT_BOT = 205;
+    public static final int TERRA_FORMING_RIGHT_TOP = 206;
+    public static final int TERRA_FORMING_RIGHT = 207;
+    public static final int TERRA_FORMING_RIGHT_BOT = 208;
+
     public static final int DEBUG = 2048;
 }

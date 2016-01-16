@@ -146,6 +146,18 @@ public abstract class Tile extends StaticTiledMapTile {
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_CORNER, new BasicTile(localTiles[9][12], false));
             biomTiles.put(TileMapper.LAVA_STONE_MIDDLE_RIGHT_WALL_STRAIGHT, new BasicTile(localTiles[10][9], false));
 
+
+            //Spalte 8 links, 9 rechts, zeile 8-10 ... 10,5(ubergang)
+            biomTiles.put(TileMapper.TERRA_FORMING_MID_TOP, new BasicTile(localTiles[4][10], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_MID, new BasicTile(localTiles[4][10], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_MID_BOT, new BasicTile(localTiles[4][10], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_LEFT_TOP, new BasicTile(localTiles[8][8], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_LEFT, new BasicTile(localTiles[9][8], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_LEFT_BOT, new BasicTile(localTiles[10][8], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_RIGHT_TOP, new BasicTile(localTiles[8][9], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_RIGHT, new BasicTile(localTiles[9][9], false));
+            biomTiles.put(TileMapper.TERRA_FORMING_RIGHT_BOT, new BasicTile(localTiles[10][9], false));
+
             biomTiles.put(TileMapper.LAVA_DECO_1, new BasicTile(localTiles[2][3], false));
 
 

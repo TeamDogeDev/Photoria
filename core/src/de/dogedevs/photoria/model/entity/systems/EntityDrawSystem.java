@@ -53,6 +53,14 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
     private class YComparator implements Comparator<Entity> {
         @Override
         public int compare(Entity e1, Entity e2) {
+            boolean b1 = ComponentMappers.renderAsTile.has(e1);
+            boolean b2 = ComponentMappers.renderAsTile.has(e2);
+            if(b1 && !b2){
+                return -1;
+            }
+            if(b2 && !b1){
+                return 1;
+            }
             return (int)Math.signum(ComponentMappers.position.get(e2).y - ComponentMappers.position.get(e1).y);
         }
     }

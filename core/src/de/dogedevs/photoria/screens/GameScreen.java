@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
 
     private void initAshley() {
         Statics.ashley.addSystem(new AiSystem());
-        Statics.ashley.addSystem(new PlayerControllSystem());
+        Statics.ashley.addSystem(new PlayerControllSystem(mapCompositor.getBuffer()));
         Statics.ashley.addSystem(new MovingEntitySystem(mapCompositor.getBuffer()));
         Statics.ashley.addSystem(new DecreaseZSystem());
         Statics.ashley.addSystem(new AttackSystem());
