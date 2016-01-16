@@ -67,3 +67,4 @@ core/assets/tileset.png~
 core/assets/tileset.kra~
 core/src/de/dogedevs/photoria/Config.java
 *.kra~
+/core/assets/sfx/raw
