@@ -30,6 +30,9 @@ public enum Textures {
     NORMAL_TILESET("tilesets/tileset.png"),
 
 
+    // SPACE SHIP
+    SPACE_SHIP("mobs/spaceship.png"),
+
     // MOBS
     EYE("mobs/eyeball.png"),
     SLIME_BLUE("mobs/slime_blue.png"),

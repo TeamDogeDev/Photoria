@@ -6,10 +6,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
@@ -19,6 +23,7 @@ import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
@@ -221,6 +226,21 @@ public class GameScreen implements Screen {
 
         Statics.ashley.addEntity(player);
 
+        Entity entity = Statics.ashley.createEntity();
+        PositionComponent shipPc = Statics.ashley.createComponent(PositionComponent.class);
+        shipPc.x = 300 * 64 * 32 + (30 * 32);
+        shipPc.y =  300 * 64 * 32 + (32 * 32);
+        entity.add(shipPc);
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.SPACE_SHIP));
+        entity.add(sc);
+        CollisionComponent shipCc = Statics.ashley.createComponent(CollisionComponent.class);
+        shipCc.ghost = false;
+        shipCc.projectile = false;
+        entity.add(shipCc);
+        entity.add(Statics.ashley.createComponent(AvoidGcComponent.class));
+
+        Statics.ashley.addEntity(entity);
     }
 
 
