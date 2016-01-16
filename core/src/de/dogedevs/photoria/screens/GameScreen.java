@@ -255,7 +255,7 @@ public class GameScreen implements Screen {
         biomShaderPrograms.put(ChunkBuffer.YELLOW_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.NORMAL_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.GREEN_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
-        biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.RED_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
 
 

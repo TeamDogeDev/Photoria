@@ -17,7 +17,7 @@ public class FollowAi implements AiComponent.AiInterface {
     private Entity playerEntity;
     private static final float DIST = 200;
 
-    private float lastX, lastY;
+    private float ptStarX, ptStarY;
 
 
     public FollowAi() {
@@ -52,16 +52,17 @@ public class FollowAi implements AiComponent.AiInterface {
                 TargetComponent target = ComponentMappers.target.get(self);
                 target.isShooting = true;
 
-                if(lastX == 0 && lastY == 0) {
-                    lastX = playerPosition.x;
-                    lastY = playerPosition.y;
+                if(ptStarX == 0 && ptStarY == 0) {
+                    ptStarX = playerPosition.x;
+                    ptStarY = playerPosition.y;
                 } else {
-                    lastX = playerPosition.x;
-                    lastY = playerPosition.y;
+                    float alpha = 0.99f;
+                    ptStarX = (alpha * ptStarX) + ((1 - alpha) * playerPosition.x);
+                    ptStarY = (alpha * ptStarY) + ((1 - alpha) * playerPosition.y);
                 }
 
-                target.x = lastX;
-                target.y = lastY;
+                target.x = ptStarX;
+                target.y = ptStarY;
 //                if(MathUtils.randomBoolean(0.1f)){
 //                    Vector2 dir = new Vector2();
 //                    dir.set(playerPosition.x, playerPosition.y).sub(selfPosition.x, selfPosition.y).nor();
