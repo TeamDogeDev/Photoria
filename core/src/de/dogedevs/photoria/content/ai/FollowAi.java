@@ -32,10 +32,11 @@ public class FollowAi implements AiComponent.AiInterface {
 
         VelocityComponent velocity = ComponentMappers.velocity.get(self);
         PositionComponent selfPosition = ComponentMappers.position.get(self);
-        if(velocity != null && selfPosition != null && selfHealth != null) {
+        TargetComponent target = ComponentMappers.target.get(self);
+        if(velocity != null && selfPosition != null && selfHealth != null && target != null) {
             double eDist = Utils.euclDist(selfPosition, playerPosition);
 
-            if (eDist <= DIST || selfHealth.health < selfHealth.maxHealth) {
+            if (eDist <= DIST ) {
                 if (playerPosition.x - selfPosition.x > 0) {
                     if (playerPosition.y - selfPosition.y > 0) {
                         velocity.direction = VelocityComponent.NORTH_EAST;
@@ -49,7 +50,7 @@ public class FollowAi implements AiComponent.AiInterface {
                         velocity.direction = VelocityComponent.SOUTH_WEST;
                     }
                 }
-                TargetComponent target = ComponentMappers.target.get(self);
+
                 target.isShooting = true;
 
                 if(ptStarX == 0 && ptStarY == 0) {
@@ -73,6 +74,7 @@ public class FollowAi implements AiComponent.AiInterface {
 //                }
                 velocity.speed = 80;
             } else {
+                target.isShooting = false;
                 if(MathUtils.randomBoolean(0.001f)){
                     velocity.direction = MathUtils.random(0, 7);
                 }
