@@ -194,7 +194,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_LEFT_BOT, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
@@ -210,7 +210,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_LEFT, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
@@ -226,7 +226,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_LEFT_TOP, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
@@ -244,7 +244,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_RIGHT_BOT, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
@@ -260,7 +260,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_RIGHT, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
@@ -276,7 +276,7 @@ public class EntityLoader {
         sc.region = Tile.getTileForBiome(TileMapper.TERRA_FORMING_RIGHT_TOP, buffer.getCellLazy((int)pc.x/32, (int)pc.y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
         mc = ashley.createComponent(MapCollisionComponent.class);
-        mc.value = TileCollisionMapper.HIGH_GROUND_BORDER;
+        mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);
         entity.add(ashley.createComponent(RenderAsTileComponent.class));
         entity.add(ashley.createComponent(AvoidGcComponent.class));
