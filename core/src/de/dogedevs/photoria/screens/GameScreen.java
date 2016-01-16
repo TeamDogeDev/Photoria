@@ -309,15 +309,11 @@ public class GameScreen implements Screen {
             if(intensityOld > 0) {
                 intensityOld -= (delta*fadeSpeed);
                 fadingDone = false;
-            } else {
-                intensityOld = 0;
             }
 
             if(intensityNew < 1) {
                 intensityNew += (delta*fadeSpeed);
                 fadingDone = false;
-            } else  {
-                intensityNew = 1;
             }
 
 
