@@ -20,6 +20,7 @@ import de.dogedevs.photoria.model.map.ChunkCell;
 import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -111,10 +112,10 @@ public class EntityLoader {
     public void createTerraFormingRamp(float x, float y, ChunkBuffer buffer) {
         x = x-(x%32);
         y = y-(y%32);
-
+        float yStart = y;
         //Check valid position here
         boolean valid = false;
-        for(;y > y-(32*3); y = y-32){
+        for(;y > yStart-(32*5); y = y-32){
             int value = buffer.getCellLazy((int) x / 32, (int) y / 32, ChunkBuffer.DECO1).value;
             if(value == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2){
                 int value2 = buffer.getCellLazy(((int) x / 32) - 1, (int) y / 32, ChunkBuffer.DECO1).value;
@@ -131,6 +132,7 @@ public class EntityLoader {
             return;
         }
 
+        Statics.particle.createParticleAt(ParticlePool.ParticleType.TERRAFORMING, x+16, y+64);
 
         //MID BOT
         Entity entity = ashley.createEntity();
