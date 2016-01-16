@@ -44,9 +44,9 @@ public class GameScreen implements Screen {
     private CustomTiledMapRenderer tiledMapRenderer;
     private OrthographicCamera camera;
 
-    private ShaderProgram waterShader, cloudShader, postShader;
-    private FrameBuffer buffer = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
-    private Mesh quadMesh;
+    private ShaderProgram waterShader, cloudShader, postShaderOld, postShaderNew;
+    private FrameBuffer buffer1 = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
+    private FrameBuffer buffer2 = new FrameBuffer(Pixmap.Format.RGBA8888, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), false);
 
     private Array<AbstractOverlay> overlays = new Array();
 
@@ -178,7 +178,7 @@ public class GameScreen implements Screen {
 
             @Override
             public void onBiomeChange(int newBiome, int oldBiome) {
-//                postProcessing(newBiome);
+                updatePostProcessing(oldBiome, newBiome);
 
                 if (!biomes.contains(newBiome)) {
                     List<String> messages = Statics.message.getEnterMessageForBiome(newBiome);
@@ -220,16 +220,16 @@ public class GameScreen implements Screen {
 
     }
 
-    private float intensity = 0;
-    private boolean fadeIn = false;
-    private boolean fadeOut = false;
+    private float intensityOld = 0;
+    private float intensityNew = 0;
 
-    private void postProcessing(int biom) {
-        postShader = biomShaderPrograms.get(biom);
-        postProcessingBatch.setShader(postShader);
-        intensity = 0;
-        fadeIn = true;
-        fadeOut = false;
+    private void updatePostProcessing(int oldBiom, int newBiom) {
+        intensityOld = 1;
+        intensityNew = 0;
+        postShaderOld = biomShaderPrograms.get(oldBiom);
+        postShaderNew = biomShaderPrograms.get(newBiom);
+        postProcessingBatch1.setShader(postShaderOld);
+        postProcessingBatch2.setShader(postShaderNew);
     }
 
     private Map<Integer, ShaderProgram> biomShaderPrograms = new HashMap<>();
@@ -251,14 +251,20 @@ public class GameScreen implements Screen {
         biomShaderPrograms.put(ChunkBuffer.NORMAL_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.GREEN_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
-        biomShaderPrograms.put(ChunkBuffer.RED_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.RED_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
 
 
-        postShader = biomShaderPrograms.get(ChunkBuffer.NORMAL_BIOM);
-        postShader.begin();
-        postShader.setUniformf("intensity", 0);
-        postShader.end();
-        postProcessingBatch.setShader(postShader);
+        postShaderOld = biomShaderPrograms.get(ChunkBuffer.NORMAL_BIOM);
+        postShaderNew = biomShaderPrograms.get(ChunkBuffer.NORMAL_BIOM);
+        postShaderOld.begin();
+        postShaderOld.setUniformf("intensity", 0);
+        postShaderOld.end();
+
+        postShaderNew.begin();
+        postShaderNew.setUniformf("intensity", 1);
+        postShaderNew.end();
+        postProcessingBatch1.setShader(postShaderOld);
+        postProcessingBatch2.setShader(postShaderNew);
 //        quadMesh = Utils.createFullscreenQuad();
 
     }
@@ -269,7 +275,8 @@ public class GameScreen implements Screen {
     private Vector2 windVelocity = new Vector2(0.0005f, 0f);
     private Vector2 windData = new Vector2(0, 0);
 
-    private Batch postProcessingBatch = new SpriteBatch();
+    private Batch postProcessingBatch1 = new SpriteBatch();
+    private Batch postProcessingBatch2 = new SpriteBatch();
 
     float fadeSpeed = 0.2f;
 
@@ -283,18 +290,33 @@ public class GameScreen implements Screen {
     }
 
 
+
     public void render(float delta) {
         if (!pause) {
             update(delta);
-//        state += delta*2;
-            postShader.begin();
-            postShader.setUniformf("intensity", intensity);
-            postShader.end();
 
 
-            buffer.begin();
+            if(intensityOld > 0) {
+                intensityOld -= delta;
+            }
+
+            if(intensityNew < 1) {
+                intensityNew += delta;
+            }
+
+
+            postShaderOld.begin();
+            postShaderOld.setUniformf("intensity", intensityOld);
+            postShaderOld.end();
+
+            postShaderNew.begin();
+            postShaderNew.setUniformf("intensity", intensityNew);
+            postShaderNew.end();
+
+
+            buffer1.begin();
             {
-                //Clear buffer
+                //Clear buffer1
                 Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
                 Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
                 //Process debug camera controls
@@ -316,9 +338,6 @@ public class GameScreen implements Screen {
                 waterShader.setUniformf("waveData", angleWave, amplitudeWave);
                 waterShader.end();
 
-//            postShader.begin();
-//            postShader.setUniformf("waveData", angleWave, amplitudeWave);
-//            postShader.end();
 
                 tiledMapRenderer.setBatch(waterBatch);
                 tiledMapRenderer.setView(camera);
@@ -328,11 +347,6 @@ public class GameScreen implements Screen {
                 tiledMapRenderer.setBatch(mapBatch);
                 tiledMapRenderer.setView(camera);
                 tiledMapRenderer.render(foregroundLayers);
-
-//        windVelocity.x = Gdx.input.getX() - (Gdx.graphics.getWidth()>>1);
-//        windVelocity.y = Gdx.input.getY() - (Gdx.graphics.getHeight()>>1);
-//        windVelocity.x /= 10_000;
-//        windVelocity.y /= -10_000;
 
                 //Process entities
                 Statics.ashley.update(Gdx.graphics.getDeltaTime());
@@ -346,38 +360,51 @@ public class GameScreen implements Screen {
                 cloudShader.end();
 
 
-//        ImmutableArray<Entity> entitiesFor = ashley.getEntitiesFor(Family.all(PlayerComponent.class).get());
-//        PositionComponent playerPos = ComponentMappers.position.get(entitiesFor.get(0));
-//        entitiesFor.get(0);
-//        cloudBatch.setBlendFunction(Gdx.gl.GL_ONE, Gdx.gl.GL_ONE_MINUS_SRC_COLOR);
-//        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_SRC_ALPHA);
-//        cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE);
-
                 cloudBatch.setBlendFunction(Gdx.gl.GL_DST_COLOR, Gdx.gl.GL_ONE_MINUS_SRC_ALPHA);
                 cloudBatch.begin();
                 cloudBatch.draw(clouds, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
                 cloudBatch.end();
 
 
+                for (AbstractOverlay overlay : overlays) {
+                    if((overlay instanceof ParticleOverlay) || (overlay instanceof LaserOverlay)) {
+                        if (overlay.isVisible()) {
+                            overlay.render();
+                        }
+                    }
+                }
             }
-            buffer.end();
+            buffer1.end();
 
+            buffer2.begin();
+            {
+                postProcessingBatch1.begin();
+                postProcessingBatch1.draw(buffer1.getColorBufferTexture(),
+                        0, 0,
+                        buffer1.getColorBufferTexture().getWidth(), buffer1.getColorBufferTexture().getHeight(),
+                        0, 0,
+                        buffer1.getColorBufferTexture().getWidth(), buffer1.getColorBufferTexture().getHeight(),
+                        false, true);
+
+                postProcessingBatch1.end();
+            }
+            buffer2.end();
 
 //        Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 //        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            postProcessingBatch.begin();
-            postProcessingBatch.draw(buffer.getColorBufferTexture(),
+            postProcessingBatch2.begin();
+            postProcessingBatch2.draw(buffer2.getColorBufferTexture(),
                     0, 0,
-                    buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
+                    buffer2.getColorBufferTexture().getWidth(), buffer2.getColorBufferTexture().getHeight(),
                     0, 0,
-                    buffer.getColorBufferTexture().getWidth(), buffer.getColorBufferTexture().getHeight(),
+                    buffer2.getColorBufferTexture().getWidth(), buffer2.getColorBufferTexture().getHeight(),
                     false, true);
 
-            postProcessingBatch.end();
+            postProcessingBatch2.end();
 
             //Render Overlays
             for (AbstractOverlay overlay : overlays) {
-                if (overlay.isVisible()) {
+                if (overlay.isVisible() && !(overlay instanceof ParticleOverlay) && !(overlay instanceof LaserOverlay)) {
                     overlay.render();
                 }
             }
@@ -436,9 +463,12 @@ public class GameScreen implements Screen {
     public void dispose() {
         mapBatch.dispose();
         batch.dispose();
+        buffer1.dispose();
+        buffer2.dispose();
         cloudBatch.dispose();
         waterBatch.dispose();
-        postProcessingBatch.dispose();
+        postProcessingBatch1.dispose();
+        postProcessingBatch2.dispose();
         waterShader.dispose();
 //        ambient.stop();
 //        ambient.dispose();
