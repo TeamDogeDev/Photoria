@@ -21,6 +21,7 @@ import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
+import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 
 import java.util.UUID;
@@ -83,6 +84,7 @@ public class PlayerControllSystem extends EntitySystem {
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             EntityLoader el = new EntityLoader();
             el.createTerraFormingRamp(positionComponent.x, positionComponent.y+32, buffer);
+            Statics.particle.createParticleAt(ParticlePool.ParticleType.TERRAFORMING, positionComponent.x+16, positionComponent.y+64);
         }
 
         if(!Gdx.input.isTouched()){
