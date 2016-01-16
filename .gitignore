@@ -68,3 +68,14 @@ core/assets/tileset.kra~
 core/src/de/dogedevs/photoria/Config.java
 *.kra~
 /core/assets/sfx/raw
+/core/assets/tmp.png
+/core/assets/clouds.png
+/core/assets/tmp.ase
+/core/assets/menu/menuBoxSmall.ase
+/core/assets/menu/keys.ase
+/core/assets/menu/logo.png
+/core/assets/mobs/player.png
+/core/assets/mobs/player_demo2 (2).png
+/core/assets/music/ambient.wav
+/core/assets/music/music.txt
+/grc.bat
