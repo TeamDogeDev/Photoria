@@ -129,7 +129,7 @@ public class AttackManager {
         LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
         lc.maxTime = 1;
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
-        PositionComponent position = ComponentMappers.position.get(self);
+        PositionComponent position = ComponentMappers.position.get(self); // npe
         pc.x = position.x;
         pc.y = position.y;
         pc.z = 26;

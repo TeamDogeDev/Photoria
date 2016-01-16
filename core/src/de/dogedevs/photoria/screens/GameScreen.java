@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
 
     private Texture clouds = Statics.asset.getTexture(Textures.CLOUD_STUB);
     boolean pause = false;
+    boolean fadingDone = true;
 
     public GameScreen() {
         initCamera();
@@ -224,8 +225,14 @@ public class GameScreen implements Screen {
     private float intensityNew = 0;
 
     private void updatePostProcessing(int oldBiom, int newBiom) {
-        intensityOld = 1;
-        intensityNew = 0;
+        if(fadingDone) {
+            intensityOld = 1;
+            intensityNew = 0;
+        } else {
+            float tmp = intensityOld;
+            intensityOld = intensityNew;
+            intensityNew = tmp;
+        }
         postShaderOld = biomShaderPrograms.get(oldBiom);
         postShaderNew = biomShaderPrograms.get(newBiom);
         postProcessingBatch1.setShader(postShaderOld);
@@ -278,7 +285,7 @@ public class GameScreen implements Screen {
     private Batch postProcessingBatch1 = new SpriteBatch();
     private Batch postProcessingBatch2 = new SpriteBatch();
 
-    float fadeSpeed = 0.2f;
+    private float fadeSpeed = 1f;
 
     private void update(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -295,13 +302,15 @@ public class GameScreen implements Screen {
         if (!pause) {
             update(delta);
 
-
+            fadingDone = true;
             if(intensityOld > 0) {
-                intensityOld -= delta;
+                intensityOld -= (delta*fadeSpeed);
+                fadingDone = false;
             }
 
             if(intensityNew < 1) {
-                intensityNew += delta;
+                intensityNew += (delta*fadeSpeed);
+                fadingDone = false;
             }
 
 
