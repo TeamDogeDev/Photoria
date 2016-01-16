@@ -21,7 +21,6 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
-import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
  * Created by Furuha on 02.01.2016.
@@ -285,109 +284,6 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
-    private void createEyeball(float x, float y){
-        Animation[] animations = Statics.animation.getMovementAnimations(Textures.EYE, true, 4, 3);
-        Animation walkAnimationU = animations[0];
-        Animation walkAnimationD = animations[1];
-        Animation walkAnimationL = animations[2];
-        Animation walkAnimationR = animations[3];
-
-        Entity entity = ashley.createEntity();
-        PositionComponent pc = ashley.createComponent(PositionComponent.class);
-        pc.x = x;
-        pc.y = y;
-        entity.add(pc);
-        AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
-        ac.idleAnimation = walkAnimationD;
-        ac.leftAnimation = walkAnimationL;
-        ac.rightAnimation = walkAnimationR;
-        ac.upAnimation = walkAnimationU;
-        ac.downAnimation = walkAnimationD;
-        entity.add(ac);
-        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
-        cc.groundCollision = TileCollisionMapper.normalBorderCollision;
-        entity.add(cc);
-        ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
-        ec.blue = MathUtils.random(-2f, 2f);
-        ec.red = MathUtils.random(-2f, 2f);
-        ec.green = MathUtils.random(-2f, 2f);
-        ec.purple = MathUtils.random(-2f, 2f);
-        ec.yellow = MathUtils.random(-2f, 2f);
-        entity.add(ec);
-        HealthComponent hc = ashley.createComponent(HealthComponent.class);
-        hc.maxHealth = MobStats.EYE_HEALTH;
-        hc.health = MobStats.EYE_HEALTH;
-        entity.add(hc);
-        AiComponent aiComponent = ashley.createComponent(AiComponent.class);
-        aiComponent.ai = MobStats.EYE_AI;
-        entity.add(aiComponent);
-        VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
-        vc.direction = MathUtils.random(0, 7);
-        vc.speed = 20;
-        entity.add(vc);
-        ashley.addEntity(entity);
-    }
-
-    private void createSlime(Textures texture, float x, float y){
-        Animation[] animations = Statics.animation.getMovementAnimations(texture, true, 4, 3);
-        Animation walkAnimationU = animations[0];
-        Animation walkAnimationD = animations[1];
-        Animation walkAnimationL = animations[2];
-        Animation walkAnimationR = animations[3];
-
-        Entity entity = ashley.createEntity();
-        PositionComponent pc = ashley.createComponent(PositionComponent.class);
-        pc.x = x;
-        pc.y = y;
-        entity.add(pc);
-        AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
-        ac.idleAnimation = walkAnimationD;
-        ac.leftAnimation = walkAnimationL;
-        ac.rightAnimation = walkAnimationR;
-        ac.upAnimation = walkAnimationU;
-        ac.downAnimation = walkAnimationD;
-        entity.add(ac);
-        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
-        cc.groundCollision = TileCollisionMapper.normalBorderCollision;
-        cc.collisionListener = new CollisionComponent.CollisionListener() {
-            @Override
-            public boolean onCollision(Entity other, Entity self) {
-                if(ComponentMappers.player.has(other)){
-                    HealthComponent hc = ComponentMappers.health.get(other);
-                    if(hc.immuneTime == 0){
-                        hc.health -= 5;
-                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
-                        hc.immuneTime = hc.maxImmuneTime;
-                    }
-                }
-                return false;
-            }
-        };
-        entity.add(cc);
-        ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
-        ec.blue = MathUtils.random(-2f, 2f);
-        ec.red = MathUtils.random(-2f, 2f);
-        ec.green = MathUtils.random(-2f, 2f);
-        ec.purple = MathUtils.random(-2f, 2f);
-        ec.yellow = MathUtils.random(-2f, 2f);
-        entity.add(ec);
-        AiComponent aiComponent = ashley.createComponent(AiComponent.class);
-        aiComponent.ai = MobStats.SLIME_AI;
-        entity.add(aiComponent);
-        InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
-        entity.add(ic);
-        Statics.item.populateInventory(entity, 1);
-        HealthComponent hc = ashley.createComponent(HealthComponent.class);
-        hc.maxHealth = MobStats.SLIME_HEALTH;
-        hc.health = MobStats.SLIME_HEALTH;
-        entity.add(hc);
-        VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
-        vc.direction = MathUtils.random(0, 7);
-        vc.speed = 20;
-        entity.add(vc);
-        ashley.addEntity(entity);
-    }
-
     private void createMob(final MobTemplate template, float x, float y){
         if(template == null){
             return;
@@ -451,7 +347,7 @@ public class EntityLoader {
 
         InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
         entity.add(ic);
-        Statics.item.populateInventory(entity, 0);
+        Statics.item.populateInventory(entity, template.type);
 
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = template.maxHealth;

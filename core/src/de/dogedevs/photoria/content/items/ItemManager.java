@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.Statics;
+import de.dogedevs.photoria.content.mob.MobType;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.CollisionComponent;
 import de.dogedevs.photoria.model.entity.components.InventoryComponent;
@@ -25,7 +26,7 @@ public class ItemManager {
 
     }
 
-    public void populateInventory(Entity entity, int mobType) {
+    public void populateInventory(Entity entity, MobType mobType) {
         InventoryComponent inventory = ComponentMappers.inventory.get(entity);
         if (inventory != null) {
 
@@ -41,27 +42,27 @@ public class ItemManager {
         }
     }
 
-    private Entity generateUseItem(int mobType) {
+    private Entity generateUseItem(MobType mobType) {
         return null;
     }
 
-    private Entity generateOtherItem(int mobType) {
+    private Entity generateOtherItem(MobType mobType) {
         return null;
     }
 
-    private Entity generateStatsItem(int mobType) {
+    private Entity generateStatsItem(MobType mobType) {
         return null;
     }
 
-    private Entity generateDefenseItem(int mobType) {
+    private Entity generateDefenseItem(MobType mobType) {
         return null;
     }
 
-    private Entity generateAttackItem(int mobType) {
+    private Entity generateAttackItem(MobType mobType) {
         return generateBasicItem("Orb des attackes!", ItemComponent.ItemType.ATTACK);
     }
 
-    private Entity generateRegItem(int mobType) {
+    private Entity generateRegItem(MobType mobType) {
         return null;
     }
 

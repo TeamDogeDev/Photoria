@@ -88,6 +88,33 @@ public enum Textures {
     ORE_BLUE("items/ore/oreBlue.png"),
     ORE_GREEN("items/ore/oreGreen.png"),
 
+    ITEM_BOTTLE_BLUE("items/items/bottle_blue.png"),
+    ITEM_BOTTLE_RED("items/items/bottle_red.png"),
+    ITEM_BOTTLE_YELLOW("items/items/bottle_yellow.png"),
+    ITEM_BOTTLE_GREEN("items/items/bottle_green.png"),
+    ITEM_BOTTLE_PURPLE("items/items/bottle_purple.png"),
+
+    ITEM_SWORD_BLUE("items/items/sword_blue.png"),
+    ITEM_SWORD_RED("items/items/sword_red.png"),
+    ITEM_SWORD_YELLOW("items/items/sword_yellow.png"),
+    ITEM_SWORD_GREEN("items/items/sword_green.png"),
+    ITEM_SWORD_PURPLE("items/items/sword_purple.png"),
+
+    ITEM_RESISTANCE_BLUE("items/items/water.png"),
+    ITEM_RESISTANCE_RED("items/items/fire.png"),
+    ITEM_RESISTANCE_YELLOW("items/items/light.png"),
+    ITEM_RESISTANCE_GREEN("items/items/acid.png"),
+    ITEM_RESISTANCE_PURPLE("items/items/darkenergy.png"),
+
+    ITEM_BOOK_LIFE("items/items/life_book.png"),
+    ITEM_BOOK_ENERGY("items/items/energy_book.png"),
+
+    ITEM_SWEET("items/items/sweet.png"),
+    ITEM_TENTACLE("items/items/tentacle.png"),
+    ITEM_SHOE("items/items/shoe.png"),
+    ITEM_LIFE("items/items/life.png"),
+    ITEM_ENERGY("items/items/energy.png"),
+
     // MENU
     MENU_BOX("menu/menuBox.png"),
     MENU_BOX_SMALL("menu/menuBoxSmall.png"),

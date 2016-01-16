@@ -45,6 +45,9 @@ public class AcidShooter implements Weapon {
 
     @Override
     public void updateActive(Batch batch, float deltaTime, float z) {
+        if(!ComponentMappers.position.has(owner)){
+            return;
+        }
         deltaSum -= deltaTime;
         if(deltaSum <= 0) {
             deltaSum = 1f;

@@ -15,7 +15,6 @@ import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
-import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -71,7 +70,7 @@ public class AttackManager {
                 if (target == parent || target == attack || cC== null || cC.ghost || cC.projectile) {
                     return;
                 }
-                Statics.sound.playSound(Sounds.MOB_HIT);
+//                Statics.sound.playSound(Sounds.MOB_HIT);
 
                 HealthComponent hc = ComponentMappers.health.get(target);
                 if(hc != null){
@@ -113,6 +112,9 @@ public class AttackManager {
     }
 
     public void shootParticleBall(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
+        if(!ComponentMappers.position.has(self)){
+            return;
+        }
         PooledEngine ashley = Statics.ashley;
         Entity shot = ashley.createEntity();
 
@@ -130,7 +132,7 @@ public class AttackManager {
         LifetimeComponent lc = ashley.createComponent(LifetimeComponent.class);
         lc.maxTime = 1;
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
-        PositionComponent position = ComponentMappers.position.get(self); // npe
+        PositionComponent position = ComponentMappers.position.get(self); // npe. fixed
         pc.x = position.x;
         pc.y = position.y;
         pc.z = 26;
