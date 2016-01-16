@@ -113,10 +113,24 @@ public class EntityLoader {
         y = y-(y%32);
 
         //Check valid position here
-        int value = buffer.getCell((int)x/32, (int)y/32, ChunkBuffer.DECO1).value;
-        if(value == 4){
-
+        boolean valid = false;
+        for(;y > y-(32*3); y = y-32){
+            int value = buffer.getCellLazy((int) x / 32, (int) y / 32, ChunkBuffer.DECO1).value;
+            if(value == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2){
+                int value2 = buffer.getCellLazy(((int) x / 32) - 1, (int) y / 32, ChunkBuffer.DECO1).value;
+                int value3 = buffer.getCellLazy(((int) x / 32) + 1, (int) y / 32, ChunkBuffer.DECO1).value;
+                int value4 = buffer.getCellLazy(((int) x / 32) - 1, (int) y / 32, ChunkBuffer.COLLISION).value;
+                int value5 = buffer.getCellLazy(((int) x / 32) + 1, (int) y / 32, ChunkBuffer.COLLISION).value;
+                if(value2 == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2 && value3 == TileMapper.LAVA_STONE_BOTTOM_MIDDLE_2 && value4 == TileCollisionMapper.HIGH_GROUND_BORDER && value5 == TileCollisionMapper.HIGH_GROUND_BORDER){
+                    valid = true;
+                    break;
+                }
+            }
         }
+        if(!valid){
+            return;
+        }
+
 
         //MID BOT
         Entity entity = ashley.createEntity();
