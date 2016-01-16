@@ -45,6 +45,11 @@ public class Watercannon implements Weapon {
     }
 
     @Override
+    public void inactive(float deltaTime) {
+
+    }
+
+    @Override
     public void setRange(float range) {
 
     }

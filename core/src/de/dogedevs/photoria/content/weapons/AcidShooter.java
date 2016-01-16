@@ -147,6 +147,11 @@ public class AcidShooter implements Weapon {
     }
 
     @Override
+    public void inactive(float deltaTime) {
+
+    }
+
+    @Override
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
         for(Vector2 pos: checkList){
             for(Entity entity: entityList){

@@ -15,6 +15,8 @@ public interface Weapon {
 
     public void render(Batch batch, float deltaTime, float z);
 
+    public void inactive(float deltaTime);
+
     public void setBegin(Vector2 begin);
 
     public void setAngle(Vector2 angle);
