@@ -157,10 +157,15 @@ public class GameOverlay extends AbstractOverlay {
         batch.draw(netTexture, netOffset.x, netOffset.y);
         batch.end();
 
+//        elementsComponent.red = 0.2f;
+//        elementsComponent.green = .1f;
+//        elementsComponent.blue = 0.6f;
+//        elementsComponent.yellow = 0.2f;
+//        elementsComponent.purple = .0f;
         Gdx.gl.glLineWidth(2);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.polygon(statsToVertices(elementsComponent.blue / 20, elementsComponent.green / 20, elementsComponent.yellow / 20, elementsComponent.red / 20, elementsComponent.purple / 20));
+        shapeRenderer.polygon(statsToVertices(elementsComponent.blue , elementsComponent.green , elementsComponent.yellow , elementsComponent.red , elementsComponent.purple ));
 
         shapeRenderer.end();
         Gdx.gl.glLineWidth(1);

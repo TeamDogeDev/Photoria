@@ -184,11 +184,11 @@ public class ItemManager {
                         playerEc.purple += ec.purple;
                         playerEc.green += ec.green;
 
-                        playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 20f);
-                        playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 20f);
-                        playerEc.red = MathUtils.clamp(playerEc.red, 0f, 20f);
-                        playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 20f);
-                        playerEc.green = MathUtils.clamp(playerEc.green, 0f, 20f);
+                        playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 1f);
+                        playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 1f);
+                        playerEc.red = MathUtils.clamp(playerEc.red, 0f, 1f);
+                        playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 1f);
+                        playerEc.green = MathUtils.clamp(playerEc.green, 0f, 1f);
                     }
                     Statics.ashley.removeEntity(self);
                     return true;

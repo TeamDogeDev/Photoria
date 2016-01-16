@@ -75,7 +75,8 @@ public class AttackManager {
 
                 HealthComponent hc = ComponentMappers.health.get(target);
                 if(hc != null){
-                    hc.health -= 10;
+                    float damage = calculateDamage(parent, target);
+                    hc.health -= (damage * 20); // TODO DAMAGE FACTOR from constants = tmp 20!!
                     hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
                     if(hc.health == 0){
                         die(target, parent);
@@ -175,6 +176,39 @@ public class AttackManager {
         shot.add(lc);
 
         ashley.addEntity(shot);
+    }
+
+    public float calculateDamage(Entity attacker, Entity defender) {
+        float baseDamage = 1;  // TODO MAPPING!
+        float baseDefense = 1;
+
+        ElementsComponent attackerElements = ComponentMappers.elements.get(attacker);
+        ElementsComponent defenderElements = ComponentMappers.elements.get(defender);
+
+        if(attackerElements != null && defenderElements != null) {
+            float redDamage = baseDamage * MathUtils.clamp(attackerElements.red, 0, 1);
+            float blueDamage = baseDamage * MathUtils.clamp(attackerElements.blue, 0, 1);
+            float yellowDamage = baseDamage * MathUtils.clamp(attackerElements.yellow, 0, 1);
+            float purpleDamage = baseDamage * MathUtils.clamp(attackerElements.purple, 0, 1);
+            float greenDamage = baseDamage * MathUtils.clamp(attackerElements.green, 0, 1);
+
+            float redDefense = baseDefense * defenderElements.red;
+            float blueDefense = baseDefense * defenderElements.blue;
+            float yellowDefense = baseDefense * defenderElements.yellow;
+            float purpleDefense = baseDefense * defenderElements.purple;
+            float greenDefense = baseDefense * defenderElements.green;
+
+            float damage = (redDamage * (redDamage - redDefense))
+                    + (blueDamage * (blueDamage - blueDefense))
+                    + (yellowDamage * (yellowDamage - yellowDefense))
+                    + (purpleDamage * (purpleDamage - purpleDefense))
+                    + (greenDamage * (greenDamage - greenDefense));
+
+            damage /= 10;
+
+            return damage;
+        }
+        return 0;
     }
 
     private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {

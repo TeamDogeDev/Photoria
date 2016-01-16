@@ -38,6 +38,7 @@ public enum Textures {
     SLIME_RED("mobs/slime_red.png"),
     SLIME_YELLOW("mobs/slime_yellow.png"),
     PLAYER("mobs/player_demo.png"),
+    BEE("mobs/bee.png"),
 
     // OTHER ENTITIES
     BULLET("weapons/bullet.png"),
