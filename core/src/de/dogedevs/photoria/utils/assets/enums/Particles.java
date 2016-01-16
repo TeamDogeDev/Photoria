@@ -9,7 +9,8 @@ public enum Particles {
     FLAME_THROWER("effects/flameThrower.p", "effects/images"),
     WATER_THROWER("effects/waterThrower.p", "effects/images"),
     ENERGY_BALL("effects/energyBall.p", "effects/images"),
-    SLIME_SPLASH("effects/slimeSplash.p", "effects/images");
+    SLIME_SPLASH("effects/slimeSplash.p", "effects/images"),
+    TERRAFORMING("effects/terraforming.p", "effects/images");
 
     public String effectFile;
     public String imageDir;
