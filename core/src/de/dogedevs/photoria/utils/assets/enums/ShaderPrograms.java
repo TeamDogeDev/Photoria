@@ -13,7 +13,9 @@ public enum ShaderPrograms {
     STARFIELD_SHADER("shaders/vertexStub.vsh", "shaders/starfield.fsh"),
     SCANLINE_SHADER("shaders/vertexStub.vsh", "shaders/scanline.fsh"),
     SEPIA_SHADER("shaders/vertexStub.vsh", "shaders/sepiaShader.fsh"),
-    RADIAL_BLUR_SHADER("shaders/vertexStub.vsh", "shaders/radialBlurShader.fsh");
+    RADIAL_BLUR_SHADER("shaders/vertexStub.vsh", "shaders/radialBlurShader.fsh"),
+    SATURATION_SHADER("shaders/vertexStub.vsh", "shaders/saturationShader.fsh");
+
 
 
     public String fragmentShader;

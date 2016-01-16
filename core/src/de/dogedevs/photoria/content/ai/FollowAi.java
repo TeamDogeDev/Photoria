@@ -17,6 +17,9 @@ public class FollowAi implements AiComponent.AiInterface {
     private Entity playerEntity;
     private static final float DIST = 200;
 
+    private float lastX, lastY;
+
+
     public FollowAi() {
         playerEntity = Statics.ashley.getEntitiesFor(Family.all(PlayerComponent.class).get()).get(0);
     }
@@ -48,8 +51,17 @@ public class FollowAi implements AiComponent.AiInterface {
                 }
                 TargetComponent target = ComponentMappers.target.get(self);
                 target.isShooting = true;
-                target.x = playerPosition.x;
-                target.y = playerPosition.y;
+
+                if(lastX == 0 && lastY == 0) {
+                    lastX = playerPosition.x;
+                    lastY = playerPosition.y;
+                } else {
+                    lastX = playerPosition.x;
+                    lastY = playerPosition.y;
+                }
+
+                target.x = lastX;
+                target.y = lastY;
 //                if(MathUtils.randomBoolean(0.1f)){
 //                    Vector2 dir = new Vector2();
 //                    dir.set(playerPosition.x, playerPosition.y).sub(selfPosition.x, selfPosition.y).nor();

@@ -221,8 +221,6 @@ public class GameScreen implements Screen {
 
     }
 
-    private float intensityOld = 0;
-    private float intensityNew = 0;
 
     private void updatePostProcessing(int oldBiom, int newBiom) {
         if(fadingDone) {
@@ -254,10 +252,10 @@ public class GameScreen implements Screen {
 
 
         biomShaderPrograms.put(ChunkBuffer.PURPLE_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
-        biomShaderPrograms.put(ChunkBuffer.YELLOW_BIOM, Statics.asset.getShader(ShaderPrograms.SEPIA_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.YELLOW_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.NORMAL_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
         biomShaderPrograms.put(ChunkBuffer.GREEN_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
-        biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
+        biomShaderPrograms.put(ChunkBuffer.BLUE_BIOM, Statics.asset.getShader(ShaderPrograms.BLOOM_SHADER));
         biomShaderPrograms.put(ChunkBuffer.RED_BIOM, Statics.asset.getShader(ShaderPrograms.PASSTHROUGH_SHADER));
 
 
@@ -285,7 +283,10 @@ public class GameScreen implements Screen {
     private Batch postProcessingBatch1 = new SpriteBatch();
     private Batch postProcessingBatch2 = new SpriteBatch();
 
-    private float fadeSpeed = 1f;
+
+    private float intensityOld = 0;
+    private float intensityNew = 0;
+    private float fadeSpeed = 1/4f; // 1/1 = 1 second; 1/2 = 2 seconds;
 
     private void update(float delta) {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -306,11 +307,15 @@ public class GameScreen implements Screen {
             if(intensityOld > 0) {
                 intensityOld -= (delta*fadeSpeed);
                 fadingDone = false;
+            } else {
+                intensityOld = 0;
             }
 
             if(intensityNew < 1) {
                 intensityNew += (delta*fadeSpeed);
                 fadingDone = false;
+            } else  {
+                intensityNew = 1;
             }
 
 
