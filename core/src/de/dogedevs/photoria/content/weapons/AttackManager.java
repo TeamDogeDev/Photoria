@@ -121,7 +121,7 @@ public class AttackManager {
         cc.ghost = true;
         cc.projectile = true;
         if(listener == null){
-            cc.collisionListener = createNormalListener(self);
+            cc.collisionListener = createNormalListener(self, createOnHitListener());
         } else {
             cc.collisionListener = listener;
         }
@@ -154,7 +154,7 @@ public class AttackManager {
         cc.ghost = true;
         cc.projectile = true;
         if(listener == null){
-            cc.collisionListener = createNormalListener(self);
+            cc.collisionListener = createNormalListener(self, createOnHitListener());
         } else {
             cc.collisionListener = listener;
         }
@@ -211,65 +211,23 @@ public class AttackManager {
         return 0;
     }
 
-    private CollisionComponent.CollisionListener createNormalListener(final Entity parent) {
+    private CollisionComponent.CollisionListener createNormalListener(final Entity parent, final AttackComponent.OnHitListener onHitListener) {
         final PooledEngine ashley = Statics.ashley;
         CollisionComponent.CollisionListener listener = new CollisionComponent.CollisionListener() {
 
             @Override
             public boolean onCollision(Entity other, Entity self) {
-                ItemComponent itemC = ComponentMappers.item.get(other);
                 CollisionComponent cC = ComponentMappers.collision.get(other);
-                if (other == parent || itemC != null && cC.ghost || cC.projectile) {
+                if (other == parent || cC.ghost || cC.projectile) {
                     return false;
                 }
-                Statics.sound.playSound(Sounds.MOB_HIT);
 
-                HealthComponent hc = ComponentMappers.health.get(other);
-                if(hc != null){
-                    hc.health -= 25;
-                    hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
-                    if(hc.health == 0){
-                        die(other, self);
-                    }
-                }
+                onHitListener.onEnemyHit(other, self, parent);
+
                 ashley.removeEntity(self);
                 return true;
             }
 
-            private void die(Entity other, Entity self) {
-                ElementsComponent ec = ComponentMappers.elements.get(other);
-                InventoryComponent ic = ComponentMappers.inventory.get(other);
-                PositionComponent pc = ComponentMappers.position.get(other);
-
-                if(ec != null){
-                    Statics.item.createGemDrop(ec, pc);
-                }
-
-//                ParticleEffectPool.PooledEffect effect = ParticlePool.instance().obtain(ParticlePool.ParticleType.BLOOD);
-//                effect.setPosition(pc.x, pc.y);
-//                effect.start();
-
-                if(ic != null){
-                    dropItem(ic.slotAttack, pc);
-                    dropItem(ic.slotDefense, pc);
-                    dropItem(ic.slotOther, pc);
-                    dropItem(ic.slotRegeneration, pc);
-                    dropItem(ic.slotStatsUp, pc);
-
-                    for(Entity item: ic.slotUse){
-                        dropItem(item, pc);
-                    }
-                }
-            }
-
-            private void dropItem(Entity item, PositionComponent positionComponent) {
-                if(item != null){
-                    LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
-                    lc.maxTime = 10;
-                    item.add(lc);
-                    item.add(new PositionComponent(positionComponent.x, positionComponent.y));
-                }
-            }
         };
         return listener;
     }
