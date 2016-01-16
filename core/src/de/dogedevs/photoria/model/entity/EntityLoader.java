@@ -6,7 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.RandomXS128;
 import de.dogedevs.photoria.Statics;
-import de.dogedevs.photoria.content.MobStats;
+import de.dogedevs.photoria.content.ai.EscapeOnDamageAi;
+import de.dogedevs.photoria.content.ai.FollowAi;
 import de.dogedevs.photoria.content.mob.MobTemplate;
 import de.dogedevs.photoria.content.weapons.*;
 import de.dogedevs.photoria.model.entity.components.*;
@@ -337,10 +338,10 @@ public class EntityLoader {
         AiComponent aiComponent = ashley.createComponent(AiComponent.class);
         switch (template.ai){
             case FOLLOW:
-                aiComponent.ai = MobStats.SLIME_AI;
+                aiComponent.ai = new FollowAi();
                 break;
             case ESCAPE:
-                aiComponent.ai = MobStats.EYE_AI;
+                aiComponent.ai = new EscapeOnDamageAi();
                 break;
         }
         entity.add(aiComponent);

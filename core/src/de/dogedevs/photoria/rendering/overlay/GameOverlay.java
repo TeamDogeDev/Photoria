@@ -210,7 +210,7 @@ public class GameOverlay extends AbstractOverlay {
     private static int SLOT_REGENERATION = 2;
     private static int SLOT_STATS_UP = 3;
     private static int SLOT_OTHER = 4;
-//    private static int SLOT_USE = 5;
+    private static int SLOT_USE = 5;
 
     private void renderItemBar() {
         batch.begin();
@@ -232,6 +232,10 @@ public class GameOverlay extends AbstractOverlay {
                     itemEntity = inventoryComponent.slotStatsUp;
                 } else if(i == SLOT_OTHER) {
                     itemEntity = inventoryComponent.slotOther;
+                } else if(i == SLOT_USE) {
+                    if(inventoryComponent.slotUse.size() > 0) {
+                        itemEntity = inventoryComponent.slotUse.get(0);
+                    }
                 }
                 if(itemEntity != null) {
                     SpriteComponent attackSprite = ComponentMappers.sprite.get(itemEntity);

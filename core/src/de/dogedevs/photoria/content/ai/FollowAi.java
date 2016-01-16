@@ -57,7 +57,7 @@ public class FollowAi implements AiComponent.AiInterface {
                     ptStarX = playerPosition.x;
                     ptStarY = playerPosition.y;
                 } else {
-                    float alpha = 0.99f;
+                    float alpha = 0.95f;
                     ptStarX = (alpha * ptStarX) + ((1 - alpha) * playerPosition.x);
                     ptStarY = (alpha * ptStarY) + ((1 - alpha) * playerPosition.y);
                 }
@@ -74,6 +74,7 @@ public class FollowAi implements AiComponent.AiInterface {
 //                }
                 velocity.speed = 80;
             } else {
+                ptStarX = ptStarY = 0;
                 target.isShooting = false;
                 if(MathUtils.randomBoolean(0.001f)){
                     velocity.direction = MathUtils.random(0, 7);
