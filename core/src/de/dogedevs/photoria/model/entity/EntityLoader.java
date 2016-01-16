@@ -29,7 +29,6 @@ import de.dogedevs.photoria.utils.assets.enums.Textures;
 public class EntityLoader {
 
     PooledEngine ashley = Statics.ashley;
-
     public void createChunkEntities(int chunkX, int chunkY, long seed, ChunkBuffer buffer){
 //        long start = System.currentTimeMillis();
         int numEntities = 100;
@@ -43,7 +42,7 @@ public class EntityLoader {
         for (int i = 0; i < 50; i++) {
             float x = ((chunkX * 64 * 32) + (int)(rnd.nextFloat()*64)*32);
             float y = ((chunkY * 64 * 32) + (int)(rnd.nextFloat()*64)*32);
-            createRandomDecoEntity(x, y, buffer);
+            createRandomDecoEntity(x, y, buffer, rnd);
         }
 //        MainGame.log("ec time: "+(System.currentTimeMillis()-start));
     }
@@ -59,49 +58,17 @@ public class EntityLoader {
             MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
             createMob(mob, x, y);
         }
-//        if(biomCell.value == ChunkBuffer.BLUE_BIOM){
-//            if(collisionCell.value == TileCollisionMapper.GROUND || collisionCell.value == TileCollisionMapper.HIGH_GROUND) {
-////                createSlime(Textures.SLIME_BLUE, x, y);
-//                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-//                createMob(mob, x, y);
-//            }
-//        } else if(biomCell.value == ChunkBuffer.GREEN_BIOM){
-//            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-//            createMob(mob, x, y);
-////            createSlime(Textures.SLIME_GREEN, x, y);
-//        } else if(biomCell.value == ChunkBuffer.PURPLE_BIOM){
-////            createSlime(Textures.SLIME_PURPLE, x,y);
-//            MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-//            createMob(mob, x, y);
-//        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
-//            if(collisionCell.value == TileCollisionMapper.HIGH_GROUND_FLUID) {
-////                createSlime(Textures.SLIME_RED, x, y);
-//                MobTemplate mob = Statics.mob.getRandomTemplateForBiome(biomCell.value);
-//                createMob(mob, x, y);
-//            }
-//        } else if(biomCell.value == ChunkBuffer.YELLOW_BIOM){
-//            createEyeball(x,y);
-//        }
-//        if(biomCell.value == ChunkBuffer.GREEN_BIOM){
-//            createSlime(x,y);
-//        } else if(biomCell.value == ChunkBuffer.RED_BIOM){
-//            createEyeball(x,y);
-//        } else if(biomCell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
-//
-//        } else if(biomCell.value == TileCollisionMapper.FLUID){
-//
-//        }
     }
 
-    private void createRandomDecoEntity(float x, float y, ChunkBuffer buffer){
+    private void createRandomDecoEntity(float x, float y, ChunkBuffer buffer, RandomXS128 rnd){
         ChunkCell cell = buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.COLLISION);
         if(cell == null){
             return;
         }
         if(cell.value == TileCollisionMapper.HIGH_GROUND){
-            createLavaDeco(x, y, buffer);
+            createLavaDeco(x, y, buffer, rnd);
         } else if(cell.value == TileCollisionMapper.GROUND){
-
+            createStoneDeco(x, y, buffer, rnd);
         } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
 
         } else if(cell.value == TileCollisionMapper.FLUID){
@@ -283,7 +250,7 @@ public class EntityLoader {
         ashley.addEntity(entity);
     }
 
-    private void createLavaDeco(float x, float y, ChunkBuffer buffer) {
+    private void createLavaDeco(float x, float y, ChunkBuffer buffer, RandomXS128 rnd) {
         Entity entity = ashley.createEntity();
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
         pc.x = x;
@@ -291,8 +258,27 @@ public class EntityLoader {
         entity.add(pc);
         SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
 //        sc.region = Tile.LAVA_DECO_1.getTextureRegion();
-        sc.region = Tile.getTileForBiome(TileMapper.LAVA_DECO_1, buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME).value).getTextureRegion();
+        sc.region = Tile.getTileForBiome(rnd.nextBoolean() ? TileMapper.LAVA_DECO_1 : TileMapper.LAVA_DECO_2, buffer.getCellLazy((int)x/32, (int)y/32, ChunkBuffer.BIOME).value).getTextureRegion();
         entity.add(sc);
+        MapCollisionComponent mc = ashley.createComponent(MapCollisionComponent.class);
+        mc.value = TileCollisionMapper.ENTITY;
+        entity.add(mc);
+        ashley.addEntity(entity);
+    }
+
+    private void createStoneDeco(float x, float y, ChunkBuffer buffer, RandomXS128 rnd) {
+        Entity entity = ashley.createEntity();
+        PositionComponent pc = ashley.createComponent(PositionComponent.class);
+        pc.x = x;
+        pc.y = y;
+        entity.add(pc);
+        SpriteComponent sc = ashley.createComponent(SpriteComponent.class);
+        sc.region = Tile.getTileForBiome(rnd.nextBoolean() ? TileMapper.STONE_DECO_0 : TileMapper.STONE_DECO_1, buffer.getCellLazy((int) x/32, (int) y/32, ChunkBuffer.BIOME).value).getTextureRegion();
+        entity.add(sc);
+        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        cc.ghost = false;
+        cc.projectile = false;
+        entity.add(cc);
         MapCollisionComponent mc = ashley.createComponent(MapCollisionComponent.class);
         mc.value = TileCollisionMapper.ENTITY;
         entity.add(mc);

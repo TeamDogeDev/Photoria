@@ -13,7 +13,6 @@ public class TileMapper {
     public static final int GROUND4 = 5;
 
 
-    public static final int LAVA_DECO_1 = 6;
 
     public static final int LAVA_STONE2 = 7;
     public static final int LAVA_STONE3 = 8;
@@ -115,6 +114,14 @@ public class TileMapper {
     public static final int TERRA_FORMING_RIGHT_TOP = 206;
     public static final int TERRA_FORMING_RIGHT = 207;
     public static final int TERRA_FORMING_RIGHT_BOT = 208;
+
+
+    public static final int LAVA_DECO_1 = 256;
+    public static final int LAVA_DECO_2 = 257;
+
+    public static final int STONE_DECO_0 = 258;
+    public static final int STONE_DECO_1 = 259;
+    public static final int STONE_DECO_2 = 260;
 
     public static final int DEBUG = 2048;
 }
