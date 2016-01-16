@@ -92,6 +92,7 @@ public class AttackManager {
 
                 if(ec != null){
                     Statics.item.createGemDrop(ec, pc);
+                    target.remove(ElementsComponent.class);
                 }
 
                 if(ic != null){

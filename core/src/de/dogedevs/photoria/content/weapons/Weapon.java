@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface Weapon {
 
-    public void render(Batch batch, float deltaTime, float z);
+    public void updateActive(Batch batch, float deltaTime, float z);
 
-    public void inactive(float deltaTime);
+    public void updateInactive(Batch batch, float deltaTime, float z);
 
     public void setBegin(Vector2 begin);
 

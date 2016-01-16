@@ -44,7 +44,7 @@ public class AcidShooter implements Weapon {
     float deltaSum = 0;
 
     @Override
-    public void render(Batch batch, float deltaTime, float z) {
+    public void updateActive(Batch batch, float deltaTime, float z) {
         deltaSum -= deltaTime;
         if(deltaSum <= 0) {
             deltaSum = 1f;
@@ -147,7 +147,7 @@ public class AcidShooter implements Weapon {
     }
 
     @Override
-    public void inactive(float deltaTime) {
+    public void updateInactive(Batch batch, float deltaTime, float z) {
 
     }
 

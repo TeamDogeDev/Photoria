@@ -28,7 +28,7 @@ public class ParticleShooter implements Weapon {
     float deltaSum = 0;
 
     @Override
-    public void render(Batch batch, float deltaTime, float z) {
+    public void updateActive(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         deltaSum -= deltaTime;
         if(deltaSum <= 0){
@@ -41,7 +41,7 @@ public class ParticleShooter implements Weapon {
     }
 
     @Override
-    public void inactive(float deltaTime) {
+    public void updateInactive(Batch batch, float deltaTime, float z) {
 
     }
 

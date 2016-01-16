@@ -28,7 +28,7 @@ public class Flamethrower implements Weapon {
     }
 
     @Override
-    public void render(Batch batch, float deltaTime, float z) {
+    public void updateActive(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         Statics.particle.createParticleAt(ParticlePool.ParticleType.FLAME_THROWER, beginVec.x, beginVec.y + z, rotation, 10);
     }
@@ -78,7 +78,7 @@ public class Flamethrower implements Weapon {
     }
 
     @Override
-    public void inactive(float deltaTime) {
+    public void updateInactive(Batch batch, float deltaTime, float z) {
 
     }
 

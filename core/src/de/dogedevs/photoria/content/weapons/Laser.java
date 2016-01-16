@@ -111,7 +111,7 @@ public class Laser implements Weapon{
     }
 
     @Override
-    public void inactive(float deltaTime) {
+    public void updateInactive(Batch batch, float deltaTime, float z) {
         if(soundId != -1){
             Statics.sound.stopSound(Sounds.LASER, soundId);
             soundId = -1;
@@ -119,7 +119,7 @@ public class Laser implements Weapon{
     }
 
 
-    public void render(Batch batch, float deltaTime, float z){
+    public void updateActive(Batch batch, float deltaTime, float z){
 
         if(soundId == -1){
             soundId = Statics.sound.loopSound(Sounds.LASER);

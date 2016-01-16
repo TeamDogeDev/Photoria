@@ -28,7 +28,7 @@ public class LaserOverlay extends AbstractOverlay {
     public void render() {
 //        batch.setProjectionMatrix(camera.combined);
         batch.begin();
-//        laser.render(batch, Gdx.graphics.getDeltaTime());
+//        laser.updateActive(batch, Gdx.graphics.getDeltaTime());
         batch.end();
     }
 

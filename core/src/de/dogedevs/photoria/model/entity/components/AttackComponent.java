@@ -22,7 +22,7 @@ public class AttackComponent implements Component, Pool.Poolable {
 
     @Override
     public void reset() {
-        weapon.inactive(Gdx.graphics.getDeltaTime());
+        weapon.updateInactive(null, Gdx.graphics.getDeltaTime(), 0);
         weapon = null;
         listener = null;
     }
