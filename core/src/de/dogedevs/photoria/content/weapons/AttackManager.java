@@ -274,4 +274,28 @@ public class AttackManager {
         return listener;
     }
 
+    public void loadWeapon(Entity entity) {
+        Weapon weapon = null;
+        ElementsComponent elementsComponent = ComponentMappers.elements.get(entity);
+        if(elementsComponent != null) {
+            float biggest = elementsComponent.blue;
+            weapon = new Watercannon();
+            if(elementsComponent.yellow >= biggest){
+                biggest = elementsComponent.yellow;
+                weapon = new Laser();
+            }
+            if(elementsComponent.red >= biggest){
+                biggest = elementsComponent.red;
+                weapon = new Flamethrower();
+            }
+            if(elementsComponent.purple >= biggest){
+                biggest = elementsComponent.purple;
+                weapon = new ParticleShooter();
+            }
+            if(elementsComponent.green >= biggest){
+                weapon = new AcidShooter();
+            }
+        }
+        Statics.attack.createAttack(entity, weapon);
+    }
 }
