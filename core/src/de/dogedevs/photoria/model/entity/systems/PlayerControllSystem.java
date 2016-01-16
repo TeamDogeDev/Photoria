@@ -13,11 +13,13 @@ import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.weapons.Shooter;
 import de.dogedevs.photoria.content.weapons.Weapon;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.EntityLoader;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
+import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 
@@ -28,10 +30,12 @@ import java.util.UUID;
  */
 public class PlayerControllSystem extends EntitySystem {
 
+    private final ChunkBuffer buffer;
     private ImmutableArray<Entity> entities;
     public static final int SPEED = 128*4;
 
-    public PlayerControllSystem() {
+    public PlayerControllSystem(ChunkBuffer buffer) {
+        this.buffer = buffer;
     }
 
     @Override
@@ -64,6 +68,8 @@ public class PlayerControllSystem extends EntitySystem {
             Statics.music.playMusic(Musics.AMBIENT, false);
         }
 
+
+
         if (entities.size() == 0) {
             return;
         }
@@ -73,6 +79,11 @@ public class PlayerControllSystem extends EntitySystem {
         PositionComponent positionComponent = ComponentMappers.position.get(e);
         energyComponent.energy += 2*deltaTime;
         energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+            EntityLoader el = new EntityLoader();
+            el.createTerraFormingRamp(positionComponent.x, positionComponent.y+32, buffer);
+        }
 
         if(!Gdx.input.isTouched()){
             TargetComponent target = ComponentMappers.target.get(e);

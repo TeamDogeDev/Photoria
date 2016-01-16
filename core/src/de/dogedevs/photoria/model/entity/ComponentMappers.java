@@ -3,6 +3,7 @@ package de.dogedevs.photoria.model.entity;
 import com.badlogic.ashley.core.ComponentMapper;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
+import de.dogedevs.photoria.model.entity.components.rendering.RenderAsTileComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
@@ -32,4 +33,5 @@ public class ComponentMappers {
         public static final ComponentMapper<ParentComponent> parent = ComponentMapper.getFor(ParentComponent.class);
         public static final ComponentMapper<TargetComponent> target = ComponentMapper.getFor(TargetComponent.class);
         public static final ComponentMapper<DecreaseZComponent> z = ComponentMapper.getFor(DecreaseZComponent.class);
+        public static final ComponentMapper<RenderAsTileComponent> renderAsTile = ComponentMapper.getFor(RenderAsTileComponent.class);
 }

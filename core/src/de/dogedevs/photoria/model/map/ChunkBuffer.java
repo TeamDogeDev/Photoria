@@ -1,11 +1,18 @@
 package de.dogedevs.photoria.model.map;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.MathUtils;
+import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.generators.AbstractMapDecorator;
 import de.dogedevs.photoria.generators.AbstractMapGenerator;
 import de.dogedevs.photoria.generators.MapDecorator;
 import de.dogedevs.photoria.generators.SimplexMapGenerator;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.EntityLoader;
+import de.dogedevs.photoria.model.entity.components.MapCollisionComponent;
+import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 
@@ -61,11 +68,14 @@ public class ChunkBuffer {
     public static final long SEED = 31337;
     public static final int CHUNK_SIZE = 64;
 
+    private ImmutableArray<Entity> mapCollisionEntities;
+
     public ChunkBuffer(){
         chunks = new HashMap<>();
         generator = new SimplexMapGenerator(SEED);
         decorator = new MapDecorator();
         entityLoader = new EntityLoader();
+        mapCollisionEntities = Statics.ashley.getEntitiesFor(Family.all(PositionComponent.class, MapCollisionComponent.class).get());
     }
     int count;
     public ChunkCell getCell(int x, int y, int layer) {
@@ -78,6 +88,18 @@ public class ChunkBuffer {
             chunks.put(chunk.getHashCode(), chunk);
 
             entityLoader.createChunkEntities(x/64, y/64, SEED, this);
+            for(Entity entity: mapCollisionEntities){
+                PositionComponent pc = ComponentMappers.position.get(entity);
+                MapCollisionComponent mc = ComponentMappers.mapCollision.get(entity);
+                if(pc == null || mc == null){
+                    continue;
+                }
+                ChunkCell cell = getCellLazy((int)(pc.x/32), (int)(pc.y/32), ChunkBuffer.COLLISION);
+                if(cell == null){
+                    continue;
+                }
+                cell.value = mc.value;
+            }
         }
 
         return chunk.getCell(x,y, layer);

@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.AvoidGcComponent;
 import de.dogedevs.photoria.model.entity.components.InventoryComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
@@ -30,7 +31,7 @@ public class EntityGcSystem extends EntitySystem {
     @Override
     public void addedToEngine (Engine engine) {
 
-        entities = engine.getEntitiesFor(Family.all(PositionComponent.class).exclude(PlayerComponent.class).get());
+        entities = engine.getEntitiesFor(Family.all(PositionComponent.class).exclude(PlayerComponent.class, AvoidGcComponent.class).get());
     }
 
     @Override
