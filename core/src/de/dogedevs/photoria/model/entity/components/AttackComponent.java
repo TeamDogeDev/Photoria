@@ -2,6 +2,7 @@ package de.dogedevs.photoria.model.entity.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Pool;
 import de.dogedevs.photoria.content.weapons.Weapon;
 
@@ -21,6 +22,7 @@ public class AttackComponent implements Component, Pool.Poolable {
 
     @Override
     public void reset() {
+        weapon.inactive(Gdx.graphics.getDeltaTime());
         weapon = null;
         listener = null;
     }

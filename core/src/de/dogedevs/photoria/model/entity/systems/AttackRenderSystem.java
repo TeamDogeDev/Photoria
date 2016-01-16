@@ -53,6 +53,8 @@ public class AttackRenderSystem extends EntitySystem {
             TargetComponent targetComponent = ComponentMappers.target.get(e);
             if (attack.weapon != null && targetComponent !=null && targetComponent.isShooting) {
                 attack.weapon.render(batch, deltaTime, 25);
+            } else if(attack.weapon != null && targetComponent !=null && !targetComponent.isShooting){
+                attack.weapon.inactive(deltaTime);
             }
         }
 

@@ -41,6 +41,11 @@ public class ParticleShooter implements Weapon {
     }
 
     @Override
+    public void inactive(float deltaTime) {
+
+    }
+
+    @Override
     public void setBegin(Vector2 begin) {
         this.beginVec = begin;
     }

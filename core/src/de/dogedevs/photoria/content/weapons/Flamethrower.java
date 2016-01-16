@@ -78,6 +78,11 @@ public class Flamethrower implements Weapon {
     }
 
     @Override
+    public void inactive(float deltaTime) {
+
+    }
+
+    @Override
     public void setAdditionalThrust(Vector2 thrust) {
 
     }

@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.Statics;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class Laser implements Weapon{
     private float length = 700;
     private Color color1;
     private Color color2;
+    private long soundId;
 
     public Laser(){
         begin = new Vector2(620, 380);
@@ -108,7 +110,20 @@ public class Laser implements Weapon{
 
     }
 
+    @Override
+    public void inactive(float deltaTime) {
+        if(soundId != -1){
+            Statics.sound.stopSound(Sounds.LASER, soundId);
+            soundId = -1;
+        }
+    }
+
+
     public void render(Batch batch, float deltaTime, float z){
+
+        if(soundId == -1){
+            soundId = Statics.sound.loopSound(Sounds.LASER);
+        }
 
         Texture start = Statics.asset.getTexture(Textures.LASER_BEGIN);
         Texture mid = Statics.asset.getTexture(Textures.LASER);
@@ -186,5 +201,6 @@ public class Laser implements Weapon{
                 false,false); //flip
 
     }
+
 
 }
