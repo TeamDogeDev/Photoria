@@ -90,7 +90,8 @@ public enum Textures {
     MENU_VOLUME_BOX("menu/volumeBox.png"),
     MENU_VOLUME_BOX_BAR("menu/volumeBoxBar.png"),
     MENU_LOGO_INNER("menu/logo_inner.png"),
-    MENU_LOGO_OUTER("menu/logo_outer.png");
+    MENU_LOGO_OUTER("menu/logo_outer.png"),
+    MENU_INPUT("menu/input.png");
 
 
 

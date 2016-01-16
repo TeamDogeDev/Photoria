@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
 
     private Batch mainBatch;
     private BitmapFont menuFont;
-    private Texture box, logoInner, logoOuter, volumeBox, volumeBoxBar, cursorTex;
+    private Texture box, logoInner, logoOuter, volumeBox, volumeBoxBar, cursorTex, input;
     private float rot, offset, spacing, startX, startY, rightAligned;
     private Stage stage;
     private MenuButton start, quit, sndPlus, sndMinus, musPlus, musMinus;
@@ -53,6 +53,7 @@ public class MainMenuScreen implements Screen {
         volumeBox = asset.getTexture(Textures.MENU_VOLUME_BOX);
         volumeBoxBar = asset.getTexture(Textures.MENU_VOLUME_BOX_BAR);
         cursorTex = asset.getTexture(Textures.MOUSE_CURSOR);
+        input = asset.getTexture(Textures.MENU_INPUT);
         offset = 50;
         spacing = 50;
         startX = offset;
@@ -173,8 +174,21 @@ public class MainMenuScreen implements Screen {
         renderVolumeBox(3, Statics.settings.soundVolume);
         renderVolumeBox(5, Statics.settings.musicVolume);
         renderLogo(delta, Gdx.graphics.getWidth() - logoOuter.getWidth() - offset, Gdx.graphics.getHeight() - logoOuter.getHeight() - offset);
+
+        renderInput(delta, startX + (2*spacing) + asset.getTexture(Textures.MENU_BOX).getWidth(), -1); // q'n'd
         renderCursor(delta);
         mainBatch.end();
+    }
+
+    private void renderInput(float delta, float x, float row) {
+        float y = startY - ((row+1) * spacing) - input.getHeight();
+        menuFont.draw(mainBatch, "Controls:", x, startY - ((row+1) * spacing) + menuFont.getLineHeight(),
+                asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
+        mainBatch.draw(input, x, y);
+        float textX = x + input.getWidth() + (spacing/2);
+        menuFont.draw(mainBatch, "- Use", textX, y+input.getHeight()-10);
+        menuFont.draw(mainBatch, "- Move", textX, y+(input.getHeight()/2));
+        menuFont.draw(mainBatch, "- Shoot", textX, y+menuFont.getLineHeight()-10);
     }
 
     private void renderVolumeBox(int row, float value) {
@@ -235,5 +249,6 @@ public class MainMenuScreen implements Screen {
         volumeBoxBar.dispose();
         volumeBox.dispose();
         cursorTex.dispose();
+        input.dispose();
     }
 }
