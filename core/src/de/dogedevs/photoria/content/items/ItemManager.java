@@ -234,6 +234,8 @@ public class ItemManager {
                         playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 1f);
                         playerEc.green = MathUtils.clamp(playerEc.green, 0f, 1f);
                     }
+                    Statics.attack.deleteWeaponsFrom(other);
+                    Statics.attack.loadWeapon(other);
                     Statics.ashley.removeEntity(self);
                     return true;
                 }
