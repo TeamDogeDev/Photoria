@@ -14,6 +14,8 @@ import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
+import static de.dogedevs.photoria.utils.assets.enums.Textures.*;
+
 /**
  * Created by Furuha on 09.01.2016.
  */
@@ -23,9 +25,9 @@ public class ItemManager {
 
     }
 
-    public void populateInventory(Entity entity, int mobType){
+    public void populateInventory(Entity entity, int mobType) {
         InventoryComponent inventory = ComponentMappers.inventory.get(entity);
-        if(inventory != null){
+        if (inventory != null) {
 
             inventory.slotAttack = generateAttackItem(mobType);
             inventory.slotDefense = generateDefenseItem(mobType);
@@ -33,7 +35,7 @@ public class ItemManager {
             inventory.slotStatsUp = generateStatsItem(mobType);
             inventory.slotOther = generateOtherItem(mobType);
             Entity item = generateUseItem(mobType);
-            if(item != null){
+            if (item != null) {
                 inventory.slotUse.add(item);
             }
         }
@@ -63,7 +65,7 @@ public class ItemManager {
         return null;
     }
 
-    private Entity generateBasicItem(String name, ItemComponent.ItemType type){
+    private Entity generateBasicItem(String name, ItemComponent.ItemType type) {
         Entity entity = Statics.ashley.createEntity();
 
 //        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
@@ -75,7 +77,7 @@ public class ItemManager {
         cc.collisionListener = new CollisionComponent.CollisionListener() {
             @Override
             public boolean onCollision(Entity other, Entity self) {
-                if(ComponentMappers.player.has(other)){
+                if (ComponentMappers.player.has(other)) {
                     InventoryComponent inventory = ComponentMappers.inventory.get(other);
                     addItemToInventory(self, inventory);
                     return true;
@@ -95,7 +97,7 @@ public class ItemManager {
     }
 
     public void addItemToInventory(Entity item, InventoryComponent inventory) {
-        if(inventory != null && item != null) {
+        if (inventory != null && item != null) {
             ItemComponent itemComponent = ComponentMappers.item.get(item);
             PositionComponent position = ComponentMappers.position.get(item);
 
@@ -125,44 +127,86 @@ public class ItemManager {
                     break;
             }
             LifetimeComponent lc = ComponentMappers.lifetime.get(item);
-            if(lc != null){
+            if (lc != null) {
                 item.remove(LifetimeComponent.class);
             }
             item.remove(PositionComponent.class);
         }
     }
 
+    private ElementsComponent createElementsForOre(Textures oreTexture) {
+        ElementsComponent ec = Statics.ashley.createComponent(ElementsComponent.class);
+        float ndtm = 10; // number of drops until max;
+        switch (oreTexture) {
+            case ORE_BLUE:
+                ec.blue = 1/ndtm;
+                ec.yellow = -(1/ndtm)/4f;
+                ec.red = -(1/ndtm)/4f;
+                ec.purple = -(1/ndtm)/4f;
+                ec.green = -(1/ndtm)/4f;
+                break;
+            case ORE_YELLOW:
+                ec.blue = -(1/ndtm)/4f;
+                ec.yellow = 1/ndtm;
+                ec.red = -(1/ndtm)/4f;
+                ec.purple = -(1/ndtm)/4f;
+                ec.green = -(1/ndtm)/4f;
+                break;
+            case ORE_RED:
+                ec.blue = -(1/ndtm)/4f;
+                ec.yellow = -(1/ndtm)/4f;
+                ec.red = 1/ndtm;
+                ec.purple = -(1/ndtm)/4f;
+                ec.green = -(1/ndtm)/4f;
+                break;
+            case ORE_PURPLE:
+                ec.blue = -(1/ndtm)/4f;
+                ec.yellow = -(1/ndtm)/4f;
+                ec.red = -(1/ndtm)/4f;
+                ec.purple = 1/ndtm;
+                ec.green = -(1/ndtm)/4f;
+                break;
+            case ORE_GREEN:
+                ec.blue = -(1/ndtm)/4f;
+                ec.yellow = -(1/ndtm)/4f;
+                ec.red = -(1/ndtm)/4f;
+                ec.purple = -(1/ndtm)/4f;
+                ec.green = 1/ndtm;
+                break;
+        }
+        return ec;
+    }
+
     public void createGemDrop(ElementsComponent baseElements, PositionComponent positionComponent) {
         Entity entity = Statics.ashley.createEntity();
 
-
-        ElementsComponent ec = Statics.ashley.createComponent(ElementsComponent.class);
-        ec.blue = baseElements.blue;
-        ec.yellow = baseElements.yellow;
-        ec.red = baseElements.red;
-        ec.purple = baseElements.purple;
-        ec.green = baseElements.green;
-        entity.add(ec);
-
         Textures color;
-        float biggest = ec.blue;
-        color = Textures.ORE_BLUE;
-        if(ec.yellow >= biggest){
-            biggest = ec.yellow;
-            color = Textures.ORE_YELLOW;
+        float biggest = baseElements.blue;
+        color = ORE_BLUE;
+        if (baseElements.yellow >= biggest) {
+            biggest = baseElements.yellow;
+            color = ORE_YELLOW;
         }
-        if(ec.red >= biggest){
-            biggest = ec.red;
-            color = Textures.ORE_RED;
+        if (baseElements.red >= biggest) {
+            biggest = baseElements.red;
+            color = ORE_RED;
         }
-        if(ec.purple >= biggest){
-            biggest = ec.purple;
-            color = Textures.ORE_PURPLE;
+        if (baseElements.purple >= biggest) {
+            biggest = baseElements.purple;
+            color = ORE_PURPLE;
         }
-        if(ec.green >= biggest){
-            color = Textures.ORE_GREEN;
+        if (baseElements.green >= biggest) {
+            color = ORE_GREEN;
         }
 
+        ElementsComponent ec = createElementsForOre(color);
+
+//        ec.blue = baseElements.blue;
+//        ec.yellow = baseElements.yellow;
+//        ec.red = baseElements.red;
+//        ec.purple = baseElements.purple;
+//        ec.green = baseElements.green;
+        entity.add(ec);
         SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
         sc.region = new TextureRegion(Statics.asset.getTexture(color));
         entity.add(sc);
@@ -174,10 +218,10 @@ public class ItemManager {
         cc.collisionListener = new CollisionComponent.CollisionListener() {
             @Override
             public boolean onCollision(Entity other, Entity self) {
-                if(ComponentMappers.player.has(other)){
+                if (ComponentMappers.player.has(other)) {
                     ElementsComponent playerEc = ComponentMappers.elements.get(other);
                     ElementsComponent ec = ComponentMappers.elements.get(self);
-                    if(ec != null && playerEc != null){
+                    if (ec != null && playerEc != null) {
                         playerEc.blue += ec.blue;
                         playerEc.yellow += ec.yellow;
                         playerEc.red += ec.red;
@@ -204,13 +248,13 @@ public class ItemManager {
     }
 
     public void dropItem(Entity item, PositionComponent positionComponent) {
-        if(item != null){
+        if (item != null) {
             LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
             lc.maxTime = 10;
             item.add(lc);
             PositionComponent pc = Statics.ashley.createComponent(PositionComponent.class);
-            pc.x = positionComponent.x+MathUtils.random(-10,10);
-            pc.y = positionComponent.y+MathUtils.random(-10,10);
+            pc.x = positionComponent.x + MathUtils.random(-10, 10);
+            pc.y = positionComponent.y + MathUtils.random(-10, 10);
             item.add(pc);
         }
     }
