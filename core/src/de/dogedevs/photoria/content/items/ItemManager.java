@@ -3,6 +3,7 @@ package de.dogedevs.photoria.content.items;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.mob.MobType;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
@@ -28,9 +29,10 @@ public class ItemManager {
 
     public void populateInventory(Entity entity, MobType mobType) {
         InventoryComponent inventory = ComponentMappers.inventory.get(entity);
+
         if (inventory != null) {
 
-            inventory.slotAttack = generateAttackItem(mobType);
+            inventory.slotAttack = generateAttackItem(entity, mobType);
             inventory.slotDefense = generateDefenseItem(mobType);
             inventory.slotRegeneration = generateRegItem(mobType);
             inventory.slotStatsUp = generateStatsItem(mobType);
@@ -43,27 +45,82 @@ public class ItemManager {
     }
 
     private Entity generateUseItem(MobType mobType) {
-        return null;
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.USE);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_TERRAFORMIN));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
     private Entity generateOtherItem(MobType mobType) {
-        return null;
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.OTHER);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SHOE));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
     private Entity generateStatsItem(MobType mobType) {
-        return null;
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.STATSUP);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_BOOK_LIFE));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
     private Entity generateDefenseItem(MobType mobType) {
-        return null;
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.DEFENSE);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_RED));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
-    private Entity generateAttackItem(MobType mobType) {
-        return generateBasicItem("Orb des attackes!", ItemComponent.ItemType.ATTACK);
+    private Entity generateAttackItem(Entity entity, MobType mobType) {
+
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.ATTACK);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_RED));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
     private Entity generateRegItem(MobType mobType) {
-        return null;
+        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.REGENERATION);
+        ItemComponent item = ComponentMappers.item.get(itemEntity);
+        item.dmgElementRed = 10;
+        itemEntity.add(item);
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_ENERGY));
+        itemEntity.add(sc);
+
+        return itemEntity;
     }
 
     private Entity generateBasicItem(String name, ItemComponent.ItemType type) {
@@ -252,6 +309,7 @@ public class ItemManager {
 
     public void dropItem(Entity item, PositionComponent positionComponent) {
         if (item != null) {
+            MainGame.log("ORB DES RWED");
             LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
             lc.maxTime = 10;
             item.add(lc);

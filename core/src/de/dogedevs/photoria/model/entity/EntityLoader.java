@@ -290,7 +290,7 @@ public class EntityLoader {
             return;
         }
         Entity entity = ashley.createEntity();
-
+        ashley.addEntity(entity);
         PositionComponent pc = ashley.createComponent(PositionComponent.class);
         pc.x = x;
         pc.y = y;
@@ -390,7 +390,7 @@ public class EntityLoader {
         Statics.attack.createAttack(entity, weapon);
         target.isShooting = false;
 
-        ashley.addEntity(entity);
+
     }
 
 }

@@ -114,6 +114,7 @@ public enum Textures {
     ITEM_SHOE("items/items/shoe.png"),
     ITEM_LIFE("items/items/life.png"),
     ITEM_ENERGY("items/items/energy.png"),
+    ITEM_TERRAFORMIN("items/items/terraforming.png"),
 
     // MENU
     MENU_BOX("menu/menuBox.png"),
