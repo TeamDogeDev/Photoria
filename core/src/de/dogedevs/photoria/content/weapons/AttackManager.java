@@ -7,6 +7,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
@@ -44,7 +45,27 @@ public class AttackManager {
 //                SoundManager.playSound(Sounds.MOB_HIT);
 //            }
 //        };
-        attackComponent.listener = createOnHitListener();
+        WeaponType type = WeaponType.NEUTRAL;
+        if(weapon instanceof Laser){
+            type = WeaponType.LASER;
+        }
+        else if(weapon instanceof ParticleShooter){
+            type = WeaponType.ENERGYGUN;
+        }
+        else if(weapon instanceof Shooter){
+            type = WeaponType.LASER;
+        }
+        else if(weapon instanceof AcidShooter){
+            type = WeaponType.SLIMEBALLS;
+        }
+        else if(weapon instanceof Flamethrower){
+            type = WeaponType.FLAMETHROWER;
+        }
+        else if(weapon instanceof Watercannon){
+            type = WeaponType.WATERTHROWER;
+        }
+
+        attackComponent.listener = createOnHitListener(type);
         attackComponent.weapon = weapon;
         attack.add(attackComponent);
 
@@ -65,7 +86,7 @@ public class AttackManager {
         }
     }
 
-    public AttackComponent.OnHitListener createOnHitListener(){
+    public AttackComponent.OnHitListener createOnHitListener(final WeaponType type){
         return new AttackComponent.OnHitListener() {
             @Override
             public void onEnemyHit(Entity target, Entity attack, Entity parent) {
@@ -98,7 +119,7 @@ public class AttackManager {
 
                 HealthComponent hc = health.get(target);
                 if(hc != null){
-                    float damage = calculateDamage(parent, target);
+                    float damage = calculateDamage(parent, target, type);
                     hc.health -= (damage * Statics.settings.damageMultiplicator); // TODO DAMAGE FACTOR from constants = tmp 20!!
                     hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealthUse);
                     if(hc.health == 0){
@@ -148,7 +169,7 @@ public class AttackManager {
         cc.ghost = true;
         cc.projectile = true;
         if(listener == null){
-            cc.collisionListener = createNormalListener(self, createOnHitListener());
+            cc.collisionListener = createNormalListener(self, createOnHitListener(WeaponType.ENERGYGUN));
         } else {
             cc.collisionListener = listener;
         }
@@ -181,7 +202,7 @@ public class AttackManager {
         cc.ghost = true;
         cc.projectile = true;
         if(listener == null){
-            cc.collisionListener = createNormalListener(self, createOnHitListener());
+            cc.collisionListener = createNormalListener(self, createOnHitListener(WeaponType.NEUTRAL));
         } else {
             cc.collisionListener = listener;
         }
@@ -205,7 +226,8 @@ public class AttackManager {
         ashley.addEntity(shot);
     }
 
-    public float calculateDamage(Entity attacker, Entity defender) {
+    public float calculateDamage(Entity attacker, Entity defender, WeaponType weaponType) {
+        MainGame.log("Weapon "+weaponType);
         float baseDamage = 1;  // TODO MAPPING!
         float baseDefense = 1;
 
