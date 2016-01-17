@@ -1,13 +1,13 @@
 {
   "id": 1,
-  "name": "Blue Slime",
-  "texture": "SLIME_BLUE",
+  "name": "Blue_Slime_boss",
+  "texture": "BLUE_BOSS",
   "green": 0.0,
   "red": 0.0,
   "blue": 1.0,
   "yellow": -0.3,
   "purple": 0.0,
-  "type": "LOW",
+  "type": "BOSS",
   "attributes": [
     "MULTIPLY",
     "GROUND"
@@ -15,14 +15,14 @@
   "biome": [
     2
   ],
-  "maxHealth": 30,
-  "maxEnergy": 30,
-  "baseEnergyReg": 1.0,
-  "baseHealthReg": 1.0,
+  "maxHealth": 80,
+  "maxEnergy": 80,
+  "baseEnergyReg": 2.0,
+  "baseHealthReg": 2.0,
   "ai": "FOLLOW",
   "weapon": "WATERTHROWER",
   "speed": 0,
-  "range": 400,
+  "range": 600,
   "baseDamage": 0,
   "baseDefense": 0,
   "hitSound": "SLIME_JUMP",
