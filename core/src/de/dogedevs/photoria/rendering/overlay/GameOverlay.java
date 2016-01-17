@@ -54,6 +54,7 @@ public class GameOverlay extends AbstractOverlay {
     private static ShapeRenderer shapeRenderer = new ShapeRenderer();
 
     private BitmapFont font;
+    private BitmapFont overlayFont;
 
     private float offset = 10;
     private float spacing = 5;
@@ -110,6 +111,7 @@ public class GameOverlay extends AbstractOverlay {
         initShader();
         initComponents();
         font = Statics.asset.getBitmapFont(BitmapFonts.TEXTBOX_FONT, true);
+        overlayFont = Statics.asset.getBitmapFont(BitmapFonts.OVERLAY_FONT, true);
     }
 
     @Override
@@ -167,7 +169,25 @@ public class GameOverlay extends AbstractOverlay {
         Gdx.gl.glLineWidth(2);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.polygon(statsToVertices(elementsComponent.blue , elementsComponent.green , elementsComponent.yellow , elementsComponent.red , elementsComponent.purple ));
+
+        InventoryComponent ic = ComponentMappers.inventory.get(player);
+        float blue = elementsComponent.blue;
+        float green = elementsComponent.green;
+        float yellow = elementsComponent.yellow;
+        float red = elementsComponent.red;
+        float purple = elementsComponent.purple;
+
+        if(ic != null && ic.slotAttack != null) {
+            ItemComponent inventory = ComponentMappers.item.get(ic.slotAttack);
+            blue += inventory.dmgElementBlue;
+            green += inventory.dmgElementGreen;
+            yellow += inventory.dmgElementYellow;
+            red += inventory.dmgElementRed;
+            purple += inventory.dmgElementPurple;
+        }
+
+
+        shapeRenderer.polygon(statsToVertices(blue, green, yellow, red, purple));
 
         shapeRenderer.end();
         Gdx.gl.glLineWidth(1);
@@ -201,6 +221,18 @@ public class GameOverlay extends AbstractOverlay {
         batch.begin();
         batch.draw(health, healthEnergyOffset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset));
         batch.draw(energy, healthEnergyOffset, Gdx.graphics.getHeight() - ((energy.getRegionHeight() * 2 + offset + spacing)));
+
+        HealthComponent hc = ComponentMappers.health.get(player);
+        EnergyComponent ec = ComponentMappers.energy.get(player);
+        if(hc != null) {
+            overlayFont.draw(batch, (int)hc.health + "",
+            healthEnergyOffset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset)+overlayFont.getLineHeight(),health.getRegionWidth()-20, Align.right, false);
+        }
+        if(ec != null) {
+            overlayFont.draw(batch, (int)ec.energy + "",
+            healthEnergyOffset, Gdx.graphics.getHeight() - ((energy.getRegionHeight() * 2 + offset + spacing))+overlayFont.getLineHeight(),energy.getRegionWidth()-20, Align.right, false);
+        }
+
 
         batch.end();
 
@@ -346,6 +378,7 @@ public class GameOverlay extends AbstractOverlay {
     public void dispose() {
         super.dispose();
         font.dispose();
+        overlayFont.dispose();
         hudTexture.dispose();
         netTexture.dispose();
         hudBarTexture.dispose();

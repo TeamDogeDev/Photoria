@@ -6,7 +6,8 @@ package de.dogedevs.photoria.utils.assets.enums;
 public enum BitmapFonts {
 
     TEXTBOX_FONT("fonts/textboxFont.fnt"),
-    MENU_FONT("fonts/menuFont.fnt");
+    MENU_FONT("fonts/menuFont.fnt"),
+    OVERLAY_FONT("fonts/overlayFont.fnt");
 
     public String name;
 
