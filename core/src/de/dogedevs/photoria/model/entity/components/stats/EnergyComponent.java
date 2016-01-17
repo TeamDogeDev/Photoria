@@ -19,7 +19,7 @@ public class EnergyComponent implements Component, Pool.Poolable {
         energy = 100;
         maxEnergy = 100;
         maxEnergyUse = 100;
-        regEnergySec = 1;
-        regEnergySecUse = 1;
+        regEnergySec = 10;
+        regEnergySecUse = 10;
     }
 }

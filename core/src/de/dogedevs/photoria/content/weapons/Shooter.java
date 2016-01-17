@@ -35,8 +35,9 @@ public class Shooter implements Weapon {
         if(Statics.time-lastShot > 0.1f){
             if(ComponentMappers.energy.has(owner)){
                 EnergyComponent ec = ComponentMappers.energy.get(owner);
-                if(ec.energy >= 4){
-                    ec.energy -= 4;
+                float cons = Statics.settings.neutralConsumption * deltaTime;
+                if(ec.energy >= cons){
+                    ec.energy -= cons;
                 } else {
                     return;
                 }

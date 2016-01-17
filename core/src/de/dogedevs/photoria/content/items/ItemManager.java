@@ -77,7 +77,7 @@ public class ItemManager {
                         case DEFENSE:
                             return createItem(0.25, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
                         case REGENERATION:
-                            return createItem(1, 0.1f, 0.4f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
+                            return createItem(0.15, 0.01f, 0.04f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
                         case STATS_UP:
                             return createItem(0.1, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
                         case OTHER:

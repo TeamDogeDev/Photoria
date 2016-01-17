@@ -45,8 +45,9 @@ public class Flamethrower implements Weapon {
     public void updateActive(Batch batch, float deltaTime, float z){
         if(ComponentMappers.energy.has(owner)){
             EnergyComponent ec = ComponentMappers.energy.get(owner);
-            if(ec.energy >= 3){
-                ec.energy -= 3;
+            float cons = Statics.settings.fireConsumption * deltaTime;
+            if(ec.energy >= cons){
+                ec.energy -= cons;
             } else {
                 active = false;
                 return;

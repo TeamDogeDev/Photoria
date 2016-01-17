@@ -35,8 +35,9 @@ public class ParticleShooter implements Weapon {
         if(Statics.time-lastShot > 1){
             if(ComponentMappers.energy.has(owner)){
                 EnergyComponent ec = ComponentMappers.energy.get(owner);
-                if(ec.energy >= 10){
-                    ec.energy -= 10;
+                float cons = Statics.settings.energyConsumption * deltaTime;
+                if(ec.energy >= cons){
+                    ec.energy -= cons;
                 } else {
                     return;
                 }

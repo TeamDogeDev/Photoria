@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -120,7 +121,24 @@ public class AttackManager {
                 HealthComponent hc = health.get(target);
                 if(hc != null){
                     float damage = calculateDamage(parent, target, type);
-                    hc.health -= (damage * Statics.settings.damageMultiplicator); // TODO DAMAGE FACTOR from constants = tmp 20!!
+
+                    if(type == WeaponType.FLAMETHROWER) {
+                        damage *= Statics.settings.fireDamage * Gdx.graphics.getDeltaTime();
+                    }else if(type == WeaponType.WATERTHROWER) {
+                        damage *= Statics.settings.waterDamage * Gdx.graphics.getDeltaTime();
+                    } else if(type == WeaponType.LASER) {
+                        damage *= Statics.settings.laserDamage * Gdx.graphics.getDeltaTime();
+                    } else if (type == WeaponType.ENERGYGUN){
+                        // Slowest -> highest
+                        damage *= Statics.settings.energyDamage * Gdx.graphics.getDeltaTime();
+                    } else if (type == WeaponType.SLIMEBALLS) {
+                        // Area
+                        damage *= Statics.settings.slimeDamage * Gdx.graphics.getDeltaTime();
+                    } else if (type == WeaponType.NEUTRAL) {
+                        damage *= Statics.settings.neutralDamage * Gdx.graphics.getDeltaTime();
+                    }
+
+                    hc.health -= damage; // TODO DAMAGE FACTOR from constants = tmp 20!!
                     hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealthUse);
                     if(hc.health == 0){
                         die(target, parent);
