@@ -23,7 +23,10 @@ public enum Sounds {
     EYE_DEATH("sfx/eye_death.mp3"),
     SLIME_JUMP("sfx/slimeJump.mp3"),
     SLIME_DEATH("sfx/slime_death.mp3"),
-    SLIME_MOVEMENT("sfx/slimeAttackMovement.mp3");
+    SLIME_MOVEMENT("sfx/slimeAttackMovement.mp3"),
+    PLAYER_HIT1("sfx/hit1.mp3"),
+    PLAYER_HIT2("sfx/hit2.mp3"),
+    PLAYER_HIT3("sfx/hit3.mp3");
 
     public String name;
 

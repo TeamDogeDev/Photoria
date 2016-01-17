@@ -129,6 +129,7 @@ public class GameScreen implements Screen {
         Statics.ashley.addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
         Statics.ashley.addSystem(new LifetimeSystem());
         Statics.ashley.addSystem(new HealthSystem());
+        Statics.ashley.addSystem(new AmbientSoundSystem());
         if (!Config.enableDebugCamera) {
             Statics.ashley.addSystem(new CameraSystem(camera));
         }
@@ -223,6 +224,14 @@ public class GameScreen implements Screen {
         ac.upAnimation = playerAnimations[0];
         ac.downAnimation = playerAnimations[1];
         player.add(ac);
+
+
+        SoundComponent soundc = Statics.ashley.createComponent(SoundComponent.class);
+        soundc.shotSound = Sounds.EYE_SHOT;
+        soundc.moveSound = Sounds.SLIME_MOVEMENT;
+        soundc.deathSound = Sounds.SLIME_DEATH;
+        soundc.hitSound = Sounds.PLAYER_HIT1;
+        player.add(soundc);
 
         Statics.ashley.addEntity(player);
 

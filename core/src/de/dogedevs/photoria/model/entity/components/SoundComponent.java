@@ -13,8 +13,12 @@ public class SoundComponent implements Component, Pool.Poolable {
     public Sounds shotSound;
     public Sounds hitSound;
     public Sounds moveSound;
-    public Sounds randomSound;
     public Sounds ambientSound;
+
+    public float lastHitSound;
+    public float lastAmbientSound;
+    public float lastAmbientSoundDif;
+    public float lastMoveSound;
 
     public SoundComponent() {
         reset();
@@ -22,11 +26,14 @@ public class SoundComponent implements Component, Pool.Poolable {
 
     @Override
     public void reset() {
+        lastHitSound = 0;
+        lastAmbientSound = 0;
+        lastMoveSound = 0;
+        lastAmbientSoundDif = 30;
         deathSound = null;
         shotSound = null;
         hitSound = null;
         moveSound = null;
-        randomSound = null;
         ambientSound = null;
     }
 

@@ -55,6 +55,7 @@ public class MainGame extends Game {
     @Override
     public void render() {
         super.render(); //important!
+        Statics.time += Gdx.graphics.getDeltaTime();
         batch.begin();
         font.setColor(1,1,1,1);
         font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20); // in debug overlay (!)

@@ -15,6 +15,7 @@ import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -72,7 +73,25 @@ public class AttackManager {
                 }
 //                Statics.sound.playSound(Sounds.MOB_HIT);
                 if(ComponentMappers.sound.has(target)){
-                    Statics.sound.playSound(ComponentMappers.sound.get(target).hitSound);
+                    SoundComponent sc = ComponentMappers.sound.get(target);
+                    if(Statics.time - sc.lastHitSound > 1){
+                        if(ComponentMappers.player.has(target)){
+                            switch(MathUtils.random(0,2)){
+                                case 0:
+                                    Statics.sound.playSound(Sounds.PLAYER_HIT1);
+                                    break;
+                                case 1:
+                                    Statics.sound.playSound(Sounds.PLAYER_HIT2);
+                                    break;
+                                case 2:
+                                    Statics.sound.playSound(Sounds.PLAYER_HIT3);
+                                    break;
+                            }
+                        } else {
+                            Statics.sound.playSound(sc.hitSound);
+                        }
+                        sc.lastHitSound = Statics.time;
+                    }
                 }
 
                 HealthComponent hc = ComponentMappers.health.get(target);

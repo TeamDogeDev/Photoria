@@ -24,6 +24,7 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
@@ -73,10 +74,25 @@ public class EntityLoader {
         } else if(cell.value == TileCollisionMapper.GROUND){
             createStoneDeco(x, y, buffer, rnd);
         } else if(cell.value == TileCollisionMapper.HIGH_GROUND_FLUID){
-
+            if(rnd.nextInt(10) == 0 ){
+                createLavaAmbientSound(x, y);
+            }
         } else if(cell.value == TileCollisionMapper.FLUID){
 
         }
+    }
+
+    private void createLavaAmbientSound(float x, float y) {
+        Entity entity = ashley.createEntity();
+        PositionComponent pc = ashley.createComponent(PositionComponent.class);
+        pc.x = x;
+        pc.y = y;
+        entity.add(pc);
+        SoundComponent sc = ashley.createComponent(SoundComponent.class);
+        sc.ambientSound = Sounds.AMBIENT_BUBBLES;
+        sc.lastAmbientSoundDif = 10;
+        entity.add(sc);
+        ashley.addEntity(entity);
     }
 
     public void createTerraFormingRamp(float x, float y, ChunkBuffer buffer) {
