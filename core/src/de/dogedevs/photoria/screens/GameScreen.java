@@ -471,7 +471,7 @@ public class GameScreen implements Screen {
     private void updateAmbientSound() {
         if(Statics.time - lastSound > nextSound){
             lastSound = Statics.time;
-            nextSound = MathUtils.random(20, 60);
+            nextSound = MathUtils.random(20, 40);
 
             switch(MathUtils.random(0,1)){
                 case 0:
@@ -479,6 +479,9 @@ public class GameScreen implements Screen {
                     break;
                 case 1:
                     Statics.sound.playSound(Sounds.AMBIENT_HORROR);
+                    break;
+                case 2:
+                    Statics.sound.playSound(Sounds.AMBIENT_LAVA);
                     break;
             }
         }
