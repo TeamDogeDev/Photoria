@@ -33,7 +33,7 @@ public class MainMenuScreen implements Screen {
 
     private Batch mainBatch;
     private BitmapFont menuFont;
-    private Texture box, logoInner, logoOuter, volumeBox, volumeBoxBar, cursorTex, input;
+    private Texture box, logoInner, logoOuter, volumeBox, volumeBoxBar, cursorTex, input, description;
     private float rot, offset, spacing, startX, startY, rightAligned;
     private Stage stage;
     private MenuButton start, quit, sndPlus, sndMinus, musPlus, musMinus;
@@ -53,6 +53,7 @@ public class MainMenuScreen implements Screen {
         volumeBox = asset.getTexture(Textures.MENU_VOLUME_BOX);
         volumeBoxBar = asset.getTexture(Textures.MENU_VOLUME_BOX_BAR);
         cursorTex = asset.getTexture(Textures.MOUSE_CURSOR);
+        description = asset.getTexture(Textures.MENU_DESCRIPTION);
         input = asset.getTexture(Textures.MENU_INPUT);
         offset = 50;
         spacing = 50;
@@ -176,6 +177,9 @@ public class MainMenuScreen implements Screen {
         renderLogo(delta, Gdx.graphics.getWidth() - logoOuter.getWidth() - offset, Gdx.graphics.getHeight() - logoOuter.getHeight() - offset);
 
         renderInput(delta, startX + (2*spacing) + asset.getTexture(Textures.MENU_BOX).getWidth(), -1); // q'n'd
+
+        mainBatch.draw(description, offset, offset);
+
         renderCursor(delta);
         mainBatch.end();
     }
