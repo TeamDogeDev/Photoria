@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.Statics;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -30,6 +31,7 @@ public class Laser implements Weapon{
     private Color color1;
     private Color color2;
     private long soundId;
+    private Entity owner;
 
     public Laser(){
         begin = new Vector2(620, 380);
@@ -107,7 +109,7 @@ public class Laser implements Weapon{
 
     @Override
     public void setOwner(Entity owner) {
-
+        this.owner = owner;
     }
 
     @Override
@@ -120,7 +122,14 @@ public class Laser implements Weapon{
 
 
     public void updateActive(Batch batch, float deltaTime, float z){
-
+        if(ComponentMappers.energy.has(owner)) {
+            EnergyComponent ec = ComponentMappers.energy.get(owner);
+            if (ec.energy >= 3) {
+                ec.energy -= 3;
+            } else {
+                return;
+            }
+        }
         if(soundId == -1){
             soundId = Statics.sound.loopSound(Sounds.LASER_LOOP);
         }

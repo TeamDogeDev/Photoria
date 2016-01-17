@@ -129,6 +129,7 @@ public class GameScreen implements Screen {
         Statics.ashley.addSystem(new MapCollisionSystem(mapCompositor.getBuffer()));
         Statics.ashley.addSystem(new LifetimeSystem());
         Statics.ashley.addSystem(new HealthSystem());
+        Statics.ashley.addSystem(new EnergySystem());
         Statics.ashley.addSystem(new AmbientSoundSystem());
         if (!Config.enableDebugCamera) {
             Statics.ashley.addSystem(new CameraSystem(camera));
@@ -204,8 +205,8 @@ public class GameScreen implements Screen {
         player.add(new VelocityComponent(0, 10));
 
         HealthComponent hc = Statics.ashley.createComponent(HealthComponent.class);
-        hc.maxHealth = Float.MAX_VALUE;
-        hc.health = Float.MAX_VALUE;
+        hc.maxHealth = 100;
+        hc.health = 100;
         hc.maxImmuneTime = 2;
         player.add(hc);
 
