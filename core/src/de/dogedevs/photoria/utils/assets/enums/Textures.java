@@ -77,6 +77,7 @@ public enum Textures {
     HUD_PLAYER_RED("hud/player_red.png"),
     HUD_PLAYER_YELLOW("hud/player_yellow.png"),
     HUD_PLAYER_BLUE("hud/player_blue.png"),
+    HUD_BOTTLE_BOX("hud/bottle_box.png"),
     MOUSE_CURSOR("hud/cursor.png"),
     // Items
     ORB_BLUE("items/orbs/orbBlue.png"),
@@ -99,6 +100,7 @@ public enum Textures {
     ITEM_BOTTLE_YELLOW("items/items/bottle_yellow.png"),
     ITEM_BOTTLE_GREEN("items/items/bottle_green.png"),
     ITEM_BOTTLE_PURPLE("items/items/bottle_purple.png"),
+    ITEM_BOTTLE_EMPTY("items/items/bottle_empty.png"),
 
     ITEM_SWORD_BLUE("items/items/sword_blue.png"),
     ITEM_SWORD_RED("items/items/sword_red.png"),

@@ -39,6 +39,7 @@ public class GameOverlay extends AbstractOverlay {
     private Texture netTexture = Statics.asset.getTexture(Textures.HUD_RADAR_CHART);
     private Texture hudTexture = Statics.asset.getTexture(Textures.HUD_BARS);
     private Texture descTexture = Statics.asset.getTexture(Textures.HUD_ITEM_DESCRIPTION);
+    private Texture hudBottleBox = Statics.asset.getTexture(Textures.HUD_BOTTLE_BOX);
 
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
@@ -125,10 +126,58 @@ public class GameOverlay extends AbstractOverlay {
         renderPlayerIcon();
         renderHealth();
         renderItemBar();
+        renderBossItems();
         if (isTextBoxVisible()) {
             renderTextBox();
         }
     }
+
+    private void renderBossItems() {
+        batch.begin();
+
+        Texture tex = null;
+
+        batch.draw(hudBottleBox, Gdx.graphics.getWidth()-offset-hudBottleBox.getWidth(), offset);
+
+        float numbtl = 0;
+        if(Statics.stats.bottleBlue > 0) {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_BLUE);
+        } else {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_EMPTY);
+        }
+        batch.draw(tex, Gdx.graphics.getWidth()-(tex.getWidth()* (numbtl+++1)) - offset - 4,  offset+2);
+
+        if(Statics.stats.bottleGreen > 0) {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_GREEN);
+        } else {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_EMPTY);
+        }
+        batch.draw(tex, Gdx.graphics.getWidth()-(tex.getWidth()* (numbtl+++1)) - offset - 4,  offset+2);
+
+        if(Statics.stats.bottlePurple > 0) {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_PURPLE);
+        } else {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_EMPTY);
+        }
+        batch.draw(tex, Gdx.graphics.getWidth()-(tex.getWidth()* (numbtl+++1)) - offset - 4,  offset+2);
+
+        if(Statics.stats.bottleRed > 0) {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_RED);
+        } else {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_EMPTY);
+        }
+        batch.draw(tex, Gdx.graphics.getWidth()-(tex.getWidth()* (numbtl+++1)) - offset - 4,  offset+2);
+
+        if(Statics.stats.bottleYellow > 0) {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_YELLOW);
+        } else {
+            tex = Statics.asset.getTexture(Textures.ITEM_BOTTLE_EMPTY);
+        }
+        batch.draw(tex, Gdx.graphics.getWidth()-(tex.getWidth()* (numbtl+++1)) - offset - 4,  offset+2);
+
+        batch.end();
+    }
+
 
     private void renderPlayerIcon() {
         batch.begin();
@@ -383,6 +432,7 @@ public class GameOverlay extends AbstractOverlay {
         hudTexture.dispose();
         netTexture.dispose();
         hudBarTexture.dispose();
+        hudBottleBox.dispose();
         descTexture.dispose();
         textBox.dispose();
         okButtonSheet.dispose();
