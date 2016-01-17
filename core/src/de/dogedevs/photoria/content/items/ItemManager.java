@@ -110,7 +110,18 @@ public class ItemManager {
                             return createItem(0.05, 0.02f, 0.05f, maxElemEABiom, ItemComponent.ItemType.OTHER);
                     }
                 case BOSS:
-                    break; // Nothing
+                    switch (itemType) {
+                        case ATTACK:
+                            break;
+                        case DEFENSE:
+                            break;
+                        case REGENERATION:
+                            break;
+                        case STATS_UP:
+                            break;
+                        case OTHER:
+                            return createBossDrop(ComponentMappers.elements.get(owner));
+                    }
             }
         }
         return null;
@@ -407,6 +418,72 @@ public class ItemManager {
             }
             item.remove(PositionComponent.class);
         }
+    }
+
+
+    public Entity createBossDrop(ElementsComponent baseElements) {
+        Entity entity = Statics.ashley.createEntity();
+
+        Textures color;
+        float biggest = baseElements.blue;
+        color = ITEM_BOTTLE_BLUE;
+        if (baseElements.yellow >= biggest) {
+            biggest = baseElements.yellow;
+            color = ITEM_BOTTLE_YELLOW;
+        }
+        if (baseElements.red >= biggest) {
+            biggest = baseElements.red;
+            color = ITEM_BOTTLE_RED;
+        }
+        if (baseElements.purple >= biggest) {
+            biggest = baseElements.purple;
+            color = ITEM_BOTTLE_PURPLE;
+        }
+        if (baseElements.green >= biggest) {
+            color = ITEM_BOTTLE_GREEN;
+        }
+
+        final Textures oreTexture = color;
+
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        sc.region = new TextureRegion(Statics.asset.getTexture(color));
+        entity.add(sc);
+
+        CollisionComponent cc = Statics.ashley.createComponent(CollisionComponent.class);
+        cc.ghost = true;
+        cc.size = 25;
+        cc.collisionListener = new CollisionComponent.CollisionListener() {
+            @Override
+            public boolean onCollision(Entity other, Entity self) {
+                if (ComponentMappers.player.has(other)) {
+                    switch (oreTexture) {
+                        case ITEM_BOTTLE_BLUE:
+                            Statics.stats.bottleBlue++;
+                            break;
+                        case ITEM_BOTTLE_YELLOW:
+                            Statics.stats.bottleYellow++;
+                            break;
+                        case ITEM_BOTTLE_RED:
+                            Statics.stats.bottleRed++;
+                            break;
+                        case ITEM_BOTTLE_PURPLE:
+                            Statics.stats.bottlePurple++;
+                            break;
+                        case ITEM_BOTTLE_GREEN:
+                            Statics.stats.bottleGreen++;
+                            break;
+                    }
+                    Statics.ashley.removeEntity(self);
+                    return true;
+                }
+                return false;
+            }
+        };
+        entity.add(cc);
+
+        Statics.ashley.addEntity(entity);
+
+        return entity;
     }
 
     private ElementsComponent createElementsForOre(Textures oreTexture) {
