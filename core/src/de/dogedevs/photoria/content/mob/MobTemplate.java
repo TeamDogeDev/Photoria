@@ -33,9 +33,13 @@ public class MobTemplate {
 
     public int speed;
     public int maxHealth;
+    public int maxEnergy;
     public int baseDamage;
     public int baseDefense;
     public int range;
+
+    public float baseEnergyReg;
+    public float baseHealthReg;
 
     public Sounds hitSound;
     public Sounds deathSound;
