@@ -10,6 +10,7 @@ import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
+import de.dogedevs.photoria.rendering.overlay.GameOverlay;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 
 /**
@@ -49,6 +50,11 @@ public class HealthSystem extends EntitySystem {
                 if(ComponentMappers.sound.has(entity)){
                     Statics.sound.playSound(ComponentMappers.sound.get(entity).deathSound);
                 }
+
+                if(ComponentMappers.player.has(entity)){
+                    GameOverlay.addTextbox("You have died and failed to acquire the resources to power your ship again!", 100);
+                }
+
                 getEngine().removeEntity(entity);
 
             }

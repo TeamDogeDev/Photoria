@@ -100,6 +100,13 @@ public class GameScreen implements Screen {
                 if (keycode == Input.Keys.NUM_3) {
                     mapCompositor.getTiledMap().getLayers().get("debug").setVisible(!mapCompositor.getTiledMap().getLayers().get("debug").isVisible());
                 }
+                if (keycode == Input.Keys.ALT_RIGHT) {
+                    Statics.stats.bottleYellow = 1;
+                    Statics.stats.bottleRed = 1;
+                    Statics.stats.bottleBlue = 1;
+                    Statics.stats.bottleGreen = 1;
+                    Statics.stats.bottlePurple = 1;
+                }
                 if (keycode == Input.Keys.F12) {
                     ScreenshotFactory.saveScreenshot();
                 }
@@ -353,6 +360,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         if (!pause) {
             updateAmbientSound();
+            checkWin();
             update(delta);
 
             fadingDone = true;
@@ -472,6 +480,18 @@ public class GameScreen implements Screen {
             }
         }
 
+    }
+
+    private void checkWin() {
+        if(Statics.stats.bottleBlue > 0 &&
+            Statics.stats.bottleGreen > 0 &&
+            Statics.stats.bottlePurple > 0 &&
+            Statics.stats.bottleRed > 0 &&
+            Statics.stats.bottleYellow > 0){
+
+            GameOverlay.addTextbox("Congratulations!", 1.5f);
+            GameOverlay.addTextbox("You obtained all needed resources to power your ship again and leave this hostile planet.", 10);
+        }
     }
 
     float lastSound = -20;
