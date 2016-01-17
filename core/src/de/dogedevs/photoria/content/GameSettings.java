@@ -8,21 +8,24 @@ public class GameSettings {
     public float soundVolume = .5f;
     public float musicVolume = .2f;
 
-    public float damageMultiplicator = 20;
+
+    // PER HIT
+    public float slimeDamage = 200;
+    public float energyDamage = 200;
+    public float neutralDamage = 20; // lidl kugeln
+
+    public float slimeConsumption = 20;
+    public float energyConsumption = 20;
+    public float neutralConsumption = 2;
 
     // PER SECOND !!!
     public float laserDamage = 200;
     public float fireDamage = 200;
     public float waterDamage = 200;
-    public float slimeDamage = 200;
-    public float energyDamage = 200;
-    public float neutralDamage = 20000; // lidl kugeln
 
-    public float laserConsumption = 100;
-    public float fireConsumption = 10;
-    public float waterConsumption = 10;
-    public float slimeConsumption = 10;
-    public float energyConsumption = 10;
-    public float neutralConsumption = 10;
+    public float laserConsumption = 20;
+    public float fireConsumption = 20;
+    public float waterConsumption = 20;
+
 
 }

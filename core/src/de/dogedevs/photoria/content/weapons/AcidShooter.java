@@ -52,7 +52,7 @@ public class AcidShooter implements Weapon {
         if(Statics.time-lastShot > 1){
             if(ComponentMappers.energy.has(owner)){
                 EnergyComponent ec = ComponentMappers.energy.get(owner);
-                float cons = Statics.settings.slimeConsumption * deltaTime;
+                float cons = Statics.settings.slimeConsumption;
                 if(ec.energy >= cons){
                     ec.energy -= cons;
                 } else {

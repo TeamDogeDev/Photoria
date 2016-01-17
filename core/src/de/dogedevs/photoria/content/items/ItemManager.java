@@ -488,44 +488,46 @@ public class ItemManager {
 
     private ElementsComponent createElementsForOre(Textures oreTexture) {
         ElementsComponent ec = Statics.ashley.createComponent(ElementsComponent.class);
-        float ndtm = 10; // number of drops until max;
+        float ndtm = 20; // number of drops until max;
         switch (oreTexture) {
             case ORE_BLUE:
                 ec.blue = 1 / ndtm;
-                ec.yellow = -(1 / ndtm) / 4f;
-                ec.red = -(1 / ndtm) / 4f;
-                ec.purple = -(1 / ndtm) / 4f;
-                ec.green = -(1 / ndtm) / 4f;
+                ec.yellow = -(1 / ndtm) / 3f;
+                ec.red = -(1 / ndtm) / 3f;
+                ec.purple = -(1 / ndtm) / 3f;
+                ec.green = -(1 / ndtm) / 3f;
                 break;
             case ORE_YELLOW:
-                ec.blue = -(1 / ndtm) / 4f;
+                ec.blue = -(1 / ndtm) / 3f;
                 ec.yellow = 1 / ndtm;
-                ec.red = -(1 / ndtm) / 4f;
-                ec.purple = -(1 / ndtm) / 4f;
-                ec.green = -(1 / ndtm) / 4f;
+                ec.red = -(1 / ndtm) / 3f;
+                ec.purple = -(1 / ndtm) / 3f;
+                ec.green = -(1 / ndtm) / 3f;
                 break;
             case ORE_RED:
-                ec.blue = -(1 / ndtm) / 4f;
-                ec.yellow = -(1 / ndtm) / 4f;
+                ec.blue = -(1 / ndtm) / 3f;
+                ec.yellow = -(1 / ndtm) / 3f;
                 ec.red = 1 / ndtm;
-                ec.purple = -(1 / ndtm) / 4f;
-                ec.green = -(1 / ndtm) / 4f;
+                ec.purple = -(1 / ndtm) / 3f;
+                ec.green = -(1 / ndtm) / 3f;
                 break;
             case ORE_PURPLE:
-                ec.blue = -(1 / ndtm) / 4f;
-                ec.yellow = -(1 / ndtm) / 4f;
-                ec.red = -(1 / ndtm) / 4f;
+                ec.blue = -(1 / ndtm)/ 2f;
+                ec.yellow = -(1 / ndtm)/ 2f;
+                ec.red = -(1 / ndtm)/ 2f;
                 ec.purple = 1 / ndtm;
-                ec.green = -(1 / ndtm) / 4f;
+                ec.green = -(1 / ndtm)/ 2f;
                 break;
             case ORE_GREEN:
-                ec.blue = -(1 / ndtm) / 4f;
-                ec.yellow = -(1 / ndtm) / 4f;
-                ec.red = -(1 / ndtm) / 4f;
-                ec.purple = -(1 / ndtm) / 4f;
+                ec.blue = -(1 / ndtm)/ 2f;
+                ec.yellow = -(1 / ndtm)/ 2f;
+                ec.red = -(1 / ndtm)/ 2f;
+                ec.purple = -(1 / ndtm)/ 2f;
                 ec.green = 1 / ndtm;
                 break;
         }
+
+
         return ec;
     }
 
@@ -575,11 +577,11 @@ public class ItemManager {
                         playerEc.purple += ec.purple;
                         playerEc.green += ec.green;
 
-                        playerEc.blue = MathUtils.clamp(playerEc.blue, 0f, 1f);
-                        playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0f, 1f);
-                        playerEc.red = MathUtils.clamp(playerEc.red, 0f, 1f);
-                        playerEc.purple = MathUtils.clamp(playerEc.purple, 0f, 1f);
-                        playerEc.green = MathUtils.clamp(playerEc.green, 0f, 1f);
+                        playerEc.blue = MathUtils.clamp(playerEc.blue, 0.1f, 1f);
+                        playerEc.yellow = MathUtils.clamp(playerEc.yellow, 0.1f, 1f);
+                        playerEc.red = MathUtils.clamp(playerEc.red, 0.1f, 1f);
+                        playerEc.purple = MathUtils.clamp(playerEc.purple, 0.1f, 1f);
+                        playerEc.green = MathUtils.clamp(playerEc.green, 0.1f, 1f);
                     }
                     Statics.attack.deleteWeaponsFrom(other);
                     Statics.attack.loadWeapon(other);

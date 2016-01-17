@@ -171,6 +171,7 @@ public class GameOverlay extends AbstractOverlay {
         shapeRenderer.setColor(Color.WHITE);
 
         InventoryComponent ic = ComponentMappers.inventory.get(player);
+
         float blue = elementsComponent.blue;
         float green = elementsComponent.green;
         float yellow = elementsComponent.yellow;

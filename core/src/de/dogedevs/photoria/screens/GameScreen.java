@@ -215,6 +215,15 @@ public class GameScreen implements Screen {
         player.add(ec);
 
         ElementsComponent elc = Statics.ashley.createComponent(ElementsComponent.class);
+
+        // RGBYP- color space
+        elc.red = 0.10f;
+        elc.green = 0.101f;
+        elc.blue = 0.102f;
+        elc.yellow = 0.103f;
+        elc.purple = 0.104f;
+
+
         player.add(elc);
 
         InventoryComponent inventory = Statics.ashley.createComponent(InventoryComponent.class);

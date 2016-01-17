@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
+import de.dogedevs.photoria.content.weapons.AcidShooter;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.AttackComponent;
 import de.dogedevs.photoria.model.entity.components.ParentComponent;
@@ -70,7 +71,7 @@ public class AttackSystem extends EntitySystem {
                         attack.weapon.setAngle(new Vector2(target.x, target.y));
                     }
                 }
-                if(!target.isShooting){
+                if(!target.isShooting && !(attack.weapon instanceof AcidShooter)){
                     continue;
                 }
                 resultList.clear();

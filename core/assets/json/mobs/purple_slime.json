@@ -3,10 +3,10 @@
   "name": "Purple Slime",
   "texture": "SLIME_PURPLE",
   "green": -0.3,
-  "red": -0.3,
-  "blue": -0.5,
-  "yellow": -0.5,
-  "purple": 1.0,
+  "red": 0.0,
+  "blue": 0.0,
+  "yellow": 0.0,
+  "purple": 0.3,
   "type": "LOW",
   "attributes": [
     "MULTIPLY",
@@ -15,8 +15,8 @@
   "biome": [
     4
   ],
-  "maxHealth": 30,
-  "maxEnergy": 30,
+  "maxHealth": 50,
+  "maxEnergy": 50,
   "baseEnergyReg": 1.0,
   "baseHealthReg": 1.0,
   "ai": "FOLLOW",
