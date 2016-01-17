@@ -49,7 +49,7 @@ public class LoadingScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.75f, 0.5f, 0, 1);
+        shapeRenderer.setColor(0.25f, 0.25f, 0.25f, 1);
         float width = 300;
         float height = 20;
         float x = (Gdx.graphics.getWidth()- width)/2;
@@ -58,7 +58,7 @@ public class LoadingScreen implements Screen {
         shapeRenderer.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 1, 0, 1);
+        shapeRenderer.setColor(0, 0, 0, 1);
         shapeRenderer.rect(x, y, width, height);
         shapeRenderer.end();
 
