@@ -3,7 +3,6 @@ package de.dogedevs.photoria.content.items;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.mob.MobType;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
@@ -309,7 +308,6 @@ public class ItemManager {
 
     public void dropItem(Entity item, PositionComponent positionComponent) {
         if (item != null) {
-            MainGame.log("ORB DES RWED");
             LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
             lc.maxTime = 10;
             item.add(lc);
