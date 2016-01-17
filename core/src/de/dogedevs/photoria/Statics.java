@@ -39,9 +39,10 @@ public class Statics {
      * Initializes teh doge =)
      */
     public static void initCat(){
+        asset = new AssetLoader();
+
         ashley = new PooledEngine();
         mob = new MobManager();
-        asset = new AssetLoader();
         animation = new AnimationManager();
         attack = new AttackManager();
         music = new MusicManager();

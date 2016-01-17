@@ -25,8 +25,20 @@ public class AssetLoader {
         loadMusics();
         loadSounds();
         loadBitmapFonts();
-        manager.finishLoading();
-        MainGame.log("Loaded Assets: " + manager.getLoadedAssets());
+
+//        while(!manager.update()) {
+//            System.out.println("Loading: " + manager.getProgress());
+//        }
+//        manager.finishLoading();
+//        MainGame.log("Loaded Assets: " + manager.getLoadedAssets());
+    }
+
+    public boolean load() {
+        return manager.update();
+    }
+
+    public float progress() {
+        return manager.getProgress();
     }
 
     private void loadParticles() {

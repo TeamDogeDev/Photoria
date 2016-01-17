@@ -5,7 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import de.dogedevs.photoria.screens.MainMenuScreen;
+import de.dogedevs.photoria.screens.LoadingScreen;
 
 import java.util.LinkedList;
 import java.util.Random;
@@ -36,16 +36,18 @@ public class MainGame extends Game {
         game = this;
         logs = new LinkedList<>();
         batch = new SpriteBatch();
-        Statics.initCat();
+        font = new BitmapFont();
+
+//        Statics.initCat();
 
         random = new Random();
         GAME_SEED = random.nextLong();
 
 //        currentScreen = new GameScreen();
-        currentScreen = new MainMenuScreen();
+//        currentScreen = new MainMenuScreen();
 //        currentScreen = new MainMenu();
+        currentScreen = new LoadingScreen();
         this.setScreen(currentScreen);
-        font = new BitmapFont();
         Gdx.input.setCursorCatched(true);
 
     }
