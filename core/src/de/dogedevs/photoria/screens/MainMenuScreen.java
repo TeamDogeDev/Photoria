@@ -88,8 +88,8 @@ public class MainMenuScreen implements Screen {
         stage.addActor(quit);
         stage.addActor(sndMinus);
         stage.addActor(sndPlus);
-        stage.addActor(musMinus);
-        stage.addActor(musPlus);
+//        stage.addActor(musMinus);
+//        stage.addActor(musPlus);
 
         initListener();
         Gdx.input.setInputProcessor(stage);
@@ -169,10 +169,10 @@ public class MainMenuScreen implements Screen {
         menuFont.draw(mainBatch, "Sound:", startX, startY - (soundRow * spacing) + menuFont.getLineHeight(),
                 asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
 
-        menuFont.draw(mainBatch, "Music:", startX, startY - ((musicRow+1) * spacing) + menuFont.getLineHeight(),
-                asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
+//        menuFont.draw(mainBatch, "Music:", startX, startY - ((musicRow+1) * spacing) + menuFont.getLineHeight(),
+//                asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
         renderVolumeBox(3, Statics.settings.soundVolume);
-        renderVolumeBox(5, Statics.settings.musicVolume);
+//        renderVolumeBox(5, Statics.settings.musicVolume);
         renderLogo(delta, Gdx.graphics.getWidth() - logoOuter.getWidth() - offset, Gdx.graphics.getHeight() - logoOuter.getHeight() - offset);
 
         renderInput(delta, startX + (2*spacing) + asset.getTexture(Textures.MENU_BOX).getWidth(), -1); // q'n'd
