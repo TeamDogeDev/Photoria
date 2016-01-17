@@ -18,6 +18,8 @@ import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
+import static de.dogedevs.photoria.model.entity.ComponentMappers.*;
+
 /**
  * Created by Furuha on 06.01.2016.
  */
@@ -67,15 +69,15 @@ public class AttackManager {
         return new AttackComponent.OnHitListener() {
             @Override
             public void onEnemyHit(Entity target, Entity attack, Entity parent) {
-                CollisionComponent cC = ComponentMappers.collision.get(target);
+                CollisionComponent cC = collision.get(target);
                 if (target == parent || target == attack || cC== null || cC.ghost || cC.projectile) {
                     return;
                 }
 //                Statics.sound.playSound(Sounds.MOB_HIT);
-                if(ComponentMappers.sound.has(target)){
-                    SoundComponent sc = ComponentMappers.sound.get(target);
+                if(sound.has(target)){
+                    SoundComponent sc = sound.get(target);
                     if(Statics.time - sc.lastHitSound > 1){
-                        if(ComponentMappers.player.has(target)){
+                        if(player.has(target)){
                             switch(MathUtils.random(0,2)){
                                 case 0:
                                     Statics.sound.playSound(Sounds.PLAYER_HIT1);
@@ -94,7 +96,7 @@ public class AttackManager {
                     }
                 }
 
-                HealthComponent hc = ComponentMappers.health.get(target);
+                HealthComponent hc = health.get(target);
                 if(hc != null){
                     float damage = calculateDamage(parent, target);
                     hc.health -= (damage * 20); // TODO DAMAGE FACTOR from constants = tmp 20!!
@@ -107,9 +109,9 @@ public class AttackManager {
             }
 
             private void die(Entity target, Entity parent) {
-                ElementsComponent ec = ComponentMappers.elements.get(target);
-                InventoryComponent ic = ComponentMappers.inventory.get(target);
-                PositionComponent pc = ComponentMappers.position.get(target);
+                ElementsComponent ec = elements.get(target);
+                InventoryComponent ic = inventory.get(target);
+                PositionComponent pc = position.get(target);
 
                 if(ec != null){
                     Statics.item.createGemDrop(ec, pc);
@@ -134,7 +136,7 @@ public class AttackManager {
     }
 
     public void shootParticleBall(Entity self, Vector2 direction, CollisionComponent.CollisionListener listener){
-        if(!ComponentMappers.position.has(self)){
+        if(!position.has(self)){
             return;
         }
         PooledEngine ashley = Statics.ashley;
@@ -207,8 +209,22 @@ public class AttackManager {
         float baseDamage = 1;  // TODO MAPPING!
         float baseDefense = 1;
 
-        ElementsComponent attackerElements = ComponentMappers.elements.get(attacker);
-        ElementsComponent defenderElements = ComponentMappers.elements.get(defender);
+        ElementsComponent attackerElements = elements.get(attacker);
+        ElementsComponent defenderElements = elements.get(defender);
+        InventoryComponent inventoryComponentAttacker = inventory.get(attacker);
+        InventoryComponent inventoryComponentDefender = inventory.get(defender);
+        ItemComponent attackAttacker = null;
+        ItemComponent defenseDefender = null;
+
+        if(inventoryComponentAttacker != null && inventoryComponentDefender != null) {
+            if(inventoryComponentAttacker.slotAttack != null) {
+                attackAttacker = item.get(inventoryComponentAttacker.slotAttack);
+            }
+            if(inventoryComponentDefender.slotDefense != null) {
+                defenseDefender = item.get(inventoryComponentDefender.slotDefense);
+            }
+        }
+
 
         if(attackerElements != null && defenderElements != null) {
             float redDamage = baseDamage * MathUtils.clamp(attackerElements.red, 0, 1);
@@ -222,6 +238,22 @@ public class AttackManager {
             float yellowDefense = baseDefense * defenderElements.yellow;
             float purpleDefense = baseDefense * defenderElements.purple;
             float greenDefense = baseDefense * defenderElements.green;
+
+            if(attackAttacker != null) {
+                redDamage += attackAttacker.dmgElementRed;
+                blueDamage += attackAttacker.dmgElementBlue;
+                yellowDamage += attackAttacker.dmgElementYellow;
+                purpleDamage += attackAttacker.dmgElementPurple;
+                greenDamage += attackAttacker.dmgElementGreen;
+            }
+
+            if(defenseDefender != null) {
+                redDefense += defenseDefender.defElementRed;
+                blueDefense += defenseDefender.defElementBlue;
+                yellowDefense += defenseDefender.defElementYellow;
+                purpleDefense += defenseDefender.defElementPurple;
+                greenDefense += defenseDefender.defElementGreen;
+            }
 
             float damage = (redDamage * (redDamage - redDefense))
                     + (blueDamage * (blueDamage - blueDefense))
@@ -243,7 +275,7 @@ public class AttackManager {
 
             @Override
             public boolean onCollision(Entity other, Entity self) {
-                CollisionComponent cC = ComponentMappers.collision.get(other);
+                CollisionComponent cC = collision.get(other);
                 if (other == parent || cC.ghost || cC.projectile) {
                     return false;
                 }
@@ -260,7 +292,7 @@ public class AttackManager {
 
     public void loadWeapon(Entity entity) {
         Weapon weapon = null;
-        ElementsComponent elementsComponent = ComponentMappers.elements.get(entity);
+        ElementsComponent elementsComponent = elements.get(entity);
         if(elementsComponent != null) {
             float biggest = elementsComponent.blue;
             weapon = new Watercannon();
