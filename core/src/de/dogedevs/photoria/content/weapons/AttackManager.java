@@ -71,6 +71,9 @@ public class AttackManager {
                     return;
                 }
 //                Statics.sound.playSound(Sounds.MOB_HIT);
+                if(ComponentMappers.sound.has(target)){
+                    Statics.sound.playSound(ComponentMappers.sound.get(target).hitSound);
+                }
 
                 HealthComponent hc = ComponentMappers.health.get(target);
                 if(hc != null){

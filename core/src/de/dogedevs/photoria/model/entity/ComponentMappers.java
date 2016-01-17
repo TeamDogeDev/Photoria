@@ -34,4 +34,5 @@ public class ComponentMappers {
         public static final ComponentMapper<TargetComponent> target = ComponentMapper.getFor(TargetComponent.class);
         public static final ComponentMapper<DecreaseZComponent> z = ComponentMapper.getFor(DecreaseZComponent.class);
         public static final ComponentMapper<RenderAsTileComponent> renderAsTile = ComponentMapper.getFor(RenderAsTileComponent.class);
+        public static final ComponentMapper<SoundComponent> sound = ComponentMapper.getFor(SoundComponent.class);
 }

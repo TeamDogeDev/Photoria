@@ -47,7 +47,7 @@ public enum Textures {
     BULLET("weapons/bullet.png"),
     BULLET_SPLASH("weapons/splash_base_big.png"),
 
-    // LASER
+    // LASER_LOOP
     LASER_BEGIN("weapons/laser/start.png"),
 //    LASER_BEGIN("weapons/laser/laserAnimation.png"),
     LASER_BEGIN_OVERLAY("weapons/laser/startOver.png"),

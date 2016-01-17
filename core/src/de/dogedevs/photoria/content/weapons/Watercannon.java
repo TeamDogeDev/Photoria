@@ -11,6 +11,7 @@ import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 import java.util.List;
 
@@ -22,13 +23,27 @@ public class Watercannon implements Weapon {
     public Vector2 beginVec, endVec;
     public float rotation;
     private float length = 300;
+    private long soundId;
+
     public Watercannon() {
         beginVec = new Vector2(100,100);
         endVec = new Vector2(0,0);
     }
 
     @Override
-    public void updateActive(Batch batch, float deltaTime, float z) {
+    public void updateInactive(Batch batch, float deltaTime, float z) {
+        if(soundId != -1){
+            Statics.sound.stopSound(Sounds.WATERGUN, soundId);
+            soundId = -1;
+        }
+    }
+
+    public void updateActive(Batch batch, float deltaTime, float z){
+
+        if(soundId == -1){
+            soundId = Statics.sound.loopSound(Sounds.WATERGUN);
+        }
+
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         Statics.particle.createParticleAt(ParticlePool.ParticleType.WATER_THROWER, beginVec.x, beginVec.y + z, rotation, 5);
     }
@@ -42,11 +57,6 @@ public class Watercannon implements Weapon {
     public void setAngle(Vector2 angle){
         endVec = new Vector2(angle);
         rotation = endVec.sub(beginVec).angle();
-    }
-
-    @Override
-    public void updateInactive(Batch batch, float deltaTime, float z) {
-
     }
 
     @Override

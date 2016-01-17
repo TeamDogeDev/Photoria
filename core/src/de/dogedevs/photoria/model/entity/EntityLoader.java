@@ -22,6 +22,7 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 /**
  * Created by Furuha on 02.01.2016.
@@ -390,6 +391,12 @@ public class EntityLoader {
         Statics.attack.createAttack(entity, weapon);
         target.isShooting = false;
 
+        SoundComponent sc = Statics.ashley.createComponent(SoundComponent.class);
+        sc.shotSound = Sounds.SLIME_JUMP;
+        sc.moveSound = Sounds.SLIME_MOVEMENT;
+        sc.deathSound = Sounds.SLIME_DEATH;
+        sc.hitSound = Sounds.SLIME_JUMP;
+        entity.add(sc);
 
     }
 
