@@ -357,26 +357,28 @@ public class ItemManager {
         if (inventory != null && item != null) {
             ItemComponent itemComponent = ComponentMappers.item.get(item);
             PositionComponent position = ComponentMappers.position.get(item);
+//                    position.y -= 32;
+//            position.x = position.x - 10;
 
             switch (itemComponent.type) {
                 case ATTACK:
-                    dropItem(inventory.slotAttack, position);
+                    dropItem(inventory.slotAttack, position, ItemComponent.ItemType.ATTACK);
                     inventory.slotAttack = item;
                     break;
                 case DEFENSE:
-                    dropItem(inventory.slotDefense, position);
+                    dropItem(inventory.slotDefense, position, ItemComponent.ItemType.DEFENSE);
                     inventory.slotDefense = item;
                     break;
                 case REGENERATION:
-                    dropItem(inventory.slotRegeneration, position);
+                    dropItem(inventory.slotRegeneration, position, ItemComponent.ItemType.REGENERATION);
                     inventory.slotRegeneration = item;
                     break;
                 case STATS_UP:
-                    dropItem(inventory.slotStatsUp, position);
+                    dropItem(inventory.slotStatsUp, position, ItemComponent.ItemType.STATS_UP);
                     inventory.slotStatsUp = item;
                     break;
                 case OTHER:
-                    dropItem(inventory.slotOther, position);
+                    dropItem(inventory.slotOther, position, ItemComponent.ItemType.OTHER);
                     inventory.slotOther = item;
                     break;
                 case USE:
@@ -496,19 +498,43 @@ public class ItemManager {
         };
         entity.add(cc);
 
-        dropItem(entity, positionComponent);
+        dropItem(entity, positionComponent, null);
 
         Statics.ashley.addEntity(entity);
     }
 
-    public void dropItem(Entity item, PositionComponent positionComponent) {
+    public void dropItem(Entity item, PositionComponent positionComponent, ItemComponent.ItemType type) {
         if (item != null) {
             LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
             lc.maxTime = 10;
             item.add(lc);
             PositionComponent pc = Statics.ashley.createComponent(PositionComponent.class);
-            pc.x = positionComponent.x + MathUtils.random(-32, 32);
-            pc.y = positionComponent.y + MathUtils.random(-32, 32);
+            if(type != null) {
+                switch (type) {
+                    case ATTACK:
+                        positionComponent.x -= 40;
+                        positionComponent.y += 40;
+                        break;
+                    case DEFENSE:
+                        positionComponent.y += 40;
+                        break;
+                    case REGENERATION:
+                        positionComponent.x += 40;
+                        positionComponent.y += 40;
+                        break;
+                    case STATS_UP:
+                        positionComponent.x -= 40;
+                        break;
+                    case OTHER:
+                        positionComponent.x += 40;
+                        break;
+                    case USE:
+                        positionComponent.y -= 40;
+                        break;
+                }
+            }
+            pc.x = positionComponent.x;
+            pc.y = positionComponent.y;
             item.add(pc);
         }
     }

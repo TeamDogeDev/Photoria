@@ -424,7 +424,7 @@ public class EntityLoader {
                 break;
             case SLIME_YELLOW:
                 break;
-            case SLIME_YELLOW_BOSS:
+            case YELLOW_BOSS:
                 tex = Textures.SLIME_YELLOW;
                 break;
         }

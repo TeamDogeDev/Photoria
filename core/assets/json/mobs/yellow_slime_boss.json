@@ -1,7 +1,7 @@
 {
   "id": 1,
   "name": "Yellow_Slime_boss",
-  "texture": "SLIME_YELLOW_BOSS",
+  "texture": "YELLOW_BOSS",
   "green": -0.3,
   "red": -0.5,
   "blue": -0.5,

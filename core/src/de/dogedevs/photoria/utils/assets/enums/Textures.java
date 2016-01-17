@@ -40,7 +40,11 @@ public enum Textures {
     SLIME_PURPLE("mobs/slime_purple.png"),
     SLIME_RED("mobs/slime_red.png"),
     SLIME_YELLOW("mobs/slime_yellow.png"),
-    SLIME_YELLOW_BOSS("mobs/slime_yellow_boss.png"),
+    YELLOW_BOSS("mobs/yellow_boss.png"),
+    RED_BOSS("mobs/red_boss.png"),
+    PURPLE_BOSS("mobs/purple_boss.png"),
+    GREEN_BOSS("mobs/green_boss.png"),
+    BLUE_BOSS("mobs/blue_boss.png"),
     PLAYER("mobs/player_demo.png"),
     BEE("mobs/bee.png"),
 

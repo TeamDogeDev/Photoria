@@ -98,14 +98,14 @@ public class AttackManager {
                 }
 
                 if(ic != null){
-                    Statics.item.dropItem(ic.slotAttack, pc);
-                    Statics.item.dropItem(ic.slotDefense, pc);
-                    Statics.item.dropItem(ic.slotOther, pc);
-                    Statics.item.dropItem(ic.slotRegeneration, pc);
-                    Statics.item.dropItem(ic.slotStatsUp, pc);
+                    Statics.item.dropItem(ic.slotAttack, pc, ItemComponent.ItemType.ATTACK);
+                    Statics.item.dropItem(ic.slotDefense, pc, ItemComponent.ItemType.DEFENSE);
+                    Statics.item.dropItem(ic.slotOther, pc, ItemComponent.ItemType.OTHER);
+                    Statics.item.dropItem(ic.slotRegeneration, pc, ItemComponent.ItemType.REGENERATION);
+                    Statics.item.dropItem(ic.slotStatsUp, pc, ItemComponent.ItemType.STATS_UP);
 
                     for(Entity item: ic.slotUse){
-                        Statics.item.dropItem(item, pc);
+                        Statics.item.dropItem(item, pc, ItemComponent.ItemType.USE);
                     }
                 }
             }
