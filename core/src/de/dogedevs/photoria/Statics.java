@@ -35,6 +35,9 @@ public class Statics {
     public static GameSettings settings;
     public static Stats stats;
 
+    /**
+     * Initializes teh doge =)
+     */
     public static void initCat(){
         ashley = new PooledEngine();
         mob = new MobManager();
