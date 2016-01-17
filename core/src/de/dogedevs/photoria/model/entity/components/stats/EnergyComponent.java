@@ -10,21 +10,16 @@ public class EnergyComponent implements Component, Pool.Poolable {
 
     public float energy = 100;
     public float maxEnergy = 100; // Template
-    public float maxEnergyUse = 100; // Change this !!!
-
-    public EnergyComponent() {
-        energy = 100;
-        maxEnergy = 100;
-    }
-
-    public EnergyComponent(float energy, float maxEnergy) {
-        this.energy = energy;
-        this.maxEnergy = maxEnergy;
-    }
+    public float maxEnergyUse = 100; // Use this !!!
+    public float regEnergySec = 10; // Template
+    public float regEnergySecUse = 10; // Use this !!!
 
     @Override
     public void reset() {
         energy = 100;
         maxEnergy = 100;
+        maxEnergyUse = 100;
+        regEnergySec = 1;
+        regEnergySecUse = 1;
     }
 }

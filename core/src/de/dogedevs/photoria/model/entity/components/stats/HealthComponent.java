@@ -8,33 +8,22 @@ import com.badlogic.gdx.utils.Pool;
  */
 public class HealthComponent implements Component, Pool.Poolable {
 
-    public float health;
-    public float maxHealth; // use only for template
-    public float maxHealthUse; // use this
+    public float health = 100;
+    public float maxHealth = 100; // Template
+    public float maxHealthUse = 100; // use this !!!
 
-    public float immuneTime;
-    public float maxImmuneTime;
+    public float regHealthSec = 10; // Template
+    public float regHealthSecUse = 10; // use this !!!
 
-    public HealthComponent() {
-        health = 100;
-        maxHealth = 100;
-        maxHealthUse = 100;
-        immuneTime = 0;
-        maxImmuneTime = 0;
-    }
+    public float immuneTime = 0;
+    public float maxImmuneTime = 0;
 
-    public HealthComponent(float health, float maxHealth) {
-        this.health = health;
-        this.maxHealth = maxHealth;
-        this.maxHealthUse = maxHealth;
-        this.immuneTime = 0;
-        this.maxImmuneTime = 0;
-    }
 
     @Override
     public void reset() {
         health = 100;
         maxHealth = 100;
+        maxHealthUse = 100;
         immuneTime = 0;
         maxImmuneTime = 0;
     }

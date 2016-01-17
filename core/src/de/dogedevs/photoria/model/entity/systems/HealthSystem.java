@@ -52,7 +52,7 @@ public class HealthSystem extends EntitySystem {
                 getEngine().removeEntity(entity);
 
             }
-            healthComponent.health += 0.1f;
+            healthComponent.health += healthComponent.regHealthSecUse * deltaTime;
             healthComponent.health  = MathUtils.clamp(healthComponent.health, 0, healthComponent.maxHealthUse);
 
         }
