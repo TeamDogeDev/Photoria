@@ -8,4 +8,6 @@ public class GameSettings {
     public float soundVolume = .5f;
     public float musicVolume = .2f;
 
+    public float damageMultiplicator = 20;
+
 }

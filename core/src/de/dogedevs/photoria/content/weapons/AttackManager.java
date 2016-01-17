@@ -99,7 +99,7 @@ public class AttackManager {
                 HealthComponent hc = health.get(target);
                 if(hc != null){
                     float damage = calculateDamage(parent, target);
-                    hc.health -= (damage * 20); // TODO DAMAGE FACTOR from constants = tmp 20!!
+                    hc.health -= (damage * Statics.settings.damageMultiplicator); // TODO DAMAGE FACTOR from constants = tmp 20!!
                     hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
                     if(hc.health == 0){
                         die(target, parent);
