@@ -15,11 +15,14 @@
   "biome": [
     5
   ],
+  "maxHealth": 30,
+  "maxEnergy": 30,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
   "ai": "FOLLOW",
   "weapon": "SLIMEBALLS",
   "speed": 0,
   "range": 400,
-  "maxHealth": 30,
   "baseDamage": 0,
   "baseDefense": 0,
   "hitSound": "SLIME_JUMP",

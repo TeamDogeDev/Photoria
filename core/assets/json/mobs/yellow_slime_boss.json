@@ -15,11 +15,14 @@
   "biome": [
     3
   ],
+  "maxHealth": 80,
+  "maxEnergy": 80,
+  "baseEnergyReg": 2.0,
+  "baseHealthReg": 2.0,
   "ai": "FOLLOW",
   "weapon": "LASER",
   "speed": 0,
   "range": 600,
-  "maxHealth": 80,
   "baseDamage": 0,
   "baseDefense": 0,
   "hitSound": "SLIME_JUMP",

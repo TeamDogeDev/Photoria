@@ -381,11 +381,16 @@ public class EntityLoader {
         hc.maxHealth = template.maxHealth;
         hc.maxHealthUse = template.maxHealth;
         hc.health = template.maxHealth;
+        hc.regHealthSec = template.baseHealthReg;
+        hc.regHealthSecUse = template.baseHealthReg;
         entity.add(hc);
 
         EnergyComponent ecc = ashley.createComponent(EnergyComponent.class);
-        ecc.maxEnergy = template.maxHealth;
-        ecc.energy = template.maxHealth;
+        ecc.maxEnergy = template.maxEnergy;
+        ecc.energy = template.maxEnergy;
+        ecc.maxEnergyUse = template.maxEnergy;
+        ecc.regEnergySec = template.baseEnergyReg;
+        ecc.regEnergySecUse = template.baseEnergyReg;
         entity.add(ecc);
 
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);

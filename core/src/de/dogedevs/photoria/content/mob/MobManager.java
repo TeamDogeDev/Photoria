@@ -96,6 +96,12 @@ public class MobManager {
         template.movementSound = Sounds.SLIME_MOVEMENT;
         template.hitSound = Sounds.SLIME_JUMP;
 
+        template.baseEnergyReg = 1;
+        template.baseHealthReg = 1;
+
+        template.maxHealth = 30;
+        template.maxEnergy = 30;
+
         template.texture = Textures.SLIME_GREEN;
         System.out.print(gson.toJson(template));
     }
