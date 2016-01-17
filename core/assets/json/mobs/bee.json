@@ -13,11 +13,7 @@
     "GROUND"
   ],
   "biome": [
-    2,
-    3,
-    4,
-    5,
-    6
+
   ],
   "ai": "ESCAPE",
   "weapon": "WATERTHROWER",

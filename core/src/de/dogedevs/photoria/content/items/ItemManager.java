@@ -13,7 +13,11 @@ import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
+import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
+
+import java.text.DecimalFormat;
+import java.util.Random;
 
 import static de.dogedevs.photoria.utils.assets.enums.Textures.*;
 
@@ -22,113 +26,103 @@ import static de.dogedevs.photoria.utils.assets.enums.Textures.*;
  */
 public class ItemManager {
 
-    public ItemManager() {
+    private Random rand;
+    private DecimalFormat df = new DecimalFormat("#.#");
 
+    public ItemManager() {
+        rand = new Random();
     }
 
     public void populateInventory(Entity entity, MobType mobType) {
         InventoryComponent inventory = ComponentMappers.inventory.get(entity);
 
         if (inventory != null) {
-
-            inventory.slotAttack = generateAttackItem(entity, mobType);
-            inventory.slotDefense = generateDefenseItem(mobType);
-            inventory.slotRegeneration = generateRegItem(mobType);
-            inventory.slotStatsUp = generateStatsItem(mobType);
-            inventory.slotOther = generateOtherItem(mobType);
-            Entity item = generateUseItem(mobType);
-            if (item != null) {
-                inventory.slotUse.add(item);
-            }
+            inventory.slotAttack = generateItem(entity, mobType, ItemComponent.ItemType.ATTACK);
+            inventory.slotDefense = generateItem(entity, mobType, ItemComponent.ItemType.DEFENSE);
+            inventory.slotRegeneration = generateItem(entity, mobType, ItemComponent.ItemType.REGENERATION);
+            inventory.slotStatsUp = generateItem(entity, mobType, ItemComponent.ItemType.STATS_UP);
+            inventory.slotOther = generateItem(entity, mobType, ItemComponent.ItemType.OTHER);
         }
     }
 
-    private Entity generateUseItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Terraforming", ItemComponent.ItemType.USE);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
+    private Entity generateItem(Entity owner, MobType mobType, ItemComponent.ItemType itemType) {
+        // Get maxElement
+        ElementsComponent ec = ComponentMappers.elements.get(owner);
+        if (ec != null) {
+            float biggest = ec.blue;
+            int maxElemEABiom = ChunkBuffer.BLUE_BIOM;
+            if (ec.yellow >= biggest) {
+                biggest = ec.yellow;
+                maxElemEABiom = ChunkBuffer.YELLOW_BIOM;
+            }
+            if (ec.red >= biggest) {
+                biggest = ec.red;
+                maxElemEABiom = ChunkBuffer.RED_BIOM;
+            }
+            if (ec.purple >= biggest) {
+                biggest = ec.purple;
+                maxElemEABiom = ChunkBuffer.PURPLE_BIOM;
+            }
+            if (ec.green >= biggest) {
+                maxElemEABiom = ChunkBuffer.GREEN_BIOM;
+            }
 
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_TERRAFORMIN));
-        itemEntity.add(sc);
-
-        return itemEntity;
+            switch (mobType) {
+                case LOW:
+                    switch (itemType) {
+                        case ATTACK:
+                            return createItem(0.25, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.ATTACK);
+                        case DEFENSE:
+                            return createItem(0.25, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
+                        case REGENERATION:
+                            return createItem(0.15, 0.01f, 0.04f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
+                        case STATS_UP:
+                            return createItem(0.1, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
+                        case OTHER:
+                            return createItem(0.1, 0.0f, 0.01f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                    }
+                case NORMAL:
+                    switch (itemType) {
+                        case ATTACK:
+                            return createItem(0.15, 0.05f, 0.07f, maxElemEABiom, ItemComponent.ItemType.ATTACK);
+                        case DEFENSE:
+                            return createItem(0.15, 0.05f, 0.07f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
+                        case REGENERATION:
+                            return createItem(0.15, 0.03f, 0.05f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
+                        case STATS_UP:
+                            return createItem(0.15, 0.02f, 0.07f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
+                        case OTHER:
+                            return createItem(0.075, 0.01f, 0.02f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                    }
+                case HIGH:
+                    switch (itemType) {
+                        case ATTACK:
+                            return createItem(0.05, 0.07f, 0.1f, maxElemEABiom, ItemComponent.ItemType.ATTACK);
+                        case DEFENSE:
+                            return createItem(0.05, 0.07f, 0.1f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
+                        case REGENERATION:
+                            return createItem(0.1, 0.03f, 0.1f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
+                        case STATS_UP:
+                            return createItem(0.1, 0.05f, 0.1f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
+                        case OTHER:
+                            return createItem(0.05, 0.02f, 0.05f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                    }
+                case BOSS:
+                    break; // Nothing
+            }
+        }
+        return null;
     }
 
-    private Entity generateOtherItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("OtherSlot", ItemComponent.ItemType.OTHER);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
+    private Entity createItem(double p, float minVal, float maxVal, int maxElemEABiom, ItemComponent.ItemType itemType) {
+        // Check ProB:
+        if (rand.nextDouble() >= p) {
+            return null;
+        }
+        float powerValue = rand.nextFloat() * (maxVal - minVal) + minVal;
 
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SHOE));
-        itemEntity.add(sc);
 
-        return itemEntity;
-    }
-
-    private Entity generateStatsItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("StatsSlot", ItemComponent.ItemType.STATSUP);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
-
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_BOOK_LIFE));
-        itemEntity.add(sc);
-
-        return itemEntity;
-    }
-
-    private Entity generateDefenseItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("DefenseSlot", ItemComponent.ItemType.DEFENSE);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
-
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_RED));
-        itemEntity.add(sc);
-
-        return itemEntity;
-    }
-
-    private Entity generateAttackItem(Entity entity, MobType mobType) {
-
-        Entity itemEntity = generateBasicItem("AttackSlot", ItemComponent.ItemType.ATTACK);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
-
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_RED));
-        itemEntity.add(sc);
-
-        return itemEntity;
-    }
-
-    private Entity generateRegItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("RegSlot", ItemComponent.ItemType.REGENERATION);
-        ItemComponent item = ComponentMappers.item.get(itemEntity);
-        item.dmgElementRed = 10;
-        itemEntity.add(item);
-
-        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_ENERGY));
-        itemEntity.add(sc);
-
-        return itemEntity;
-    }
-
-    private Entity generateBasicItem(String name, ItemComponent.ItemType type) {
-        Entity entity = Statics.ashley.createEntity();
-
-//        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
-//        sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ORE_GREEN));
-//        entity.add(sc);
-
+        Entity itemEntity = Statics.ashley.createEntity();
         CollisionComponent cc = Statics.ashley.createComponent(CollisionComponent.class);
         cc.ghost = true;
         cc.collisionListener = new CollisionComponent.CollisionListener() {
@@ -142,16 +136,225 @@ public class ItemManager {
                 return false;
             }
         };
-        entity.add(cc);
+        itemEntity.add(cc);
 
         ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
-        ic.name = name;
-        ic.type = type;
-        entity.add(ic);
+        SpriteComponent sc = null;
 
-        Statics.ashley.addEntity(entity);
-        return entity;
+        if (itemType == ItemComponent.ItemType.ATTACK) {
+            ic = createAttackItem(powerValue, maxElemEABiom);
+            sc = createAttackSprite(maxElemEABiom);
+        } else if (itemType == ItemComponent.ItemType.DEFENSE) {
+            ic = createDefenseItem(powerValue, maxElemEABiom);
+            sc = createDefenseSprite(maxElemEABiom);
+        } else if (itemType == ItemComponent.ItemType.REGENERATION) {
+            if (maxElemEABiom == ChunkBuffer.PURPLE_BIOM || maxElemEABiom == ChunkBuffer.BLUE_BIOM) {
+                boolean energy = (maxElemEABiom == ChunkBuffer.PURPLE_BIOM);
+                ic = createRegenerationItem(powerValue, energy);
+                sc = createRegenerationSprite(energy);
+            }
+        } else if (itemType == ItemComponent.ItemType.STATS_UP) {
+            if (maxElemEABiom == ChunkBuffer.RED_BIOM || maxElemEABiom == ChunkBuffer.PURPLE_BIOM) {
+                boolean energy = (maxElemEABiom == ChunkBuffer.PURPLE_BIOM);
+                ic = createStatsUpItem(powerValue, energy);
+                sc = createStatsUpSprite(energy);
+            }
+        } else if (itemType == ItemComponent.ItemType.OTHER) {
+            if (maxElemEABiom == ChunkBuffer.GREEN_BIOM || maxElemEABiom == ChunkBuffer.YELLOW_BIOM) {
+                ic = createOtherItem(powerValue);
+                sc = createOtherSprite(maxElemEABiom == ChunkBuffer.GREEN_BIOM);
+            }
+        }
+
+        if (ic != null && sc != null) {
+            ic.type = itemType;
+            itemEntity.add(ic);
+            itemEntity.add(sc);
+            Statics.ashley.addEntity(itemEntity);
+        }
+
+        return itemEntity;
     }
+
+    private ItemComponent createOtherItem(float value) {
+        ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
+        System.out.println(value);
+        ic.name = "Shoes of speed";
+        ic.description = "\nYour movement speed is increased by " + df.format((value * 100)) + "%";
+        ic.movementSpeed = value;
+        return ic;
+    }
+
+    private ItemComponent createStatsUpItem(float value, boolean energy) {
+        ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
+        System.out.println(value);
+        if (energy) {
+            ic.name = "Energy increase";
+            ic.description = "\nYour maximum energy is increased by " + df.format((value * 100)) + "%";
+            ic.energyReg = value;
+        } else {
+            ic.name = "Health increase";
+            ic.description = "\nYour health is increased by +" + df.format((value * 100)) + "%";
+            ic.lifeReg = value;
+        }
+        return ic;
+    }
+
+    private ItemComponent createRegenerationItem(float value, boolean energy) {
+        ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
+        System.out.println(value);
+        if (energy) {
+            ic.name = "Energy regeneration";
+            ic.description = "\nYour energy will regenerate faster +" + df.format((value * 100)) + "%";
+            ic.maxEnergy = value;
+        } else {
+            ic.name = "Health regeneration";
+            ic.description = "\nYour health will regenerate faster +" + df.format((value * 100)) + "%";
+            ic.maxLife = value;
+        }
+        return ic;
+    }
+
+    private ItemComponent createDefenseItem(float value, int maxElemEABiom) {
+        ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
+        switch (maxElemEABiom) {
+            case ChunkBuffer.BLUE_BIOM:
+                ic.name = "Water defense";
+                ic.description = "\nWater defense +" + df.format((value * 100)) + "%";
+                ic.defElementBlue = value;
+                break;
+            case ChunkBuffer.RED_BIOM:
+                ic.name = "Fire defense";
+                ic.description = "\nFire defense +" + df.format((value * 100)) + "%";
+                ic.defElementRed = value;
+                break;
+            case ChunkBuffer.GREEN_BIOM:
+                ic.name = "Slime defense";
+                ic.description = "\nSlime defense +" + df.format((value * 100)) + "%";
+                ic.defElementGreen = value;
+                break;
+            case ChunkBuffer.YELLOW_BIOM:
+                ic.name = "Laser defense";
+                ic.description = "\nLaser defense +" + df.format((value * 100)) + "%";
+                ic.defElementYellow = value;
+                break;
+            case ChunkBuffer.PURPLE_BIOM:
+                ic.name = "Energy defense";
+                ic.description = "\nEnergy defense +" + df.format((value * 100)) + "%";
+                ic.defElementPurple = value;
+                break;
+        }
+        return ic;
+    }
+
+    private ItemComponent createAttackItem(float value, int maxElemEABiom) {
+        ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
+        switch (maxElemEABiom) {
+            case ChunkBuffer.BLUE_BIOM:
+                ic.name = "Water sword";
+                ic.description = "\nWater damage +" + df.format((value * 100)) + "%";
+                ic.dmgElementBlue = value;
+                break;
+            case ChunkBuffer.RED_BIOM:
+                ic.name = "Fire sword";
+                ic.description = "\nFire damage +" + df.format((value * 100)) + "%";
+                ic.dmgElementRed = value;
+                break;
+            case ChunkBuffer.GREEN_BIOM:
+                ic.name = "Slime sword";
+                ic.description = "\nSlime damage +" + df.format((value * 100)) + "%";
+                ic.dmgElementGreen = value;
+                break;
+            case ChunkBuffer.YELLOW_BIOM:
+                ic.name = "Laser sword";
+                ic.description = "\nLaser damage +" + df.format((value * 100)) + "%";
+                ic.dmgElementYellow = value;
+                break;
+            case ChunkBuffer.PURPLE_BIOM:
+                ic.name = "Energy sword";
+                ic.description = "\nEnergy damage +" + df.format((value * 100)) + "%";
+                ic.dmgElementPurple = value;
+                break;
+        }
+        return ic;
+    }
+
+    private SpriteComponent createAttackSprite(int maxElemEABiom) {
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        switch (maxElemEABiom) {
+            case ChunkBuffer.BLUE_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_BLUE));
+                break;
+            case ChunkBuffer.RED_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_RED));
+                break;
+            case ChunkBuffer.GREEN_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_GREEN));
+                break;
+            case ChunkBuffer.YELLOW_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_YELLOW));
+                break;
+            case ChunkBuffer.PURPLE_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SWORD_PURPLE));
+                break;
+        }
+
+        return sc;
+    }
+
+    private SpriteComponent createDefenseSprite(int maxElemEABiom) {
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        switch (maxElemEABiom) {
+            case ChunkBuffer.BLUE_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_BLUE));
+                break;
+            case ChunkBuffer.RED_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_RED));
+                break;
+            case ChunkBuffer.GREEN_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_GREEN));
+                break;
+            case ChunkBuffer.YELLOW_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_YELLOW));
+                break;
+            case ChunkBuffer.PURPLE_BIOM:
+                sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_RESISTANCE_PURPLE));
+                break;
+        }
+        return sc;
+
+    }
+
+    private SpriteComponent createRegenerationSprite(boolean energy) {
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        if (energy) {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_ENERGY));
+        } else {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_LIFE));
+        }
+        return sc;
+    }
+
+    private SpriteComponent createStatsUpSprite(boolean energy) {
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        if (energy) {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_BOOK_ENERGY));
+        } else {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_BOOK_LIFE));
+        }
+        return sc;
+    }
+
+    private SpriteComponent createOtherSprite(boolean green) {
+        SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
+        if (green) {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SHOE_GREEN));
+        } else {
+            sc.region = new TextureRegion(Statics.asset.getTexture(Textures.ITEM_SHOE_YELLOW));
+        }
+        return sc;
+    }
+
 
     public void addItemToInventory(Entity item, InventoryComponent inventory) {
         if (inventory != null && item != null) {
@@ -171,7 +374,7 @@ public class ItemManager {
                     dropItem(inventory.slotRegeneration, position);
                     inventory.slotRegeneration = item;
                     break;
-                case STATSUP:
+                case STATS_UP:
                     dropItem(inventory.slotStatsUp, position);
                     inventory.slotStatsUp = item;
                     break;
@@ -196,39 +399,39 @@ public class ItemManager {
         float ndtm = 10; // number of drops until max;
         switch (oreTexture) {
             case ORE_BLUE:
-                ec.blue = 1/ndtm;
-                ec.yellow = -(1/ndtm)/4f;
-                ec.red = -(1/ndtm)/4f;
-                ec.purple = -(1/ndtm)/4f;
-                ec.green = -(1/ndtm)/4f;
+                ec.blue = 1 / ndtm;
+                ec.yellow = -(1 / ndtm) / 4f;
+                ec.red = -(1 / ndtm) / 4f;
+                ec.purple = -(1 / ndtm) / 4f;
+                ec.green = -(1 / ndtm) / 4f;
                 break;
             case ORE_YELLOW:
-                ec.blue = -(1/ndtm)/4f;
-                ec.yellow = 1/ndtm;
-                ec.red = -(1/ndtm)/4f;
-                ec.purple = -(1/ndtm)/4f;
-                ec.green = -(1/ndtm)/4f;
+                ec.blue = -(1 / ndtm) / 4f;
+                ec.yellow = 1 / ndtm;
+                ec.red = -(1 / ndtm) / 4f;
+                ec.purple = -(1 / ndtm) / 4f;
+                ec.green = -(1 / ndtm) / 4f;
                 break;
             case ORE_RED:
-                ec.blue = -(1/ndtm)/4f;
-                ec.yellow = -(1/ndtm)/4f;
-                ec.red = 1/ndtm;
-                ec.purple = -(1/ndtm)/4f;
-                ec.green = -(1/ndtm)/4f;
+                ec.blue = -(1 / ndtm) / 4f;
+                ec.yellow = -(1 / ndtm) / 4f;
+                ec.red = 1 / ndtm;
+                ec.purple = -(1 / ndtm) / 4f;
+                ec.green = -(1 / ndtm) / 4f;
                 break;
             case ORE_PURPLE:
-                ec.blue = -(1/ndtm)/4f;
-                ec.yellow = -(1/ndtm)/4f;
-                ec.red = -(1/ndtm)/4f;
-                ec.purple = 1/ndtm;
-                ec.green = -(1/ndtm)/4f;
+                ec.blue = -(1 / ndtm) / 4f;
+                ec.yellow = -(1 / ndtm) / 4f;
+                ec.red = -(1 / ndtm) / 4f;
+                ec.purple = 1 / ndtm;
+                ec.green = -(1 / ndtm) / 4f;
                 break;
             case ORE_GREEN:
-                ec.blue = -(1/ndtm)/4f;
-                ec.yellow = -(1/ndtm)/4f;
-                ec.red = -(1/ndtm)/4f;
-                ec.purple = -(1/ndtm)/4f;
-                ec.green = 1/ndtm;
+                ec.blue = -(1 / ndtm) / 4f;
+                ec.yellow = -(1 / ndtm) / 4f;
+                ec.red = -(1 / ndtm) / 4f;
+                ec.purple = -(1 / ndtm) / 4f;
+                ec.green = 1 / ndtm;
                 break;
         }
         return ec;
@@ -258,11 +461,6 @@ public class ItemManager {
 
         ElementsComponent ec = createElementsForOre(color);
 
-//        ec.blue = baseElements.blue;
-//        ec.yellow = baseElements.yellow;
-//        ec.red = baseElements.red;
-//        ec.purple = baseElements.purple;
-//        ec.green = baseElements.green;
         entity.add(ec);
         SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);
         sc.region = new TextureRegion(Statics.asset.getTexture(color));
@@ -312,8 +510,8 @@ public class ItemManager {
             lc.maxTime = 10;
             item.add(lc);
             PositionComponent pc = Statics.ashley.createComponent(PositionComponent.class);
-            pc.x = positionComponent.x + MathUtils.random(-10, 10);
-            pc.y = positionComponent.y + MathUtils.random(-10, 10);
+            pc.x = positionComponent.x + MathUtils.random(-32, 32);
+            pc.y = positionComponent.y + MathUtils.random(-32, 32);
             item.add(pc);
         }
     }

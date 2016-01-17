@@ -207,35 +207,28 @@ public class GameOverlay extends AbstractOverlay {
 
     }
 
-    private static int SLOT_ATTACK = 0;
-    private static int SLOT_DEFENSE = 1;
-    private static int SLOT_REGENERATION = 2;
-    private static int SLOT_STATS_UP = 3;
-    private static int SLOT_OTHER = 4;
-    private static int SLOT_USE = 5;
-
     private void renderItemBar() {
         batch.begin();
-        for (int i = 0; i < numSlots; i++) {
+//        for (int i = 0; i < ItemManager.Slot.values().length; i++) {
 
-
-            float x = healthEnergyOffset +health.getRegionWidth()+ spacing + (i*(itemSlotTexture.getWidth()+spacing)); //((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
+        for(ItemComponent.ItemType slot : ItemComponent.ItemType.values()) {
+            float x = healthEnergyOffset +health.getRegionWidth()+ spacing + (slot.position*(itemSlotTexture.getWidth()+spacing)); //((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
             float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
 
             if(inventoryComponent != null) {
                 Entity itemEntity = null;
-                if(i == SLOT_ATTACK) {
+                if(slot == ItemComponent.ItemType.ATTACK) {
                     itemEntity = inventoryComponent.slotAttack;
-                } else if(i == SLOT_DEFENSE) {
+                } else if(slot == ItemComponent.ItemType.DEFENSE) {
                     itemEntity = inventoryComponent.slotDefense;
-                } else if(i == SLOT_REGENERATION) {
+                } else if(slot == ItemComponent.ItemType.REGENERATION) {
                     itemEntity = inventoryComponent.slotRegeneration;
-                } else if(i == SLOT_STATS_UP) {
+                } else if(slot == ItemComponent.ItemType.STATS_UP) {
                     itemEntity = inventoryComponent.slotStatsUp;
-                } else if(i == SLOT_OTHER) {
+                } else if(slot == ItemComponent.ItemType.OTHER) {
                     itemEntity = inventoryComponent.slotOther;
-                } else if(i == SLOT_USE) {
+                } else if(slot == ItemComponent.ItemType.USE) {
                     if(inventoryComponent.slotUse.size() > 0) {
                         itemEntity = inventoryComponent.slotUse.get(0);
                     }
@@ -256,7 +249,7 @@ public class GameOverlay extends AbstractOverlay {
                                         float localX = healthEnergyOffset + health.getRegionWidth()+ spacing;
                                         float localY = y-descTexture.getHeight()-spacing;
                                         batch.draw(descTexture, localX, localY);
-                                        font.draw(batch,itemComponent.name + "\n" + "DESC FIELD",
+                                        font.draw(batch,itemComponent.name + "\n" + itemComponent.description,
                                                   localX+(2*spacing), localY+descTexture.getHeight()-(2*spacing),
                                         descTexture.getWidth(), Align.left, true);
                                     }

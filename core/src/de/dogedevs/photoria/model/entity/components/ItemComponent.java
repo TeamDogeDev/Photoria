@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.Pool;
 public class ItemComponent implements Component, Pool.Poolable {
 
     public String name;
+    public String description;
     public ItemType type;
 
     public float maxLife;
@@ -53,6 +54,16 @@ public class ItemComponent implements Component, Pool.Poolable {
     }
 
     public enum ItemType {
-        ATTACK, DEFENSE, REGENERATION, STATSUP, OTHER, USE;
+        ATTACK(0),
+        DEFENSE(1),
+        REGENERATION(2),
+        STATS_UP(3),
+        OTHER(4),
+        USE(5);
+
+        public int position;
+        ItemType(int position) {
+            this.position = position;
+        }
     }
 }
