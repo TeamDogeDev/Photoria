@@ -41,19 +41,18 @@ public class AcidShooter implements Weapon {
         checkList =  new ArrayList<>();
     }
 
-    float deltaSum = 0;
+    float lastShot = 0;
 
     @Override
     public void updateActive(Batch batch, float deltaTime, float z) {
         if(!ComponentMappers.position.has(owner)){
             return;
         }
-        deltaSum -= deltaTime;
-        if(deltaSum <= 0) {
+        if(Statics.time-lastShot > 1){
             if(ComponentMappers.sound.has(owner)){
                 Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
             }
-            deltaSum = 1f;
+            lastShot = Statics.time;
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();
             dir.set(target).sub(beginVec).nor();

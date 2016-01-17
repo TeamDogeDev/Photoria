@@ -85,6 +85,7 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
             velocity = ComponentMappers.velocity.get(e);
             collision = ComponentMappers.collision.get(e);
 
+
             oldY = position.y;
             oldX = position.x;
             if(velocity.vectorDirection != null){
@@ -164,7 +165,21 @@ public class MovingEntitySystem extends EntitySystem implements EntityListener {
                     position.listener.onBiomeChange(newBiome, oldBiome);
                 }
             }
+//            MOVEMENT SOUNDS
+//            if(position.x != oldX || position.y != oldY){
+//                if(ComponentMappers.sound.has(e)){
+//                    SoundComponent sc = ComponentMappers.sound.get(e);
+//                    if(Statics.time - sc.lastMoveSound > 1){
+//                        if( MathUtils.randomBoolean(0.005f)){
+//                            Statics.sound.playSound(sc.moveSound);
+//                        }
+//                        sc.lastMoveSound = Statics.time;
+//                    }
+//                }
+//            }
         }
+
+
 
         collisioned.clear();
 //        MainGame.log("Checks: "+checks);

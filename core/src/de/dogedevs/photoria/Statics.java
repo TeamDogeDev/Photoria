@@ -34,6 +34,7 @@ public class Statics {
     public static GameMessages message;
     public static GameSettings settings;
     public static Stats stats;
+    public static float time;
 
     /**
      * Initializes teh doge =)
@@ -52,6 +53,7 @@ public class Statics {
         message = new GameMessages();
         settings = new GameSettings();
         stats = new Stats();
+        time = 0;
     }
 
 }

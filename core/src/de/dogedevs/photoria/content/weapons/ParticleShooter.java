@@ -26,17 +26,16 @@ public class ParticleShooter implements Weapon {
         endVec = new Vector2(0,0);
     }
 
-    float deltaSum = 0;
+    float lastShot = 0;
 
     @Override
     public void updateActive(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
-        deltaSum -= deltaTime;
-        if(deltaSum <= 0){
+        if(Statics.time-lastShot > 1){
             if(ComponentMappers.sound.has(owner)){
                 Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
             }
-            deltaSum = 1;
+            lastShot = Statics.time;
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();
             dir.set(target).sub(beginVec).nor();
