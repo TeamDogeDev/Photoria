@@ -569,7 +569,7 @@ public class ItemManager {
         cc.size = 25;
         cc.collisionListener = new CollisionComponent.CollisionListener() {
             @Override
-            public boolean onCollision(Entity other, Entity self) {
+            public boolean onCollision(final Entity other, final Entity self) {
                 if (ComponentMappers.player.has(other)) {
                     ElementsComponent playerEc = ComponentMappers.elements.get(other);
                     ElementsComponent ec = ComponentMappers.elements.get(self);

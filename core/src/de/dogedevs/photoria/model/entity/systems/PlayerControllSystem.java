@@ -17,10 +17,6 @@ import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
-import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.utils.assets.enums.Musics;
-
-import java.util.UUID;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -51,20 +47,20 @@ public class PlayerControllSystem extends EntitySystem {
     public void update (float deltaTime) {
 //        MainGame.log("update: "+entities.size());
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 3);
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
-            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
-            Statics.music.playMusic(Musics.TITLE, false);
-
-        }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
-            Statics.music.playMusic(Musics.AMBIENT, false);
-        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+//            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 3);
+//            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
+//            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
+//            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]", 1);
+//            GameOverlay.addTextbox(UUID.randomUUID().toString() + " [#f0f00f]Yay22[]");
+//        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
+//            Statics.music.playMusic(Musics.TITLE, false);
+//
+//        }
+//        if(Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_1)) {
+//            Statics.music.playMusic(Musics.AMBIENT, false);
+//        }
 
 
 

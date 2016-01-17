@@ -80,10 +80,10 @@ public class GameScreen implements Screen {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean scrolled(int amount) {
-                camera.zoom += amount;
-                if (camera.zoom < 1) {
-                    camera.zoom = 1;
-                }
+//                camera.zoom += amount;
+//                if (camera.zoom < 1) {
+//                    camera.zoom = 1;
+//                }
                 return super.scrolled(amount);
             }
 
@@ -91,22 +91,22 @@ public class GameScreen implements Screen {
 
             @Override
             public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.NUM_1) {
-                    mapCompositor.getTiledMap().getLayers().get("ground").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground").isVisible());
-                }
-                if (keycode == Input.Keys.NUM_2) {
-                    mapCompositor.getTiledMap().getLayers().get("ground2").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground2").isVisible());
-                }
-                if (keycode == Input.Keys.NUM_3) {
-                    mapCompositor.getTiledMap().getLayers().get("debug").setVisible(!mapCompositor.getTiledMap().getLayers().get("debug").isVisible());
-                }
-                if (keycode == Input.Keys.ALT_RIGHT) {
-                    Statics.stats.bottleYellow = 1;
-                    Statics.stats.bottleRed = 1;
-                    Statics.stats.bottleBlue = 1;
-                    Statics.stats.bottleGreen = 1;
-                    Statics.stats.bottlePurple = 1;
-                }
+//                if (keycode == Input.Keys.NUM_1) {
+//                    mapCompositor.getTiledMap().getLayers().get("ground").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground").isVisible());
+//                }
+//                if (keycode == Input.Keys.NUM_2) {
+//                    mapCompositor.getTiledMap().getLayers().get("ground2").setVisible(!mapCompositor.getTiledMap().getLayers().get("ground2").isVisible());
+//                }
+//                if (keycode == Input.Keys.NUM_3) {
+//                    mapCompositor.getTiledMap().getLayers().get("debug").setVisible(!mapCompositor.getTiledMap().getLayers().get("debug").isVisible());
+//                }
+//                if (keycode == Input.Keys.ALT_RIGHT) {
+//                    Statics.stats.bottleYellow = 1;
+//                    Statics.stats.bottleRed = 1;
+//                    Statics.stats.bottleBlue = 1;
+//                    Statics.stats.bottleGreen = 1;
+//                    Statics.stats.bottlePurple = 1;
+//                }
                 if (keycode == Input.Keys.F12) {
                     ScreenshotFactory.saveScreenshot();
                 }
