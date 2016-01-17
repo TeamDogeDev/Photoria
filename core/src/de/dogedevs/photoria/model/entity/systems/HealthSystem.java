@@ -45,7 +45,7 @@ public class HealthSystem extends EntitySystem {
             healthComponent.immuneTime = MathUtils.clamp(healthComponent.immuneTime, 0, healthComponent.maxImmuneTime);
             if(healthComponent.health <= 0){
                 PositionComponent pc = ComponentMappers.position.get(entity);
-
+                Statics.attack.deleteWeaponsFrom(entity);
                 Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
                 if(ComponentMappers.sound.has(entity)){
                     Statics.sound.playSound(ComponentMappers.sound.get(entity).deathSound);

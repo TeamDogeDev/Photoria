@@ -1,6 +1,7 @@
 package de.dogedevs.photoria.content.items;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import de.dogedevs.photoria.Statics;
@@ -585,9 +586,16 @@ public class ItemManager {
                         playerEc.purple = MathUtils.clamp(playerEc.purple, 0.1f, 1f);
                         playerEc.green = MathUtils.clamp(playerEc.green, 0.1f, 1f);
                     }
-                    Statics.attack.deleteWeaponsFrom(other);
-                    Statics.attack.loadWeapon(other);
-                    Statics.ashley.removeEntity(self);
+
+                    Gdx.app.postRunnable(new Runnable() {
+                        @Override
+                        public void run() {
+                            Statics.attack.deleteWeaponsFrom(other);
+                            Statics.attack.loadWeapon(other);
+                            Statics.ashley.removeEntity(self);
+                        }
+                    });
+
                     return true;
                 }
                 return false;

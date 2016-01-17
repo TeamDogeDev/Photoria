@@ -96,7 +96,6 @@ public class PlayerControllSystem extends EntitySystem {
                 Statics.attack.createAttack(e, weapon);
             }
 
-
             target.x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x;
             target.y = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y;
             target.isShooting = true;
