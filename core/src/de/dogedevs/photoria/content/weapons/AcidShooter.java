@@ -50,6 +50,9 @@ public class AcidShooter implements Weapon {
         }
         deltaSum -= deltaTime;
         if(deltaSum <= 0) {
+            if(ComponentMappers.sound.has(owner)){
+                Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
+            }
             deltaSum = 1f;
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();

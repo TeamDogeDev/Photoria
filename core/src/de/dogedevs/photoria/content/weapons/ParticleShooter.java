@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
+import de.dogedevs.photoria.model.entity.ComponentMappers;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ public class ParticleShooter implements Weapon {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         deltaSum -= deltaTime;
         if(deltaSum <= 0){
+            if(ComponentMappers.sound.has(owner)){
+                Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
+            }
             deltaSum = 1;
             Vector2 dir = new Vector2();
             Vector2 target = getEnd();

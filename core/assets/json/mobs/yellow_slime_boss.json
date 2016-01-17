@@ -1,25 +1,25 @@
 {
   "id": 1,
-  "name": "Red Slime",
-  "texture": "SLIME_RED",
-  "green": -0.5,
-  "red": 1.0,
-  "blue": -0.3,
-  "yellow": -0.3,
-  "purple": -0.5,
-  "type": "LOW",
+  "name": "Yellow_Slime_boss",
+  "texture": "SLIME_YELLOW_BOSS",
+  "green": -0.3,
+  "red": -0.5,
+  "blue": -0.5,
+  "yellow": 1.0,
+  "purple": -0.3,
+  "type": "BOSS",
   "attributes": [
     "MULTIPLY",
     "GROUND"
   ],
   "biome": [
-    0
+    3
   ],
   "ai": "FOLLOW",
-  "weapon": "FLAMETHROWER",
+  "weapon": "LASER",
   "speed": 0,
-  "range": 400,
-  "maxHealth": 30,
+  "range": 600,
+  "maxHealth": 80,
   "baseDamage": 0,
   "baseDefense": 0,
   "hitSound": "SLIME_JUMP",

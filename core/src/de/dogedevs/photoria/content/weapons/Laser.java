@@ -113,7 +113,7 @@ public class Laser implements Weapon{
     @Override
     public void updateInactive(Batch batch, float deltaTime, float z) {
         if(soundId != -1){
-            Statics.sound.stopSound(Sounds.LASER, soundId);
+            Statics.sound.stopSound(Sounds.LASER_LOOP, soundId);
             soundId = -1;
         }
     }
@@ -122,7 +122,7 @@ public class Laser implements Weapon{
     public void updateActive(Batch batch, float deltaTime, float z){
 
         if(soundId == -1){
-            soundId = Statics.sound.loopSound(Sounds.LASER);
+            soundId = Statics.sound.loopSound(Sounds.LASER_LOOP);
         }
 
         Texture start = Statics.asset.getTexture(Textures.LASER_BEGIN);

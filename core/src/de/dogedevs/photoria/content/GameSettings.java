@@ -5,7 +5,7 @@ package de.dogedevs.photoria.content;
  */
 public class GameSettings {
 
-    public float soundVolume = .1f;
+    public float soundVolume = .5f;
     public float musicVolume = .2f;
 
 }

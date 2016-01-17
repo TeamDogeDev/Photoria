@@ -20,5 +20,9 @@
   "range": 400,
   "maxHealth": 30,
   "baseDamage": 0,
-  "baseDefense": 0
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "EYE_DEATH",
+  "shotSound": "EYE_SHOT",
+  "movementSound": "SLIME_MOVEMENT"
 }

@@ -40,6 +40,7 @@ public enum Textures {
     SLIME_PURPLE("mobs/slime_purple.png"),
     SLIME_RED("mobs/slime_red.png"),
     SLIME_YELLOW("mobs/slime_yellow.png"),
+    SLIME_YELLOW_BOSS("mobs/slime_yellow_boss.png"),
     PLAYER("mobs/player_demo.png"),
     BEE("mobs/bee.png"),
 
@@ -47,7 +48,7 @@ public enum Textures {
     BULLET("weapons/bullet.png"),
     BULLET_SPLASH("weapons/splash_base_big.png"),
 
-    // LASER
+    // LASER_LOOP
     LASER_BEGIN("weapons/laser/start.png"),
 //    LASER_BEGIN("weapons/laser/laserAnimation.png"),
     LASER_BEGIN_OVERLAY("weapons/laser/startOver.png"),

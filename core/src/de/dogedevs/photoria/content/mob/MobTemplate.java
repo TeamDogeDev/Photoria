@@ -16,8 +16,6 @@ public class MobTemplate {
     public String name;
 
     public Textures texture;
-    public Sounds movementSound;
-    public Sounds deathSound;
 
     public float green;
     public float red;
@@ -39,6 +37,8 @@ public class MobTemplate {
     public int baseDefense;
     public int range;
 
-
-
+    public Sounds hitSound;
+    public Sounds deathSound;
+    public Sounds shotSound;
+    public Sounds movementSound;
 }

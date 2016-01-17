@@ -11,7 +11,6 @@ import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
-import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
 /**
  * Created by Furuha on 21.12.2015.
@@ -48,7 +47,9 @@ public class HealthSystem extends EntitySystem {
 
                 if(!ComponentMappers.player.has(entity)){
                     Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
-                    Statics.sound.playSound(Sounds.MOB_DIE);
+                    if(ComponentMappers.sound.has(entity)){
+                        Statics.sound.playSound(ComponentMappers.sound.get(entity).deathSound);
+                    }
                     getEngine().removeEntity(entity);
                 }
             }
