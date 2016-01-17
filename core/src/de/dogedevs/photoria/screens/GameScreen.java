@@ -473,7 +473,7 @@ public class GameScreen implements Screen {
             lastSound = Statics.time;
             nextSound = MathUtils.random(20, 40);
 
-            switch(MathUtils.random(0,1)){
+            switch(MathUtils.random(0,2)){
                 case 0:
                     Statics.sound.playSound(Sounds.AMBIENT);
                     break;
