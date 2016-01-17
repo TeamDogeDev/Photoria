@@ -17,6 +17,7 @@ import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent
 import de.dogedevs.photoria.model.entity.components.rendering.RenderAsTileComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.model.map.ChunkCell;
@@ -380,6 +381,11 @@ public class EntityLoader {
         hc.maxHealth = template.maxHealth;
         hc.health = template.maxHealth;
         entity.add(hc);
+
+        EnergyComponent ecc = ashley.createComponent(EnergyComponent.class);
+        ecc.maxEnergy = template.maxHealth;
+        ecc.energy = template.maxHealth;
+        entity.add(ecc);
 
         VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
         vc.direction = MathUtils.random(0, 7);

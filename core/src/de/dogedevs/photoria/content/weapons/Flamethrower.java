@@ -26,6 +26,7 @@ public class Flamethrower implements Weapon {
     private float length = 300;
     private long soundId = -1;
     private Entity owner;
+    private boolean active;
 
     public Flamethrower() {
         beginVec = new Vector2(100,100);
@@ -38,6 +39,7 @@ public class Flamethrower implements Weapon {
             Statics.sound.stopSound(Sounds.FLAMETHROWER, soundId);
             soundId = -1;
         }
+        active = false;
     }
 
     public void updateActive(Batch batch, float deltaTime, float z){
@@ -46,9 +48,11 @@ public class Flamethrower implements Weapon {
             if(ec.energy >= 3){
                 ec.energy -= 3;
             } else {
+                active = false;
                 return;
             }
         }
+        active = true;
         if(soundId == -1){
             soundId = Statics.sound.loopSound(Sounds.FLAMETHROWER);
         }
@@ -90,6 +94,9 @@ public class Flamethrower implements Weapon {
 
     @Override
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
+        if(!active){
+            return;
+        }
         Vector2 endVec = getEnd();
         for(Entity entity: entityList){
             PositionComponent pc = ComponentMappers.position.get(entity);

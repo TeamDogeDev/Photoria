@@ -91,6 +91,9 @@ public class Laser implements Weapon{
 
     @Override
     public void checkCollision(ImmutableArray<Entity> entityList, List<Entity> resultList) {
+        if(!active){
+            return;
+        }
         Vector2 end = getEnd();
         for(Entity entity: entityList){
             PositionComponent pc = ComponentMappers.position.get(entity);
@@ -112,12 +115,15 @@ public class Laser implements Weapon{
         this.owner = owner;
     }
 
+    boolean active = false;
+
     @Override
     public void updateInactive(Batch batch, float deltaTime, float z) {
         if(soundId != -1){
             Statics.sound.stopSound(Sounds.LASER_LOOP, soundId);
             soundId = -1;
         }
+        active = false;
     }
 
 
@@ -127,9 +133,11 @@ public class Laser implements Weapon{
             if (ec.energy >= 3) {
                 ec.energy -= 3;
             } else {
+                active = false;
                 return;
             }
         }
+        active = true;
         if(soundId == -1){
             soundId = Statics.sound.loopSound(Sounds.LASER_LOOP);
         }
