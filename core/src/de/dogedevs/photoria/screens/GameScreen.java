@@ -206,6 +206,7 @@ public class GameScreen implements Screen {
 
         HealthComponent hc = Statics.ashley.createComponent(HealthComponent.class);
         hc.maxHealth = 100;
+        hc.maxHealthUse = 100;
         hc.health = 100;
         hc.maxImmuneTime = 2;
         player.add(hc);

@@ -338,7 +338,7 @@ public class EntityLoader {
                     HealthComponent hc = ComponentMappers.health.get(other);
                     if(hc.immuneTime == 0){
                         hc.health -= template.baseDamage;
-                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealthUse);
                         hc.immuneTime = hc.maxImmuneTime;
                     }
                 }
@@ -379,6 +379,7 @@ public class EntityLoader {
 
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = template.maxHealth;
+        hc.maxHealthUse = template.maxHealth;
         hc.health = template.maxHealth;
         entity.add(hc);
 
@@ -472,7 +473,7 @@ public class EntityLoader {
                     HealthComponent hc = ComponentMappers.health.get(other);
                     if(hc.immuneTime == 0){
                         hc.health -= template.baseDamage;
-                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealthUse);
                         hc.immuneTime = hc.maxImmuneTime;
                     }
                 }
@@ -513,6 +514,7 @@ public class EntityLoader {
 
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = template.maxHealth;
+        hc.maxHealthUse = template.maxHealth;
         hc.health = template.maxHealth;
         entity.add(hc);
 

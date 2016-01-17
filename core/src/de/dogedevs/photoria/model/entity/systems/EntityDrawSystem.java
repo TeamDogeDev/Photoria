@@ -105,12 +105,12 @@ public class EntityDrawSystem extends EntitySystem implements EntityListener {
             
             if(animation != null) {
                 if(health != null && player == null) {
-                    if(health.health < health.maxHealth) {
+                    if(health.health < health.maxHealthUse) {
                         Texture border = Statics.asset.getTexture(Textures.HUD_MOB_HEALTH);
                         Texture fill = Statics.asset.getTexture(Textures.HUD_MOB_HEALTH_BAR);
                         float x = position.x - (border.getWidth() / 2);
                         float y = position.y + animation.idleAnimation.getKeyFrames()[0].getRegionHeight();
-                        batch.draw(fill, x, y, border.getWidth() * (health.health / health.maxHealth), border.getHeight());
+                        batch.draw(fill, x, y, border.getWidth() * (health.health / health.maxHealthUse), border.getHeight());
                         batch.draw(border, x, y);
                     }
                 }

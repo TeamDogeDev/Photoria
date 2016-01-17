@@ -32,7 +32,7 @@ public class EscapeOnDamageAi implements AiComponent.AiInterface {
 
         if(selfVelocity != null && selfPosition != null && selfHealth != null) {
             double eDist = Utils.euclDist(selfPosition, playerPosition);
-            if(eDist <= DIST && selfHealth.health < selfHealth.maxHealth) {
+            if(eDist <= DIST && selfHealth.health < selfHealth.maxHealthUse) {
                 if (playerPosition.x - selfPosition.x > 0) {
                     if (playerPosition.y - selfPosition.y > 0) {
                         selfVelocity.direction = VelocityComponent.SOUTH_WEST;

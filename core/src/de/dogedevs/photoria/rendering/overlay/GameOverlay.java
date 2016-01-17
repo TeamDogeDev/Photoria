@@ -211,7 +211,7 @@ public class GameOverlay extends AbstractOverlay {
     private void renderHealth() {
         health.getTexture().setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
         bloomBatch.begin();
-        float healthScale = (float) healthComponent.health / healthComponent.maxHealth;
+        float healthScale = (float) healthComponent.health / healthComponent.maxHealthUse;
         float energyScale = (float) energyComponent.energy / energyComponent.maxEnergyUse;
 
         bloomBatch.draw(healthBar, healthEnergyOffset, Gdx.graphics.getHeight() - (health.getRegionHeight() + offset), health.getRegionWidth() * healthScale, healthBar.getRegionHeight());

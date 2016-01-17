@@ -79,7 +79,7 @@ public class ItemManager {
                         case REGENERATION:
                             return createItem(0.15, 0.01f, 0.04f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
                         case STATS_UP:
-                            return createItem(0.1, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
+                            return createItem(1, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
                         case OTHER:
                             return createItem(0.1, 0.0f, 0.01f, maxElemEABiom, ItemComponent.ItemType.OTHER);
                     }
@@ -379,8 +379,12 @@ public class ItemManager {
                     break;
                 case STATS_UP:
                     dropItem(inventory.slotStatsUp, position, ItemComponent.ItemType.STATS_UP);
-                    if (ec != null && itemComponent.maxEnergy > 0) {
+                    if (ec != null) {
                         ec.maxEnergyUse = ec.maxEnergy + (itemComponent.maxEnergy * ec.maxEnergy);
+                    }
+
+                    if(hc != null) {
+                        hc.maxHealthUse = hc.maxHealth + (itemComponent.maxLife * hc.maxHealth);
                     }
                     inventory.slotStatsUp = item;
                     break;

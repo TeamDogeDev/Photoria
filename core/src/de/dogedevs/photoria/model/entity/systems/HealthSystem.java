@@ -53,7 +53,7 @@ public class HealthSystem extends EntitySystem {
 
             }
             healthComponent.health += 0.1f;
-            healthComponent.health  = MathUtils.clamp(healthComponent.health, 0, healthComponent.maxHealth);
+            healthComponent.health  = MathUtils.clamp(healthComponent.health, 0, healthComponent.maxHealthUse);
 
         }
     }
