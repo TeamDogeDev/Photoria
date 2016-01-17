@@ -8,7 +8,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
-import de.dogedevs.photoria.MainGame;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.*;
@@ -130,12 +129,12 @@ public class AttackManager {
                         damage *= Statics.settings.laserDamage * Gdx.graphics.getDeltaTime();
                     } else if (type == WeaponType.ENERGYGUN){
                         // Slowest -> highest
-                        damage *= Statics.settings.energyDamage * Gdx.graphics.getDeltaTime();
+                        damage *= Statics.settings.energyDamage;
                     } else if (type == WeaponType.SLIMEBALLS) {
                         // Area
-                        damage *= Statics.settings.slimeDamage * Gdx.graphics.getDeltaTime();
+                        damage *= Statics.settings.slimeDamage;
                     } else if (type == WeaponType.NEUTRAL) {
-                        damage *= Statics.settings.neutralDamage * Gdx.graphics.getDeltaTime();
+                        damage *= Statics.settings.neutralDamage;
                     }
 
                     hc.health -= damage; // TODO DAMAGE FACTOR from constants = tmp 20!!
@@ -245,7 +244,6 @@ public class AttackManager {
     }
 
     public float calculateDamage(Entity attacker, Entity defender, WeaponType weaponType) {
-        MainGame.log("Weapon "+weaponType);
         float baseDamage = 1;  // TODO MAPPING!
         float baseDefense = 1;
 
@@ -280,29 +278,41 @@ public class AttackManager {
             float greenDefense = baseDefense * defenderElements.green;
 
             if(attackAttacker != null) {
-                redDamage += attackAttacker.dmgElementRed;
-                blueDamage += attackAttacker.dmgElementBlue;
-                yellowDamage += attackAttacker.dmgElementYellow;
-                purpleDamage += attackAttacker.dmgElementPurple;
-                greenDamage += attackAttacker.dmgElementGreen;
+                redDamage += (redDamage * attackAttacker.dmgElementRed);
+                blueDamage += (blueDamage * attackAttacker.dmgElementBlue);
+                yellowDamage += (yellowDamage * attackAttacker.dmgElementYellow);
+                purpleDamage += (purpleDamage * attackAttacker.dmgElementPurple);
+                greenDamage += (greenDamage * attackAttacker.dmgElementGreen);
             }
 
             if(defenseDefender != null) {
-                redDefense += defenseDefender.defElementRed;
-                blueDefense += defenseDefender.defElementBlue;
-                yellowDefense += defenseDefender.defElementYellow;
-                purpleDefense += defenseDefender.defElementPurple;
-                greenDefense += defenseDefender.defElementGreen;
+                redDefense += (redDefense * defenseDefender.defElementRed);
+                blueDefense += (blueDefense * defenseDefender.defElementBlue);
+                yellowDefense += (yellowDefense * defenseDefender.defElementYellow);
+                purpleDefense += (purpleDefense * defenseDefender.defElementPurple);
+                greenDefense += (greenDefense * defenseDefender.defElementGreen);
             }
 
-            float damage = (redDamage * (redDamage - redDefense))
-                    + (blueDamage * (blueDamage - blueDefense))
-                    + (yellowDamage * (yellowDamage - yellowDefense))
-                    + (purpleDamage * (purpleDamage - purpleDefense))
-                    + (greenDamage * (greenDamage - greenDefense));
+            float damage = (redDamage * ( redDamage - redDefense))
+                    + (blueDamage * (  blueDamage - blueDefense))
+                    + (yellowDamage * ( yellowDamage - yellowDefense))
+                    + (purpleDamage * ( purpleDamage - purpleDefense))
+                    + (greenDamage * ( greenDamage - greenDefense));
 
-            damage /= 10;
-            damage = MathUtils.clamp(damage, .1f, 1f);
+                    //    A    D (RED SLIME)
+                    // R 0.1   0.3 > 0.1 - 0        > 0.1
+                    // G 0.1   0.0 > 0.1 - 0        > 0.1
+                    // B 0.3  -0.3 > 0.1 - (-0.3)   > 0.4
+                    // Y 0.1   0.0 > 0.1 - 0        > 0.1
+                    // P 0.1   0.0 > 0.1 - 0        > 0.1
+                    //                              > 0.8 --> 0.8/10 -> 0.08;
+//            float damage = redDamage - MathUtils.clamp(redDefense, -1, 0)
+//                    + greenDamage - MathUtils.clamp(greenDefense, -1, 0)
+//                    + blueDamage - MathUtils.clamp(baseDefense, -1, 0)
+//                    + yellowDamage - MathUtils.clamp(yellowDefense, -1, 0)
+//                    + purpleDamage - MathUtils.clamp(purpleDefense, -1, 0);
+//
+//            damage /= 10f;
 
             return damage;
         }

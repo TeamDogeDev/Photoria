@@ -2,11 +2,11 @@
   "id": 1,
   "name": "Blue Slime",
   "texture": "SLIME_BLUE",
-  "green": -0.5,
-  "red": -0.5,
-  "blue": 1.0,
+  "green": 0.0,
+  "red": 0.0,
+  "blue": 0.3,
   "yellow": -0.3,
-  "purple": -0.3,
+  "purple": 0.0,
   "type": "LOW",
   "attributes": [
     "MULTIPLY",
@@ -15,8 +15,8 @@
   "biome": [
     2
   ],
-  "maxHealth": 30,
-  "maxEnergy": 30,
+  "maxHealth": 50,
+  "maxEnergy": 50,
   "baseEnergyReg": 1.0,
   "baseHealthReg": 1.0,
   "ai": "FOLLOW",

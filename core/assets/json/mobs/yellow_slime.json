@@ -2,10 +2,10 @@
   "id": 1,
   "name": "Yellow_Slime",
   "texture": "SLIME_YELLOW",
-  "green": -0.3,
-  "red": -0.5,
-  "blue": -0.5,
-  "yellow": 1.0,
+  "green": 0.0,
+  "red": 0.0,
+  "blue": 0.0,
+  "yellow": 0.3,
   "purple": -0.3,
   "type": "LOW",
   "attributes": [
@@ -15,8 +15,8 @@
   "biome": [
     3
   ],
-  "maxHealth": 30,
-  "maxEnergy": 30,
+  "maxHealth": 50,
+  "maxEnergy": 50,
   "baseEnergyReg": 1.0,
   "baseHealthReg": 1.0,
   "ai": "FOLLOW",
