@@ -19,3 +19,7 @@ http://www.freesound.org/people/FillSoko/sounds/257959/
 http://www.freesound.org/people/DrMinky/sounds/167045/
 http://www.freesound.org/people/RoganDerrick/sounds/260440/
 http://www.freesound.org/people/wubitog/sounds/188384/
+
+Graphics from:
+
+http://lpc.opengameart.org
