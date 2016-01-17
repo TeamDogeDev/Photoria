@@ -29,7 +29,8 @@ public class PlayerControllSystem extends EntitySystem {
 
     private final ChunkBuffer buffer;
     private ImmutableArray<Entity> entities;
-    public static final int SPEED = 128*4;
+    public static float speed = 128*2;
+    public static float defaultSpeed = 128*2;
 
     public PlayerControllSystem(ChunkBuffer buffer) {
         this.buffer = buffer;
@@ -106,28 +107,28 @@ public class PlayerControllSystem extends EntitySystem {
         velocity.speed = 0;
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.NORTH_WEST;
         } else if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.NORTH_EAST;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S) && Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.SOUTH_EAST;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A) && Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.SOUTH_WEST;
         } else if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.NORTH;
         } else if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.WEST;
         } else if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.SOUTH;
         } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velocity.speed = SPEED;
+            velocity.speed = speed;
             velocity.direction = VelocityComponent.EAST;
         }
 

@@ -15,6 +15,7 @@ import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
 import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
+import de.dogedevs.photoria.model.entity.systems.PlayerControllSystem;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
@@ -73,15 +74,15 @@ public class ItemManager {
                 case LOW:
                     switch (itemType) {
                         case ATTACK:
-                            return createItem(0.25, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.ATTACK);
+                            return createItem(0.25, 0.02f, 0.07f, maxElemEABiom, ItemComponent.ItemType.ATTACK);
                         case DEFENSE:
-                            return createItem(0.25, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
+                            return createItem(0.25, 0.02f, 0.08f, maxElemEABiom, ItemComponent.ItemType.DEFENSE);
                         case REGENERATION:
-                            return createItem(0.15, 0.01f, 0.04f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
+                            return createItem(0.15, 0.05f, 0.1f, maxElemEABiom, ItemComponent.ItemType.REGENERATION);
                         case STATS_UP:
-                            return createItem(0.1, 0.01f, 0.05f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
+                            return createItem(0.1, 0.05f, 0.1f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
                         case OTHER:
-                            return createItem(0.1, 0.0f, 0.01f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                            return createItem(0.1, 0.05f, 0.1f, maxElemEABiom, ItemComponent.ItemType.OTHER);
                     }
                 case NORMAL:
                     switch (itemType) {
@@ -94,7 +95,7 @@ public class ItemManager {
                         case STATS_UP:
                             return createItem(0.15, 0.02f, 0.07f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
                         case OTHER:
-                            return createItem(0.075, 0.01f, 0.02f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                            return createItem(0.075, 0.1f, 0.2f, maxElemEABiom, ItemComponent.ItemType.OTHER);
                     }
                 case HIGH:
                     switch (itemType) {
@@ -107,7 +108,7 @@ public class ItemManager {
                         case STATS_UP:
                             return createItem(0.1, 0.05f, 0.1f, maxElemEABiom, ItemComponent.ItemType.STATS_UP);
                         case OTHER:
-                            return createItem(0.05, 0.02f, 0.05f, maxElemEABiom, ItemComponent.ItemType.OTHER);
+                            return createItem(0.05, 0.2f, 0.5f, maxElemEABiom, ItemComponent.ItemType.OTHER);
                     }
                 case BOSS:
                     switch (itemType) {
@@ -406,6 +407,7 @@ public class ItemManager {
                     break;
                 case OTHER:
                     dropItem(inventory.slotOther, position, ItemComponent.ItemType.OTHER);
+                    PlayerControllSystem.speed = PlayerControllSystem.defaultSpeed + (PlayerControllSystem.defaultSpeed * itemComponent.movementSpeed);
                     inventory.slotOther = item;
                     break;
                 case USE:
@@ -601,7 +603,7 @@ public class ItemManager {
     public void dropItem(Entity item, PositionComponent positionComponent, ItemComponent.ItemType type) {
         if (item != null) {
             LifetimeComponent lc = Statics.ashley.createComponent(LifetimeComponent.class);
-            lc.maxTime = 10;
+            lc.maxTime = 60;
             item.add(lc);
             PositionComponent pc = Statics.ashley.createComponent(PositionComponent.class);
             if (type != null) {

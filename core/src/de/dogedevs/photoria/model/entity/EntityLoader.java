@@ -35,8 +35,7 @@ public class EntityLoader {
 
     PooledEngine ashley = Statics.ashley;
     public void createChunkEntities(int chunkX, int chunkY, long seed, ChunkBuffer buffer){
-//        long start = System.currentTimeMillis();
-        int numEntities = 100;
+        int numEntities = 30;
         ashley = Statics.ashley;
 
         for (int i = 0; i < numEntities; i++) {

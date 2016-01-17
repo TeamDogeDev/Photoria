@@ -12,7 +12,7 @@ public class GameSettings {
     // PER HIT
     public float slimeDamage = 200;
     public float energyDamage = 200;
-    public float neutralDamage = 20__00000; // lidl kugeln
+    public float neutralDamage = 20_0000; // lidl kugeln
 
     public float slimeConsumption = 20;
     public float energyConsumption = 20;
