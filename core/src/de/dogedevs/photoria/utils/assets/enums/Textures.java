@@ -133,7 +133,7 @@ public enum Textures {
     MENU_LOGO_INNER("menu/logo_inner.png"),
     MENU_LOGO_OUTER("menu/logo_outer.png"),
     MENU_INPUT("menu/input.png"),
-    MENU_DESCRIPTION("menu/tmp.png");
+    MENU_DESCRIPTION("menu/description.png");
 
 
 
