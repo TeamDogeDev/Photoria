@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 
 import java.util.List;
 
@@ -32,6 +33,14 @@ public class ParticleShooter implements Weapon {
     public void updateActive(Batch batch, float deltaTime, float z) {
 //        ParticleEffect particleEffect = Statics.asset.getParticleEffect(Particles.FLAME_THROWER);
         if(Statics.time-lastShot > 1){
+            if(ComponentMappers.energy.has(owner)){
+                EnergyComponent ec = ComponentMappers.energy.get(owner);
+                if(ec.energy >= 10){
+                    ec.energy -= 10;
+                } else {
+                    return;
+                }
+            }
             if(ComponentMappers.sound.has(owner)){
                 Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
             }

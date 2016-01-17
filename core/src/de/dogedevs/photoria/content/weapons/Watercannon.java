@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
 
@@ -24,6 +25,7 @@ public class Watercannon implements Weapon {
     public float rotation;
     private float length = 300;
     private long soundId;
+    private Entity owner;
 
     public Watercannon() {
         beginVec = new Vector2(100,100);
@@ -39,7 +41,14 @@ public class Watercannon implements Weapon {
     }
 
     public void updateActive(Batch batch, float deltaTime, float z){
-
+        if(ComponentMappers.energy.has(owner)){
+            EnergyComponent ec = ComponentMappers.energy.get(owner);
+            if(ec.energy >= 3){
+                ec.energy -= 3;
+            } else {
+                return;
+            }
+        }
         if(soundId == -1){
             soundId = Statics.sound.loopSound(Sounds.WATERGUN);
         }
@@ -76,7 +85,7 @@ public class Watercannon implements Weapon {
 
     @Override
     public void setOwner(Entity owner) {
-
+        this.owner = owner;
     }
 
     @Override

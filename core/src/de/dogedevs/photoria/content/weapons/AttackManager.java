@@ -311,6 +311,8 @@ public class AttackManager {
             if(elementsComponent.green >= biggest){
                 weapon = new AcidShooter();
             }
+        } else {
+            return;
         }
         Statics.attack.createAttack(entity, weapon);
     }

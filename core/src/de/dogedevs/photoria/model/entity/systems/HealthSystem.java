@@ -45,14 +45,16 @@ public class HealthSystem extends EntitySystem {
             if(healthComponent.health <= 0){
                 PositionComponent pc = ComponentMappers.position.get(entity);
 
-                if(!ComponentMappers.player.has(entity)){
-                    Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
-                    if(ComponentMappers.sound.has(entity)){
-                        Statics.sound.playSound(ComponentMappers.sound.get(entity).deathSound);
-                    }
-                    getEngine().removeEntity(entity);
+                Statics.particle.createParticleAt(ParticlePool.ParticleType.BLOOD, pc.x, pc.y);
+                if(ComponentMappers.sound.has(entity)){
+                    Statics.sound.playSound(ComponentMappers.sound.get(entity).deathSound);
                 }
+                getEngine().removeEntity(entity);
+
             }
+            healthComponent.health += 0.1f;
+            healthComponent.health  = MathUtils.clamp(healthComponent.health, 0, healthComponent.maxHealth);
+
         }
     }
 }

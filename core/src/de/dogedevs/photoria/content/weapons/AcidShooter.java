@@ -15,6 +15,7 @@ import de.dogedevs.photoria.model.entity.components.DecreaseZComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.enums.Sounds;
@@ -49,6 +50,14 @@ public class AcidShooter implements Weapon {
             return;
         }
         if(Statics.time-lastShot > 1){
+            if(ComponentMappers.energy.has(owner)){
+                EnergyComponent ec = ComponentMappers.energy.get(owner);
+                if(ec.energy >= 10){
+                    ec.energy -= 10;
+                } else {
+                    return;
+                }
+            }
             if(ComponentMappers.sound.has(owner)){
                 Statics.sound.playSound(ComponentMappers.sound.get(owner).shotSound);
             }
