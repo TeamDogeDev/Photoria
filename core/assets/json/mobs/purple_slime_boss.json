@@ -6,7 +6,7 @@
   "red": 0.0,
   "blue": 0.0,
   "yellow": 0.0,
-  "purple": 1.0,
+  "purple": 0.6,
   "type": "BOSS",
   "attributes": [
     "MULTIPLY",
@@ -15,8 +15,8 @@
   "biome": [
     4
   ],
-  "maxHealth": 80,
-  "maxEnergy": 80,
+  "maxHealth": 200,
+  "maxEnergy": 200,
   "baseEnergyReg": 2.0,
   "baseHealthReg": 2.0,
   "ai": "FOLLOW",

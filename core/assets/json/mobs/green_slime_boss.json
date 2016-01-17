@@ -2,7 +2,7 @@
   "id": 1,
   "name": "Green_Slime_boss",
   "texture": "GREEN_BOSS",
-  "green": 1.0,
+  "green": 0.6,
   "red": -0.3,
   "blue": 0.0,
   "yellow": 0.0,
@@ -15,8 +15,8 @@
   "biome": [
     5
   ],
-  "maxHealth": 80,
-  "maxEnergy": 80,
+  "maxHealth": 200,
+  "maxEnergy": 200,
   "baseEnergyReg": 2.0,
   "baseHealthReg": 2.0,
   "ai": "FOLLOW",

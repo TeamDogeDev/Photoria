@@ -4,7 +4,7 @@
   "texture": "BLUE_BOSS",
   "green": 0.0,
   "red": 0.0,
-  "blue": 1.0,
+  "blue": 0.6,
   "yellow": -0.3,
   "purple": 0.0,
   "type": "BOSS",
@@ -15,8 +15,8 @@
   "biome": [
     2
   ],
-  "maxHealth": 80,
-  "maxEnergy": 80,
+  "maxHealth": 200,
+  "maxEnergy": 200,
   "baseEnergyReg": 2.0,
   "baseHealthReg": 2.0,
   "ai": "FOLLOW",

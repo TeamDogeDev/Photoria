@@ -79,7 +79,7 @@ public class MainGame extends Game {
 
     public static void log(String text){
         System.out.println(text);
-        game.logString(text);
+//        game.logString(text);
     }
 
     @Override
