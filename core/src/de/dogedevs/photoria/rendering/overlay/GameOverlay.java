@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.Queue;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.model.entity.ComponentMappers;
 import de.dogedevs.photoria.model.entity.components.InventoryComponent;
+import de.dogedevs.photoria.model.entity.components.ItemComponent;
 import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
@@ -37,6 +38,7 @@ public class GameOverlay extends AbstractOverlay {
     private Texture itemSlotTexture = Statics.asset.getTexture(Textures.HUD_ITEM_SLOTS);
     private Texture netTexture = Statics.asset.getTexture(Textures.HUD_RADAR_CHART);
     private Texture hudTexture = Statics.asset.getTexture(Textures.HUD_BARS);
+    private Texture descTexture = Statics.asset.getTexture(Textures.HUD_ITEM_DESCRIPTION);
 
     private TextureRegion[][] hudBars = TextureRegion.split(hudBarTexture, 1, HUD_TILE_HEIGHT);
     private TextureRegion[][] hudParts = TextureRegion.split(hudTexture, HUD_TILE_WIDTH, HUD_TILE_HEIGHT);
@@ -220,6 +222,7 @@ public class GameOverlay extends AbstractOverlay {
             float x = healthEnergyOffset +health.getRegionWidth()+ spacing + (i*(itemSlotTexture.getWidth()+spacing)); //((itemSlotTexture.getWidth() + spacing) * i) + ((Gdx.graphics.getWidth() - itemBarWidth) >> 1);
             float y = Gdx.graphics.getHeight() - itemSlotTexture.getHeight() - offset;
             batch.draw(itemSlotTexture, x, y);
+
             if(inventoryComponent != null) {
                 Entity itemEntity = null;
                 if(i == SLOT_ATTACK) {
@@ -242,6 +245,23 @@ public class GameOverlay extends AbstractOverlay {
                     if (attackSprite != null) {
                         if (attackSprite.region != null) {
                             batch.draw(attackSprite.region, x + (attackSprite.region.getRegionWidth() / 2), y + (attackSprite.region.getRegionHeight() / 2));
+
+                            ItemComponent itemComponent = ComponentMappers.item.get(itemEntity);
+                            if(itemComponent != null) {
+                                int mouseX = Gdx.input.getX();
+                                int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+                                if (mouseX > x && mouseY > y) {
+                                    if (mouseX < x + itemSlotTexture.getWidth() &&
+                                            mouseY < y + itemSlotTexture.getHeight()) {
+                                        float localX = healthEnergyOffset + health.getRegionWidth()+ spacing;
+                                        float localY = y-descTexture.getHeight()-spacing;
+                                        batch.draw(descTexture, localX, localY);
+                                        font.draw(batch,itemComponent.name + "\n" + "DESC FIELD",
+                                                  localX+(2*spacing), localY+descTexture.getHeight()-(2*spacing),
+                                        descTexture.getWidth(), Align.left, true);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -336,6 +356,7 @@ public class GameOverlay extends AbstractOverlay {
         hudTexture.dispose();
         netTexture.dispose();
         hudBarTexture.dispose();
+        descTexture.dispose();
         textBox.dispose();
         okButtonSheet.dispose();
     }

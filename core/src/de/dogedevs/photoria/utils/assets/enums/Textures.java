@@ -63,6 +63,7 @@ public enum Textures {
     HUD_BARS("hud/hud.png"),
     HUD_BARS_FILL("hud/hudBars.png"),
     HUD_ITEM_SLOTS("hud/itemSlot.png"),
+    HUD_ITEM_DESCRIPTION("hud/itemDescription.png"),
     HUD_RADAR_CHART("hud/net.png"),
     HUD_MOB_HEALTH("hud/mobHealth.png"),
     HUD_MOB_HEALTH_BAR("hud/mobHealthBar.png"),

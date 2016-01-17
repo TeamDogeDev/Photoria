@@ -45,7 +45,7 @@ public class ItemManager {
     }
 
     private Entity generateUseItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.USE);
+        Entity itemEntity = generateBasicItem("Terraforming", ItemComponent.ItemType.USE);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
@@ -58,7 +58,7 @@ public class ItemManager {
     }
 
     private Entity generateOtherItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.OTHER);
+        Entity itemEntity = generateBasicItem("OtherSlot", ItemComponent.ItemType.OTHER);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
@@ -71,7 +71,7 @@ public class ItemManager {
     }
 
     private Entity generateStatsItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.STATSUP);
+        Entity itemEntity = generateBasicItem("StatsSlot", ItemComponent.ItemType.STATSUP);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
@@ -84,7 +84,7 @@ public class ItemManager {
     }
 
     private Entity generateDefenseItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.DEFENSE);
+        Entity itemEntity = generateBasicItem("DefenseSlot", ItemComponent.ItemType.DEFENSE);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
@@ -98,7 +98,7 @@ public class ItemManager {
 
     private Entity generateAttackItem(Entity entity, MobType mobType) {
 
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.ATTACK);
+        Entity itemEntity = generateBasicItem("AttackSlot", ItemComponent.ItemType.ATTACK);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
@@ -111,7 +111,7 @@ public class ItemManager {
     }
 
     private Entity generateRegItem(MobType mobType) {
-        Entity itemEntity = generateBasicItem("Orb des attackes!", ItemComponent.ItemType.REGENERATION);
+        Entity itemEntity = generateBasicItem("RegSlot", ItemComponent.ItemType.REGENERATION);
         ItemComponent item = ComponentMappers.item.get(itemEntity);
         item.dmgElementRed = 10;
         itemEntity.add(item);
