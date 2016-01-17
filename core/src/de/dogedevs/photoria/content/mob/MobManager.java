@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.dogedevs.photoria.content.ai.AiType;
 import de.dogedevs.photoria.content.weapons.WeaponType;
+import de.dogedevs.photoria.utils.assets.enums.Sounds;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 import java.util.ArrayList;
@@ -89,6 +90,11 @@ public class MobManager {
         template.maxHealth = 30;
 
         template.type = MobType.LOW;
+
+        template.shotSound = Sounds.EYE_SHOT;
+        template.deathSound = Sounds.SLIME_DEATH;
+        template.movementSound = Sounds.SLIME_MOVEMENT;
+        template.hitSound = Sounds.SLIME_JUMP;
 
         template.texture = Textures.SLIME_GREEN;
         System.out.print(gson.toJson(template));

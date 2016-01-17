@@ -8,7 +8,9 @@ import com.badlogic.gdx.math.RandomXS128;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.ai.EscapeOnDamageAi;
 import de.dogedevs.photoria.content.ai.FollowAi;
+import de.dogedevs.photoria.content.mob.MobAttribute;
 import de.dogedevs.photoria.content.mob.MobTemplate;
+import de.dogedevs.photoria.content.mob.MobType;
 import de.dogedevs.photoria.content.weapons.*;
 import de.dogedevs.photoria.model.entity.components.*;
 import de.dogedevs.photoria.model.entity.components.rendering.AnimationComponent;
@@ -22,7 +24,7 @@ import de.dogedevs.photoria.rendering.tiles.Tile;
 import de.dogedevs.photoria.rendering.tiles.TileCollisionMapper;
 import de.dogedevs.photoria.rendering.tiles.TileMapper;
 import de.dogedevs.photoria.utils.assets.ParticlePool;
-import de.dogedevs.photoria.utils.assets.enums.Sounds;
+import de.dogedevs.photoria.utils.assets.enums.Textures;
 
 /**
  * Created by Furuha on 02.01.2016.
@@ -351,6 +353,13 @@ public class EntityLoader {
         entity.add(ic);
         Statics.item.populateInventory(entity, template.type);
 
+//        if(template.type != MobType.LOW && template.attributes.contains(MobAttribute.MULTIPLY)){
+//            ic.slotUse.add(createSubMob(template, MobType.NORMAL));
+//            ic.slotUse.add(createSubMob(template, MobType.NORMAL));
+//            ic.slotUse.add(createSubMob(template, MobType.NORMAL));
+//            ic.slotUse.add(createSubMob(template, MobType.NORMAL));
+//        }
+
         HealthComponent hc = ashley.createComponent(HealthComponent.class);
         hc.maxHealth = template.maxHealth;
         hc.health = template.maxHealth;
@@ -392,12 +401,143 @@ public class EntityLoader {
         target.isShooting = false;
 
         SoundComponent sc = Statics.ashley.createComponent(SoundComponent.class);
-        sc.shotSound = Sounds.SLIME_JUMP;
-        sc.moveSound = Sounds.SLIME_MOVEMENT;
-        sc.deathSound = Sounds.SLIME_DEATH;
-        sc.hitSound = Sounds.SLIME_JUMP;
+        sc.shotSound = template.shotSound;
+        sc.moveSound = template.movementSound;
+        sc.deathSound = template.deathSound;
+        sc.hitSound = template.hitSound;
         entity.add(sc);
 
+    }
+
+    private Entity createSubMob(final MobTemplate template, MobType type){
+        Entity entity = ashley.createEntity();
+        ashley.addEntity(entity);
+        Textures tex = template.texture;
+        switch (tex){
+            case SLIME_BLUE:
+                break;
+            case SLIME_GREEN:
+                break;
+            case SLIME_PURPLE:
+                break;
+            case SLIME_RED:
+                break;
+            case SLIME_YELLOW:
+                break;
+            case SLIME_YELLOW_BOSS:
+                tex = Textures.SLIME_YELLOW;
+                break;
+        }
+        Animation[] animations = Statics.animation.getMovementAnimations(tex, true, 4, 3);
+        Animation walkAnimationU = animations[0];
+        Animation walkAnimationD = animations[1];
+        Animation walkAnimationL = animations[2];
+        Animation walkAnimationR = animations[3];
+        AnimationComponent ac = ashley.createComponent(AnimationComponent.class);
+        ac.idleAnimation = walkAnimationD;
+        ac.leftAnimation = walkAnimationL;
+        ac.rightAnimation = walkAnimationR;
+        ac.upAnimation = walkAnimationU;
+        ac.downAnimation = walkAnimationD;
+        entity.add(ac);
+
+        CollisionComponent cc = ashley.createComponent(CollisionComponent.class);
+        cc.groundCollision = TileCollisionMapper.normalBorderCollision;
+        cc.collisionListener = new CollisionComponent.CollisionListener() {
+            @Override
+            public boolean onCollision(Entity other, Entity self) {
+                if(ComponentMappers.player.has(other)){
+                    HealthComponent hc = ComponentMappers.health.get(other);
+                    if(hc.immuneTime == 0){
+                        hc.health -= template.baseDamage;
+                        hc.health = MathUtils.clamp(hc.health, 0, hc.maxHealth);
+                        hc.immuneTime = hc.maxImmuneTime;
+                    }
+                }
+                return false;
+            }
+        };
+        entity.add(cc);
+
+        ElementsComponent ec = ashley.createComponent(ElementsComponent.class);
+        ec.blue = template.blue;
+        ec.red = template.red;
+        ec.green = template.green;
+        ec.purple = template.purple;
+        ec.yellow = template.yellow;
+        entity.add(ec);
+
+        AiComponent aiComponent = ashley.createComponent(AiComponent.class);
+        switch (template.ai){
+            case FOLLOW:
+                aiComponent.ai = new FollowAi();
+                break;
+            case ESCAPE:
+                aiComponent.ai = new EscapeOnDamageAi();
+                break;
+        }
+        entity.add(aiComponent);
+
+        InventoryComponent ic = ashley.createComponent(InventoryComponent.class);
+        entity.add(ic);
+        Statics.item.populateInventory(entity, template.type);
+
+        if(type != MobType.LOW && template.attributes.contains(MobAttribute.MULTIPLY)){
+            ic.slotUse.add(createSubMob(template, MobType.LOW));
+            ic.slotUse.add(createSubMob(template, MobType.LOW));
+            ic.slotUse.add(createSubMob(template, MobType.LOW));
+            ic.slotUse.add(createSubMob(template, MobType.LOW));
+        }
+
+        HealthComponent hc = ashley.createComponent(HealthComponent.class);
+        hc.maxHealth = template.maxHealth;
+        hc.health = template.maxHealth;
+        entity.add(hc);
+
+        VelocityComponent vc = ashley.createComponent(VelocityComponent.class);
+        vc.direction = MathUtils.random(0, 7);
+        vc.speed = template.speed;
+        entity.add(vc);
+
+        TargetComponent target = Statics.ashley.createComponent(TargetComponent.class);
+        entity.add(target);
+        Weapon weapon;
+        switch (template.weapon){
+            case NEUTRAL:
+                weapon = new Shooter();
+                break;
+            case LASER:
+                weapon = new Laser();
+                break;
+            case FLAMETHROWER:
+                weapon = new Flamethrower();
+                break;
+            case WATERTHROWER:
+                weapon = new Watercannon();
+                break;
+            case SLIMEBALLS:
+                weapon = new AcidShooter();
+                break;
+            case ENERGYGUN:
+                weapon = new ParticleShooter();
+                break;
+            default:
+                weapon = new Shooter();
+                break;
+        }
+        weapon.setRange(template.range);
+        Statics.attack.createAttack(entity, weapon);
+        target.isShooting = false;
+
+        SoundComponent sc = Statics.ashley.createComponent(SoundComponent.class);
+        sc.shotSound = template.shotSound;
+        sc.moveSound = template.movementSound;
+        sc.deathSound = template.deathSound;
+        sc.hitSound = template.hitSound;
+        entity.add(sc);
+
+
+        return  entity;
     }
 
 }
