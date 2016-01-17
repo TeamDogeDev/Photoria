@@ -178,7 +178,6 @@ public class ItemManager {
 
     private ItemComponent createOtherItem(float value) {
         ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
-        System.out.println(value);
         ic.name = "Shoes of speed";
         ic.description = "\nYour movement speed is increased by " + df.format((value * 100)) + "%";
         ic.movementSpeed = value;
@@ -187,7 +186,6 @@ public class ItemManager {
 
     private ItemComponent createStatsUpItem(float value, boolean energy) {
         ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
-        System.out.println(value);
         if (energy) {
             ic.name = "Energy increase";
             ic.description = "\nYour maximum energy is increased by " + df.format((value * 100)) + "%";
@@ -202,7 +200,6 @@ public class ItemManager {
 
     private ItemComponent createRegenerationItem(float value, boolean energy) {
         ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
-        System.out.println(value);
         if (energy) {
             ic.name = "Energy regeneration";
             ic.description = "\nYour energy will regenerate faster +" + df.format((value * 100)) + "%";
