@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import de.dogedevs.photoria.Config;
@@ -343,6 +344,7 @@ public class GameScreen implements Screen {
 
     public void render(float delta) {
         if (!pause) {
+            updateAmbientSound();
             update(delta);
 
             fadingDone = true;
@@ -462,6 +464,34 @@ public class GameScreen implements Screen {
             }
         }
 
+    }
+
+    float lastSound = -20;
+    float nextSound = 20;
+    private void updateAmbientSound() {
+        if(Statics.time - lastSound > nextSound){
+            lastSound = Statics.time;
+            nextSound = MathUtils.random(20, 60);
+
+            switch(MathUtils.random(0,10)){
+                case 2:
+                    Statics.sound.playSound(Sounds.BOSS_SCREAM);
+                    break;
+                case 0:
+                case 3:
+                case 4:
+                case 5:
+                    Statics.sound.playSound(Sounds.AMBIENT);
+                    break;
+                case 1:
+                case 6:
+                case 7:
+                case 8:
+                case 9:
+                    Statics.sound.playSound(Sounds.AMBIENT_HORROR);
+                    break;
+            }
+        }
     }
 
     private void input() {
