@@ -12,6 +12,8 @@ import de.dogedevs.photoria.model.entity.components.ItemComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.rendering.SpriteComponent;
 import de.dogedevs.photoria.model.entity.components.stats.ElementsComponent;
+import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
+import de.dogedevs.photoria.model.entity.components.stats.HealthComponent;
 import de.dogedevs.photoria.model.entity.components.stats.LifetimeComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.utils.assets.enums.Textures;
@@ -130,7 +132,7 @@ public class ItemManager {
             public boolean onCollision(Entity other, Entity self) {
                 if (ComponentMappers.player.has(other)) {
                     InventoryComponent inventory = ComponentMappers.inventory.get(other);
-                    addItemToInventory(self, inventory);
+                    addItemToInventory(self, other, inventory);
                     return true;
                 }
                 return false;
@@ -189,11 +191,11 @@ public class ItemManager {
         if (energy) {
             ic.name = "Energy increase";
             ic.description = "\nYour maximum energy is increased by " + df.format((value * 100)) + "%";
-            ic.energyReg = value;
+            ic.maxEnergy = value;
         } else {
             ic.name = "Health increase";
             ic.description = "\nYour health is increased by +" + df.format((value * 100)) + "%";
-            ic.lifeReg = value;
+            ic.maxLife = value;
         }
         return ic;
     }
@@ -203,11 +205,11 @@ public class ItemManager {
         if (energy) {
             ic.name = "Energy regeneration";
             ic.description = "\nYour energy will regenerate faster +" + df.format((value * 100)) + "%";
-            ic.maxEnergy = value;
+            ic.energyReg = value;
         } else {
             ic.name = "Health regeneration";
             ic.description = "\nYour health will regenerate faster +" + df.format((value * 100)) + "%";
-            ic.maxLife = value;
+            ic.lifeReg = value;
         }
         return ic;
     }
@@ -353,13 +355,14 @@ public class ItemManager {
     }
 
 
-    public void addItemToInventory(Entity item, InventoryComponent inventory) {
+    public void addItemToInventory(Entity item, Entity player, InventoryComponent inventory) {
         if (inventory != null && item != null) {
             ItemComponent itemComponent = ComponentMappers.item.get(item);
             PositionComponent position = ComponentMappers.position.get(item);
+            HealthComponent hc = ComponentMappers.health.get(player);
+            EnergyComponent ec = ComponentMappers.energy.get(player);
 //                    position.y -= 32;
 //            position.x = position.x - 10;
-
             switch (itemComponent.type) {
                 case ATTACK:
                     dropItem(inventory.slotAttack, position, ItemComponent.ItemType.ATTACK);
@@ -371,10 +374,14 @@ public class ItemManager {
                     break;
                 case REGENERATION:
                     dropItem(inventory.slotRegeneration, position, ItemComponent.ItemType.REGENERATION);
+
                     inventory.slotRegeneration = item;
                     break;
                 case STATS_UP:
                     dropItem(inventory.slotStatsUp, position, ItemComponent.ItemType.STATS_UP);
+                    if (ec != null && itemComponent.maxEnergy > 0) {
+                        ec.maxEnergyUse = ec.maxEnergy + (itemComponent.maxEnergy * ec.maxEnergy);
+                    }
                     inventory.slotStatsUp = item;
                     break;
                 case OTHER:
@@ -509,7 +516,7 @@ public class ItemManager {
             lc.maxTime = 10;
             item.add(lc);
             PositionComponent pc = Statics.ashley.createComponent(PositionComponent.class);
-            if(type != null) {
+            if (type != null) {
                 switch (type) {
                     case ATTACK:
                         positionComponent.x -= 40;

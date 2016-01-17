@@ -36,7 +36,7 @@ public class EnergySystem extends EntitySystem {
         for(Entity entity: entities){
             energyComponent = ComponentMappers.energy.get(entity);
             energyComponent.energy += 0.1f;
-            energyComponent.energy  = MathUtils.clamp(energyComponent.energy, 0, energyComponent.maxEnergy);
+            energyComponent.energy  = MathUtils.clamp(energyComponent.energy, 0, energyComponent.maxEnergyUse);
         }
     }
 }

@@ -7,8 +7,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import de.dogedevs.photoria.Statics;
 import de.dogedevs.photoria.content.weapons.Shooter;
 import de.dogedevs.photoria.content.weapons.Weapon;
@@ -18,10 +16,8 @@ import de.dogedevs.photoria.model.entity.components.PlayerComponent;
 import de.dogedevs.photoria.model.entity.components.PositionComponent;
 import de.dogedevs.photoria.model.entity.components.TargetComponent;
 import de.dogedevs.photoria.model.entity.components.VelocityComponent;
-import de.dogedevs.photoria.model.entity.components.stats.EnergyComponent;
 import de.dogedevs.photoria.model.map.ChunkBuffer;
 import de.dogedevs.photoria.rendering.overlay.GameOverlay;
-import de.dogedevs.photoria.utils.assets.ParticlePool;
 import de.dogedevs.photoria.utils.assets.enums.Musics;
 
 import java.util.UUID;
@@ -76,10 +72,7 @@ public class PlayerControllSystem extends EntitySystem {
         }
         final Entity e = entities.get(0);
 
-        EnergyComponent energyComponent = ComponentMappers.energy.get(e);
         PositionComponent positionComponent = ComponentMappers.position.get(e);
-        energyComponent.energy += 2*deltaTime;
-        energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             EntityLoader el = new EntityLoader();
@@ -103,32 +96,6 @@ public class PlayerControllSystem extends EntitySystem {
             }
 
 
-
-//            if(MathUtils.randomBoolean(0.05f)){
-//                AttackManager am = new AttackManager();
-//                Weapon weapon;
-//                int numb = MathUtils.random(0, 3);
-//                if(numb == 0){
-//                    am.deleteWeaponsFrom(e);
-//                    weapon = new Laser();
-//                    weapon.setRange(350);
-//                    weapon.setColors(Color.RED, Color.WHITE);
-//                    am.createAttack(e, weapon);
-//                } else if(numb == 1){
-//                    am.deleteWeaponsFrom(e);
-//                    weapon = new Flamethrower();
-//                    am.createAttack(e, weapon);
-//                } else if(numb == 2){
-//                    am.deleteWeaponsFrom(e);
-//                    weapon = new Shooter();
-//                    am.createAttack(e, weapon);
-//                } else if(numb == 3){
-//                    am.deleteWeaponsFrom(e);
-//                    weapon = new ParticleShooter();
-//                    am.createAttack(e, weapon);
-//                }
-//            }
-
             target.x = Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x;
             target.y = (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y;
             target.isShooting = true;
@@ -137,34 +104,6 @@ public class PlayerControllSystem extends EntitySystem {
 
         VelocityComponent velocity = ComponentMappers.velocity.get(e);
         velocity.speed = 0;
-
-        if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-
-            if(energyComponent.energy >= 1) {
-                energyComponent.energy--;
-                energyComponent.energy = MathUtils.clamp(energyComponent.energy, 0f, energyComponent.maxEnergy);
-                Vector2 dir = new Vector2();
-                if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    dir.set(-1, 1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.UP) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    dir.set(1, 1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    dir.set(1, -1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    dir.set(-1, -1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-                    dir.set(0, 1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-                    dir.set(-1, 0);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-                    dir.set(0, -1);
-                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-                    dir.set(1, 0);
-                } else if (Gdx.input.isTouched()) {
-                    dir.set(Gdx.input.getX() - Gdx.graphics.getWidth() / 2 + positionComponent.x, (Gdx.graphics.getHeight() - Gdx.input.getY()) - Gdx.graphics.getHeight() / 2 +positionComponent.y);
-                }
-            }
-        }
 
         if (Gdx.input.isKeyPressed(Input.Keys.W) && Gdx.input.isKeyPressed(Input.Keys.A)) {
             velocity.speed = SPEED;
