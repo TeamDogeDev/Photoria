@@ -115,7 +115,14 @@ public class GameScreen implements Screen {
             }
         });
 
-
+        List<String> messages = Statics.message.getEnterMessageForBiome(ChunkBuffer.NORMAL_BIOM);
+        Statics.sound.playSound(Sounds.BIOM_ENTER);
+        for (String s : messages) {
+            float duration = (s.split(" ").length / 200f) * 60; // 2oo words pro min
+            duration = duration < 5 ? 5 : duration; // min 5 sec.
+            GameOverlay.addTextbox(s, duration);
+            biomes.add(ChunkBuffer.NORMAL_BIOM);
+        }
     }
 
     private void initAshley() {
@@ -169,7 +176,7 @@ public class GameScreen implements Screen {
 
         tiledMapRenderer.setBatch(waterBatch);
     }
-
+    private Set<Integer> biomes = new HashSet<>();
     private void initEntities() {
 
 //        Animation shipRight = AnimationManager.getShipAnimation()[0];
@@ -183,8 +190,9 @@ public class GameScreen implements Screen {
         Arrays.sort(cc.groundCollision);
         player.add(cc);
         PositionComponent pc = new PositionComponent(300 * 64 * 32 + (32 * 32), 300 * 64 * 32 + (32 * 32));
+
         pc.listener = new PositionComponent.OnBiomeChangeListener() {
-            private Set<Integer> biomes = new HashSet<>();
+
 
             @Override
             public void onBiomeChange(int newBiome, int oldBiome) {
@@ -249,7 +257,7 @@ public class GameScreen implements Screen {
 
         Entity entity = Statics.ashley.createEntity();
         PositionComponent shipPc = Statics.ashley.createComponent(PositionComponent.class);
-        shipPc.x = 300 * 64 * 32 + (30 * 32);
+        shipPc.x = 300 * 64 * 32 + (24 * 32);
         shipPc.y =  300 * 64 * 32 + (32 * 32);
         entity.add(shipPc);
         SpriteComponent sc = Statics.ashley.createComponent(SpriteComponent.class);

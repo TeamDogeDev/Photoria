@@ -58,7 +58,7 @@ public class MainGame extends Game {
         Statics.time += Gdx.graphics.getDeltaTime();
         batch.begin();
         font.setColor(1,1,1,1);
-        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20); // in debug overlay (!)
+//        font.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, 20); // in debug overlay (!)
         y = 40;
         a = 1;
         for(String text: logs){

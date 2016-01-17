@@ -186,7 +186,7 @@ public class MainMenuScreen implements Screen {
                 asset.getTexture(Textures.MENU_BOX).getWidth(), Align.left, false);
         mainBatch.draw(input, x, y);
         float textX = x + input.getWidth() + (spacing/2);
-        menuFont.draw(mainBatch, "- Use", textX, y+input.getHeight()-10);
+        menuFont.draw(mainBatch, "- Terraform south facing cliffs", textX, y+input.getHeight()-10);
         menuFont.draw(mainBatch, "- Move", textX, y+(input.getHeight()/2));
         menuFont.draw(mainBatch, "- Shoot", textX, y+menuFont.getLineHeight()-10);
     }

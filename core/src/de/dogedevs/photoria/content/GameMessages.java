@@ -31,43 +31,38 @@ public class GameMessages {
 
     private List<String> loadNormalBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("This is the normal biome.");
-        messages.add("Nothing to see here...");
+        messages.add("This is the normal biome. No enemies here, so you can relax.");
+        messages.add("Walk around and look for other biomes. Press 'e' to terraform south facing cliffs.");
         return messages;
     }
 
     private List<String> loadRedBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("This is the red biome.");
-        messages.add("Much fire. Very Lava");
+        messages.add("It's very hot here...");
         return messages;
     }
 
     private List<String> loadGreenBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("This is the green biome.");
-        messages.add("So slime. Very acid. bäh");
+        messages.add("This is the slime biome. You can collect malachite ore here.");
         return messages;
     }
 
     private List<String> loadBlueBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("Welcome to the blue biome.");
-        messages.add("It's cold...");
+        messages.add("It's cold in this biome...");
         return messages;
     }
 
     private List<String> loadYellowBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("Wow, a yellow biome.");
-        messages.add("Laser???");
+        messages.add("Be careful in this biome. Slimes shoot with lasers here.");
         return messages;
     }
 
     private List<String> loadPurpleBiomeMessages() {
         List<String> messages = new ArrayList<>();
-        messages.add("YAB - Yet another biome.");
-        messages.add("Purple = Energy weapon... vry cool.");
+        messages.add("Watch out! Enemies will attack you with their energy gun.");
         return messages;
     }
 

@@ -216,11 +216,11 @@ public class ItemManager {
         ItemComponent ic = Statics.ashley.createComponent(ItemComponent.class);
         if (energy) {
             ic.name = "Energy regeneration";
-            ic.description = "\nYour energy will regenerate faster +" + df.format((value * 100)) + "%";
+            ic.description = "\nYour energy will regenerate " + df.format((value * 100)) + "% faster";
             ic.energyReg = value;
         } else {
             ic.name = "Health regeneration";
-            ic.description = "\nYour health will regenerate faster +" + df.format((value * 100)) + "%";
+            ic.description = "\nYour health will regenerate " + df.format((value * 100)) + "% faster";
             ic.lifeReg = value;
         }
         return ic;
