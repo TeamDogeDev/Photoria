@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Red Slime",
+  "texture": "SLIME_RED",
+  "green": 0.0,
+  "red": 0.3,
+  "blue": -0.3,
+  "yellow": 0.0,
+  "purple": 0.0,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+    0
+  ],
+  "maxHealth": 50,
+  "maxEnergy": 50,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
+  "ai": "FOLLOW",
+  "weapon": "FLAMETHROWER",
+  "speed": 0,
+  "range": 400,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "SLIME_DEATH",
+  "shotSound": "SLIME_JUMP",
+  "movementSound": "SLIME_MOVEMENT"
+}

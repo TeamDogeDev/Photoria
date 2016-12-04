@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Eye",
+  "texture": "EYE",
+  "green": 0.2,
+  "red": 0.2,
+  "blue": 0.2,
+  "yellow": 0.2,
+  "purple": 0.2,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+	1
+  ],
+  "maxHealth": 50,
+  "maxEnergy": 30,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
+  "ai": "FOLLOW",
+  "weapon": "LASER",
+  "speed": 0,
+  "range": 400,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "EYE_DEATH",
+  "shotSound": "EYE_SHOT",
+  "movementSound": "SLIME_MOVEMENT"
+}

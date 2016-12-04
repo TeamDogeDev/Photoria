@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Blue Slime",
+  "texture": "SLIME_BLUE",
+  "green": 0.0,
+  "red": 0.0,
+  "blue": 0.3,
+  "yellow": -0.3,
+  "purple": 0.0,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+    2
+  ],
+  "maxHealth": 50,
+  "maxEnergy": 50,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
+  "ai": "FOLLOW",
+  "weapon": "WATERTHROWER",
+  "speed": 0,
+  "range": 400,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "SLIME_DEATH",
+  "shotSound": "SLIME_JUMP",
+  "movementSound": "SLIME_MOVEMENT"
+}

@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Green Slime",
+  "texture": "SLIME_GREEN",
+  "green": 0.3,
+  "red": -0.3,
+  "blue": 0.0,
+  "yellow": 0.0,
+  "purple": 0.0,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+    5
+  ],
+  "maxHealth": 50,
+  "maxEnergy": 50,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
+  "ai": "FOLLOW",
+  "weapon": "SLIMEBALLS",
+  "speed": 0,
+  "range": 400,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "SLIME_DEATH",
+  "shotSound": "SLIME_JUMP",
+  "movementSound": "SLIME_MOVEMENT"
+}

@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Bee",
+  "texture": "BEE",
+  "green": -0.5,
+  "red": -0.5,
+  "blue": 1.0,
+  "yellow": -0.3,
+  "purple": -0.3,
+  "type": "LOW",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+	1
+  ],
+  "maxHealth": 30,
+  "maxEnergy": 30,
+  "baseEnergyReg": 1.0,
+  "baseHealthReg": 1.0,
+  "ai": "ESCAPE",
+  "weapon": "WATERTHROWER",
+  "speed": 0,
+  "range": 400,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "EYE_DEATH",
+  "shotSound": "EYE_SHOT",
+  "movementSound": "SLIME_MOVEMENT"
+}

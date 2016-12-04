@@ -1,0 +1,32 @@
+{
+  "id": 1,
+  "name": "Red_Slime_boss",
+  "texture": "RED_BOSS",
+  "green": 0.0,
+  "red": 0.6,
+  "blue": -0.3,
+  "yellow": 0.0,
+  "purple": 0.0,
+  "type": "BOSS",
+  "attributes": [
+    "MULTIPLY",
+    "GROUND"
+  ],
+  "biome": [
+    0
+  ],
+  "maxHealth": 200,
+  "maxEnergy": 200,
+  "baseEnergyReg": 2.0,
+  "baseHealthReg": 2.0,
+  "ai": "FOLLOW",
+  "weapon": "FLAMETHROWER",
+  "speed": 0,
+  "range": 600,
+  "baseDamage": 0,
+  "baseDefense": 0,
+  "hitSound": "SLIME_JUMP",
+  "deathSound": "BOSS_SCREAM",
+  "shotSound": "SLIME_JUMP",
+  "movementSound": "SLIME_MOVEMENT"
+}

@@ -10,6 +10,7 @@ public class DesktopLauncher {
         config.width = 1280;
         config.height = 720;
         config.samples = 4;
+        config.title = "Photoria";
         new LwjglApplication(new MainGame(), config);
     }
 }
